@@ -15,6 +15,7 @@
     "nuxt": "^2.15.8",
     "p5": "^1.9.4",
     "sass-loader": "^10.5.2",
+    "scrollmagic": "^2.0.8",
     "three": "^0.166.1",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
