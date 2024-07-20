@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Canvas></Canvas>
     <Threetest></Threetest>
   </div>
 </template>
