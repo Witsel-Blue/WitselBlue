@@ -1,17 +1,21 @@
 <template>
-  <div>
-    <Canvas></Canvas>
-    <Threetest></Threetest>
+  <div id="app">
+    
+    <GNB></GNB>
+    <Page></Page>
+
   </div>
 </template>
 
 <script>
-import Threetest from '@/components/Threetest.vue';
+  import Page from '@/layouts/page.vue';
+  import GNB from '@/layouts/gnb.vue';
 
-export default {
-  name: 'IndexPage',
-  components: {
-    Threetest,
+  export default {
+    name: 'Home',
+    components: {
+      Page,
+      GNB,
+    }
   }
-}
 </script>
