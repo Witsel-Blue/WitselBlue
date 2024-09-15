@@ -5,10 +5,21 @@
 </template>
 
 <script>
-    let ScrollMagic;
+    import gsap from 'gsap';
 
-    if (process.client) {
-        ScrollMagic = require('scrollmagic')
-        // use scrollmagic
+    export default {
+        mounted() {
+            this.boxRotation();
+        },
+        methods: {
+            boxRotation() {
+                const gsap = this.$gsap;
+                gsap.to('#pager', {
+                    rotation: 27,
+                    x: 100,
+                    duration: 1
+                });
+            }
+        },
     }
 </script>

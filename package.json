@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/p5": "^1.7.6",
+    "nuxt-gsap-module": "^2.0.0",
     "vue-tsc": "^2.0.26"
   }
 }
