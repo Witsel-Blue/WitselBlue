@@ -25,7 +25,6 @@ export default {
   plugins: [
     { src: '@/plugins/aos.client.js', ssr: false },
     { src: '@/plugins/p5.speech.js', ssr: false },
-    { src: '@/plugins/scrollmagic.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -42,6 +41,5 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['three'],
-    vendor: ['scrollmagic']
   }
 }
