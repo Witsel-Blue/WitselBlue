@@ -18,14 +18,16 @@
             left: 5vw;
         }
         a {
-            font-family: 'Anybody', sans-serif;
-            font-stretch: 110%;
-            font-weight: 1rem;
-            font-size: 2rem;
-            span {
-                transition: all 0.4s;
+            p {
+                font-family: 'Anybody', sans-serif !important;
+                font-stretch: 110%;
+                font-size: 2rem;   
+                span {
+                    font-family: 'Anybody', sans-serif !important;
+                    transition: all 0.4s;
+                }
             }
-            &:hover span {
+            &:hover p span {
                 font-stretch: 200%;
                 transition: all 0.4s;
             }
