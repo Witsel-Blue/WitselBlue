@@ -8,8 +8,9 @@
                     <li
                         v-for="nav in navigation"
                         :key="nav.name">
-                        <Nuxt-link :to=nav.path>
-                            {{ nav.name }}
+                        <Nuxt-link 
+                            :to=nav.path 
+                            v-html="nav.name">
                         </Nuxt-link>
                     </li>
 
@@ -35,15 +36,15 @@
             return {
                 navigation: [
                     {
-                        name: 'Home',
+                        name: '<p>H<span>o</span>me</p>',
                         path: '/'
                     },
                     {
-                        name: 'Arhive',
+                        name: '<p>Ar<span>h</span>ive</p>',
                         path: '/archive'
                     },
                     {
-                        name: 'Portfolio',
+                        name: '<p>Portf<span>o</span>lio</p>',
                         path: '/portfolio'
                     }
                 ]
@@ -51,3 +52,7 @@
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    @import '/assets/scss/layout/gnb.scss';
+</style>

@@ -1,10 +1,12 @@
 <template>
     <div id="default">
 
-        <Nuxt></Nuxt>
+        <div class="inner">
+            <Nuxt></Nuxt>
+        </div>
 
-        <p5test></p5test>
-        <Threetest></Threetest>
+        <!-- <p5test></p5test>
+        <Threetest></Threetest> -->
         
     </div>
 </template>
@@ -24,6 +26,11 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+    @import '/assets/scss/layout/layout.scss';
 
+    #default {
+        width: 100vw;
+        min-height: 100vh;
+    }
 </style>
