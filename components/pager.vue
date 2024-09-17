@@ -8,8 +8,11 @@
 
 <script>
     import gsap from 'gsap';
-    // import ScrollTrigger from 'gsap/ScrollTrigger';
-    // gsap.registerPlugin(ScrollTrigger);
+    import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+    if (process.client) {
+        gsap.registerPlugin(ScrollTrigger);
+    }
     
     export default {
         mounted() {
@@ -20,10 +23,15 @@
                 const gsap = this.$gsap;
                 const ScrollTrigger = this.$ScrollTrigger;
 
-                gsap.to('#pager', {
+                gsap.to("#pager", {
+                    scrollTrigger: {
+                        trigger: "#app",
+                        duration: '100%',
+                        // markers: true,
+                        scrub: 1,
+                    },
                     rotation: 360,
-                    yoyo: true,
-                    duration: 1,
+                    repeat: 1,
                 });
 
             }
