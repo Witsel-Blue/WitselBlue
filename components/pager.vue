@@ -1,7 +1,7 @@
 <template>
     <div id="pager">
         <div class="wrapper">
-            <img src="@/assets/img/pager.svg">
+            <img src="@/assets/img/pager.svg" @click="scrollToTop">
         </div>
     </div>
 </template>
@@ -33,7 +33,12 @@
                     rotation: 360,
                     repeat: 1,
                 });
-
+            },
+            scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         },
     }
@@ -50,6 +55,7 @@
             img {
                 width: 100%;
                 height: 100%;
+                cursor: pointer;
             }
         }
     }
