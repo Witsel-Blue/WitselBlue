@@ -10,7 +10,8 @@
                     class="res-box-wrap hover-img"
                     :to=list.path>
                     <div class="res-box">
-                        <img :src="list.img">
+                        <img :src="list.img" v-if="list.img">
+                        <span class="empty" v-else></span>
                     </div>
                 </Nuxt-link>
                 <p class="work">{{ list.work }}</p>
@@ -88,7 +89,7 @@
                         name: 'Cabinnet',
                         path: 'portfolio/06_Cabinnet',
                         link: '/',
-                        img: require('@/assets/img/portfolio05_main.png'),
+                        img: '',
                         work: 'frontend',
                         duration: '2022.05-2022.06',
                     },
@@ -96,7 +97,7 @@
                         name: 'KACE',
                         path: 'portfolio/07_KACE',
                         link: 'http://www.kace.or.kr/',
-                        img: require('@/assets/img/portfolio05_main.png'),
+                        img: '',
                         work: 'frontend',
                         duration: '2022.10-2021.12',
                     },
@@ -163,6 +164,12 @@
                 justify-content: center;
                 .res-box-wrap {
                     border-radius: 32px;
+                    .empty {
+                        width: 100%;
+                        height: 100%;
+                        background-color: #ccc;
+                        display: block;
+                    }
                 }
                 .work {
                     margin-top: 16px;
