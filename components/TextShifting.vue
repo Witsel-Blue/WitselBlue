@@ -43,12 +43,12 @@
             text-transform: uppercase;
         }
         &:hover span {
-            animation: flip 1s;
-            animation-delay: calc(.1s * var(--i));
+            animation: flip 0.8s;
+            animation-delay: calc(0.04s * var(--i));
         }
     }
     @keyframes flip {
-        0%, 80% {
+        0%, 50% {
             transform: rotateY(360deg) 
         }
     }

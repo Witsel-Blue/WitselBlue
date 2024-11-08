@@ -1,7 +1,10 @@
 <template>
     <div id="home">
         <section id="mainvisual">
-            <Zizi></Zizi>
+          <p class="subtext">
+            this is
+          </p>
+          <TextScroll :text="'WitselBlue'"></TextScroll>
         </section>
         <section>
             on construction!
@@ -10,12 +13,12 @@
 </template>
 
 <script>
-  import Zizi from '@/components/p5/zizi.vue';
+  import TextScroll from '@/components/TextScroll.vue';
 
   export default {
     name: 'Index',
     components: {
-      Zizi,
+      TextScroll,
     }
   }
 </script>
@@ -28,6 +31,14 @@
           display: flex;
           align-items: center;
           justify-content: center;
+      }
+      section:nth-child(1) {
+        .subtext {
+          margin-top: -8rem;
+          text-align: center;
+          font-size: 2rem;
+          line-height: 1.2;
+        }
       }
   }
 </style>

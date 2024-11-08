@@ -2,18 +2,12 @@
     margin:0; 
     padding:0; 
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-    font-stretch: 110%;
-    font-weight: 1rem;
+    font-family: 'basic_font', sans-serif;
 }
 
 html {
     width: 100vw;
     overflow-x: hidden;
-}
-
-li { 
-    list-style-type: none; 
 }
 
 a {
@@ -23,6 +17,21 @@ a {
     &:focus {
         outline: none;
     }
+}
+
+::selection {
+    background-color: #3E3C3C;
+    color: #fff;
+}
+
+li { 
+    list-style-type: none; 
+}
+
+dl {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 button {

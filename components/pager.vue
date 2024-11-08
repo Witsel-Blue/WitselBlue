@@ -49,6 +49,7 @@
         position: fixed;
         bottom: 5vw;
         right: 5vw;
+        z-index: 100;
         .wrapper {
             width: 10vw;
             height: 10vw;

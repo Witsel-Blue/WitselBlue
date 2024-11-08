@@ -1,0 +1,40 @@
+#portfolio_detail {
+    padding-bottom: 10vw;
+
+    img {
+        max-width: 800px;
+        width: 100%;
+    }
+    section {
+        padding: 5vw 0;
+    }
+
+    .main {
+        padding-top: 10vw;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        text-align: center;
+
+        .mainvisual {
+            img {
+                max-width: 500px;
+                width: 100%;
+            }
+        }
+    }
+
+    section:nth-child(2) {
+        ul {
+            text-align: center;
+            text-align: center;
+            dl {
+                gap: 16px;
+            }
+        }
+    }
+}
