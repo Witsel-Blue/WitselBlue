@@ -48,6 +48,9 @@
             <section>
                 <div class="device_pc">
                     <img src="@/assets/img/device-laptop.png" class="device">
+                    <div class="img-wrap">
+                        <img :src="main.mainvisual" class="img">
+                    </div>
                 </div>
             </section>
             <section>

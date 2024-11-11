@@ -11,15 +11,15 @@
         text-align: center;
 
         .title {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
             p {
-                margin-top: 0.8rem;
+                display: inline-block;
+                line-height: 4rem;
+                vertical-align: text-bottom;
             }
             h3 {
+                display: inline;
                 font-size: 4rem;
-                line-height: 1.2;
+                line-height: 4rem;
             }
         }
 
@@ -98,6 +98,7 @@
                 width: 80%;
                 height: auto;
                 object-fit: contain; 
+                overflow: hidden;
                 img {
                     width: 100%;
                 }

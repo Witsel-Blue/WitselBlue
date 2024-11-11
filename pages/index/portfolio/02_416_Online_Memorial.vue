@@ -48,11 +48,9 @@
             <section>
                 <div class="device_pc">
                     <img src="@/assets/img/device-laptop.png" class="device">
-                    <!-- <div class="img-wrap">
-                        <video autoplay ref="video">
-                            <source src="@/assets/img/portfolio02_pc01.mov" type="video/mov">
-                        </video>
-                    </div> -->
+                    <div class="img-wrap">
+                        <img :src="main.mainvisual" class="img">
+                    </div>
                 </div>
             </section>
             <section>

@@ -118,7 +118,9 @@
             }
         },
         mounted() {
-            this.getMbHeight();
+            process.nextTick(() => {
+                this.getMbHeight();
+            });
             window.addEventListener('resize', this.getMbHeight);
         },
         methods: {
