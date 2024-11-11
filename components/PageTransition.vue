@@ -22,6 +22,9 @@
         },
         mounted() {
             this.pageTransition();
+            window.scrollTo({
+                top: 0,
+            });
         },
         methods: {
             pageTransition() {

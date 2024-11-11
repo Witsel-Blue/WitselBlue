@@ -2,7 +2,7 @@
     <div id="portfolio">
         <PageTransition :title="title"></PageTransition>
         <div class="main">
-            <h1>Portfolio</h1>
+            <h1 class="title ft-bagel">{{ title }}</h1>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
         <ul class="container" ref="comp">
@@ -164,6 +164,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            .title {
+                font-size: 5rem;
+            }
+            #button-scrolldown {
+                position: absolute;
+                bottom: 10vh;
+            }
         }
         .container {
             padding: 10vh 0;
@@ -187,6 +194,12 @@
                         background-color: #ccc;
                         display: block;
                     }
+                    // img {
+                    //     filter: blur(1px) grayscale(1);
+                    // }
+                    // &:hover img {
+                    //     filter: none;
+                    // }
                 }
                 .work {
                     margin-top: 16px;
