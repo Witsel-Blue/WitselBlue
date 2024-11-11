@@ -1,7 +1,8 @@
 <template>
     <div id="page-transition">
-        <!-- {{ title }} -->
-        <TextMask :text="title"></TextMask>
+        <TextMask 
+            :text="title">
+        </TextMask>
     </div>
 </template>
 
@@ -20,13 +21,13 @@
             }
         },
         mounted() {
-            // this.pageTransition();
+            this.pageTransition();
         },
         methods: {
             pageTransition() {
                 setTimeout(function(){
                     document.getElementById('page-transition').classList.add('active');
-                }, 3000);
+                }, 1400);
             },
         }
     }
@@ -47,9 +48,15 @@
         justify-content: center;
         padding: 10vh;
         font-size: 5rem;
+        opacity: 1;
+        visibility: visible;
+        transition: all 0.4s;
 
         &.active {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: -999;
+            transition: all 0.4s;
         }
     }
 </style>

@@ -1,7 +1,11 @@
 <template>
     <div id="text-mask">
-        {{ text }}
-
+        <div class="top ft-bagel">
+            {{ text }}
+        </div>
+        <div class="bottom ft-bagel">
+            {{ text }}
+        </div>
     </div>
 </template>
 
@@ -17,5 +21,30 @@
     #text-mask {
         color: transparent;
         -webkit-text-stroke: 2px #fff;
+        position: relative;
+    }
+    .ft-bagel {
+        &.bottom {
+            content: "";
+            width: 100%;
+            height: 100%;
+            display: block;
+            background-color: #fff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: animation 1s ease-in-out;
+        }
+    }
+
+    @keyframes animation {
+        0% {
+            width: 0%;
+        }
+        100% {
+            width: 100%;
+        }
     }
 </style>

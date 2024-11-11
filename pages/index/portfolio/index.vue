@@ -1,6 +1,6 @@
 <template>
     <div id="portfolio">
-        <!-- <PageTransition :title="title"></PageTransition> -->
+        <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1>Portfolio</h1>
             <ButtonScrollDown></ButtonScrollDown>

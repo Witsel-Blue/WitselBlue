@@ -22,8 +22,19 @@
     unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
 }
 
-.diphylleia {
+@font-face {
+    font-family: "Bagel";
+    font-style: normal;
+    font-weight: 400;
+    src: url("@/static/fonts/BagelFatOne-Regular.ttf");
+    unicode-range: U+0020-007F;
+}
+
+.ft-diphylleia {
     font-family: "Diphylleia";
+}
+.ft-bagel {
+    font-family: "Bagel";
 }
 
 /* ----- FONT SIZE ----- */
