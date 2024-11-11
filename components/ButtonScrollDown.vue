@@ -1,6 +1,5 @@
 <template>
     <div id="button-scrolldown">
-        <p>scroll down</p>
         <button 
             @click="scrollDown"
             class="scroll-down">

@@ -3,7 +3,7 @@
         <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1 class="title ft-bagel">{{ title }}</h1>
-            <p>this is collection of my works done!</p>
+            <p data-aos="fade-up">this is collection of my works done!</p>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
         <ul class="container" ref="comp">
@@ -165,6 +165,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
             .title {
                 font-size: 5rem;
             }

@@ -7,7 +7,7 @@
           <TextScroll :text="'WitselBlue'"></TextScroll>
         </section>
         <section>
-            on construction!
+            <p data-aos="fade-up">on construction!</p>
         </section>
     </div>
 </template>
@@ -19,7 +19,12 @@
     name: 'Index',
     components: {
       TextScroll,
-    }
+    },
+    mounted() {
+      window.scrollTo({
+        top: 0,
+      });
+    },
   }
 </script>
 

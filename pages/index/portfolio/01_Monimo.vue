@@ -3,10 +3,10 @@
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main">
-                <div class="mainvisual">
+                <div class="mainvisual" data-aos="fade-up">
                     <img :src="main.mainvisual">
                 </div>
-                <div class="title">
+                <div class="title" data-aos="fade-up">
                     <p>{{ main.id }}</p>
                     <h3>{{ main.title }}</h3>
                 </div>
@@ -14,31 +14,31 @@
             <section>
                 <ul class="desc">
                     <li v-if="desc.duration">
-                        <dl>
+                        <dl data-aos="fade-up">
                             <dt>작업기간</dt>
                             <dd>{{ desc.duration }}</dd>
                         </dl>
                     </li>
                     <li v-if="desc.team">
-                        <dl>
+                        <dl data-aos="fade-up">
                             <dt>팀</dt>
                             <dd>{{ desc.team }}</dd>
                         </dl>
                     </li>
                     <li v-if="desc.consultant">
-                        <dl>
+                        <dl data-aos="fade-up">
                             <dt>발주처</dt>
                             <dd>{{ desc.consultant }}</dd>
                         </dl>
                     </li>
                     <li v-if="desc.work">
-                        <dl>
+                        <dl data-aos="fade-up">
                             <dt>수행범위</dt>
                             <dd>{{ desc.work }}</dd>
                         </dl>
                     </li>
                     <li v-if="desc.platform">
-                        <dl>
+                        <dl data-aos="fade-up">
                             <dt>형식</dt>
                             <dd>{{ desc.platform }}</dd>
                         </dl>
@@ -47,26 +47,28 @@
             </section>
             <section>
                 <ul class="device_mb">
-                    <li>
+                    <li data-aos="fade-up">
                         <img src="@/assets/img/device-iphone15.png" class="device">
                         <img src="@/assets/img/portfolio01_mb01.png" class="img">
                     </li>
-                    <li>
+                    <li data-aos="fade-up">
                         <img src="@/assets/img/device-iphone15.png" class="device">
                         <img src="@/assets/img/portfolio01_mb02.png" class="img">
                     </li>
-                    <li>
+                    <li data-aos="fade-up">
                         <img src="@/assets/img/device-iphone15.png" class="device">
                         <img src="@/assets/img/portfolio01_mb03.png" class="img">
                     </li>
                 </ul>
             </section>
             <section>
-                <p 
+                <p
+                    data-aos="fade-up"
                     v-html="main.description" 
                     v-if="main.description">
                 </p>
                 <ButtonRound
+                    data-aos="fade-up"
                     v-if="link.href"
                     :link="link"
                 />
@@ -119,7 +121,9 @@
         },
         mounted() {
             process.nextTick(() => {
-                this.getMbHeight();
+                process.nextTick(() => {
+                    this.getMbHeight();
+                });
             });
             window.addEventListener('resize', this.getMbHeight);
         },
