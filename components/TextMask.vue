@@ -20,16 +20,21 @@
 <style lang="scss" scoped>
     #text-mask {
         color: transparent;
-        -webkit-text-stroke: 2px #fff;
+        -webkit-text-stroke: 2px #f7f7f7;
         position: relative;
+        overflow: hidden;
     }
     .ft-bagel {
+        word-break: keep-all;
+        position: relative;
+        top: 0;
+        left: 0;
         &.bottom {
             content: "";
             width: 100%;
             height: 100%;
             display: block;
-            background-color: #fff;
+            background-color: #f7f7f7;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: absolute;

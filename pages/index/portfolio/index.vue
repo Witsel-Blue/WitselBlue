@@ -3,6 +3,7 @@
         <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1 class="title ft-bagel">{{ title }}</h1>
+            <p>this is collection of my works done!</p>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
         <ul class="container" ref="comp">
@@ -179,8 +180,8 @@
             display: flex;
             gap: 5vw;
             .panel {
-                max-width: 300px;
-                min-width: 200px;
+                max-width: 40vw;
+                min-width: 25vw;
                 width: 100%;
                 display: flex;
                 flex-direction: column;

@@ -1,75 +1,88 @@
 <template>
     <div id="portfolio_detail">
-        <section class="main">
-            <div class="mainvisual">
-                <img 
-                    :src="main.mainvisual"
-                    v-if="main.mainvisual">
-            </div>
-            <h3>{{ main.title }}</h3>
-            <p 
-                v-html="main.description" 
-                v-if="main.description">
-            </p>
-            <ButtonRound
-                v-if="link.href"
-                :link="link"
-            />
-        </section>
-        <section>
-            <ul>
-                <li v-if="desc.duration">
-                    <dl>
-                        <dt>작업기간</dt>
-                        <dd>{{ desc.duration }}</dd>
-                    </dl>
-                </li>
-                <li v-if="desc.team">
-                    <dl>
-                        <dt>팀</dt>
-                        <dd>{{ desc.team }}</dd>
-                    </dl>
-                </li>
-                <li v-if="desc.consultant">
-                    <dl>
-                        <dt>발주처</dt>
-                        <dd>{{ desc.consultant }}</dd>
-                    </dl>
-                </li>
-                <li v-if="desc.work">
-                    <dl>
-                        <dt>수행범위</dt>
-                        <dd>{{ desc.work }}</dd>
-                    </dl>
-                </li>
-                <li v-if="desc.platform">
-                    <dl>
-                        <dt>형식</dt>
-                        <dd>{{ desc.platform }}</dd>
-                    </dl>
-                </li>
-            </ul>
-        </section>
-        <section>
-            <Pagination 
+        <PageTransition :title="title"></PageTransition>
+        <div class="contents">
+            <section class="main">
+                <div class="mainvisual">
+                    <img :src="main.mainvisual">
+                </div>
+                <div class="title">
+                    <p>{{ main.id }}</p>
+                    <h3>{{ main.title }}</h3>
+                </div>
+            </section>
+            <section>
+                <ul class="desc">
+                    <li v-if="desc.duration">
+                        <dl>
+                            <dt>작업기간</dt>
+                            <dd>{{ desc.duration }}</dd>
+                        </dl>
+                    </li>
+                    <li v-if="desc.team">
+                        <dl>
+                            <dt>팀</dt>
+                            <dd>{{ desc.team }}</dd>
+                        </dl>
+                    </li>
+                    <li v-if="desc.consultant">
+                        <dl>
+                            <dt>발주처</dt>
+                            <dd>{{ desc.consultant }}</dd>
+                        </dl>
+                    </li>
+                    <li v-if="desc.work">
+                        <dl>
+                            <dt>수행범위</dt>
+                            <dd>{{ desc.work }}</dd>
+                        </dl>
+                    </li>
+                    <li v-if="desc.platform">
+                        <dl>
+                            <dt>형식</dt>
+                            <dd>{{ desc.platform }}</dd>
+                        </dl>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <div class="device_pc">
+                    <img src="@/assets/img/device-laptop.png" class="device">
+                </div>
+            </section>
+            <section>
+                <p 
+                    v-html="main.description" 
+                    v-if="main.description">
+                </p>
+                <ButtonRound
+                    v-if="link.href"
+                    :link="link"
+                />
+            </section>
+        </div>
+        <Pagination 
             :pagination="pagination" />
-        </section>
     </div>
 </template>
 
 <script>
+    import PageTransition from '@/components/PageTransition.vue';
     import ButtonRound from '@/components/ButtonRound.vue';
     import Pagination from '@/components/Pagination.vue';
     
     export default {
         components: {
+            PageTransition,
             ButtonRound,
             Pagination,
         },
         data() {
             return {
+                title: 'Oxfam Virtaulwalker',
                 main: {
                     mainvisual: require('@/assets/img/portfolio04_main.png'),
+                    id: '04',
                     title: 'Oxfam Virtaulwalker',
                     description: 
                         '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
