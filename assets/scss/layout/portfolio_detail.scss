@@ -1,12 +1,10 @@
 #portfolio_detail {
-    padding-bottom: 10vw;
-
     img {
         max-width: 800px;
         width: 100%;
     }
-    section {
-        padding: 5vw 0;
+    section:not(:last-child) {
+        padding: 10vh 10vw;
     }
 
     .main {
@@ -21,8 +19,10 @@
         text-align: center;
 
         .mainvisual {
+            width: 80%;
+            max-width: 800px;
             img {
-                max-width: 500px;
+                border-radius: 32px;
                 width: 100%;
             }
         }
@@ -31,9 +31,9 @@
     section:nth-child(2) {
         ul {
             text-align: center;
-            text-align: center;
             dl {
                 gap: 16px;
+                align-items: center;
             }
         }
     }

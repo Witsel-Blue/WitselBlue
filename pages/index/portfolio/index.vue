@@ -1,7 +1,12 @@
 <template>
     <div id="portfolio">
         <!-- <PageTransition :title="title"></PageTransition> -->
-        <ul class="container">
+        <div class="main">
+            <h1>Portfolio</h1>
+            <ButtonScrollDown></ButtonScrollDown>
+        </div>
+        <ul class="container" ref="comp">
+            <li class="panel"></li>
             <li
                 class="panel"
                 v-for="list in lists"
@@ -31,6 +36,7 @@
     import gsap from 'gsap';
     import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
     import TextShifting from '@/components/TextShifting.vue';
+    import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
 
     if (process.client) {
         gsap.registerPlugin(ScrollTrigger);
@@ -40,6 +46,7 @@
         components: {
             PageTransition,
             TextShifting,
+            ButtonScrollDown,
         },
         data() {
             return {
@@ -122,8 +129,8 @@
                 
                 let horizontalSections = gsap.utils.toArray(".container");
 
-                var n = document.querySelectorAll('.panel').length;
-                document.querySelector('.container').style.width = n*50 + '%';
+                // var n = document.querySelectorAll('.panel').length;
+                // document.querySelector('.container').style.width = n*100 + '%';
 
                 horizontalSections.forEach((container) => {
                     let sections = container.querySelectorAll(".panel");
@@ -135,7 +142,6 @@
                             trigger: container,
                             pin: true,
                             scrub: 1,
-                            end: "+=3500",
                         }
                     });
                 })
@@ -149,15 +155,26 @@
     #portfolio {
         width: 100%;
         min-height: 100vh;
+        overflow: hidden;
+        .main {
+            width: 100%;
+            height: 100vh;
+            padding: 10vh 10vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
         .container {
             padding: 10vh 0;
             overscroll-behavior: none;
             height: 100vh;
             display: flex;
-            gap: 64px;
-            flex-wrap: nowrap;
+            gap: 5vw;
             .panel {
-                width: 50%;
+                max-width: 300px;
+                min-width: 200px;
+                width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;

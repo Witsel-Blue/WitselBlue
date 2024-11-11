@@ -53,6 +53,10 @@
         .wrapper {
             width: 10vw;
             height: 10vw;
+            max-width: 120px;
+            max-height: 120px;
+            min-width: 80px;
+            min-height: 80px;
             img {
                 width: 100%;
                 height: 100%;

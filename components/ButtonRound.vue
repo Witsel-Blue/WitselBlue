@@ -6,7 +6,7 @@
             :href="link.href"
             target="_blank">
             <span class="circle" ref="circle"></span>
-            <span class="text">{{ link.text }}</span>
+            <span class="title">{{ link.text }}</span>
         </a>
 
     </div>
@@ -166,13 +166,13 @@
                 aspect-ratio: 1/1;
             }
         }
-        .text {
+        .title {
             color: #3E3C3C;
             position: relative;
         }
 
         &:hover {
-            .text {
+            .title {
                 color: #fff;
             }
         }
