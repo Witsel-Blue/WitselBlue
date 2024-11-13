@@ -1,18 +1,20 @@
 .inner-small {
     padding-left: 15vw !important;
     padding-right: 15vw !important;
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
 }
 
 .contents {
-    section:not(.main) {
-        padding: 0 10vw 15vh 10vw;
+    padding: 0 5vw;
+
+    section:not(:first-child) {
+        margin-top: 10vh;
     }
 
     .main {
-        padding: 15vh 10vw 10vh 10vw;
         width: 100%;
+        padding-top: 15vh;
 
         .title {
             p {
@@ -100,6 +102,7 @@
 
 .contents-next {
     padding: 0 15vw;
+    margin-top: 15vh;
     margin-left: -5vw;
     width: 100vw;
     max-height: 20vh;
