@@ -33,6 +33,20 @@
                      <ParallaxImg :src="main.mainvisual"></ParallaxImg>
                 </div>
             </section>
+            <section>
+                <p
+                    class="txt-c"
+                    data-aos="fade-up"
+                    v-html="main.description" 
+                    v-if="main.description">
+                </p>
+                <ButtonRound
+                    class="mt-32 txt-c"
+                    data-aos="fade-up"
+                    v-if="link.href"
+                    :link="link"
+                />
+            </section>
             <section class="inner-small">
                 <ul class="device_mb">
                     <li data-aos="fade-up">
@@ -49,23 +63,20 @@
                     </li>
                 </ul>
             </section>
-            <section>
-                <p
-                    class="txt-c"
-                    data-aos="fade-up"
-                    v-html="main.description" 
-                    v-if="main.description">
-                </p>
-                <ButtonRound
-                    class="mt-32 txt-c"
-                    data-aos="fade-up"
-                    v-if="link.href"
-                    :link="link"
-                />
-            </section>
         </div>
         <Pagination 
             :pagination="pagination" />
+        <div class="contents-next">
+            <a :href="pagination.nextLink">
+                <div class="inner-small" data-aos="fade-up">
+                    <TextShifting :text="'next'"></TextShifting>
+                </div>
+                <div data-aos="fade-up">
+                    <img :src="pagination.nextImg" v-if="pagination.nextImg">
+                    <span class="fake-img" v-else></span>
+                </div>
+            </a>
+        </div>
     </div>
 </template>
 
@@ -73,6 +84,7 @@
     import PageTransition from '@/components/PageTransition.vue';
     import ParallaxImg from '@/components/ParallaxImg.vue';
     import ButtonRound from '@/components/ButtonRound.vue';
+    import TextShifting from '@/components/TextShifting.vue';
     import Pagination from '@/components/Pagination.vue';
     
     export default {
@@ -80,6 +92,7 @@
             PageTransition,
             ParallaxImg,
             ButtonRound,
+            TextShifting,
             Pagination,
         },
         data() {
@@ -109,6 +122,7 @@
                     prevText: 'KACE',
                     nextLink: '/portfolio/01_Monimo',
                     nextText: '삼성카드 모니모 앱',
+                    nextImg: require('@/assets/img/portfolio01_main.png'),
                 }
             }
         },

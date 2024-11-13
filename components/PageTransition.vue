@@ -33,7 +33,10 @@
             pageTransition() {
                 setTimeout(function(){
                     document.getElementById('page-transition').classList.add('active');
-                }, 1000);
+                }, 1200);
+                setTimeout(function(){
+                    document.getElementById('page-transition').classList.add('active2');
+                }, 2000);
             },
         }
     }
@@ -77,6 +80,10 @@
             z-index: -999;
             transition: all 0.4s;
         }
+    }
+
+    #page-transition.active2 {
+        display: none;
     }
 
     @keyframes animation {

@@ -33,14 +33,6 @@
                      <ParallaxImg :src="main.mainvisual"></ParallaxImg>
                 </div>
             </section>
-            <section class="inner-small">
-                <div class="device_pc" data-aos="fade-up">
-                    <img src="@/assets/img/device-laptop.png" class="device">
-                    <div class="img-wrap">
-                        <img :src="main.mainvisual" class="img">
-                    </div>
-                </div>
-            </section>
             <section>
                 <p
                     class="txt-c"
@@ -55,9 +47,28 @@
                     :link="link"
                 />
             </section>
+            <section class="inner-small">
+                <div class="device_pc" data-aos="fade-up">
+                    <img src="@/assets/img/device-laptop.png" class="device">
+                    <div class="img-wrap">
+                        <img :src="main.mainvisual" class="img">
+                    </div>
+                </div>
+            </section>
         </div>
         <Pagination 
             :pagination="pagination" />
+        <div class="contents-next">
+            <a :href="pagination.nextLink">
+                <div class="inner-small" data-aos="fade-up">
+                    <TextShifting :text="'next'"></TextShifting>
+                </div>
+                <div data-aos="fade-up">
+                    <img :src="pagination.nextImg" v-if="pagination.nextImg">
+                    <span class="fake-img" v-else></span>
+                </div>
+            </a>
+        </div>
     </div>
 </template>
 
@@ -65,6 +76,7 @@
     import PageTransition from '@/components/PageTransition.vue';
     import ParallaxImg from '@/components/ParallaxImg.vue';
     import ButtonRound from '@/components/ButtonRound.vue';
+    import TextShifting from '@/components/TextShifting.vue';
     import Pagination from '@/components/Pagination.vue';
     
     export default {
@@ -72,6 +84,7 @@
             PageTransition,
             ParallaxImg,
             ButtonRound,
+            TextShifting,
             Pagination,
         },
         data() {
@@ -100,6 +113,7 @@
                     prevText: 'D.CAMP',
                     nextLink: '/portfolio/05_DCDCenter',
                     nextText: '전문무용수지원센터',
+                    nextImg: require('@/assets/img/portfolio05_main.png'),
                 }
             }
         }
