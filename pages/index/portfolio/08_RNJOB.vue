@@ -2,39 +2,22 @@
     <div id="portfolio_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
-            <section class="main" data-aos="fade-up">
-                <div class="mainvisual">
-                    <img :src="main.mainvisual">
-                </div>
+            <section class="main inner-small">
                 <div class="title" data-aos="fade-up">
-                    <p>{{ main.id }}</p>
+                    <p>{{ desc.work }}</p>
                     <h3>{{ main.title }}</h3>
                 </div>
-            </section>
-            <section>
                 <ul class="desc">
+                    <li v-if="desc.team">
+                        <dl data-aos="fade-up">
+                            <dt>팀 / 발주처</dt>
+                            <dd>{{ desc.team }} / {{ desc.consultant }}</dd>
+                        </dl>
+                    </li>
                     <li v-if="desc.duration">
                         <dl data-aos="fade-up">
                             <dt>작업기간</dt>
                             <dd>{{ desc.duration }}</dd>
-                        </dl>
-                    </li>
-                    <li v-if="desc.team">
-                        <dl data-aos="fade-up">
-                            <dt>팀</dt>
-                            <dd>{{ desc.team }}</dd>
-                        </dl>
-                    </li>
-                    <li v-if="desc.consultant">
-                        <dl data-aos="fade-up">
-                            <dt>발주처</dt>
-                            <dd>{{ desc.consultant }}</dd>
-                        </dl>
-                    </li>
-                    <li v-if="desc.work">
-                        <dl data-aos="fade-up">
-                            <dt>수행범위</dt>
-                            <dd>{{ desc.work }}</dd>
                         </dl>
                     </li>
                     <li v-if="desc.platform">
@@ -46,28 +29,35 @@
                 </ul>
             </section>
             <section>
+                <div class="mainvisual" data-aos="fade-up">
+                     <ParallaxImg :src="main.mainvisual"></ParallaxImg>
+                </div>
+            </section>
+            <section class="inner-small">
                 <ul class="device_mb">
                     <li data-aos="fade-up">
                         <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/portfolio08_mb01.png" class="img">
+                        <img src="@/assets/img/portfolio01_mb01.png" class="img">
                     </li>
                     <li data-aos="fade-up">
                         <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/portfolio08_mb02.png" class="img">
+                        <img src="@/assets/img/portfolio01_mb02.png" class="img">
                     </li>
                     <li data-aos="fade-up">
                         <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/portfolio08_mb03.png" class="img">
+                        <img src="@/assets/img/portfolio01_mb03.png" class="img">
                     </li>
                 </ul>
             </section>
             <section>
-                <p 
+                <p
+                    class="txt-c"
                     data-aos="fade-up"
                     v-html="main.description" 
                     v-if="main.description">
                 </p>
                 <ButtonRound
+                    class="mt-32 txt-c"
                     data-aos="fade-up"
                     v-if="link.href"
                     :link="link"
@@ -81,12 +71,14 @@
 
 <script>
     import PageTransition from '@/components/PageTransition.vue';
+    import ParallaxImg from '@/components/ParallaxImg.vue';
     import ButtonRound from '@/components/ButtonRound.vue';
     import Pagination from '@/components/Pagination.vue';
     
     export default {
         components: {
             PageTransition,
+            ParallaxImg,
             ButtonRound,
             Pagination,
         },

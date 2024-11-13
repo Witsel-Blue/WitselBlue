@@ -218,7 +218,7 @@
                 .duration {
                     margin-top: 8px;
                     font-size: 14px;
-                    color: #3e3c3c8f;
+                    color: #9A9797;
                     text-align: center;
                 }
             }

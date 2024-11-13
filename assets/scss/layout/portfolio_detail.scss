@@ -1,115 +1,99 @@
 .contents {
 
-    .main {
-        padding: 15vh 10vw 10vh 10vw;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        text-align: center;
-
-        .title {
-            p {
-                display: inline-block;
-                line-height: 4rem;
-                vertical-align: text-bottom;
-            }
-            h3 {
-                display: inline;
-                font-size: 4rem;
-                line-height: 4rem;
-            }
-        }
-
-        .mainvisual {
-            width: 80%;
-            max-width: 800px;
-            img {
-                border-radius: 32px;
-                width: 100%;
-                max-width: 800px;
-            }
-        }
-
+    .inner-small {
+        padding-left: 15vw !important;
+        padding-right: 15vw !important;
+        max-width: 800px;
+        margin: auto;
     }
 
     section:not(.main) {
         padding: 0 10vw 15vh 10vw;
     }
 
-    section:nth-child(2) {
-        text-align: center;
-        ul.desc {
-            text-align: center;
-            dl {
-                align-items: center;
+    .main {
+        padding: 15vh 10vw 10vh 10vw;
+        width: 100%;
+
+        .title {
+            p {
+                margin-bottom: 8px;
+            }
+            h3 {
+                font-size: 4rem;
+                line-height: 4rem;
             }
         }
     }
 
-    section:nth-child(3) {
-        ul.device_mb {
-            max-width: 800px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 32px;
-            
-            li {
-                position: relative;
-
-                .device {
-                    position: relative;
-                    z-index: 1;
-                }
-                .img {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    border-radius: 4vw;
-                    width: 100%;
-                    height: auto;
-                    object-fit: contain;
-                }
-
-                img {
-                    width: 100%;
-                }
+    .desc {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+        dl {
+            display: inline-block;
+            dt {
+                font-size: 0.8rem;
+            }
+            dd {
+                border-top: 1px solid #9A9797;
+                margin-top: 4px;
+                padding-top: 8px;
             }
         }
+    }
 
-        .device_pc {
-            max-width: 800px;
-            margin: auto;
+    .device_mb {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 32px;
+        
+        li {
             position: relative;
 
             .device {
                 position: relative;
                 z-index: 1;
-                width: 100%;
             }
-            .img-wrap {
+            .img {
                 position: absolute;
                 top: 0;
-                left: 10%;
-                border-radius: 32px 32px 0 0;
-                width: 80%;
+                left: 0;
+                border-radius: 4vw;
+                width: 100%;
                 height: auto;
-                object-fit: contain; 
-                overflow: hidden;
-                img {
-                    width: 100%;
-                }
+                object-fit: contain;
+            }
+
+            img {
+                width: 100%;
             }
         }
     }
 
-    section:nth-child(4) {
-        text-align: center;
-        #button-round {
-            margin-top: 32px;
+    .device_pc {
+        max-width: 800px;
+        margin: auto;
+        position: relative;
+
+        .device {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+        .img-wrap {
+            position: absolute;
+            top: 0;
+            left: 10%;
+            border-radius: 32px 32px 0 0;
+            width: 80%;
+            height: auto;
+            object-fit: contain; 
+            overflow: hidden;
+            img {
+                width: 100%;
+            }
         }
     }
 
