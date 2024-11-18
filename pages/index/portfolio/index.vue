@@ -3,32 +3,39 @@
         <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1 class="title ft-bagel">{{ title }}</h1>
-            <p data-aos="fade-up">this is collection of my works done!</p>
+            <StarBg></StarBg>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
         <ul class="container" ref="comp">
-            <li class="panel"></li>
             <li
                 class="panel"
                 v-for="list in lists"
                 :key="list.name">
-                <Nuxt-link 
-                    class="res-box-wrap hover-img"
+                <div class="wrap">
+                    <Nuxt-link 
+                    class="hover-img"
                     :to=list.path>
-                    <div class="res-box">
-                        <img :src="list.img" v-if="list.img">
-                        <span class="empty" v-else></span>
+                        <div class="res-box-wrap">
+                            <div class="res-box">
+                                <img :src="list.img" v-if="list.img">
+                                <span class="empty" v-else></span>
+                            </div>
+                        </div>
+                    </Nuxt-link>
+                    <div class="desc">
+                        <p class="work">{{ list.work }}</p>
+                        <Nuxt-link 
+                            class="title"
+                            :to=list.path>
+                            <TextShifting :text="list.name"></TextShifting>
+                        </Nuxt-link>
                     </div>
-                </Nuxt-link>
-                <p class="work">{{ list.work }}</p>
-                <Nuxt-link 
-                    class="title"
-                    :to=list.path>
-                    <TextShifting :text="list.name"></TextShifting>
-                </Nuxt-link>
-                <p class="duration">{{ list.duration }}</p>
+                </div>
             </li>
         </ul>
+        <div class="footer">
+            footer
+        </div>
     </div>
 </template>
 
@@ -38,6 +45,7 @@
     import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
     import TextShifting from '@/components/TextShifting.vue';
     import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
+    import StarBg from '@/components/StarBg.vue';
 
     if (process.client) {
         gsap.registerPlugin(ScrollTrigger);
@@ -48,13 +56,14 @@
             PageTransition,
             TextShifting,
             ButtonScrollDown,
+            StarBg,
         },
         data() {
             return {
                 title: 'Portfolio',
                 lists: [
                     {
-                        name: '삼성카드 모니모 앱',
+                        name: 'Monimo',
                         path: 'portfolio/01_Monimo',
                         link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
                         img: require('@/assets/img/portfolio01_main.png'),
@@ -62,7 +71,7 @@
                         duration: '2024.07-2024.10',
                     },
                     {
-                        name: '4·16 온라인 기억센터',
+                        name: '4·16 Online Memorial',
                         path: 'portfolio/02_416_Online_Memorial',
                         link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                         img: require('@/assets/img/portfolio02_main.png'),
@@ -70,7 +79,7 @@
                         duration: '2022.04',
                     },
                     {
-                        name: 'D.CAMP',
+                        name: 'DCAMP',
                         path: 'portfolio/03_DCAMP',
                         link: 'https://dcamp.kr/',
                         img: require('@/assets/img/portfolio03_main.png'),
@@ -78,7 +87,7 @@
                         duration: '2022.01-2022.03',
                     },
                     {
-                        name: '옥스팜 버추얼워커',
+                        name: 'Oxfam VirtualWalker',
                         path: 'portfolio/04_OxfamVirtualWalker',
                         link: 'https://v50.oxfamtrailwalker.or.kr/',
                         img: require('@/assets/img/portfolio04_main.png'),
@@ -86,7 +95,7 @@
                         duration: '2022.08-2022.09',
                     },
                     {
-                        name: '전문무용수지원센터',
+                        name: 'DCDCenter',
                         path: 'portfolio/05_DCDCenter',
                         link: 'https://www.dcdcenter.or.kr/',
                         img: require('@/assets/img/portfolio05_main.png'),
@@ -110,7 +119,7 @@
                         duration: '2022.10-2021.12',
                     },
                     {
-                        name: 'RNJOB 앱',
+                        name: 'RNJOB App',
                         path: 'portfolio/08_RNJOB',
                         link: 'https://rnjob.or.kr/',
                         img: require('@/assets/img/portfolio08_main.png'),
@@ -131,13 +140,13 @@
                 let horizontalSections = gsap.utils.toArray(".container");
 
                 // var n = document.querySelectorAll('.panel').length;
-                // document.querySelector('.container').style.width = n*100 + '%';
+                // document.querySelector('.container').style.width = n*200 + '%';
 
                 horizontalSections.forEach((container) => {
                     let sections = container.querySelectorAll(".panel");
 
                     gsap.to(sections, {
-                        xPercent: -100 * (sections.length - 1),
+                        xPercent: -100 * (sections.length),
                         ease: "none",
                         scrollTrigger: {
                             trigger: container,
@@ -166,60 +175,70 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
             .title {
                 font-size: 5rem;
             }
-            #button-scrolldown {
+            #star-bg {
                 position: absolute;
-                bottom: 10vh;
+                top: 20%;
             }
         }
         .container {
             padding: 10vh 0;
             overscroll-behavior: none;
+            width: 640% !important;
             height: 100vh;
             display: flex;
             gap: 5vw;
             .panel {
-                max-width: 40vw;
-                min-width: 25vw;
+                max-width: 100%;
+                min-width: 32vw;
                 width: 100%;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                .res-box-wrap {
-                    border-radius: 32px;
-                    .empty {
-                        width: 100%;
-                        height: 100%;
-                        background-color: #ccc;
-                        display: block;
+                .wrap {
+                    width: 80%;
+                    position: relative;
+                }
+                .hover-img {
+                    width: 80%;
+                    max-width: 800px;
+                    display: block;
+                    .res-box-wrap {
+                        padding-bottom: 72%;
+                        // img {
+                        //     filter: blur(1px);
+                        // }
                     }
-                    // img {
-                    //     filter: blur(1px) grayscale(1);
-                    // }
                     // &:hover img {
                     //     filter: none;
                     // }
+                    .empty {
+                        width: 100%;
+                        height: 100%;
+                        background-color: #E1E1E1;
+                        display: block;
+                    }
                 }
-                .work {
-                    margin-top: 16px;
-                    font-size: 14px;
-                    text-align: center;
-                }
-                .title {
-                    display: inline-block;
-                    font-size: 1.4rem;
-                    font-weight: bold;
-                    text-align: center;
-                    display: block;
-                }
-                .duration {
-                    margin-top: 8px;
-                    font-size: 14px;
-                    color: #9A9797;
-                    text-align: center;
+                .desc {
+                    position: absolute;
+                    bottom: 4%;
+                    right: 0;
+                    max-width: 44%;
+                    .work {
+                        font-size: 0.8rem;
+                    }
+                    .title::v-deep {
+                        display: inline-block;
+                        font-size: 2.4rem;
+                        font-weight: bold;
+                        display: block;
+                        span {
+                            font-family: "Diphylleia";
+                        }
+                    }
                 }
             }
         }

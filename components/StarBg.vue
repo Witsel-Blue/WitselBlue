@@ -3,9 +3,9 @@
         <div class="star-wrap">
             <img class="star1 y1" src="@/assets/img/star1.png">
             <img class="star2" src="@/assets/img/star1.png">
-            <img class="star3" src="@/assets/img/star1.png">
+            <img class="star3 y1" src="@/assets/img/star1.png">
             <img class="star4" src="@/assets/img/star1.png">
-            <img class="star5 y1" src="@/assets/img/star2.png">
+            <img class="star5" src="@/assets/img/star2.png">
             <img class="star6" src="@/assets/img/star3.png">
             <img class="star7" src="@/assets/img/star3.png">
         </div>
