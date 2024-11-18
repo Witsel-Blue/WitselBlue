@@ -1,9 +1,7 @@
 <template>
     <div id="default">
 
-        <div class="inner">
-            <Nuxt></Nuxt>
-        </div>
+        <Nuxt></Nuxt>
         
     </div>
 </template>

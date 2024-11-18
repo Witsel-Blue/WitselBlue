@@ -33,9 +33,6 @@
                 </div>
             </li>
         </ul>
-        <div class="footer">
-            footer
-        </div>
     </div>
 </template>
 
@@ -226,7 +223,7 @@
                     position: absolute;
                     bottom: 4%;
                     right: 0;
-                    max-width: 44%;
+                    max-width: 50%;
                     .work {
                         font-size: 0.8rem;
                     }
@@ -235,9 +232,9 @@
                         font-size: 2.4rem;
                         font-weight: bold;
                         display: block;
-                        span {
-                            font-family: "Diphylleia";
-                        }
+                        // span {
+                        //     font-family: "Diphylleia";
+                        // }
                     }
                 }
             }

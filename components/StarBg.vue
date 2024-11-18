@@ -71,6 +71,17 @@
             height: 8px;
         }
 
+        .star2,
+        .star4,
+        .star5 {
+            animation: star 1s infinite;
+        }
+
+        .star1,
+        .star3 {
+            animation: star2 1s infinite;
+        }
+
         .star1 {
             top: 20%;
             left: 10%;
@@ -98,6 +109,30 @@
         .star7 {
             left: 0;
             top: 55%;
+        }
+    }
+
+    @keyframes star {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(0.8);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes star2 {
+        0% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(0.8);
         }
     }
 </style>

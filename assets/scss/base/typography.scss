@@ -30,11 +30,22 @@
     unicode-range: U+0020-007F;
 }
 
+@font-face {
+    font-family: "TanPearl";
+    font-style: normal;
+    font-weight: 400;
+    src: url("@/static/fonts/tan-pearl.otf");
+    unicode-range: U+0020-007F;
+}
+
 .ft-diphylleia {
     font-family: "Diphylleia";
 }
 .ft-bagel {
     font-family: "Bagel";
+}
+.ft-tanpearl {
+    font-family: "TanPearl";
 }
 
 /* ----- FONT SIZE ----- */
