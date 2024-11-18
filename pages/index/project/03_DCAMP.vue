@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio_detail">
+    <div id="project_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main inner-small">
@@ -48,20 +48,12 @@
                 />
             </section>
             <section class="inner-small">
-                <ul class="device_mb">
-                    <li data-aos="fade-up">
-                        <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/portfolio01_mb01.png" class="img">
-                    </li>
-                    <li data-aos="fade-up">
-                        <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/portfolio01_mb02.png" class="img">
-                    </li>
-                    <li data-aos="fade-up">
-                        <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/portfolio01_mb03.png" class="img">
-                    </li>
-                </ul>
+                <div class="device_pc" data-aos="fade-up">
+                    <img src="@/assets/img/device-laptop.png" class="device">
+                    <div class="img-wrap">
+                        <img :src="main.mainvisual" class="img">
+                    </div>
+                </div>
             </section>
         </div>
         <Pagination 
@@ -97,58 +89,38 @@
         },
         data() {
             return {
-                title: 'RNJOB App',
+                title: 'DCAMP',
                 main: {
-                    mainvisual: require('@/assets/img/portfolio08_main.png'),
-                    id: '08',
-                    title: 'RNJOB 앱',
-                    link: 'https://rnjob.or.kr/',
+                    mainvisual: require('@/assets/img/project03_main.png'),
+                    id: '03',
+                    title: 'DCAMP',
+                    link: 'https://dcamp.kr/',
                     description: 
-                        '간호 커리어 종합 지원 센터, RNJOB의 앱 퍼블리싱에 참여',
+                        '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
                 },
                 desc: {
-                    duration: '2022.07',
-                    consultant: '간호인력취업교육센터',
+                    duration: '2022.01-2022.03',
+                    consultant: 'DCAMP',
                     team: 'SKNK',
-                    work: 'publishing',
-                    platform: 'vue/html/css/jquery',
+                    work: 'frontend',
+                    platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://rnjob.or.kr/',
+                    href: 'https://dcamp.kr/',        
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/portfolio/07_KACE',
-                    prevText: 'KACE',
-                    nextLink: '/portfolio/01_Monimo',
-                    nextText: '삼성카드 모니모 앱',
-                    nextImg: require('@/assets/img/portfolio01_main.png'),
+                    prevLink: '/project/02_416_Online_Memorial',
+                    prevText: '4·16 온라인 기억센터',
+                    nextLink: '/project/04_OxfamVirtualWalker',
+                    nextText: '옥스팜 버추얼워커',
+                    nextImg: require('@/assets/img/project04_main.png'),
                 }
             }
-        },
-        mounted() {
-            process.nextTick(() => {
-                process.nextTick(() => {
-                    this.getMbHeight();
-                });
-            });
-            window.addEventListener('resize', this.getMbHeight);
-        },
-        methods: {
-            getMbHeight() {
-                var mb = document.querySelector('.device_mb .device');
-                var mbH = mb.clientHeight;
-                var mbImg = document.querySelectorAll('.device_mb .img');
-                
-                for (var i = 0; i < mbImg.length; i++) {
-                    var c = mbImg[i];
-                    c.style.height = mbH + 'px';
-                }
-            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/portfolio_detail.scss';
+    @import '@/assets/scss/layout/project_detail.scss';
 </style>

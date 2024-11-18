@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio_detail">
+    <div id="project_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main inner-small">
@@ -48,12 +48,20 @@
                 />
             </section>
             <section class="inner-small">
-                <div class="device_pc" data-aos="fade-up">
-                    <img src="@/assets/img/device-laptop.png" class="device">
-                    <div class="img-wrap">
-                        <img :src="main.mainvisual" class="img">
-                    </div>
-                </div>
+                <ul class="device_mb">
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb01.png" class="img">
+                    </li>
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb02.png" class="img">
+                    </li>
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb03.png" class="img">
+                    </li>
+                </ul>
             </section>
         </div>
         <Pagination 
@@ -89,37 +97,57 @@
         },
         data() {
             return {
-                title: 'Oxfam Virtaulwalker',
+                title: 'Monimo',
                 main: {
-                    mainvisual: require('@/assets/img/portfolio04_main.png'),
-                    id: '04',
-                    title: 'Oxfam Virtaulwalker',
+                    mainvisual: require('@/assets/img/project01_main.png'),
+                    id: '01',
+                    title: 'Monimo',
                     description: 
-                        '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
+                        '삼성생명, 삼성화재, 삼성카드, 삼성증권에서 만든 금융 서비스 앱<br> 여러 팀과 협력하여 보안 시스템 아래에서 개발<br> 컴포넌트와 1400여개 페이지 관리, 카드 메인 페이지 담당',
                 },
                 desc: {
-                    duration: '2022.08-2022.09',
-                    consultant: '옥스팜코리아',
-                    team: 'SKNK',
-                    work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    duration: '2024.07-2024.10',
+                    consultant: 'Samsung',
+                    team: 'lisn',
+                    work: 'development',
+                    platform: 'vue2 / storybook / scss',
                 },
                 link: {
-                    href: 'https://v50.oxfamtrailwalker.or.kr/',
+                    href: 'https://www.monimo.com/w/main/WPFMHP0101M0',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/portfolio/03_DCAMP',
-                    prevText: 'D.CAMP',
-                    nextLink: '/portfolio/05_DCDCenter',
-                    nextText: '전문무용수지원센터',
-                    nextImg: require('@/assets/img/portfolio05_main.png'),
+                    prevLink: '/project/08_RNJOB',
+                    prevText: 'RNJOB 앱',
+                    nextLink: '/project/02_416_Online_Memorial',
+                    nextText: '4·16 온라인 기억센터',
+                    nextImg: require('@/assets/img/project02_main.png'),
                 }
             }
+        },
+        mounted() {
+            process.nextTick(() => {
+                process.nextTick(() => {
+                    this.getMbHeight();
+                });
+            });
+            window.addEventListener('resize', this.getMbHeight);
+        },
+        methods: {
+            getMbHeight() {
+                var mb = document.querySelector('.device_mb .device');
+                var mbH = mb.clientHeight;
+                var mbImg = document.querySelectorAll('.device_mb .img');
+                
+                for (var i = 0; i < mbImg.length; i++) {
+                    var c = mbImg[i];
+                    c.style.height = mbH + 'px';
+                }
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/portfolio_detail.scss';
+    @import '@/assets/scss/layout/project_detail.scss';
 </style>

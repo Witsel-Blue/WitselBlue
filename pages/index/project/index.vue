@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio">
+    <div id="project">
         <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1 class="title ft-bagel">{{ title }}</h1>
@@ -57,51 +57,51 @@
         },
         data() {
             return {
-                title: 'Portfolio',
+                title: 'project',
                 lists: [
                     {
                         name: 'Monimo',
-                        path: 'portfolio/01_Monimo',
+                        path: 'project/01_Monimo',
                         link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
-                        img: require('@/assets/img/portfolio01_main.png'),
+                        img: require('@/assets/img/project01_main.png'),
                         work: 'development',
                         duration: '2024.07-2024.10',
                     },
                     {
                         name: '4·16 Online Memorial',
-                        path: 'portfolio/02_416_Online_Memorial',
+                        path: 'project/02_416_Online_Memorial',
                         link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
-                        img: require('@/assets/img/portfolio02_main.png'),
+                        img: require('@/assets/img/project02_main.png'),
                         work: 'publishing',
                         duration: '2022.04',
                     },
                     {
                         name: 'DCAMP',
-                        path: 'portfolio/03_DCAMP',
+                        path: 'project/03_DCAMP',
                         link: 'https://dcamp.kr/',
-                        img: require('@/assets/img/portfolio03_main.png'),
+                        img: require('@/assets/img/project03_main.png'),
                         work: 'frontend',
                         duration: '2022.01-2022.03',
                     },
                     {
                         name: 'Oxfam VirtualWalker',
-                        path: 'portfolio/04_OxfamVirtualWalker',
+                        path: 'project/04_OxfamVirtualWalker',
                         link: 'https://v50.oxfamtrailwalker.or.kr/',
-                        img: require('@/assets/img/portfolio04_main.png'),
+                        img: require('@/assets/img/project04_main.png'),
                         work: 'frontend',
                         duration: '2022.08-2022.09',
                     },
                     {
                         name: 'DCDCenter',
-                        path: 'portfolio/05_DCDCenter',
+                        path: 'project/05_DCDCenter',
                         link: 'https://www.dcdcenter.or.kr/',
-                        img: require('@/assets/img/portfolio05_main.png'),
+                        img: require('@/assets/img/project05_main.png'),
                         work: 'frontend',
                         duration: '2023.01-2023.02',
                     },
                     {
                         name: 'Cabinnet',
-                        path: 'portfolio/06_Cabinnet',
+                        path: 'project/06_Cabinnet',
                         link: '/',
                         img: '',
                         work: 'frontend',
@@ -109,7 +109,7 @@
                     },
                     {
                         name: 'KACE',
-                        path: 'portfolio/07_KACE',
+                        path: 'project/07_KACE',
                         link: 'http://www.kace.or.kr/',
                         img: '',
                         work: 'frontend',
@@ -117,9 +117,9 @@
                     },
                     {
                         name: 'RNJOB App',
-                        path: 'portfolio/08_RNJOB',
+                        path: 'project/08_RNJOB',
                         link: 'https://rnjob.or.kr/',
-                        img: require('@/assets/img/portfolio08_main.png'),
+                        img: require('@/assets/img/project08_main.png'),
                         work: 'publishing',
                         duration: '2022.07',
                     },
@@ -181,7 +181,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #portfolio {
+    #project {
         width: 100%;
         min-height: 100vh;
         overflow: hidden;

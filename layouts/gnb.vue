@@ -44,8 +44,8 @@
                         path: '/archive'
                     },
                     {
-                        name: '<p>Portf<span>o</span>lio</p>',
-                        path: '/portfolio'
+                        name: '<p>Pr<span>o</span>ject</p>',
+                        path: '/project'
                     }
                 ]
             }

@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio_detail">
+    <div id="project_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main inner-small">
@@ -48,12 +48,20 @@
                 />
             </section>
             <section class="inner-small">
-                <div class="device_pc" data-aos="fade-up">
-                    <img src="@/assets/img/device-laptop.png" class="device">
-                    <div class="img-wrap">
-                        <img :src="main.mainvisual" class="img">
-                    </div>
-                </div>
+                <ul class="device_mb">
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb01.png" class="img">
+                    </li>
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb02.png" class="img">
+                    </li>
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb03.png" class="img">
+                    </li>
+                </ul>
             </section>
         </div>
         <Pagination 
@@ -89,38 +97,58 @@
         },
         data() {
             return {
-                title: 'KACE',
+                title: 'RNJOB App',
                 main: {
-                    // mainvisual: require('@/assets/img/portfolio07_main.png'),
-                    id: '07',
-                    title: 'KACE',
-                    link: 'http://www.kace.or.kr/',
+                    mainvisual: require('@/assets/img/project08_main.png'),
+                    id: '08',
+                    title: 'RNJOB 앱',
+                    link: 'https://rnjob.or.kr/',
                     description: 
-                        '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을 신청할 수 있는 서비스 제공<br> (사이트 리뉴얼을 위해 작업했으나 해당 링크에선 보실 수 없습니다)',
+                        '간호 커리어 종합 지원 센터, RNJOB의 앱 퍼블리싱에 참여',
                 },
                 desc: {
-                    duration: '2022.10-2021.12',
-                    consultant: '한국지역사회교육협의회',
+                    duration: '2022.07',
+                    consultant: '간호인력취업교육센터',
                     team: 'SKNK',
-                    work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    work: 'publishing',
+                    platform: 'vue/html/css/jquery',
                 },
                 link: {
-                    href: 'http://www.kace.or.kr/',
+                    href: 'https://rnjob.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/portfolio/06_Cabinnet',
-                    prevText: 'Cabinnet',
-                    nextLink: '/portfolio/08_RNJOB',
-                    nextText: 'RNJOB 앱',
-                    nextImg: require('@/assets/img/portfolio08_main.png'),
+                    prevLink: '/project/07_KACE',
+                    prevText: 'KACE',
+                    nextLink: '/project/01_Monimo',
+                    nextText: '삼성카드 모니모 앱',
+                    nextImg: require('@/assets/img/project01_main.png'),
                 }
             }
+        },
+        mounted() {
+            process.nextTick(() => {
+                process.nextTick(() => {
+                    this.getMbHeight();
+                });
+            });
+            window.addEventListener('resize', this.getMbHeight);
+        },
+        methods: {
+            getMbHeight() {
+                var mb = document.querySelector('.device_mb .device');
+                var mbH = mb.clientHeight;
+                var mbImg = document.querySelectorAll('.device_mb .img');
+                
+                for (var i = 0; i < mbImg.length; i++) {
+                    var c = mbImg[i];
+                    c.style.height = mbH + 'px';
+                }
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/portfolio_detail.scss';
+    @import '@/assets/scss/layout/project_detail.scss';
 </style>

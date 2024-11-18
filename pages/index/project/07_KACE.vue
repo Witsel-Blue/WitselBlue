@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio_detail">
+    <div id="project_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main inner-small">
@@ -89,32 +89,32 @@
         },
         data() {
             return {
-                title: 'DCAMP',
+                title: 'KACE',
                 main: {
-                    mainvisual: require('@/assets/img/portfolio03_main.png'),
-                    id: '03',
-                    title: 'DCAMP',
-                    link: 'https://dcamp.kr/',
+                    // mainvisual: require('@/assets/img/project07_main.png'),
+                    id: '07',
+                    title: 'KACE',
+                    link: 'http://www.kace.or.kr/',
                     description: 
-                        '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
+                        '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을 신청할 수 있는 서비스 제공<br> (사이트 리뉴얼을 위해 작업했으나 해당 링크에선 보실 수 없습니다)',
                 },
                 desc: {
-                    duration: '2022.01-2022.03',
-                    consultant: 'DCAMP',
+                    duration: '2022.10-2021.12',
+                    consultant: '한국지역사회교육협의회',
                     team: 'SKNK',
                     work: 'frontend',
                     platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://dcamp.kr/',        
+                    href: 'http://www.kace.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/portfolio/02_416_Online_Memorial',
-                    prevText: '4·16 온라인 기억센터',
-                    nextLink: '/portfolio/04_OxfamVirtualWalker',
-                    nextText: '옥스팜 버추얼워커',
-                    nextImg: require('@/assets/img/portfolio04_main.png'),
+                    prevLink: '/project/06_Cabinnet',
+                    prevText: 'Cabinnet',
+                    nextLink: '/project/08_RNJOB',
+                    nextText: 'RNJOB 앱',
+                    nextImg: require('@/assets/img/project08_main.png'),
                 }
             }
         }
@@ -122,5 +122,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/portfolio_detail.scss';
+    @import '@/assets/scss/layout/project_detail.scss';
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio_detail">
+    <div id="project_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main inner-small">
@@ -89,31 +89,31 @@
         },
         data() {
             return {
-                title: 'DCDCenter',
+                title: 'Oxfam Virtaulwalker',
                 main: {
-                    mainvisual: require('@/assets/img/portfolio05_main.png'),
-                    id: '05',
-                    title: 'DCDCenter',
+                    mainvisual: require('@/assets/img/project04_main.png'),
+                    id: '04',
+                    title: 'Oxfam Virtaulwalker',
                     description: 
-                        '무용예술인의 직업전환과 복지증진을 위해 다양한 지원사업을 신청할 수 있는 사이트',
+                        '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
                 },
                 desc: {
-                    duration: '2023.01-2023.02',
-                    consultant: '전문무용수지원센터',
+                    duration: '2022.08-2022.09',
+                    consultant: '옥스팜코리아',
                     team: 'SKNK',
                     work: 'frontend',
                     platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://www.dcdcenter.or.kr/',
+                    href: 'https://v50.oxfamtrailwalker.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/portfolio/04_OxfamVirtualWalker',
-                    prevText: '옥스팜 버추얼워커',
-                    nextLink: '/portfolio/06_Cabinnet',
-                    nextText: 'Cabinnet',
-                    // nextImg: require('@/assets/img/portfolio06_main.png'),
+                    prevLink: '/project/03_DCAMP',
+                    prevText: 'D.CAMP',
+                    nextLink: '/project/05_DCDCenter',
+                    nextText: '전문무용수지원센터',
+                    nextImg: require('@/assets/img/project05_main.png'),
                 }
             }
         }
@@ -121,5 +121,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/portfolio_detail.scss';
+    @import '@/assets/scss/layout/project_detail.scss';
 </style>

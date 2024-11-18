@@ -1,5 +1,5 @@
 <template>
-    <div id="portfolio_detail">
+    <div id="project_detail">
         <PageTransition :title="title"></PageTransition>
         <div class="contents">
             <section class="main inner-small">
@@ -89,31 +89,31 @@
         },
         data() {
             return {
-                title: 'Cabin.net',
+                title: 'DCDCenter',
                 main: {
-                    // mainvisual: require('@/assets/img/portfolio06_main.png'),
-                    id: '06',
-                    title: 'Cabin.net',
+                    mainvisual: require('@/assets/img/project05_main.png'),
+                    id: '05',
+                    title: 'DCDCenter',
                     description: 
-                        '나의 취향과 상품의 스토리가 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게 글을 작성할 수 있도록 개발',
+                        '무용예술인의 직업전환과 복지증진을 위해 다양한 지원사업을 신청할 수 있는 사이트',
                 },
                 desc: {
-                    duration: '2022.05-2022.06',
-                    consultant: '서울 사회적경제 포털',
+                    duration: '2023.01-2023.02',
+                    consultant: '전문무용수지원센터',
                     team: 'SKNK',
                     work: 'frontend',
                     platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: '',
+                    href: 'https://www.dcdcenter.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/portfolio/05_DCDCenter',
-                    prevText: '전문무용수지원센터',
-                    nextLink: '/portfolio/07_KACE',
-                    nextText: 'KACE',
-                    // nextImg: require('@/assets/img/portfolio07_main.png'),
+                    prevLink: '/project/04_OxfamVirtualWalker',
+                    prevText: '옥스팜 버추얼워커',
+                    nextLink: '/project/06_Cabinnet',
+                    nextText: 'Cabinnet',
+                    // nextImg: require('@/assets/img/project06_main.png'),
                 }
             }
         }
@@ -121,5 +121,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/portfolio_detail.scss';
+    @import '@/assets/scss/layout/project_detail.scss';
 </style>
