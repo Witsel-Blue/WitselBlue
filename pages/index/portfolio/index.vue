@@ -128,6 +128,7 @@
         },
         mounted() {
             this.scrollVertical();
+            this.titleScroll();
         },
         methods: {
             scrollVertical() {
@@ -154,6 +155,27 @@
                 })
 
             },
+            titleScroll() {
+                var title = document.querySelector('.title');
+                var button = document.querySelector('#button-scrolldown');
+                var winH = window.innerWidth;
+                var titleTop = title.offsetTop - winH*3/100;
+
+                window.addEventListener('scroll', function() {
+                    var scrolled = window.scrollY;
+
+                    if ( titleTop < scrolled ) {
+                        title.classList.add('active');
+                    } else {
+                        var x = 1 - scrolled * 0.0016;
+                        var x2 = 1 - scrolled * 0.016;
+                        title.style.transform = 'scale(' + x + ')';
+                        button.style.opacity = x2;
+                        title.classList.remove('active');
+                    }
+
+                });
+            }
         },
     }
 </script>
@@ -175,19 +197,30 @@
             position: relative;
             .title {
                 font-size: 5rem;
+                line-height: 1;
+                z-index: 3;
+                position: initial;
+
+                &.active {
+                    position: fixed;
+                    top: 3%;
+                }
             }
             #star-bg {
                 position: absolute;
                 top: 20%;
             }
+            #button-scrolldown {
+                margin-top: 24px;
+            }
         }
         .container {
             padding: 10vh 0;
             overscroll-behavior: none;
-            width: 640% !important;
+            width: 560% !important;
             height: 100vh;
             display: flex;
-            gap: 5vw;
+            gap: 4vw;
             .panel {
                 max-width: 100%;
                 min-width: 32vw;

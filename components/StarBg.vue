@@ -73,12 +73,14 @@
 
         .star2,
         .star4,
-        .star5 {
+        .star5,
+        .star7 {
             animation: star 1s infinite;
         }
 
         .star1,
-        .star3 {
+        .star3,
+        .star6 {
             animation: star2 1s infinite;
         }
 

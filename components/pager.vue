@@ -47,7 +47,7 @@
 <style lang="scss" scoped>
     #pager {
         position: fixed;
-        bottom: 5vw;
+        bottom: 5%;
         right: 5vw;
         z-index: 100;
         .wrapper {
