@@ -2,19 +2,33 @@
     <div id="footer" ref="footer">
         <div class="bg"></div>
         <div class="footer">
-            <h1 class="ft-tanpearl">Work with me!</h1>
-            <ul class="lists">
-                <li>
-                    <ButtonRound
-                        :link="link">
-                    </ButtonRound>
-                </li>
-                <li>
-                    <ButtonRound
-                        :link="link2">
-                    </ButtonRound>
-                </li>
-            </ul>
+            <h1>
+                <span class="ft-tanpearl" style="--i:1">W</span>
+                <span class="ft-tanpearl" style="--i:2">o</span>
+                <span class="ft-tanpearl" style="--i:3">r</span>
+                <span class="ft-tanpearl" style="--i:4">k</span>
+                <span class="ft-tanpearl" style="--i:5"></span>
+                <span class="ft-tanpearl" style="--i:6">w</span>
+                <span class="ft-tanpearl" style="--i:7">i</span>
+                <span class="ft-tanpearl" style="--i:8">t</span>
+                <span class="ft-tanpearl" style="--i:9">h</span>
+                <span class="ft-tanpearl" style="--i:10"></span>
+                <span class="ft-tanpearl" style="--i:11">m</span>
+                <span class="ft-tanpearl" style="--i:12">e</span>
+                <span class="ft-tanpearl" style="--i:13">!</span>
+            </h1>
+                <ul class="lists">
+                    <li>
+                        <ButtonRound
+                            :link="link">
+                        </ButtonRound>
+                    </li>
+                    <li>
+                        <ButtonRound
+                            :link="link2">
+                        </ButtonRound>
+                    </li>
+                </ul>
         </div>
     </div>
 </template>
@@ -39,17 +53,40 @@
             }
         },
         mounted() {
-
+            this.bgScroll();
         },
         methods: {
+            bgScroll() {
+                var bg = document.querySelector('.bg');
+                var winH = window.innerWidth;
+                var bgTop = bg.offsetTop - winH/2;
 
+                var title = document.querySelector('.footer h1');
+                var titleTop = title.offsetTop - winH*2/3;
+
+                window.addEventListener('scroll', function() {
+                    var scrolled = window.scrollY;
+
+                    if ( bgTop < scrolled ) {
+                        var x = (20 - scrolled * 0.01)*10;
+                        bg.style.borderRadius = '0 0 ' + x + '% ' + x + '%';
+                    } else {
+                    }
+
+                    if ( titleTop < scrolled ) {
+                        title.classList.add('active');
+                    } else {
+                        title.classList.remove('active');
+                    }
+
+                });
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
     #footer {
-        // border: 1px solid red;
         width: 100vw;
         height: 100vh;
         overflow: hidden;
@@ -57,19 +94,17 @@
     }
 
     .bg {
-        // border: 1px solid blue;
-        width: 100%;
+        width: 120%;
+        margin-left: -10%;
         height: 20%;
         background-color: #f7f7f7;
-        border-radius: 0 0 80% 80% / 0 0 40% 40%;
     }
 
     .footer {
-        background-color: #2C2A2A;
         color: #fff;
         width: 100%;
         height: 80%;
-        padding: 10vh 10vw;
+        padding: 15vh 10vw;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -79,6 +114,24 @@
         h1 {
             font-size: 3rem;
             font-weight: normal;
+            display: inline-flex;
+
+            span {
+                position: relative;
+                display: inline-block;
+                min-width: 16px;
+            }
+
+            &.active span {
+                animation: flip 0.8s;
+                animation-delay: calc(0.04s * var(--i));
+            }
+        }
+
+        @keyframes flip {
+            0%, 50% {
+                transform: rotateY(360deg);
+            }
         }
 
         .lists {

@@ -50,7 +50,6 @@
                     texts[7].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
                     texts[8].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
                     texts[9].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                    texts[10].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
                 });
             },
         }

@@ -238,13 +238,13 @@
                     display: block;
                     .res-box-wrap {
                         padding-bottom: 72%;
-                        // img {
-                        //     filter: blur(1px);
-                        // }
+                        img {
+                            filter: blur(1px);
+                        }
                     }
-                    // &:hover img {
-                    //     filter: none;
-                    // }
+                    &:hover img {
+                        filter: none;
+                    }
                     .empty {
                         width: 100%;
                         height: 100%;
@@ -256,7 +256,7 @@
                     position: absolute;
                     bottom: 4%;
                     right: 0;
-                    max-width: 50%;
+                    max-width: 48%;
                     .work {
                         font-size: 0.8rem;
                     }
@@ -265,9 +265,9 @@
                         font-size: 2.4rem;
                         font-weight: bold;
                         display: block;
-                        // span {
-                        //     font-family: "Diphylleia";
-                        // }
+                        span {
+                            font-family: "Diphylleia";
+                        }
                     }
                 }
             }
