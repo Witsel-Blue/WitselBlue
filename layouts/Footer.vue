@@ -92,20 +92,20 @@
                 padding: 16px;
                 border-radius: 32px;
                 &::after {
-                    border: 1px solid #fff;
+                    border: 1px solid #fff !important;
                     border-radius: 32px;
                 }
             }
             .circle::before {
-                background-color: #fff;
+                background-color: #fff !important;
             }
             .title {
-                color: #fff;
+                color: #fff !important;
             }
 
             &:hover {
                 .title {
-                    color: #3E3C3C;
+                    color: #3E3C3C !important;
                 }
             }
         }
