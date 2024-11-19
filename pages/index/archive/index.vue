@@ -70,19 +70,19 @@
                     },
                     {
                         name: 'Zizi',
-                        path: 'archive/zizi',
+                        path: '/archive/zizi',
                         img: require('@/assets/img/archive02_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'Witch Pot',
-                        path: 'archive/witchpot',
+                        path: '/archive/witchpot',
                         img: require('@/assets/img/archive03_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'My Island',
-                        path: 'archive/myisland',
+                        path: '/archive/myisland',
                         img: '',
                         work: 'three.js',
                     },

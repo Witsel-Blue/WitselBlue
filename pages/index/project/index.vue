@@ -64,7 +64,7 @@
                 lists: [
                     {
                         name: 'Monimo',
-                        path: 'project/monimo',
+                        path: '/project/monimo',
                         link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
                         img: require('@/assets/img/project01_main.png'),
                         work: 'development',
@@ -72,7 +72,7 @@
                     },
                     {
                         name: '4·16 Online Memorial',
-                        path: 'project/OnlineMemorial',
+                        path: '/project/OnlineMemorial',
                         link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                         img: require('@/assets/img/project02_main.png'),
                         work: 'publishing',
@@ -80,7 +80,7 @@
                     },
                     {
                         name: 'DCAMP',
-                        path: 'project/DCAMP',
+                        path: '/project/DCAMP',
                         link: 'https://dcamp.kr/',
                         img: require('@/assets/img/project03_main.png'),
                         work: 'frontend',
@@ -88,7 +88,7 @@
                     },
                     {
                         name: 'Oxfam VirtualWalker',
-                        path: 'project/OxfamVirtualWalker',
+                        path: '/project/OxfamVirtualWalker',
                         link: 'https://v50.oxfamtrailwalker.or.kr/',
                         img: require('@/assets/img/project04_main.png'),
                         work: 'frontend',
@@ -96,7 +96,7 @@
                     },
                     {
                         name: 'DCDCenter',
-                        path: 'project/DCDCenter',
+                        path: '/project/DCDCenter',
                         link: 'https://www.dcdcenter.or.kr/',
                         img: require('@/assets/img/project05_main.png'),
                         work: 'frontend',
@@ -104,7 +104,7 @@
                     },
                     {
                         name: 'Cabinnet',
-                        path: 'project/cabinnet',
+                        path: '/project/cabinnet',
                         link: '/',
                         img: '',
                         work: 'frontend',
@@ -112,7 +112,7 @@
                     },
                     {
                         name: 'KACE',
-                        path: 'project/KACE',
+                        path: '/project/KACE',
                         link: 'http://www.kace.or.kr/',
                         img: '',
                         work: 'frontend',
@@ -120,7 +120,7 @@
                     },
                     {
                         name: 'RNJOB App',
-                        path: 'project/RNJOB',
+                        path: '/project/RNJOB',
                         link: 'https://rnjob.or.kr/',
                         img: require('@/assets/img/project08_main.png'),
                         work: 'publishing',
