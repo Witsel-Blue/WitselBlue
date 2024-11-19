@@ -70,7 +70,8 @@
         </div>
         <Pagination 
             :pagination="pagination" />
-        <DetailFooter />
+        <DetailFooter 
+            :pagination="pagination" />
     </div>
 </template>
 
@@ -80,6 +81,7 @@
     import ButtonRound from '@/components/ButtonRound.vue';
     import TextShifting from '@/components/TextShifting.vue';
     import Pagination from '@/components/Pagination.vue';
+    import DetailFooter from '@/layouts/DetailFooter.vue';
     
     export default {
         components: {
@@ -88,6 +90,7 @@
             ButtonRound,
             TextShifting,
             Pagination,
+            DetailFooter,
         },
         data() {
             return {
@@ -112,7 +115,7 @@
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/416_Online_Memorial',
+                    prevLink: '/project/OnlineMemorial',
                     prevText: '4·16 온라인 기억센터',
                     nextLink: '/project/OxfamVirtualWalker',
                     nextText: '옥스팜 버추얼워커',

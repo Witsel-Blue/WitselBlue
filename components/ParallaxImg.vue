@@ -48,7 +48,7 @@
 <style lang="scss" scoped>
     #parallax-img {
         .parallax-wrap {
-            background-color: black;
+            background-color: #E1E1E1;
             position: relative;
         }
 

@@ -78,7 +78,8 @@
         </div>
         <Pagination 
             :pagination="pagination" />
-        <DetailFooter />
+        <DetailFooter 
+            :pagination="pagination" />
     </div>
 </template>
 
@@ -123,10 +124,10 @@
                 pagination: {
                     prevLink: '/project/RNJOB',
                     prevText: 'RNJOB 앱',
-                    nextLink: '/project/416_Online_Memorial',
+                    nextLink: '/project/OnlineMemorial',
                     nextText: '4·16 온라인 기억센터',
                     nextImg: require('@/assets/img/project02_main.png'),
-                }
+                },
             }
         },
         mounted() {

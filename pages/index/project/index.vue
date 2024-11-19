@@ -72,7 +72,7 @@
                     },
                     {
                         name: '4·16 Online Memorial',
-                        path: 'project/416_Online_Memorial',
+                        path: 'project/OnlineMemorial',
                         link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                         img: require('@/assets/img/project02_main.png'),
                         work: 'publishing',

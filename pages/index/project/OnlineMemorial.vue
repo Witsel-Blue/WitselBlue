@@ -70,7 +70,8 @@
         </div>
         <Pagination 
             :pagination="pagination" />
-        <DetailFooter />
+        <DetailFooter 
+            :pagination="pagination" />
     </div>
 </template>
 
