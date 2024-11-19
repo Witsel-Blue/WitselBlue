@@ -1,8 +1,8 @@
 <template>
     <div id="footer" ref="footer">
-        <div class="bg"></div>
+        <div class="footer-bg" ref="bg"></div>
         <div class="footer">
-            <h1>
+            <h1 ref="title">
                 <span class="ft-tanpearl" style="--i:1">W</span>
                 <span class="ft-tanpearl" style="--i:2">o</span>
                 <span class="ft-tanpearl" style="--i:3">r</span>
@@ -53,30 +53,23 @@
             }
         },
         mounted() {
-            this.bgScroll();
+            setTimeout(() => {
+                this.bgScroll();
+            }, 1000);
         },
         methods: {
             bgScroll() {
-                var bg = document.querySelector('.bg');
+                var footerBg = this.$refs.bg;
                 var winH = window.innerWidth;
-                var bgTop = bg.offsetTop - winH/2;
-
-                var title = document.querySelector('.footer h1');
-                var titleTop = title.offsetTop - winH*2/3;
+                var footerBgTop = footerBg.offsetTop - winH*2/3;
 
                 window.addEventListener('scroll', function() {
-                    var scrolled = window.scrollY;
+                    var footerScrolled = window.scrollY;
 
-                    if ( bgTop < scrolled ) {
-                        var x = (20 - scrolled * 0.01)*10;
-                        bg.style.borderRadius = '0 0 ' + x + '% ' + x + '%';
-                    } else {
-                    }
-
-                    if ( titleTop < scrolled ) {
-                        title.classList.add('active');
-                    } else {
-                        title.classList.remove('active');
+                    if ( footerBgTop < footerScrolled ) {
+                        var x = footerScrolled - footerBgTop;
+                        var x2 = 630 - x;
+                        footerBg.style.borderRadius = '0 0 ' + x2 + '% ' + x2 + '%';
                     }
 
                 });
@@ -93,7 +86,7 @@
         background-color: #2C2A2A;
     }
 
-    .bg {
+    .footer-bg {
         width: 120%;
         margin-left: -10%;
         height: 20%;

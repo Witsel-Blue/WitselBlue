@@ -6,8 +6,8 @@
             <StarBg></StarBg>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
-        <ul class="container" ref="comp">
-            <!-- <li
+        <!-- <ul class="container" ref="comp">
+            <li
                 class="panel"
                 v-for="list in lists"
                 :key="list.name">
@@ -31,12 +31,14 @@
                         </Nuxt-link>
                     </div>
                 </div>
-            </li> -->
-        </ul>
+            </li>
+        </ul> -->
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
+    import Footer from '@/layouts/Footer.vue';
     import PageTransition from '@/components/PageTransition.vue';
     import gsap from 'gsap';
     import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -50,6 +52,7 @@
     
     export default {
         components: {
+            Footer,
             PageTransition,
             TextShifting,
             ButtonScrollDown,

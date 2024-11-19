@@ -3,7 +3,7 @@
     
     <GNB></GNB>
     <Page></Page>
-    <Footer></Footer>
+    
 
   </div>
 </template>

@@ -9,15 +9,18 @@
         <section>
             <p data-aos="fade-up">on construction!</p>
         </section>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
+  import Footer from '@/layouts/Footer.vue';
   import TextScroll from '@/components/TextScroll.vue';
 
   export default {
     name: 'Index',
     components: {
+      Footer,
       TextScroll,
     },
     mounted() {

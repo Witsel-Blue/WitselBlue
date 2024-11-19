@@ -33,10 +33,12 @@
                 </div>
             </li>
         </ul>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
+    import Footer from '@/layouts/Footer.vue';
     import PageTransition from '@/components/PageTransition.vue';
     import gsap from 'gsap';
     import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -50,6 +52,7 @@
 
     export default {
         components: {
+            Footer,
             PageTransition,
             TextShifting,
             ButtonScrollDown,
