@@ -89,34 +89,38 @@
         },
         data() {
             return {
-                title: 'Cabin.net',
+                title: '4·16 Online Memorial',
                 main: {
-                    // mainvisual: require('@/assets/img/project06_main.png'),
-                    id: '06',
-                    title: 'Cabin.net',
+                    mainvisual: require('@/assets/img/project02_main.png'),
+                    id: '02',
+                    title: '4·16 온라인 기억센터',
                     description: 
-                        '나의 취향과 상품의 스토리가 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게 글을 작성할 수 있도록 개발',
+                        '세월호참사 10주기를 기념하여 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의 라이브러리를 이용하여 메인비주얼 구현',
                 },
                 desc: {
-                    duration: '2022.05-2022.06',
-                    consultant: '서울 사회적경제 포털',
+                    duration: '2022.04',
+                    consultant: '4·16 재단',
                     team: 'SKNK',
-                    work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    work: 'publishing',
+                    platform: 'html/css/jquery',
+                },
+                img: {
+                    pc: require('@/assets/img/project02_pc.png'),
+                    mb: require('@/assets/img/project02_mb.png'),
                 },
                 link: {
-                    href: '',
+                    href: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/05_DCDCenter',
-                    prevText: '전문무용수지원센터',
-                    nextLink: '/project/07_KACE',
-                    nextText: 'KACE',
-                    // nextImg: require('@/assets/img/project07_main.png'),
+                    prevLink: '/project/monimo',
+                    prevText: '삼성카드 모니모 앱',
+                    nextLink: '/project/DCAMP',
+                    nextText: 'D.CAMP',
+                    nextImg: require('@/assets/img/project03_main.png'),
                 }
             }
-        }
+        },
     }
 </script>
 

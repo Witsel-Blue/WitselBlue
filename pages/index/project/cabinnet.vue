@@ -89,31 +89,31 @@
         },
         data() {
             return {
-                title: 'DCDCenter',
+                title: 'Cabin.net',
                 main: {
-                    mainvisual: require('@/assets/img/project05_main.png'),
-                    id: '05',
-                    title: 'DCDCenter',
+                    // mainvisual: require('@/assets/img/project06_main.png'),
+                    id: '06',
+                    title: 'Cabin.net',
                     description: 
-                        '무용예술인의 직업전환과 복지증진을 위해 다양한 지원사업을 신청할 수 있는 사이트',
+                        '나의 취향과 상품의 스토리가 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게 글을 작성할 수 있도록 개발',
                 },
                 desc: {
-                    duration: '2023.01-2023.02',
-                    consultant: '전문무용수지원센터',
+                    duration: '2021.05-2021.07',
+                    consultant: '서울 사회적경제 포털',
                     team: 'SKNK',
                     work: 'frontend',
                     platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://www.dcdcenter.or.kr/',
+                    href: '',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/04_OxfamVirtualWalker',
-                    prevText: '옥스팜 버추얼워커',
-                    nextLink: '/project/06_Cabinnet',
-                    nextText: 'Cabinnet',
-                    // nextImg: require('@/assets/img/project06_main.png'),
+                    prevLink: '/project/DCDCenter',
+                    prevText: '전문무용수지원센터',
+                    nextLink: '/project/KACE',
+                    nextText: 'KACE',
+                    // nextImg: require('@/assets/img/project07_main.png'),
                 }
             }
         }

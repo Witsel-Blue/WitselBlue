@@ -48,20 +48,12 @@
                 />
             </section>
             <section class="inner-small">
-                <ul class="device_mb">
-                    <li data-aos="fade-up">
-                        <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/project01_mb01.png" class="img">
-                    </li>
-                    <li data-aos="fade-up">
-                        <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/project01_mb02.png" class="img">
-                    </li>
-                    <li data-aos="fade-up">
-                        <img src="@/assets/img/device-iphone15.png" class="device">
-                        <img src="@/assets/img/project01_mb03.png" class="img">
-                    </li>
-                </ul>
+                <div class="device_pc" data-aos="fade-up">
+                    <img src="@/assets/img/device-laptop.png" class="device">
+                    <div class="img-wrap">
+                        <img :src="main.mainvisual" class="img">
+                    </div>
+                </div>
             </section>
         </div>
         <Pagination 
@@ -97,54 +89,33 @@
         },
         data() {
             return {
-                title: 'RNJOB App',
+                title: 'Oxfam Virtaulwalker',
                 main: {
-                    mainvisual: require('@/assets/img/project08_main.png'),
-                    id: '08',
-                    title: 'RNJOB 앱',
-                    link: 'https://rnjob.or.kr/',
+                    mainvisual: require('@/assets/img/project04_main.png'),
+                    id: '04',
+                    title: 'Oxfam Virtaulwalker',
                     description: 
-                        '간호 커리어 종합 지원 센터, RNJOB의 앱 퍼블리싱에 참여',
+                        '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
                 },
                 desc: {
-                    duration: '2022.07',
-                    consultant: '간호인력취업교육센터',
+                    duration: '2021.08-2021.09',
+                    consultant: '옥스팜코리아',
                     team: 'SKNK',
-                    work: 'publishing',
-                    platform: 'vue/html/css/jquery',
+                    work: 'frontend',
+                    platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://rnjob.or.kr/',
+                    href: 'https://v50.oxfamtrailwalker.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/07_KACE',
-                    prevText: 'KACE',
-                    nextLink: '/project/01_Monimo',
-                    nextText: '삼성카드 모니모 앱',
-                    nextImg: require('@/assets/img/project01_main.png'),
+                    prevLink: '/project/DCAMP',
+                    prevText: 'D.CAMP',
+                    nextLink: '/project/DCDCenter',
+                    nextText: '전문무용수지원센터',
+                    nextImg: require('@/assets/img/project05_main.png'),
                 }
             }
-        },
-        mounted() {
-            process.nextTick(() => {
-                process.nextTick(() => {
-                    this.getMbHeight();
-                });
-            });
-            window.addEventListener('resize', this.getMbHeight);
-        },
-        methods: {
-            getMbHeight() {
-                var mb = document.querySelector('.device_mb .device');
-                var mbH = mb.clientHeight;
-                var mbImg = document.querySelectorAll('.device_mb .img');
-                
-                for (var i = 0; i < mbImg.length; i++) {
-                    var c = mbImg[i];
-                    c.style.height = mbH + 'px';
-                }
-            },
         }
     }
 </script>

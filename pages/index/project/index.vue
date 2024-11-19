@@ -61,7 +61,7 @@
                 lists: [
                     {
                         name: 'Monimo',
-                        path: 'project/01_Monimo',
+                        path: 'project/monimo',
                         link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
                         img: require('@/assets/img/project01_main.png'),
                         work: 'development',
@@ -69,7 +69,7 @@
                     },
                     {
                         name: '4·16 Online Memorial',
-                        path: 'project/02_416_Online_Memorial',
+                        path: 'project/416_Online_Memorial',
                         link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                         img: require('@/assets/img/project02_main.png'),
                         work: 'publishing',
@@ -77,7 +77,7 @@
                     },
                     {
                         name: 'DCAMP',
-                        path: 'project/03_DCAMP',
+                        path: 'project/DCAMP',
                         link: 'https://dcamp.kr/',
                         img: require('@/assets/img/project03_main.png'),
                         work: 'frontend',
@@ -85,43 +85,43 @@
                     },
                     {
                         name: 'Oxfam VirtualWalker',
-                        path: 'project/04_OxfamVirtualWalker',
+                        path: 'project/OxfamVirtualWalker',
                         link: 'https://v50.oxfamtrailwalker.or.kr/',
                         img: require('@/assets/img/project04_main.png'),
                         work: 'frontend',
-                        duration: '2022.08-2022.09',
+                        duration: '2021.08-2021.09',
                     },
                     {
                         name: 'DCDCenter',
-                        path: 'project/05_DCDCenter',
+                        path: 'project/DCDCenter',
                         link: 'https://www.dcdcenter.or.kr/',
                         img: require('@/assets/img/project05_main.png'),
                         work: 'frontend',
-                        duration: '2023.01-2023.02',
+                        duration: '2021.11-2021.12',
                     },
                     {
                         name: 'Cabinnet',
-                        path: 'project/06_Cabinnet',
+                        path: 'project/cabinnet',
                         link: '/',
                         img: '',
                         work: 'frontend',
-                        duration: '2022.05-2022.06',
+                        duration: '2021.05-2021.07',
                     },
                     {
                         name: 'KACE',
-                        path: 'project/07_KACE',
+                        path: 'project/KACE',
                         link: 'http://www.kace.or.kr/',
                         img: '',
                         work: 'frontend',
-                        duration: '2022.10-2021.12',
+                        duration: '2021.09-2021.10',
                     },
                     {
                         name: 'RNJOB App',
-                        path: 'project/08_RNJOB',
+                        path: 'project/RNJOB',
                         link: 'https://rnjob.or.kr/',
                         img: require('@/assets/img/project08_main.png'),
                         work: 'publishing',
-                        duration: '2022.07',
+                        duration: '2021.07',
                     },
                 ]
             }
@@ -238,13 +238,13 @@
                     display: block;
                     .res-box-wrap {
                         padding-bottom: 72%;
-                        img {
-                            filter: blur(1px);
-                        }
+                        // img {
+                        //     filter: blur(1px);
+                        // }
                     }
-                    &:hover img {
-                        filter: none;
-                    }
+                    // &:hover img {
+                    //     filter: none;
+                    // }
                     .empty {
                         width: 100%;
                         height: 100%;

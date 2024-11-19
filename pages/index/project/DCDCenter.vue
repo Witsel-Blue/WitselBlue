@@ -89,32 +89,31 @@
         },
         data() {
             return {
-                title: 'DCAMP',
+                title: 'DCDCenter',
                 main: {
-                    mainvisual: require('@/assets/img/project03_main.png'),
-                    id: '03',
-                    title: 'DCAMP',
-                    link: 'https://dcamp.kr/',
+                    mainvisual: require('@/assets/img/project05_main.png'),
+                    id: '05',
+                    title: 'DCDCenter',
                     description: 
-                        '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
+                        '무용예술인의 직업전환과 복지증진을 위해 다양한 지원사업을 신청할 수 있는 사이트',
                 },
                 desc: {
-                    duration: '2022.01-2022.03',
-                    consultant: 'DCAMP',
+                    duration: '2021.11-2021.12',
+                    consultant: '전문무용수지원센터',
                     team: 'SKNK',
                     work: 'frontend',
                     platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://dcamp.kr/',        
+                    href: 'https://www.dcdcenter.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/02_416_Online_Memorial',
-                    prevText: '4·16 온라인 기억센터',
-                    nextLink: '/project/04_OxfamVirtualWalker',
-                    nextText: '옥스팜 버추얼워커',
-                    nextImg: require('@/assets/img/project04_main.png'),
+                    prevLink: '/project/OxfamVirtualWalker',
+                    prevText: '옥스팜 버추얼워커',
+                    nextLink: '/project/cabinnet',
+                    nextText: 'Cabinnet',
+                    // nextImg: require('@/assets/img/project06_main.png'),
                 }
             }
         }

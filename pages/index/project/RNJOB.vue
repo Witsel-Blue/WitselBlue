@@ -48,12 +48,20 @@
                 />
             </section>
             <section class="inner-small">
-                <div class="device_pc" data-aos="fade-up">
-                    <img src="@/assets/img/device-laptop.png" class="device">
-                    <div class="img-wrap">
-                        <img :src="main.mainvisual" class="img">
-                    </div>
-                </div>
+                <ul class="device_mb">
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb01.png" class="img">
+                    </li>
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb02.png" class="img">
+                    </li>
+                    <li data-aos="fade-up">
+                        <img src="@/assets/img/device-iphone15.png" class="device">
+                        <img src="@/assets/img/project01_mb03.png" class="img">
+                    </li>
+                </ul>
             </section>
         </div>
         <Pagination 
@@ -89,38 +97,55 @@
         },
         data() {
             return {
-                title: '4·16 Online Memorial',
+                title: 'RNJOB App',
                 main: {
-                    mainvisual: require('@/assets/img/project02_main.png'),
-                    id: '02',
-                    title: '4·16 온라인 기억센터',
+                    mainvisual: require('@/assets/img/project08_main.png'),
+                    id: '08',
+                    title: 'RNJOB 앱',
+                    link: 'https://rnjob.or.kr/',
                     description: 
-                        '세월호참사 10주기를 기념하여 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의 라이브러리를 이용하여 메인비주얼 구현',
+                        '간호 커리어 종합 지원 센터, RNJOB의 앱 퍼블리싱에 참여',
                 },
                 desc: {
-                    duration: '2022.04',
-                    consultant: '4·16 재단',
+                    duration: '2021.07',
+                    consultant: '간호인력취업교육센터',
                     team: 'SKNK',
                     work: 'publishing',
-                    platform: 'html/css/jquery',
-                },
-                img: {
-                    pc: require('@/assets/img/project02_pc.png'),
-                    mb: require('@/assets/img/project02_mb.png'),
+                    platform: 'vue/html/css/jquery',
                 },
                 link: {
-                    href: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
+                    href: 'https://rnjob.or.kr/',
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/01_Monimo',
-                    prevText: '삼성카드 모니모 앱',
-                    nextLink: '/project/03_DCAMP',
-                    nextText: 'D.CAMP',
-                    nextImg: require('@/assets/img/project03_main.png'),
+                    prevLink: '/project/KACE',
+                    prevText: 'KACE',
+                    nextLink: '/project/monimo',
+                    nextText: '삼성카드 모니모 앱',
+                    nextImg: require('@/assets/img/project01_main.png'),
                 }
             }
         },
+        mounted() {
+            process.nextTick(() => {
+                process.nextTick(() => {
+                    this.getMbHeight();
+                });
+            });
+            window.addEventListener('resize', this.getMbHeight);
+        },
+        methods: {
+            getMbHeight() {
+                var mb = document.querySelector('.device_mb .device');
+                var mbH = mb.clientHeight;
+                var mbImg = document.querySelectorAll('.device_mb .img');
+                
+                for (var i = 0; i < mbImg.length; i++) {
+                    var c = mbImg[i];
+                    c.style.height = mbH + 'px';
+                }
+            },
+        }
     }
 </script>
 

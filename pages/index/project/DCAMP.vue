@@ -89,31 +89,32 @@
         },
         data() {
             return {
-                title: 'Oxfam Virtaulwalker',
+                title: 'DCAMP',
                 main: {
-                    mainvisual: require('@/assets/img/project04_main.png'),
-                    id: '04',
-                    title: 'Oxfam Virtaulwalker',
+                    mainvisual: require('@/assets/img/project03_main.png'),
+                    id: '03',
+                    title: 'DCAMP',
+                    link: 'https://dcamp.kr/',
                     description: 
-                        '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
+                        '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
                 },
                 desc: {
-                    duration: '2022.08-2022.09',
-                    consultant: '옥스팜코리아',
+                    duration: '2022.01-2022.03',
+                    consultant: 'DCAMP',
                     team: 'SKNK',
                     work: 'frontend',
                     platform: 'drupal9/css/jquery',
                 },
                 link: {
-                    href: 'https://v50.oxfamtrailwalker.or.kr/',
+                    href: 'https://dcamp.kr/',        
                     text: 'Go to Page',
                 },
                 pagination: {
-                    prevLink: '/project/03_DCAMP',
-                    prevText: 'D.CAMP',
-                    nextLink: '/project/05_DCDCenter',
-                    nextText: '전문무용수지원센터',
-                    nextImg: require('@/assets/img/project05_main.png'),
+                    prevLink: '/project/416_Online_Memorial',
+                    prevText: '4·16 온라인 기억센터',
+                    nextLink: '/project/OxfamVirtualWalker',
+                    nextText: '옥스팜 버추얼워커',
+                    nextImg: require('@/assets/img/project04_main.png'),
                 }
             }
         }
