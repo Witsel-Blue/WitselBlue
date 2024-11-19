@@ -64,25 +64,25 @@
                 lists: [
                     {
                         name: 'Kiki',
-                        path: 'project/kiki',
+                        path: 'archive/kiki',
                         img: require('@/assets/img/archive01_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'Zizi',
-                        path: 'project/zizi',
+                        path: 'archive/zizi',
                         img: require('@/assets/img/archive02_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'Witch Pot',
-                        path: 'project/witchpot',
+                        path: 'archive/witchpot',
                         img: require('@/assets/img/archive03_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'My Island',
-                        path: 'project/myisland',
+                        path: 'archive/myisland',
                         img: '',
                         work: 'three.js',
                     },
