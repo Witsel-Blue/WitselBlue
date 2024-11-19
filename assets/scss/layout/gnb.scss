@@ -2,9 +2,9 @@
 @import '@/assets/scss/base/variables.scss';
 
 #gnb {
-    // .mb {
-    //     display: none;
-    // }
+    .mb {
+        display: none;
+    }
     .pc {
         li:nth-child(1) {
             position: fixed;
