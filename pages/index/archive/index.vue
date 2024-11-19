@@ -6,7 +6,7 @@
             <StarBg></StarBg>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
-        <!-- <ul class="container" ref="comp">
+        <ul class="container" ref="comp">
             <li
                 class="panel"
                 v-for="list in lists"
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </li>
-        </ul> -->
+        </ul>
         <Footer></Footer>
     </div>
 </template>
@@ -61,6 +61,32 @@
         data() {
             return {
                 title: 'Archive',
+                lists: [
+                    {
+                        name: 'Kiki',
+                        path: 'project/kiki',
+                        img: require('@/assets/img/archive01_main.png'),
+                        work: 'p5.js',
+                    },
+                    {
+                        name: 'Zizi',
+                        path: 'project/zizi',
+                        img: require('@/assets/img/archive02_main.png'),
+                        work: 'p5.js',
+                    },
+                    {
+                        name: 'Witch Pot',
+                        path: 'project/witchpot',
+                        img: require('@/assets/img/archive03_main.png'),
+                        work: 'p5.js',
+                    },
+                    {
+                        name: 'My Island',
+                        path: 'project/myisland',
+                        img: '',
+                        work: 'three.js',
+                    },
+                ]
             }
         },
         mounted() {
@@ -155,31 +181,38 @@
         .container {
             padding: 10vh 0;
             overscroll-behavior: none;
-            width: 800%;
+            width: 320% !important;
             height: 100vh;
             display: flex;
-            gap: 5vw;
+            gap: 4vw;
             .panel {
-                max-width: 160%;
+                max-width: 100%;
                 min-width: 32vw;
                 width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 .wrap {
-                    width: 100%;
+                    width: 80%;
                     position: relative;
                 }
                 .hover-img {
                     width: 80%;
+                    max-width: 800px;
                     display: block;
                     .res-box-wrap {
-                        padding-bottom: 80%;
+                        padding-bottom: 72%;
+                        // img {
+                        //     filter: blur(1px);
+                        // }
                     }
+                    // &:hover img {
+                    //     filter: none;
+                    // }
                     .empty {
                         width: 100%;
                         height: 100%;
-                        background-color: #ccc;
+                        background-color: #E1E1E1;
                         display: block;
                     }
                 }
@@ -187,14 +220,18 @@
                     position: absolute;
                     bottom: 4%;
                     right: 0;
+                    max-width: 48%;
                     .work {
                         font-size: 0.8rem;
                     }
-                    .title {
+                    .title::v-deep {
                         display: inline-block;
                         font-size: 2.4rem;
                         font-weight: bold;
                         display: block;
+                        span {
+                            font-family: "Diphylleia";
+                        }
                     }
                 }
             }
