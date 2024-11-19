@@ -104,4 +104,15 @@
             transform: rotateY(360deg) 
         }
     }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        #text-scroll {
+            .text-wrapper {
+                span {
+                    font-size: 3rem;
+                }
+            }
+        }
+    }
 </style>

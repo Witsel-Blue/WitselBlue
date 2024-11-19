@@ -2,7 +2,10 @@
 @import '@/assets/scss/base/variables.scss';
 
 #gnb {
-    nav {
+    // .mb {
+    //     display: none;
+    // }
+    .pc {
         li:nth-child(1) {
             position: fixed;
             top: 5%;
@@ -34,6 +37,109 @@
             &:hover p span {
                 font-stretch: 200%;
                 transition: all 0.4s;
+            }
+        }
+    }
+}
+
+// mobile
+@media all and (max-width: $mobile) {
+    #gnb {
+        .pc {
+            display: none;
+        }
+        .mb {
+            display: block;
+        }
+
+        .menu-button {
+            position: fixed;
+            top: 5%;
+            left: 5vw;
+            width: 32px;
+            height: 24px;
+            z-index: 102;
+            .button-wrap {
+                width: 100%;
+                height: 100%;
+                position: relative;
+            }
+            [class*="line"] {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background-color: $black1;
+                position: absolute;
+                transition: all 0.4s;
+            }
+            .line1 {
+                top: 0;
+            }
+            .line2 {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .line3 {
+                bottom: 0;
+            }
+        }
+
+        .menu-cont {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 5vh 5vw;
+            z-index: 101;
+            background-color: $black2;
+            color: $white1;
+            visibility: hidden;
+            transform: translateX(-100%);
+            transition: all 0.4s ease;
+
+            nav {
+                width: 100%;
+                height: 100%;
+                padding: 64px 0;
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                li:not(:first-child) {
+                    margin-top: 24px;
+                }
+                a {
+                    color: $white1;
+                    font-size: 2rem;
+                    p {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+        
+        .mb.active {
+            .menu-button {
+                [class*="line"] {
+                    background-color: $white1;
+                    transition: all 0.4s;
+                }
+                .line1 {
+                    top: 50%;
+                    transform: rotate(45deg);
+                }
+                .line2 {
+                    display: none;
+                }
+                .line3 {
+                    top: 50%;
+                    transform: rotate(-45deg);
+                }
+            }
+            .menu-cont {
+                visibility: visible;
+                transform: translateX(0);
+                transition: all 0.4s ease;
             }
         }
     }

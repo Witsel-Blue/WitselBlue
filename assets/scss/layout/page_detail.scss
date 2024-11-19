@@ -16,6 +16,7 @@
         &.device-bg {
             background-color: $gray1;
             margin: 5vh 0;
+            padding: 10vh 0;
         }
     }
 
@@ -39,6 +40,9 @@
             bottom: 5%;
             right: 0;
             max-width: 36vw;
+            a {
+                display: inline-block;
+            }
             .text-shifting::v-deep span {
                 font-family: "Diphylleia";
                 font-size: 4rem;
@@ -153,6 +157,68 @@
         .fake-img {
             transform: rotate(0deg);
             transition: all 0.4s;
+        }
+    }
+}
+
+
+// mobile
+@media all and (max-width: $mobile) {
+    .contents {
+        .main {
+            .mainvisual {
+                width: 100%;
+                #parallax-img::v-deep {
+                    .parallax-cont {
+                        padding-top: 160%;
+                    }
+                }
+            }
+            .title {
+                position: initial;
+                max-width: 100%;
+                margin-top: 24px;
+                p {
+                    font-size: 0.8rem;
+                }
+                .text-shifting::v-deep span {
+                    font-size: 2rem;
+                }
+            }
+        }
+        .desc {
+            grid-template-columns: 1fr;
+            gap: 8px;
+            dl {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 16px;
+                dt {
+                    font-size: 1rem;
+                }
+                dd {
+                    border: none;
+                    margin-top: 0;
+                    padding-top: 0;
+                }
+            }
+        }
+        .device_mb {
+            grid-template-columns: 1fr;
+            gap: 5vh;
+            li {
+                .img {
+                    border-radius: 64px;
+                }
+            }
+        }
+        .device_pc {
+            .img-wrap {
+                border-radius: 16px 16px 0 0;
+            }
+        }
+        iframe {
+            min-height: 32vh;
         }
     }
 }

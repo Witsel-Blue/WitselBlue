@@ -98,3 +98,37 @@
         width: 320% !important;
     }
 }
+
+// mobile
+@media all and (max-width: $mobile) {
+    .page {
+        .main {
+            .title {
+                font-size: 3rem;
+            }
+        }
+        .container {
+            width: 100% !important;
+            height: auto;
+            flex-direction: column;
+            gap: 10vh;
+            .panel {
+                .hover-img {
+                    width: 100%;
+                }
+                .desc {
+                    position: initial;
+                    max-width: 100%;
+                    margin-top: 16px;
+                    .title {
+                        font-size: 1.8rem;
+                        line-height: 1;
+                    }
+                }
+            }
+        }
+    }
+    #archive .container {
+        width: 100% !important;
+    }
+}

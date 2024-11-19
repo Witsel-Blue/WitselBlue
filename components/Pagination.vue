@@ -61,4 +61,11 @@
             right: 5vw;
         }
     }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        #pagination {
+            display: none;
+        }
+    }
 </style>

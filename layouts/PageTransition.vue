@@ -51,7 +51,7 @@
         position: fixed;
         top: -180%;
         left: -150vw;
-        z-index: 100;
+        z-index: 105;
         background-color: $black2;
         color: $white1;
         display: flex;
@@ -101,5 +101,12 @@
         100% {
             top: -180%;
         }
+    }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        #page-transition {
+            display: none;
+        } 
     }
 </style>

@@ -132,30 +132,38 @@
         mounted() {
             this.scrollVertical();
             this.titleScroll();
+            window.addEventListener('resize', this.scrollVertical);
+        },
+        beforeDestroy() {
+            window.removeEventListener('resize', this.scrollVertical);
         },
         methods: {
             scrollVertical() {
-                const gsap = this.$gsap;
-                const ScrollTrigger = this.$ScrollTrigger;
-                
-                let horizontalSections = gsap.utils.toArray(".container");
+                var winW = window.innerWidth;
 
-                // var n = document.querySelectorAll('.panel').length;
-                // document.querySelector('.container').style.width = n*200 + '%';
+                if (winW > 425) {
+                    const gsap = this.$gsap;
+                    const ScrollTrigger = this.$ScrollTrigger;
+                    
+                    let horizontalSections = gsap.utils.toArray(".container");
 
-                horizontalSections.forEach((container) => {
-                    let sections = container.querySelectorAll(".panel");
+                    // var n = document.querySelectorAll('.panel').length;
+                    // document.querySelector('.container').style.width = n*200 + '%';
 
-                    gsap.to(sections, {
-                        xPercent: -100 * (sections.length),
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: container,
-                            pin: true,
-                            scrub: 1,
-                        }
-                    });
-                })
+                    horizontalSections.forEach((container) => {
+                        let sections = container.querySelectorAll(".panel");
+
+                        gsap.to(sections, {
+                            xPercent: -100 * (sections.length),
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: container,
+                                pin: true,
+                                scrub: 1,
+                            }
+                        });
+                    })
+                }
 
             },
             titleScroll() {

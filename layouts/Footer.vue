@@ -153,8 +153,23 @@
 
             &:hover {
                 .title {
-                    color: #3E3C3C !important;
+                    color: $black1 !important;
                 }
+            }
+        }
+    }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        .footer {
+            h1 {
+                font-size: 2rem;
+                span {
+                    min-width: 8px;
+                }
+            }
+            .lists {
+                flex-direction: column;
             }
         }
     }
