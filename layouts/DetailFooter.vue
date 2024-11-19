@@ -2,8 +2,8 @@
     <div id="detail_footer">
         <div class="footer-bg" ref="bg"></div>
         <div class="footer">
-            <p>next project</p>
-            <a :href="pagination.nextLink" class="hover-img">
+            <p data-aos="fade-up">next project</p>
+            <a :href="pagination.nextLink" class="hover-img" data-aos="fade-up">
                 <div class="res-box-wrap">
                     <div class="res-box">
                         <img :src="pagination.nextImg">

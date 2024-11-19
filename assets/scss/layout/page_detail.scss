@@ -170,7 +170,7 @@
                 width: 100%;
                 #parallax-img::v-deep {
                     .parallax-cont {
-                        padding-top: 160%;
+                        padding-top: 140%;
                     }
                 }
             }
@@ -207,6 +207,8 @@
             grid-template-columns: 1fr;
             gap: 5vh;
             li {
+                width: 72%;
+                margin: auto;
                 .img {
                     border-radius: 64px;
                 }

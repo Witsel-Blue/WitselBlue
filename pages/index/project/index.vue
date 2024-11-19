@@ -8,13 +8,14 @@
         </div>
         <ul class="container" ref="comp">
             <li
+                data-aos="fade-up"
                 class="panel"
                 v-for="list in lists"
                 :key="list.name">
                 <div class="wrap">
                     <Nuxt-link 
-                    class="hover-img"
-                    :to=list.path>
+                        class="hover-img"
+                        :to=list.path>
                         <div class="res-box-wrap">
                             <div class="res-box">
                                 <img :src="list.img" v-if="list.img">

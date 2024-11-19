@@ -8,6 +8,7 @@
         </div>
         <ul class="container" ref="comp">
             <li
+                data-aos="fade-up"
                 class="panel"
                 v-for="list in lists"
                 :key="list.name">

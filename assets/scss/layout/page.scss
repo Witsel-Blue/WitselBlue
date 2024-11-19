@@ -112,6 +112,8 @@
             height: auto;
             flex-direction: column;
             gap: 10vh;
+            padding: calc(5vh + 24px + 5vh) 0 0;
+            
             .panel {
                 .hover-img {
                     width: 100%;

@@ -75,7 +75,7 @@
                         path: '/project'
                     }
                 ],
-                open: true,
+                open: false,
             }
         },
         mounted() {
