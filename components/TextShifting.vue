@@ -40,7 +40,6 @@
             position: relative;
             display: inline-block;
             color: #3E3C3C;
-            text-transform: uppercase;
         }
         &:hover span {
             animation: flip 0.8s;

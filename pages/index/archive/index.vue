@@ -39,7 +39,7 @@
 
 <script>
     import Footer from '@/layouts/Footer.vue';
-    import PageTransition from '@/components/PageTransition.vue';
+    import PageTransition from '@/layouts/PageTransition.vue';
     import gsap from 'gsap';
     import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
     import TextShifting from '@/components/TextShifting.vue';
