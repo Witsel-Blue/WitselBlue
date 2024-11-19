@@ -78,6 +78,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #text-scroll {
         position: fixed;
         .text-wrapper {

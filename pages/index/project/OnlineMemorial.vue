@@ -130,5 +130,5 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/layout/project_detail.scss';
+    @import '@/assets/scss/layout/page_detail.scss';
 </style>

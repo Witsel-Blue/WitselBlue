@@ -1,9 +1,7 @@
+@import '@/assets/scss/base/variables.scss';
+
 #default {
-    background-color: #f7f7f7;
-    color: #3E3C3C;
+    background-color: $white2;
+    color: $black1;
     overflow: hidden;
-    .inner {
-        width: 90%;
-        margin: auto;
-    }
 }

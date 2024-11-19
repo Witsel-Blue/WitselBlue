@@ -46,9 +46,11 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #parallax-img {
         .parallax-wrap {
-            background-color: #E1E1E1;
+            background-color: $gray1;
             position: relative;
         }
 

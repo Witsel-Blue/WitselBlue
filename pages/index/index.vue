@@ -32,21 +32,5 @@
 </script>
 
 <style lang="scss" scoped>
-  #home {
-      section {
-          width: 100%;
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      }
-      section:nth-child(1) {
-        .subtext {
-          margin-top: -8rem;
-          text-align: center;
-          font-size: 2rem;
-          line-height: 1.2;
-        }
-      }
-  }
+    @import '@/assets/scss/layout/home.scss';
 </style>

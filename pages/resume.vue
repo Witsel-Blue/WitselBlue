@@ -6,8 +6,10 @@
 </template>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #resume {
-        background-color: #f7f7f7;
+        background-color: $white2;
         -webkit-touch-callout: none;
         user-select: none;
         -moz-user-select: none;

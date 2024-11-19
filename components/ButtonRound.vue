@@ -122,6 +122,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #button-round .button {
         display: inline-flex;
         align-items: center;
@@ -139,7 +141,7 @@
             left: 0;
             right: 0;
             border-radius: 16px;
-            border: 1px solid #3E3C3C;
+            border: 1px solid $black1;
         }
 
         .circle {
@@ -155,7 +157,7 @@
             &::before {
                 content: '';
                 display: block;
-                background-color: #3E3C3C;
+                background-color: $black1;
                 border-radius: 50%;
                 position: absolute;
                 top: 0;
@@ -167,13 +169,13 @@
             }
         }
         .title {
-            color: #3E3C3C;
+            color: $black1;
             position: relative;
         }
 
         &:hover {
             .title {
-                color: #fff;
+                color: $white1;
             }
         }
     }

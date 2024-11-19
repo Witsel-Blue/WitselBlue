@@ -46,22 +46,24 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #detail_footer {
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        background-color: #2C2A2A;
+        background-color: $black2;
     }
 
     .footer-bg {
         width: 120%;
         margin-left: -10%;
         height: 20%;
-        background-color: #f7f7f7;
+        background-color: $white2;
     }
 
     .footer {
-        color: #fff;
+        color: $white1;
         width: 100%;
         height: 80%;
         padding: 15vh 10vw;

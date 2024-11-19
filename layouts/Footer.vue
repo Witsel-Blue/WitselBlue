@@ -79,22 +79,24 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #footer {
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        background-color: #2C2A2A;
+        background-color: $black2;
     }
 
     .footer-bg {
         width: 120%;
         margin-left: -10%;
         height: 20%;
-        background-color: #f7f7f7;
+        background-color: $white2;
     }
 
     .footer {
-        color: #fff;
+        color: $white1;
         width: 100%;
         height: 80%;
         padding: 15vh 10vw;
@@ -138,15 +140,15 @@
                 padding: 16px;
                 border-radius: 32px;
                 &::after {
-                    border: 1px solid #fff !important;
+                    border: 1px solid $white1 !important;
                     border-radius: 32px;
                 }
             }
             .circle::before {
-                background-color: #fff !important;
+                background-color: $white1 !important;
             }
             .title {
-                color: #fff !important;
+                color: $white1 !important;
             }
 
             &:hover {

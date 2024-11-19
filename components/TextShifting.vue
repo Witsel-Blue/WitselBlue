@@ -34,12 +34,14 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+
     .text-shifting {
         position: relative;
         span {
             position: relative;
             display: inline-block;
-            color: #3E3C3C;
+            color: $black1;
         }
         &:hover span {
             animation: flip 0.8s;

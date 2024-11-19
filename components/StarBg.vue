@@ -37,6 +37,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #star-bg {
         width: 100%;
         height: 80%;

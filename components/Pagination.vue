@@ -45,6 +45,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     .pager li {
         position: fixed;
         top: 50%;

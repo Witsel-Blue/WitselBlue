@@ -26,6 +26,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #button-scrolldown {
         text-align: center;
     }

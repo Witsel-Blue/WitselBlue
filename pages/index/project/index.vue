@@ -1,5 +1,5 @@
 <template>
-    <div id="project">
+    <div id="project" class="page">
         <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1 class="title ft-bagel">{{ title }}</h1>
@@ -184,96 +184,5 @@
 </script>
 
 <style lang="scss" scoped>
-    #project {
-        width: 100%;
-        min-height: 100vh;
-        overflow: hidden;
-        .main {
-            width: 100%;
-            height: 100vh;
-            padding: 10vh 10vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            .title {
-                font-size: 5rem;
-                line-height: 1;
-                z-index: 3;
-                position: initial;
-
-                &.active {
-                    position: fixed;
-                    top: 3%;
-                }
-            }
-            #star-bg {
-                position: absolute;
-                top: 20%;
-            }
-            #button-scrolldown {
-                margin-top: 24px;
-            }
-        }
-        .container {
-            padding: 10vh 0;
-            overscroll-behavior: none;
-            width: 560% !important;
-            height: 100vh;
-            display: flex;
-            gap: 4vw;
-            .panel {
-                max-width: 100%;
-                min-width: 32vw;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                .wrap {
-                    width: 80%;
-                    position: relative;
-                }
-                .hover-img {
-                    width: 80%;
-                    max-width: 800px;
-                    display: block;
-                    .res-box-wrap {
-                        padding-bottom: 72%;
-                        // img {
-                        //     filter: blur(1px);
-                        // }
-                    }
-                    // &:hover img {
-                    //     filter: none;
-                    // }
-                    .empty {
-                        width: 100%;
-                        height: 100%;
-                        background-color: #E1E1E1;
-                        display: block;
-                    }
-                }
-                .desc {
-                    position: absolute;
-                    bottom: 4%;
-                    right: 0;
-                    max-width: 48%;
-                    .work {
-                        font-size: 0.8rem;
-                    }
-                    .title::v-deep {
-                        display: inline-block;
-                        font-size: 2.4rem;
-                        font-weight: bold;
-                        display: block;
-                        span {
-                            font-family: "Diphylleia";
-                        }
-                    }
-                }
-            }
-        }
-    }
+    @import '@/assets/scss/layout/page.scss';
 </style>

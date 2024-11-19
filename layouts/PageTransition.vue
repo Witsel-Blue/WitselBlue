@@ -43,6 +43,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+
     .bg {
         width: 400vw;
         height: 180vh;
@@ -50,8 +52,8 @@
         top: -180%;
         left: -150vw;
         z-index: 100;
-        background-color: #2c2a2a;
-        color: #fff;
+        background-color: $black2;
+        color: $white1;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -66,7 +68,7 @@
     .bg2 {
         width: 100%;
         height: 100%;
-        background-color: #f7f7f7;
+        background-color: $white2;
         position: fixed;
         top: 0;
         left: 0;

@@ -18,9 +18,11 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '@/assets/scss/base/variables.scss';
+    
     #text-mask {
         color: transparent;
-        -webkit-text-stroke: 2px #f7f7f7;
+        -webkit-text-stroke: 2px $white2;
         position: relative;
         overflow: hidden;
     }
@@ -34,7 +36,7 @@
             width: 100%;
             height: 100%;
             display: block;
-            background-color: #f7f7f7;
+            background-color: $white2;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: absolute;
