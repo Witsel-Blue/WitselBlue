@@ -64,6 +64,8 @@
                 var scrollStart = footerBg.offsetTop - winH*2/3;
                 var footerTop = footerBg.offsetTop;
 
+                var title = this.$refs.title;
+
                 window.addEventListener('scroll', function() {
                     var scrollY = window.scrollY;
 
@@ -72,6 +74,10 @@
                         var x = (footerTop - scrollStart);
                         var r = h/x*100;
                         footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
+                        
+                        title.classList.add('active');
+                    } else {
+                        title.classList.remove('active');
                     }
 
                 });
