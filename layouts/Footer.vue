@@ -44,7 +44,7 @@
             return {
                 link: {
                     href: 'mailto:witselblue@gmail.com',
-                    text: 'witselblue@gmail.com',
+                    text: 'send mail',
                 },
                 link2: {
                     href: '/resume',
@@ -177,7 +177,7 @@
                 }
             }
             .lists {
-                flex-direction: column-reverse;
+                flex-direction: column;
             }
         }
     }
