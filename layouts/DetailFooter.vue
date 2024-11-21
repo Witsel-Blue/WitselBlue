@@ -27,16 +27,18 @@
         methods: {
             bgScroll() {
                 var footerBg = this.$refs.bg;
-                var winH = window.innerWidth;
-                var footerBgTop = footerBg.offsetTop - winH*2/3;
+                var winH = window.innerHeight;
+                var scrollStart = footerBg.offsetTop - winH*2/3;
+                var footerTop = footerBg.offsetTop;
 
                 window.addEventListener('scroll', function() {
-                    var footerScrolled = window.scrollY;
+                    var scrollY = window.scrollY;
 
-                    if ( footerBgTop < footerScrolled ) {
-                        var x = footerScrolled - footerBgTop;
-                        var x2 = 630 - x;
-                        footerBg.style.borderRadius = '0 0 ' + x2 + '% ' + x2 + '%';
+                    if ( scrollStart < scrollY ) {
+                        var h = -(scrollY - footerTop);
+                        var x = (footerTop - scrollStart);
+                        var r = h/x*100;
+                        footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
                     }
 
                 });
