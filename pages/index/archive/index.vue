@@ -64,13 +64,13 @@
                 lists: [
                     {
                         name: 'Kiki',
-                        path: 'archive/kiki',
+                        path: '/archive/kiki',
                         img: require('@/assets/img/archive01_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'Zizi',
-                        path: 'archive/zizi',
+                        path: '/archive/zizi',
                         img: require('@/assets/img/archive02_main.png'),
                         work: 'p5.js',
                     },
@@ -82,7 +82,7 @@
                     },
                     {
                         name: 'My Island',
-                        path: 'archive/myisland',
+                        path: '/archive/myisland',
                         img: '',
                         work: 'three.js',
                     },
