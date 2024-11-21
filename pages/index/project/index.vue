@@ -131,19 +131,17 @@
             }
         },
         mounted() {
-            this.scrollVertical();
             this.titleScroll();
-            window.addEventListener('resize', this.scrollVertical);
-        },
-        beforeDestroy() {
-            window.removeEventListener('resize', this.scrollVertical);
+
+            var winW = window.innerWidth;
+
+            if (winW > 425) {
+                this.scrollVertical();
+            }
         },
         methods: {
             scrollVertical() {
-                var winW = window.innerWidth;
-
-                if (winW > 425) {
-                    const gsap = this.$gsap;
+                const gsap = this.$gsap;
                     const ScrollTrigger = this.$ScrollTrigger;
                     
                     let horizontalSections = gsap.utils.toArray(".container");
@@ -164,8 +162,6 @@
                             }
                         });
                     })
-                }
-
             },
             titleScroll() {
                 var title = document.querySelector('.title');
@@ -187,7 +183,7 @@
                     }
 
                 });
-            }
+            },
         },
     }
 </script>
