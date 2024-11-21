@@ -8,11 +8,10 @@
         </div>
         <ul class="container" ref="comp">
             <li
-                data-aos="fade-up"
                 class="panel"
                 v-for="list in lists"
                 :key="list.name">
-                <div class="wrap">
+                <div class="wrap" data-aos="fade-up">
                     <Nuxt-link 
                         class="hover-img"
                         :to=list.path>
@@ -131,17 +130,19 @@
             }
         },
         mounted() {
+            this.scrollVertical();
             this.titleScroll();
-
-            var winW = window.innerWidth;
-
-            if (winW > 425) {
-                this.scrollVertical();
-            }
+            window.addEventListener('resize', this.scrollVertical);
+        },
+        beforeDestroy() {
+            window.removeEventListener('resize', this.handleResize);
         },
         methods: {
             scrollVertical() {
-                const gsap = this.$gsap;
+                var winW = window.innerWidth;
+
+                if (winW > 425) {
+                    const gsap = this.$gsap;
                     const ScrollTrigger = this.$ScrollTrigger;
                     
                     let horizontalSections = gsap.utils.toArray(".container");
@@ -162,6 +163,8 @@
                             }
                         });
                     })
+                }
+
             },
             titleScroll() {
                 var title = document.querySelector('.title');
@@ -183,7 +186,7 @@
                     }
 
                 });
-            },
+            }
         },
     }
 </script>

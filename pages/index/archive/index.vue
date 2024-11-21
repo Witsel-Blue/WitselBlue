@@ -6,13 +6,12 @@
             <StarBg></StarBg>
             <ButtonScrollDown></ButtonScrollDown>
         </div>
-        <ul class="container" ref="comp" v-if="pc">
+        <ul class="container" ref="comp">
             <li
-                data-aos="fade-up"
                 class="panel"
                 v-for="list in lists"
                 :key="list.name">
-                <div class="wrap">
+                <div class="wrap" data-aos="fade-up">
                     <Nuxt-link 
                     class="hover-img"
                     :to=list.path>
@@ -34,9 +33,6 @@
                 </div>
             </li>
         </ul>
-        <div v-else>
-            mobile
-        </div>
         <Footer></Footer>
     </div>
 </template>
@@ -74,38 +70,39 @@
                     },
                     {
                         name: 'Zizi',
-                        path: '/archive/zizi',
+                        path: 'archive/zizi',
                         img: require('@/assets/img/archive02_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'Witch Pot',
-                        path: '/archive/witchpot',
+                        path: 'archive/witchpot',
                         img: require('@/assets/img/archive03_main.png'),
                         work: 'p5.js',
                     },
                     {
                         name: 'My Island',
-                        path: '/archive/myisland',
+                        path: 'archive/myisland',
                         img: '',
                         work: 'three.js',
                     },
-                ],
-                pc: true,
+                ]
             }
         },
         mounted() {
+            this.scrollVertical();
             this.titleScroll();
-
-            var winW = window.innerWidth;
-
-            if (winW > 425) {
-                this.scrollVertical();
-            }
+            window.addEventListener('resize', this.scrollVertical);
+        },
+        beforeDestroy() {
+            window.removeEventListener('resize', this.handleResize);
         },
         methods: {
             scrollVertical() {
-                const gsap = this.$gsap;
+                var winW = window.innerWidth;
+
+                if (winW > 425) {
+                    const gsap = this.$gsap;
                     const ScrollTrigger = this.$ScrollTrigger;
                     
                     let horizontalSections = gsap.utils.toArray(".container");
@@ -126,6 +123,8 @@
                             }
                         });
                     })
+                }
+
             },
             titleScroll() {
                 var title = document.querySelector('.title');
@@ -147,7 +146,7 @@
                     }
 
                 });
-            },
+            }
         },
     }
 </script>
