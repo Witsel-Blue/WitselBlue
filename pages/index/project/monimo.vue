@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <ul class="device_mb">
                         <li data-aos="fade-up">
@@ -123,9 +123,10 @@
                 },
                 pagination: {
                     prevLink: '/project/RNJOB',
-                    prevText: 'RNJOB 앱',
+                    prevText: 'RNJOB App',
                     nextLink: '/project/OnlineMemorial',
-                    nextText: '4·16 온라인 기억센터',
+                    nextText: '4·16 Online Memorial',
+                    nextWork: 'publishing',
                     nextImg: require('@/assets/img/project02_main.png'),
                 },
             }

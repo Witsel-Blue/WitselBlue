@@ -101,7 +101,7 @@
             nav {
                 width: 100%;
                 height: 100%;
-                padding: 64px 0;
+                padding: calc(5vh + 32px) 0 15vh;
                 display: flex;
                 align-items: flex-end;
                 justify-content: flex-end;

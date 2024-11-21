@@ -3,13 +3,21 @@
         <div class="footer-bg" ref="bg"></div>
         <div class="footer">
             <p data-aos="fade-up">next project</p>
-            <a :href="pagination.nextLink" class="hover-img" data-aos="fade-up">
-                <div class="res-box-wrap">
-                    <div class="res-box">
-                        <img :src="pagination.nextImg">
+            <div class="hover-flip">
+                <div class="front">
+                    <div class="res-box-wrap">
+                        <div class="res-box">
+                            <img :src="pagination.nextImg">
+                        </div>
                     </div>
                 </div>
-            </a>
+                <div class="back">
+                    <a :href="pagination.nextLink">
+                        <p>{{ pagination.nextWork }}</p>
+                        <h3 class="ft-diphylleia">{{ pagination.nextText }}</h3>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -76,9 +84,55 @@
         gap: 40px;
     }
 
-    a {
+    .hover-flip {
         display: block;
         width: 80%;
         max-width: 300px;
+        -webkit-transform: translateZ(0);
+        transition: all 0.8s;
+        transform-style: preserve-3d;
+        position: relative;
+
+        .back {
+            transform: rotateY(180deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.1s;
+            transition-delay: 0.1s;
+
+            width: 100%;
+            height: 100%;
+            background-color: $white2;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            a {
+                color: $black1;
+                text-align: center;
+                p {
+                    font-size: 0.8rem;
+                }
+                h3 {
+                    margin-top: 8px;
+                    font-size: 2rem;
+                }
+            }
+        }
+
+        &:hover {
+            transform: rotateY(180deg);
+            transition: all 0.8s;
+            .back {
+                opacity: 1;
+                visibility: visible;
+                transition: all 0.1s;
+                transition-delay: 0.1s;
+            }
+        }
     }
 </style>

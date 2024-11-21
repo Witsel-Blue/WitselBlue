@@ -83,6 +83,7 @@
                     prevText: 'MyIsland',
                     nextLink: '/archive/zizi',
                     nextText: 'Zizi',
+                    nextWork: 'p5.js',
                     nextImg: require('@/assets/img/archive02_main.png'),
                 },
             }

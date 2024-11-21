@@ -83,6 +83,7 @@
                     prevText: 'Kiki',
                     nextLink: '/archive/witchpot',
                     nextText: 'WitchPot',
+                    nextWork: 'p5.js',
                     nextImg: require('@/assets/img/archive03_main.png'),
                 },
             }

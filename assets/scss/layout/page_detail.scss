@@ -39,7 +39,7 @@
             position: absolute;
             bottom: 5%;
             right: 0;
-            max-width: 36vw;
+            max-width: 32vw;
             a {
                 display: inline-block;
             }
@@ -166,18 +166,23 @@
 @media all and (max-width: $mobile) {
     .contents {
         .main {
+            .inner {
+                display: flex;
+                flex-direction: column;
+                gap: 2vh;
+            }
             .mainvisual {
                 width: 100%;
                 #parallax-img::v-deep {
                     .parallax-cont {
-                        padding-top: 140%;
+                        padding-top: 110%;
                     }
                 }
             }
             .title {
                 position: initial;
                 max-width: 100%;
-                margin-top: 24px;
+                text-align: center;
                 p {
                     font-size: 0.8rem;
                 }

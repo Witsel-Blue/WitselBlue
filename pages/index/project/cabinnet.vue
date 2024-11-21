@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
@@ -94,11 +94,11 @@
         },
         data() {
             return {
-                title: 'Cabin.net',
+                title: 'Cabinnet',
                 main: {
                     // mainvisual: require('@/assets/img/project06_main.png'),
                     id: '06',
-                    title: 'Cabin.net',
+                    title: 'Cabinnet',
                     description: 
                         '나의 취향과 상품의 스토리가 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게 글을 작성할 수 있도록 개발',
                 },
@@ -115,9 +115,10 @@
                 },
                 pagination: {
                     prevLink: '/project/DCDCenter',
-                    prevText: '전문무용수지원센터',
+                    prevText: 'DCDCenter',
                     nextLink: '/project/KACE',
                     nextText: 'KACE',
+                    nextWork: 'frontend',
                     // nextImg: require('@/assets/img/project07_main.png'),
                 }
             }

@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
@@ -115,9 +115,10 @@
                 },
                 pagination: {
                     prevLink: '/project/OxfamVirtualWalker',
-                    prevText: '옥스팜 버추얼워커',
+                    prevText: 'Oxfam VirtualWalker',
                     nextLink: '/project/cabinnet',
                     nextText: 'Cabinnet',
+                    nextWork: 'frontend',
                     // nextImg: require('@/assets/img/project06_main.png'),
                 }
             }

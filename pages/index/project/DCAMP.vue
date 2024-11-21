@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
@@ -116,9 +116,10 @@
                 },
                 pagination: {
                     prevLink: '/project/OnlineMemorial',
-                    prevText: '4·16 온라인 기억센터',
+                    prevText: '4·16 Online Memorial',
                     nextLink: '/project/OxfamVirtualWalker',
-                    nextText: '옥스팜 버추얼워커',
+                    nextText: 'Oxfam VirtualWalker',
+                    nextWork: 'frontend',
                     nextImg: require('@/assets/img/project04_main.png'),
                 }
             }

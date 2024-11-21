@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
@@ -118,7 +118,8 @@
                     prevLink: '/project/cabinnet',
                     prevText: 'Cabinnet',
                     nextLink: '/project/RNJOB',
-                    nextText: 'RNJOB 앱',
+                    nextText: 'RNJOB App',
+                    nextWork: 'publishing',
                     nextImg: require('@/assets/img/project08_main.png'),
                 }
             }

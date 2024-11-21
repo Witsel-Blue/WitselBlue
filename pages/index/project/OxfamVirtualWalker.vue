@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
@@ -115,9 +115,10 @@
                 },
                 pagination: {
                     prevLink: '/project/DCAMP',
-                    prevText: 'D.CAMP',
+                    prevText: 'DCAMP',
                     nextLink: '/project/DCDCenter',
-                    nextText: '전문무용수지원센터',
+                    nextText: 'DCDCenter',
+                    nextWork: 'frontend',
                     nextImg: require('@/assets/img/project05_main.png'),
                 }
             }

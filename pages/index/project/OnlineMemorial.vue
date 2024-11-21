@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
@@ -98,7 +98,7 @@
                 main: {
                     mainvisual: require('@/assets/img/project02_main.png'),
                     id: '02',
-                    title: '4·16 온라인 기억센터',
+                    title: '4·16 Online Memorial',
                     description: 
                         '세월호참사 10주기를 기념하여 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의 라이브러리를 이용하여 메인비주얼 구현',
                 },
@@ -119,9 +119,10 @@
                 },
                 pagination: {
                     prevLink: '/project/monimo',
-                    prevText: '삼성카드 모니모 앱',
+                    prevText: 'Monimo',
                     nextLink: '/project/DCAMP',
-                    nextText: 'D.CAMP',
+                    nextText: 'DCAMP',
+                    nextWork: 'frontend',
                     nextImg: require('@/assets/img/project03_main.png'),
                 }
             }

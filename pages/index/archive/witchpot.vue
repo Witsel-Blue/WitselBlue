@@ -83,6 +83,7 @@
                     prevText: 'Zizi',
                     nextLink: '/archive/myisland',
                     nextText: 'MyIsland',
+                    nextWork: 'three.js',
                     // nextImg: require('@/assets/img/archive03_main.png'),
                 },
             }

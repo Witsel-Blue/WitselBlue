@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg">
+            <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
                     <ul class="device_mb">
                         <li data-aos="fade-up">
@@ -106,7 +106,7 @@
                 main: {
                     mainvisual: require('@/assets/img/project08_main.png'),
                     id: '08',
-                    title: 'RNJOB 앱',
+                    title: 'RNJOB App',
                     link: 'https://rnjob.or.kr/',
                     description: 
                         '간호 커리어 종합 지원 센터, RNJOB의 앱 퍼블리싱에 참여',
@@ -126,7 +126,8 @@
                     prevLink: '/project/KACE',
                     prevText: 'KACE',
                     nextLink: '/project/monimo',
-                    nextText: '삼성카드 모니모 앱',
+                    nextText: 'Monimo',
+                    nextWork: 'development',
                     nextImg: require('@/assets/img/project01_main.png'),
                 }
             }
