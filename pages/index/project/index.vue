@@ -197,4 +197,11 @@
     .page .container .panel:nth-child(2) .desc {
         max-width: 38%;
     }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        .page .container .panel:nth-child(2) .desc {
+            max-width: 100%;
+        }
+    }
 </style>
