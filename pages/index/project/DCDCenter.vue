@@ -46,7 +46,7 @@
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
                         <div class="img-wrap">
-                            <img :src="main.mainvisual" class="img">
+                            <img :src="img.pc" class="img">
                         </div>
                     </div>
                 </div>
@@ -101,6 +101,10 @@
                     title: 'DCDCenter',
                     description: 
                         '무용예술인의 직업전환과 복지증진을 위해 다양한 지원사업을 신청할 수 있는 사이트',
+                },
+                img: {
+                    pc: require('@/assets/img/project05_pc.png'),
+                    // mb: require('@/assets/img/project05_mb.png'),
                 },
                 desc: {
                     duration: '2021.11-2021.12',

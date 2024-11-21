@@ -46,7 +46,7 @@
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
                         <div class="img-wrap">
-                            <img :src="main.mainvisual" class="img">
+                            <img :src="img.pc" class="img">
                         </div>
                     </div>
                 </div>
@@ -96,12 +96,16 @@
             return {
                 title: 'KACE',
                 main: {
-                    // mainvisual: require('@/assets/img/project07_main.png'),
+                    mainvisual: require('@/assets/img/project07_main.png'),
                     id: '07',
                     title: 'KACE',
                     link: 'http://www.kace.or.kr/',
                     description: 
                         '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을 신청할 수 있는 서비스 제공<br> (사이트 리뉴얼을 위해 작업했으나 해당 링크에선 보실 수 없습니다)',
+                },
+                img: {
+                    pc: require('@/assets/img/project07_pc.png'),
+                    // mb: require('@/assets/img/project05_mb.png'),
                 },
                 desc: {
                     duration: '2021.09-2021.10',

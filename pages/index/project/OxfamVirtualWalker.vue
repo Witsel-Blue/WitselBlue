@@ -46,7 +46,7 @@
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
                         <div class="img-wrap">
-                            <img :src="main.mainvisual" class="img">
+                            <img :src="img.pc" class="img">
                         </div>
                     </div>
                 </div>
@@ -101,6 +101,10 @@
                     title: 'Oxfam Virtaulwalker',
                     description: 
                         '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
+                },
+                img: {
+                    pc: require('@/assets/img/project04_pc.png'),
+                    // mb: require('@/assets/img/project04_mb.png'),
                 },
                 desc: {
                     duration: '2021.08-2021.09',

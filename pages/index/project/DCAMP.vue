@@ -46,7 +46,7 @@
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
                         <div class="img-wrap">
-                            <img :src="main.mainvisual" class="img">
+                            <img :src="img.pc" class="img">
                         </div>
                     </div>
                 </div>
@@ -102,6 +102,10 @@
                     link: 'https://dcamp.kr/',
                     description: 
                         '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
+                },
+                img: {
+                    pc: require('@/assets/img/project03_pc.png'),
+                    // mb: require('@/assets/img/project03_mb.png'),
                 },
                 desc: {
                     duration: '2022.01-2022.03',

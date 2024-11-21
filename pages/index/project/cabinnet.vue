@@ -46,7 +46,7 @@
                     <div class="device_pc" data-aos="fade-up">
                         <img src="@/assets/img/device-laptop.png" class="device">
                         <div class="img-wrap">
-                            <img :src="main.mainvisual" class="img">
+                            <!-- <img :src="main.mainvisual" class="img"> -->
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
             return {
                 title: 'Cabinnet',
                 main: {
-                    // mainvisual: require('@/assets/img/project06_main.png'),
+                    mainvisual: require('@/assets/img/project06_main.png'),
                     id: '06',
                     title: 'Cabinnet',
                     description: 
@@ -119,7 +119,7 @@
                     nextLink: '/project/KACE',
                     nextText: 'KACE',
                     nextWork: 'frontend',
-                    // nextImg: require('@/assets/img/project07_main.png'),
+                    nextImg: require('@/assets/img/project07_pagination.png'),
                 }
             }
         }

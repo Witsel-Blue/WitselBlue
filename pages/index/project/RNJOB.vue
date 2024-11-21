@@ -46,15 +46,15 @@
                     <ul class="device_mb">
                         <li data-aos="fade-up">
                             <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project01_mb01.png" class="img">
+                            <img src="@/assets/img/project08_mb01.png" class="img">
                         </li>
                         <li data-aos="fade-up">
                             <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project01_mb02.png" class="img">
+                            <img src="@/assets/img/project08_mb02.png" class="img">
                         </li>
                         <li data-aos="fade-up">
                             <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project01_mb03.png" class="img">
+                            <img src="@/assets/img/project08_mb03.png" class="img">
                         </li>
                     </ul>
                 </div>
