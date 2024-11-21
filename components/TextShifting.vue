@@ -42,6 +42,7 @@
             position: relative;
             display: inline-block;
             color: $black1;
+            line-height: 1;
         }
         &:hover span {
             animation: flip 0.8s;

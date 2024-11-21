@@ -193,4 +193,8 @@
 
 <style lang="scss" scoped>
     @import '@/assets/scss/layout/page.scss';
+
+    .page .container .panel:nth-child(2) .desc {
+        max-width: 38%;
+    }
 </style>

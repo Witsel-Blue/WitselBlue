@@ -4,7 +4,7 @@
     section {
         .inner {
             width: 80%;
-            max-width: $width-m;
+            max-width: $width-l;
             margin: auto;
         }
         &:not(.main) {
@@ -33,13 +33,13 @@
         }
 
         .mainvisual {
-            width: 72%;
+            width: 80%;
         }
         .title {
             position: absolute;
             bottom: 5%;
             right: 0;
-            max-width: 32vw;
+            max-width: 44%;
             a {
                 display: inline-block;
             }

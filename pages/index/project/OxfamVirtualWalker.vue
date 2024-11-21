@@ -132,4 +132,8 @@
 
 <style lang="scss" scoped>
     @import '@/assets/scss/layout/page_detail.scss';
+
+    .contents .main .title {
+        max-width: 40%;
+    }
 </style>
