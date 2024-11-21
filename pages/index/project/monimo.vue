@@ -132,13 +132,9 @@
             }
         },
         mounted() {
-            process.nextTick(() => {
-                process.nextTick(() => {
-                    process.nextTick(() => {
-                        this.getMbHeight();
-                    });
-                });
-            });
+            setTimeout(() => {
+                this.getMbHeight();
+            }, '1000');
             window.addEventListener('resize', this.getMbHeight);
         },
         methods: {
