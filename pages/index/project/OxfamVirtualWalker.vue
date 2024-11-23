@@ -136,4 +136,11 @@
     .contents .main .title {
         max-width: 40%;
     }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        .contents .main .title {
+            max-width: 100%;
+        }
+    }
 </style>
