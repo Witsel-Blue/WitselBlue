@@ -50,96 +50,117 @@
         }
         .mb {
             display: block;
+            width: 100%;
+            // height: calc(40px + 10%);
+            // position: fixed;
+            // top: 0;
+            // left: 0;
+            // z-index: 101;
+            // background: linear-gradient(180deg, rgba(247,247,247,1) 0%, rgba(247,247,247,0.8) 60%, rgba(247,247,247,0) 100%);
         }
 
         .menu-button {
             position: fixed;
             top: 5%;
             left: 5vw;
-            width: 32px;
-            height: 24px;
             z-index: 103;
             .button-wrap {
-                width: 100%;
-                height: 100%;
-                position: relative;
-            }
-            [class*="line"] {
-                display: block;
-                width: 100%;
-                height: 2px;
-                background-color: $black1;
-                position: absolute;
-                transition: all 0.4s;
-            }
-            .line1 {
-                top: 0;
-            }
-            .line2 {
-                top: 50%;
-                transform: translateY(-50%);
-            }
-            .line3 {
-                bottom: 0;
+                svg {
+                    width: 40px;
+                    height: 40px;
+                    path {
+                        transition: all 0.4s ease;
+                    }
+                }
             }
         }
 
         .menu-cont {
-            width: 100vw;
-            height: 100vh;
+            width: 200vw;
+            height: 60vh;
             position: fixed;
             top: 0;
-            left: 0;
-            padding: 5vh 5vw;
+            left: -50%;
+            padding: 15vh 60vw;
             z-index: 102;
             background-color: $black2;
             color: $white1;
             visibility: hidden;
-            transform: translateX(-100%);
+            transform: translateY(-100%);
+            border-radius: 0 0 200% 200%;
             transition: all 0.4s ease;
 
             nav {
                 width: 100%;
                 height: 100%;
-                padding: calc(5vh + 32px) 0 15vh;
                 display: flex;
                 align-items: flex-end;
                 justify-content: flex-end;
+                ul {
+                    display: grid;
+                    li:nth-child(2) {
+                        grid-row: 3/4;
+                    }
+                }
                 li:not(:first-child) {
-                    margin-top: 24px;
+                    margin-top: 16px;
+                }
+                li {
+                    overflow: hidden;
                 }
                 a {
                     color: $white1;
                     font-size: 2rem;
                     p {
                         text-align: right;
+                        transform: translateY(100%);
+                        transition: all 0.4s ease;
                     }
                 }
             }
         }
+        .desc {
+            position: fixed;
+            bottom: 5vh;
+            left: 5vw;
+            font-size: 0.8rem;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
         
         .mb.active {
             .menu-button {
-                [class*="line"] {
-                    background-color: $white1;
-                    transition: all 0.4s;
-                }
-                .line1 {
-                    top: 50%;
-                    transform: rotate(45deg);
-                }
-                .line2 {
-                    display: none;
-                }
-                .line3 {
-                    top: 50%;
-                    transform: rotate(-45deg);
+                svg path {
+                    fill: #fff;
+                    transition: all 0.4s ease;
                 }
             }
             .menu-cont {
                 visibility: visible;
-                transform: translateX(0);
+                transform: translateY(0);
+                border-radius: 0 0 50% 50%;
                 transition: all 0.4s ease;
+                a {
+                    p {
+                        transform: translateY(0);
+                        transition: all 0.4s ease;
+                    }
+                }
+            }
+            .desc {
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.4s ease;
+            }
+            .shadow {
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 101;
             }
         }
     }

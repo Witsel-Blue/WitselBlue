@@ -13,6 +13,9 @@
                 max-width: $width-s;
             }
         }
+        &:last-child {
+            padding-bottom: 0;
+        }
         &.device-bg {
             background-color: $gray1;
             margin: 5vh 0;
@@ -166,6 +169,8 @@
 @media all and (max-width: $mobile) {
     .contents {
         .main {
+            height: auto;
+            padding: 15vh 0 0;
             .inner {
                 display: flex;
                 flex-direction: column;
@@ -175,7 +180,10 @@
                 width: 100%;
                 #parallax-img::v-deep {
                     .parallax-cont {
-                        padding-top: 110%;
+                        padding-top: 100%;
+                        .img {
+                            height: 130%;
+                        }
                     }
                 }
             }
@@ -225,8 +233,8 @@
                 border-radius: 16px 16px 0 0;
             }
         }
-        iframe {
-            min-height: 32vh;
+        .iframe {
+            display: none;
         }
     }
 }

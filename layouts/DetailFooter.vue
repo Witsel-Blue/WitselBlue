@@ -70,6 +70,7 @@
         margin-left: -10%;
         height: 20%;
         background-color: $white2;
+        border-radius: 0 0 100% 100%;
     }
 
     .footer {
@@ -133,6 +134,16 @@
                 transition: all 0.1s;
                 transition-delay: 0.1s;
             }
+        }
+    }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        .footer-bg {
+            height: 15%;
+        }
+        .footer {
+            padding: 5vh 10vw 20vh;
         }
     }
 </style>

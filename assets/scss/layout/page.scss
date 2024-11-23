@@ -18,13 +18,13 @@
         .title {
             font-size: 5rem;
             line-height: 1;
-            z-index: 101;
+            z-index: 100;
             position: initial;
             transform: scale(1);
 
             &.active {
                 position: fixed;
-                top: 3%;
+                top: 2%;
                 transform: scale(0.5);
             }
         }
@@ -108,6 +108,9 @@
         .main {
             .title {
                 font-size: 3rem;
+                &.active {
+                    top: 4%;
+                }
             }
         }
         .container {

@@ -101,6 +101,7 @@
         margin-left: -10%;
         height: 20%;
         background-color: $white2;
+        border-radius: 0 0 100% 100%;
     }
 
     .footer {
@@ -169,6 +170,9 @@
 
     // mobile
     @media all and (max-width: $mobile) {
+        .footer-bg {
+            height: 15%;
+        }
         .footer {
             h1 {
                 font-size: 2rem;
