@@ -91,7 +91,7 @@
           }
         }
         &:nth-child(1) {
-          margin-left: calc((100%* 4 / 12));
+          margin-left: calc((100%* 5 / 12));
           width: calc(100%* 5 / 12);
         }
         &:nth-child(2) {
@@ -113,7 +113,7 @@
     .container {
       padding: 10vh 0;
       overscroll-behavior: none;
-      width: 200% !important;
+      width: 300% !important;
       height: 100vh;
       display: flex;
       gap: 4vw;
@@ -146,9 +146,10 @@
           position: absolute;
           bottom: 4%;
           right: 0;
-          max-width: 40%;
+          max-width: 32%;
           .work {
             font-size: 0.8rem;
+            mix-blend-mode: hard-light;
           }
           .title::v-deep {
             display: inline-block;
@@ -157,6 +158,7 @@
             display: block;
             span {
               font-family: "Diphylleia";
+              mix-blend-mode: hard-light;
             }
           }
         }
@@ -168,7 +170,7 @@
     .wrap {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10vw;
+      gap: 5vw 10vw;
       ul {
         display: grid;
         display: grid;

@@ -7,13 +7,8 @@
 </template>
 
 <script>
-    import GNB from '@/layouts/gnb.vue';
-
     export default {
         name: 'defaultLayout',
-        components: {
-            GNB,
-        }
     }
 </script>
 

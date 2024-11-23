@@ -52,7 +52,8 @@
         top: -180%;
         left: -150vw;
         z-index: 105;
-        background-color: $black2;
+        background: radial-gradient(circle, $blue1 0%, $white1 50%);
+        // background-color: $black2;
         color: $white1;
         display: flex;
         align-items: center;

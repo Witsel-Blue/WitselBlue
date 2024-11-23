@@ -2,7 +2,7 @@
     <div id="home">
         <section id="mainvisual">
           <div class="inner">
-            <TextScroll :text="'WitselBlue'"></TextScroll>
+            <TextScroll :text="'WitselBlue'" class="mouse-hover"></TextScroll>
             <p class="subtext">frontend developer</p>
           </div>
         </section>
@@ -61,6 +61,7 @@
             </Nuxt-link>
           </div>
           <ul class="container" ref="comp">
+            <li class="panel"></li>
             <li
               class="panel"
               v-for="list in project"
@@ -93,7 +94,7 @@
             <h1 class="subtitle ft-bagel txt-c">Skills</h1>
             <div class="wrap">
               <div>
-                <h3 class="txt-c">Language</h3>
+                <!-- <h3 class="txt-c">Language</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in language">
                     <img :src="list.img">
@@ -101,7 +102,7 @@
                 </ul>
               </div>
               <div>
-                <h3 class="txt-c">Framework</h3>
+                <!-- <h3 class="txt-c">Framework</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in framework">
                     <img :src="list.img">
@@ -109,7 +110,7 @@
                 </ul>
               </div>
               <div>
-                <h3 class="txt-c">Etc</h3>
+                <!-- <h3 class="txt-c">Etc</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in etc">
                     <img :src="list.img">
@@ -117,7 +118,7 @@
                 </ul>
               </div>
               <div>
-                <h3 class="txt-c">Design</h3>
+                <!-- <h3 class="txt-c">Design</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in design">
                     <img :src="list.img">
