@@ -68,4 +68,12 @@
             transform: translateY(-5px);
         }
     }
+
+    // mobile
+    @media all and (max-width: $mobile) {
+        button {
+            width: 32px;
+            height: 32px;
+        }
+    }
 </style>

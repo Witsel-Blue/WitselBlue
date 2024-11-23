@@ -140,7 +140,7 @@
                     nextLink: '/project/cabinnet',
                     nextText: 'Cabinnet',
                     nextWork: 'frontend',
-                    // nextImg: require('@/assets/img/project06_main.png'),
+                    nextImg: require('@/assets/img/project06_main.png'),
                 }
             }
         }
