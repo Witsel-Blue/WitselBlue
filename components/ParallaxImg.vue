@@ -57,7 +57,7 @@
         .parallax-cont {
             position: relative;
             overflow: hidden;
-            padding-top: 80%;
+            padding-top: 72%;
         }
 
         .img {
