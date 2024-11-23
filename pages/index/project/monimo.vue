@@ -17,6 +17,24 @@
                     </div>
                 </div>
             </section>
+            <section class="device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <ul class="device_mb">
+                        <li data-aos="fade-up">
+                            <img src="@/assets/img/device-iphone15.png" class="device">
+                            <img src="@/assets/img/project01_mb01.png" class="img">
+                        </li>
+                        <li data-aos="fade-up">
+                            <img src="@/assets/img/device-iphone15.png" class="device">
+                            <img src="@/assets/img/project01_mb02.png" class="img">
+                        </li>
+                        <li data-aos="fade-up">
+                            <img src="@/assets/img/device-iphone15.png" class="device">
+                            <img src="@/assets/img/project01_mb03.png" class="img">
+                        </li>
+                    </ul>
+                </div>
+            </section>
             <section>
                 <div class="inner">
                     <ul class="desc">
@@ -37,24 +55,6 @@
                                 <dt>형식</dt>
                                 <dd>{{ desc.platform }}</dd>
                             </dl>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-            <section class="device-bg" data-aos="fade-up">
-                <div class="inner">
-                    <ul class="device_mb">
-                        <li data-aos="fade-up">
-                            <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project01_mb01.png" class="img">
-                        </li>
-                        <li data-aos="fade-up">
-                            <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project01_mb02.png" class="img">
-                        </li>
-                        <li data-aos="fade-up">
-                            <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project01_mb03.png" class="img">
                         </li>
                     </ul>
                 </div>
@@ -119,7 +119,7 @@
                 },
                 link: {
                     href: 'https://www.monimo.com/w/main/WPFMHP0101M0',
-                    text: 'Go to Page',
+                    text: 'Visit Site',
                 },
                 pagination: {
                     prevLink: '/project/RNJOB',

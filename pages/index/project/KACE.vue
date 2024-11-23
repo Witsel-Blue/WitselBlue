@@ -17,6 +17,16 @@
                     </div>
                 </div>
             </section>
+            <section class="device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <div class="device_pc" data-aos="fade-up">
+                        <img src="@/assets/img/device-laptop.png" class="device">
+                        <div class="img-wrap">
+                            <img :src="img.pc" class="img">
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section>
                 <div class="inner">
                     <ul class="desc">
@@ -39,16 +49,6 @@
                             </dl>
                         </li>
                     </ul>
-                </div>
-            </section>
-            <section class="device-bg" data-aos="fade-up">
-                <div class="inner">
-                    <div class="device_pc" data-aos="fade-up">
-                        <img src="@/assets/img/device-laptop.png" class="device">
-                        <div class="img-wrap">
-                            <img :src="img.pc" class="img">
-                        </div>
-                    </div>
                 </div>
             </section>
             <section>
@@ -116,7 +116,7 @@
                 },
                 link: {
                     href: 'http://www.kace.or.kr/',
-                    text: 'Go to Page',
+                    text: 'Visit Site',
                 },
                 pagination: {
                     prevLink: '/project/cabinnet',

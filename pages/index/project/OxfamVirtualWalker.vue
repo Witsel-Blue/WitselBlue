@@ -17,6 +17,16 @@
                     </div>
                 </div>
             </section>
+            <section class="device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <div class="device_pc" data-aos="fade-up">
+                        <img src="@/assets/img/device-laptop.png" class="device">
+                        <div class="img-wrap">
+                            <img :src="img.pc" class="img">
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section>
                 <div class="inner">
                     <ul class="desc">
@@ -41,14 +51,17 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg" data-aos="fade-up">
+            <section class="img-pc">
                 <div class="inner">
-                    <div class="device_pc" data-aos="fade-up">
-                        <img src="@/assets/img/device-laptop.png" class="device">
-                        <div class="img-wrap">
-                            <img :src="img.pc" class="img">
-                        </div>
-                    </div>
+                    <img :src="img.img1" data-aos="fade-up">
+                    <img :src="img.img2" data-aos="fade-up">
+                </div>
+            </section>
+            <section class="img-mb device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <img :src="img.mb1" data-aos="fade-up">
+                    <img :src="img.mb2" data-aos="fade-up">
+                    <img :src="img.mb3" data-aos="fade-up">
                 </div>
             </section>
             <section>
@@ -74,7 +87,6 @@
             :pagination="pagination" />
     </div>
 </template>
-
 <script>
     import PageTransition from '@/layouts/PageTransition.vue';
     import ParallaxImg from '@/components/ParallaxImg.vue';
@@ -104,7 +116,11 @@
                 },
                 img: {
                     pc: require('@/assets/img/project04_pc.png'),
-                    // mb: require('@/assets/img/project04_mb.png'),
+                    img1: require('@/assets/img/project04_img1.png'),
+                    img2: require('@/assets/img/project04_img2.png'),
+                    mb1: require('@/assets/img/project04_mb01.png'),
+                    mb2: require('@/assets/img/project04_mb02.png'),
+                    mb3: require('@/assets/img/project04_mb03.png'),
                 },
                 desc: {
                     duration: '2021.08-2021.09',
@@ -115,7 +131,7 @@
                 },
                 link: {
                     href: 'https://v50.oxfamtrailwalker.or.kr/',
-                    text: 'Go to Page',
+                    text: 'Visit Site',
                 },
                 pagination: {
                     prevLink: '/project/DCAMP',

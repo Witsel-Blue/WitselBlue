@@ -17,6 +17,16 @@
                     </div>
                 </div>
             </section>
+            <section class="device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <div class="device_pc" data-aos="fade-up">
+                        <img src="@/assets/img/device-laptop.png" class="device">
+                        <div class="img-wrap">
+                            <img :src="img.pc" class="img">
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section>
                 <div class="inner">
                     <ul class="desc">
@@ -41,14 +51,17 @@
                     </ul>
                 </div>
             </section>
-            <section class="device-bg" data-aos="fade-up">
+            <section class="img-pc">
                 <div class="inner">
-                    <div class="device_pc" data-aos="fade-up">
-                        <img src="@/assets/img/device-laptop.png" class="device">
-                        <div class="img-wrap">
-                            <img :src="img.pc" class="img">
-                        </div>
-                    </div>
+                    <img :src="img.img1" data-aos="fade-up">
+                    <img :src="img.img2" data-aos="fade-up">
+                </div>
+            </section>
+            <section class="img-mb device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <img :src="img.mb1" data-aos="fade-up">
+                    <img :src="img.mb2" data-aos="fade-up">
+                    <img :src="img.mb3" data-aos="fade-up">
                 </div>
             </section>
             <section>
@@ -104,7 +117,11 @@
                 },
                 img: {
                     pc: require('@/assets/img/project02_pc.png'),
-                    // mb: require('@/assets/img/project02_mb.png'),
+                    img1: require('@/assets/img/project02_img1.png'),
+                    img2: require('@/assets/img/project02_img2.png'),
+                    mb1: require('@/assets/img/project02_mb01.png'),
+                    mb2: require('@/assets/img/project02_mb02.png'),
+                    mb3: require('@/assets/img/project02_mb03.png'),
                 },
                 desc: {
                     duration: '2022.04',
@@ -115,7 +132,7 @@
                 },
                 link: {
                     href: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
-                    text: 'Go to Page',
+                    text: 'Visit Site',
                 },
                 pagination: {
                     prevLink: '/project/monimo',
