@@ -1,13 +1,131 @@
 <template>
     <div id="home">
         <section id="mainvisual">
-          <p class="subtext">
-            this is
-          </p>
-          <TextScroll :text="'WitselBlue'"></TextScroll>
+          <div class="inner">
+            <TextScroll :text="'WitselBlue'"></TextScroll>
+            <p class="subtext">frontend developer</p>
+          </div>
         </section>
-        <section>
-            <p data-aos="fade-up">on construction!</p>
+        <section class="profile">
+          <div class="inner">
+            <ParallaxImg :src="profile.img"></ParallaxImg>
+            <p class="txt-c">
+              안녕하세요, 프론트엔드 개발자 비첼블루입니다. <br>
+              인터렉티브 웹 디자인과 개발에 관심이 있어 <br>
+              다양한 방법으로 사용자와 소통할 수 있는 사이트를 개발하고자 합니다.
+            </p>
+          </div>
+        </section>
+        <section class="archive">
+          <div class="inner">
+            <Nuxt-link
+              class="subtitle ft-bagel txt-c"
+              to="/archive">
+              Archive
+            </Nuxt-link>
+            <ul class="container" ref="comp">
+              <li
+                class="panel"
+                v-for="list in archive"
+                :key="list.name">
+                <div class="wrap">
+                  <Nuxt-link 
+                    class="hover-img"
+                    :to=list.path>
+                    <div class="res-box-wrap">
+                      <div class="res-box">
+                        <img :src="list.img" v-if="list.img">
+                        <span class="empty" v-else></span>
+                      </div>
+                    </div>
+                    </Nuxt-link>
+                    <div class="desc">
+                      <p class="work">{{ list.work }}</p>
+                      <Nuxt-link 
+                        class="title"
+                        :to=list.path>
+                      <TextShifting :text="list.name"></TextShifting>
+                      </Nuxt-link>
+                    </div>
+                  </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="project">
+          <div class="inner">
+            <Nuxt-link
+              class="subtitle ft-bagel txt-c"
+              to="/project">
+              Project
+            </Nuxt-link>
+          </div>
+          <ul class="container" ref="comp">
+            <li
+              class="panel"
+              v-for="list in project"
+              :key="list.name">
+              <div class="wrap">
+                <Nuxt-link 
+                  class="hover-img"
+                  :to=list.path>
+                  <div class="res-box-wrap">
+                    <div class="res-box">
+                      <img :src="list.img" v-if="list.img">
+                      <span class="empty" v-else></span>
+                    </div>
+                  </div>
+                </Nuxt-link>
+                <div class="desc">
+                  <p class="work">{{ list.work }}</p>
+                  <Nuxt-link 
+                    class="title"
+                    :to=list.path>
+                    <TextShifting :text="list.name"></TextShifting>
+                  </Nuxt-link>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section class="skills">
+          <div class="inner">
+            <h1 class="subtitle ft-bagel txt-c">Skills</h1>
+            <div class="wrap">
+              <div>
+                <h3 class="txt-c">Language</h3>
+                <ul class="mt-32">
+                  <li v-for="list in language">
+                    <img :src="list.img">
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="txt-c">Framework</h3>
+                <ul class="mt-32">
+                  <li v-for="list in framework">
+                    <img :src="list.img">
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="txt-c">Etc</h3>
+                <ul class="mt-32">
+                  <li v-for="list in etc">
+                    <img :src="list.img">
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="txt-c">Design</h3>
+                <ul class="mt-32">
+                  <li v-for="list in design">
+                    <img :src="list.img">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
         <Footer></Footer>
     </div>
@@ -16,17 +134,198 @@
 <script>
   import Footer from '@/layouts/Footer.vue';
   import TextScroll from '@/components/TextScroll.vue';
+  import ParallaxImg from '@/components/ParallaxImg.vue';
 
   export default {
     name: 'Index',
     components: {
       Footer,
       TextScroll,
+      ParallaxImg,
     },
     mounted() {
       window.scrollTo({
         top: 0,
       });
+      this.scrollVertical();
+    },
+    data() {
+      return {
+        profile : {
+          img: require('@/assets/img/profile.jpg'),
+        },
+        archive: [
+          {
+            name: 'Kiki',
+            path: '/archive/kiki',
+            img: require('@/assets/img/archive01_main.png'),
+            work: 'p5.js',
+          },
+          {
+            name: 'Zizi',
+            path: '/archive/zizi',
+            img: require('@/assets/img/archive02_main.png'),
+            work: 'p5.js',
+          },
+          {
+            name: 'Witch Pot',
+            path: '/archive/witchpot',
+            img: require('@/assets/img/archive03_main.png'),
+            work: 'p5.js',
+          },
+          {
+            name: 'My Island',
+            path: '/archive/myisland',
+            img: '',
+            work: 'three.js',
+          },
+        ],
+        project: [
+          {
+            name: 'Monimo',
+            path: '/project/monimo',
+            link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
+            img: require('@/assets/img/project01_main.png'),
+            work: 'development',
+            duration: '2024.07-2024.10',
+          },
+          {
+            name: '4·16 Online Memorial',
+            path: '/project/OnlineMemorial',
+            link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
+            img: require('@/assets/img/project02_main.png'),
+            work: 'publishing',
+            duration: '2022.04',
+          },
+          {
+            name: 'DCAMP',
+            path: '/project/DCAMP',
+            link: 'https://dcamp.kr/',
+            img: require('@/assets/img/project03_main.png'),
+            work: 'frontend',
+            duration: '2022.01-2022.03',
+          },
+        ],
+        language: [
+          {
+            name: 'html',
+            img: require('@/assets/img/skills-language1.png'),
+          },
+          {
+            name: 'css',
+            img: require('@/assets/img/skills-language2.png'),
+          },
+          {
+            name: 'javascript',
+            img: require('@/assets/img/skills-language4.png'),
+          },
+          {
+            name: 'scss',
+            img: require('@/assets/img/skills-language3.png'),
+          },
+          {
+            name: 'jquery',
+            img: require('@/assets/img/skills-language5.png'),
+          },
+        ],
+        framework: [
+          {
+            name: 'vue.js',
+            img: require('@/assets/img/skills-framework1.png'),
+          },
+          {
+            name: 'nuxt.js',
+            img: require('@/assets/img/skills-framework2.png'),
+          },
+          {
+            name: 'GSAP',
+            img: require('@/assets/img/skills-framework3.png'),
+          },
+          {
+            name: 'p5.js',
+            img: require('@/assets/img/skills-framework4.svg'),
+          },
+          {
+            name: 'three.js',
+            img: require('@/assets/img/skills-framework5.png'),
+          },
+          {
+            name: 'drupal',
+            img: require('@/assets/img/skills-framework6.png'),
+          },
+          {
+            name: 'wordpress',
+            img: require('@/assets/img/skills-framework7.png'),
+          },
+          {
+            name: 'tailwind',
+            img: require('@/assets/img/skills-framework8.png'),
+          },
+        ],
+        etc: [
+          {
+            name: 'GitHub',
+            img: require('@/assets/img/skills-etc1.png'),
+          },
+          {
+            name: 'docker',
+            img: require('@/assets/img/skills-etc2.png'),
+          },
+          {
+            name: 'storybook',
+            img: require('@/assets/img/skills-etc3.png'),
+          },
+          {
+            name: 'gabia',
+            img: require('@/assets/img/skills-etc4.png'),
+          },
+          {
+            name: 'cyberduck',
+            img: require('@/assets/img/skills-etc5.png'),
+          },
+        ],
+        design: [
+          {
+            name: 'figma',
+            img: require('@/assets/img/skills-design1.png'),
+          },
+          {
+            name: 'photoshop',
+            img: require('@/assets/img/skills-design2.svg'),
+          },
+          {
+            name: 'illlustrator',
+            img: require('@/assets/img/skills-design3.svg'),
+          },
+        ],
+      }
+    },
+    methods: {
+      scrollVertical() {
+        var winW = window.innerWidth;
+
+        if (winW > 425) {
+          const gsap = this.$gsap;
+          const ScrollTrigger = this.$ScrollTrigger;
+                    
+          let horizontalSections = gsap.utils.toArray(".project .container");
+
+          horizontalSections.forEach((container) => {
+            let sections = container.querySelectorAll(".project .panel");
+
+            gsap.to(sections, {
+              xPercent: -100 * (sections.length),
+              ease: "none",
+              scrollTrigger: {
+              trigger: container,
+                pin: true,
+                scrub: 1,
+              }
+            });
+          })
+        }
+
+      },
     },
   }
 </script>

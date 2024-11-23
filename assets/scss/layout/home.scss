@@ -1,23 +1,181 @@
 @import '@/assets/scss/base/variables.scss';
 
 #home {
-    section {
+  section {
+    // border: 1px solid black;
+  }
+  .inner {
+    // border: 1px solid blue;
+    width: 80%;
+    max-width: $width-m;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .subtitle {
+      font-size: 3rem;
+      margin: 5vh 0;
+    }
+  }
+  #mainvisual {
+    // border: 1px solid red;
+    width: 100%;
+    height: 150vh;
+    background: linear-gradient(180deg, $gray0 0%, $white2 100%);
+    // background-color: #56779f;
+    .inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      .subtext {
+        text-align: center;
+        font-size: 1.6rem;
+        position: absolute;
+        top: 40vh;
+      }
+      #text-scroll::v-deep {
+        top: 50%;
+        span {
+          font-family: "Bagel";
+        }
+      }
+    }
+  }
+  .profile {
+    // border: 1px solid red;
+    // background: linear-gradient(180deg, rgba(86,119,159,1) 0%, rgba(205,214,224,1) 61%, rgba(247,247,247,1) 100%);
+    width: 100%;
+    padding: 15vh 0;
+    #parallax-img::v-deep {
+      width: 32%;
+      border-radius: 80px;
+      overflow: hidden;
+      margin: auto;  
+      .parallax-cont {
+        padding-top: 128%;
+      }
+    }
+    p {
+      margin-top: 5vh;
+    }
+  }
+
+  .archive {
+    .container {
+      width: 100%;
+      .panel {
+        width: 40%;
+        margin-bottom: 10vh;
+        .hover-img {
+          border-radius: 50%;
+          overflow: hidden;
+          display: block;
+        }
+        .desc {
+          margin-top: 16px;
+          .work {
+            font-size: 0.8rem;
+          }
+          .title::v-deep {
+            display: inline-block;
+            font-size: 2.4rem;
+            font-weight: bold;
+            display: block;
+            span {
+              font-family: "Diphylleia";
+            }
+          }
+        }
+        &:nth-child(1) {
+          margin-left: calc((100%* 4 / 12));
+          width: calc(100%* 5 / 12);
+        }
+        &:nth-child(2) {
+          width: calc(100%* 4 / 12);
+        }
+        &:nth-child(3) {
+          margin-left: calc((100%* 7 / 12));
+          width: calc(100%* 5 / 12);
+        }
+        &:nth-child(4) {
+          margin-left: calc((100%* 2 / 12));
+          width: calc(100%* 4 / 12);
+        }
+      }
+    }
+  }
+
+  .project {
+    .container {
+      padding: 10vh 0;
+      overscroll-behavior: none;
+      width: 200% !important;
+      height: 100vh;
+      display: flex;
+      gap: 4vw;
+      .panel {
+        max-width: 100%;
+        min-width: 32vw;
         width: 100%;
-        height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-    section:nth-child(1) {
-      .subtext {
-        margin-top: -8rem;
-        text-align: center;
-        font-size: 2rem;
-        line-height: 1.2;
+        .wrap {
+          width: 80%;
+          position: relative;
+        }
+        .hover-img {
+          width: 80%;
+          max-width: $width-m;
+          display: block;
+          .res-box-wrap {
+            padding-bottom: 72%;
+          }
+          .empty {
+            width: 100%;
+            height: 100%;
+            background-color: $gray1;
+            display: block;
+          }
+        }
+        .desc {
+          position: absolute;
+          bottom: 4%;
+          right: 0;
+          max-width: 40%;
+          .work {
+            font-size: 0.8rem;
+          }
+          .title::v-deep {
+            display: inline-block;
+            font-size: 2.4rem;
+            font-weight: bold;
+            display: block;
+            span {
+              font-family: "Diphylleia";
+            }
+          }
+        }
       }
     }
+  }
 
-    #mainvisual {
-     
+  .skills {
+    .wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10vw;
+      ul {
+        display: grid;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 16px;
+      }
     }
+  }
+
 }

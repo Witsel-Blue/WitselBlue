@@ -3,7 +3,7 @@
         <div class="footer-bg" ref="bg"></div>
         <div class="footer">
             <h1 ref="title" data-aos="fade-up">
-                <span class="ft-tanpearl" style="--i:1">W</span>
+                <span class="ft-tanpearl" style="--i:1">w</span>
                 <span class="ft-tanpearl" style="--i:2">o</span>
                 <span class="ft-tanpearl" style="--i:3">r</span>
                 <span class="ft-tanpearl" style="--i:4">k</span>
