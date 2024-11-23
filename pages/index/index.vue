@@ -2,7 +2,7 @@
     <div id="home">
         <section id="mainvisual">
           <div class="inner">
-            <TextScroll :text="'WitselBlue'" class="mouse-hover"></TextScroll>
+            <TextScroll :text="'WitselBlue'"></TextScroll>
             <p class="subtext">frontend developer</p>
           </div>
         </section>
@@ -19,7 +19,7 @@
         <section class="archive">
           <div class="inner">
             <Nuxt-link
-              class="subtitle ft-bagel txt-c"
+              class="subtitle ft-bagel txt-c mouse-hover"
               to="/archive">
               Archive
             </Nuxt-link>
@@ -42,7 +42,7 @@
                     <div class="desc">
                       <p class="work">{{ list.work }}</p>
                       <Nuxt-link 
-                        class="title"
+                        class="title mouse-hover"
                         :to=list.path>
                       <TextShifting :text="list.name"></TextShifting>
                       </Nuxt-link>
@@ -55,7 +55,7 @@
         <section class="project">
           <div class="inner">
             <Nuxt-link
-              class="subtitle ft-bagel txt-c"
+              class="subtitle ft-bagel txt-c mouse-hover"
               to="/project">
               Project
             </Nuxt-link>
@@ -80,7 +80,7 @@
                 <div class="desc">
                   <p class="work">{{ list.work }}</p>
                   <Nuxt-link 
-                    class="title"
+                    class="title mouse-hover"
                     :to=list.path>
                     <TextShifting :text="list.name"></TextShifting>
                   </Nuxt-link>

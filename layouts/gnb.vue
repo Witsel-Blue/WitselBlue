@@ -4,6 +4,7 @@
         <nav class="pc">
             <ul>
                 <li
+                    class="mouse-hover"
                     v-for="nav in navigation"
                     :key="nav.name">
                     <Nuxt-link 

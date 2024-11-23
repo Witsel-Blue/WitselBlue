@@ -10,6 +10,7 @@
                     <div class="title" data-aos="fade-up">
                         <p>{{ work }}</p>
                         <a
+                            class="mouse-hover"
                             target="_blank"
                             :href=link.href>
                             <TextShifting :text="main.title"></TextShifting>

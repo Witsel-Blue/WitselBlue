@@ -1,7 +1,7 @@
 <template>
     <div id="button-round">
         <a 
-            class="button"
+            class="button mouse-none"
             data-block="button"
             :href="link.href"
             target="_blank">

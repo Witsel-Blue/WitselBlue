@@ -1,6 +1,6 @@
 <template>
     <div id="pager">
-        <div class="wrapper">
+        <div class="wrapper mouse-none">
             <img src="@/assets/img/pager.svg" @click="scrollToTop">
         </div>
     </div>

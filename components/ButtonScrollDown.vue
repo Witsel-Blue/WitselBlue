@@ -2,7 +2,7 @@
     <div id="button-scrolldown">
         <button 
             @click="scrollDown"
-            class="scroll-down">
+            class="scroll-down mouse-hover">
             <img src="@/assets/img/arrow.svg">
         </button>
     </div>

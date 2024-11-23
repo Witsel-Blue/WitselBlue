@@ -76,7 +76,7 @@
                 max-width: 48%;
                 .work {
                     font-size: 0.8rem;
-                    mix-blend-mode: hard-light;
+                    // mix-blend-mode: hard-light;
                 }
                 .title::v-deep {
                     display: inline-block;
@@ -85,7 +85,7 @@
                     display: block;
                     span {
                         font-family: "Diphylleia";
-                        mix-blend-mode: hard-light;
+                        // mix-blend-mode: hard-light;
                     }
                 }
             }

@@ -10,6 +10,7 @@
                     <div class="title" data-aos="fade-up">
                         <p>{{ work }}</p>
                         <a
+                            class="mouse-hover"
                             target="_blank"
                             :href=link.href>
                             <TextShifting :text="main.title"></TextShifting>
@@ -17,7 +18,7 @@
                     </div>
                 </div>
             </section>
-            <section class="iframe">
+            <section class="iframe mouse-none">
                 <div class="inner">
                     <iframe src="https://editor.p5js.org/witselblue/full/w-L-mWvpM"></iframe>
                 </div>

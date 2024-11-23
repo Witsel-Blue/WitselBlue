@@ -1,12 +1,12 @@
 <template>
     <div id="pagination">
         <ul class="pager">
-                <li>
+                <li class="mouse-hover">
                     <Nuxt-link :to="pagination.prevLink">
                         <TextShifting :text="pagination.prevText"></TextShifting>
                     </Nuxt-link>
                 </li>
-                <li>
+                <li class="mouse-hover">
                     <Nuxt-link :to="pagination.nextLink">
                         <TextShifting :text="pagination.nextText"></TextShifting>
                     </Nuxt-link>
