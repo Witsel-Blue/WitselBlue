@@ -101,14 +101,14 @@
                     id: '06',
                     title: 'Cabinnet',
                     description: 
-                        '나의 취향과 상품의 스토리가 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게 글을 작성할 수 있도록 개발',
+                        '나의 취향과 상품의 스토리가<br class="mb"> 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴<br class="mb"> 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게<br class="mb"> 글을 작성할 수 있도록 개발',
                 },
                 desc: {
                     duration: '2021.05-2021.07',
                     consultant: '서울 사회적경제 포털',
                     team: 'SKNK',
                     work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    platform: 'drupal9 / css / jquery',
                 },
                 link: {
                     href: '',

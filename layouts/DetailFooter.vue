@@ -120,8 +120,8 @@
                     font-size: 0.8rem;
                 }
                 h3 {
-                    margin-top: 8px;
-                    font-size: 2rem;
+                    margin-top: 4px;
+                    font-size: 1.8rem;
                 }
             }
         }
@@ -144,7 +144,7 @@
             height: 15%;
         }
         .footer {
-            padding: 5vh 10vw 20vh;
+            padding: 5vh 10vw 10vh;
         }
         .hover-flip {
             .back {

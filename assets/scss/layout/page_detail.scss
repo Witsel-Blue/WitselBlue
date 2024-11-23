@@ -1,5 +1,9 @@
 @import '@/assets/scss/base/variables.scss';
 
+::v-deep br.mb {
+    display: none;
+}
+
 .contents {
     section {
         .inner {
@@ -181,6 +185,9 @@
 
 // mobile
 @media all and (max-width: $mobile) {
+    ::v-deep br.mb {
+        display: block;
+    }
     .contents {
         display: grid;
         section:nth-child(3) {

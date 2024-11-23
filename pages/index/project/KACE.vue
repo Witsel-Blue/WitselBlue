@@ -102,7 +102,7 @@
                     title: 'KACE',
                     link: 'http://www.kace.or.kr/',
                     description: 
-                        '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을 신청할 수 있는 서비스 제공<br> (사이트 리뉴얼을 위해 작업했으나 해당 링크에선 보실 수 없습니다)',
+                        '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을<br class="mb"> 신청할 수 있는 서비스 제공<br> (사이트 리뉴얼을 위해 작업했으나<br class="mb"> 해당 링크에선 보실 수 없습니다)',
                 },
                 img: {
                     pc: require('@/assets/img/project07_pc.png'),
@@ -113,7 +113,7 @@
                     consultant: '한국지역사회교육협의회',
                     team: 'SKNK',
                     work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    platform: 'drupal9 / css / jquery',
                 },
                 link: {
                     href: 'http://www.kace.or.kr/',

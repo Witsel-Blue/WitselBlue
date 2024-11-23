@@ -79,6 +79,7 @@
                     // mix-blend-mode: hard-light;
                 }
                 .title::v-deep {
+                    margin-top: 4px;
                     display: inline-block;
                     font-size: 2.4rem;
                     font-weight: bold;
@@ -95,7 +96,7 @@
 
 #archive {
     .container {
-        width: 320% !important;
+        width: 240% !important;
     }
 }
 

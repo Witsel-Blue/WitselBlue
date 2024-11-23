@@ -110,14 +110,14 @@
                     title: 'RNJOB App',
                     link: 'https://rnjob.or.kr/',
                     description: 
-                        '간호 커리어 종합 지원 센터, RNJOB의 앱 퍼블리싱에 참여',
+                        '간호 커리어 종합 지원 센터,<br> RNJOB의 앱 퍼블리싱에 참여',
                 },
                 desc: {
                     duration: '2021.07',
                     consultant: '간호인력취업교육센터',
                     team: 'SKNK',
                     work: 'publishing',
-                    platform: 'vue/html/css/jquery',
+                    platform: 'vue / html / css / jquery',
                 },
                 link: {
                     href: 'https://rnjob.or.kr/',

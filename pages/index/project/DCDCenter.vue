@@ -114,7 +114,7 @@
                     id: '05',
                     title: 'DCDCenter',
                     description: 
-                        '무용예술인의 직업전환과 복지증진을 위해 다양한 지원사업을 신청할 수 있는 사이트',
+                        '무용예술인의 직업전환과 복지증진을 위해<br> 다양한 지원사업을 신청할 수 있는 사이트',
                 },
                 img: {
                     pc: require('@/assets/img/project05_pc.png'),
@@ -129,7 +129,7 @@
                     consultant: '전문무용수지원센터',
                     team: 'SKNK',
                     work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    platform: 'drupal9 / css / jquery',
                 },
                 link: {
                     href: 'https://www.dcdcenter.or.kr/',

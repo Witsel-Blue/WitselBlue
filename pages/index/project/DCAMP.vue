@@ -130,7 +130,7 @@
                     consultant: 'DCAMP',
                     team: 'SKNK',
                     work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    platform: 'drupal9 / css / jquery',
                 },
                 link: {
                     href: 'https://dcamp.kr/',        

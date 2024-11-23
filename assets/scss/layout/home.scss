@@ -1,8 +1,9 @@
 @import '@/assets/scss/base/variables.scss';
 
 #home {
-  section {
+  section:not(#mainvisual) {
     // border: 1px solid black;
+    padding: 10vh 0;
   }
   .inner {
     // border: 1px solid blue;
@@ -15,7 +16,7 @@
     flex-direction: column;
     .subtitle {
       font-size: 3rem;
-      margin: 5vh 0;
+      margin-bottom: 5vh;
     }
   }
   #mainvisual {
@@ -35,7 +36,7 @@
         text-align: center;
         font-size: 1.6rem;
         position: absolute;
-        top: 40vh;
+        top: 36vh;
       }
       #text-scroll::v-deep {
         top: 50%;
@@ -69,7 +70,9 @@
       width: 100%;
       .panel {
         width: 40%;
-        margin-bottom: 10vh;
+        &:not(:first-child) {
+          margin-top: 10vh;
+        }
         .hover-img {
           border-radius: 50%;
           overflow: hidden;
@@ -113,7 +116,7 @@
     .container {
       padding: 10vh 0;
       overscroll-behavior: none;
-      width: 300% !important;
+      width: 240% !important;
       height: 100vh;
       display: flex;
       gap: 4vw;
@@ -178,6 +181,81 @@
         gap: 16px;
       }
     }
+  }
+
+}
+
+
+// mobile
+@media all and (max-width: $mobile) {
+  #home {
+    .inner {
+      .subtitle {
+        font-size: 2.4rem;
+      }
+    }
+
+    #mainvisual {
+      .inner {
+        .subtext {
+          font-size: 1rem;
+          top: 40vh;
+        }
+      }
+    }
+    
+    .profile {
+      #parallax-img {
+        width: 56%;
+        border-radius: 60px;
+      }
+    }
+
+    .archive,
+    .project {
+      .panel {
+        .desc {
+          .title::v-deep {
+            font-size: 1.8rem !important;
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+    
+    .project {
+      .container {
+        padding: 0;
+        width: 100% !important;
+        height: auto;
+        flex-direction: column;
+        gap: 10vh;
+        .panel {
+          &:first-child {
+            display: none;
+          }
+          .hover-img {
+            width: 100%;
+          }
+          .desc {
+            position: initial;
+            max-width: 100%;
+            margin-top: 16px;
+            .title {
+              font-size: 1.8rem;
+              line-height: 1;
+            }
+          }
+        }
+      }
+    }
+
+    .skills {
+      .wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
   }
 
 }

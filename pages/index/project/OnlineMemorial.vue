@@ -114,7 +114,7 @@
                     id: '02',
                     title: '4·16 Online Memorial',
                     description: 
-                        '세월호참사 10주기를 기념하여 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의 라이브러리를 이용하여 메인비주얼 구현',
+                        '세월호참사 10주기를 기념하여<br class="mb"> 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의<br class="mb"> 라이브러리를 이용하여 메인비주얼 구현',
                 },
                 img: {
                     pc: require('@/assets/img/project02_pc.png'),
@@ -129,7 +129,7 @@
                     consultant: '4·16 재단',
                     team: 'SKNK',
                     work: 'publishing',
-                    platform: 'html/css/jquery',
+                    platform: 'html / css / jquery',
                 },
                 link: {
                     href: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',

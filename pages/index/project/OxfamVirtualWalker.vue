@@ -113,7 +113,7 @@
                     id: '04',
                     title: 'Oxfam Virtaulwalker',
                     description: 
-                        '옥스팜코리아에서 주최한 걷기 기부 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는 애니메이션 구현',
+                        '옥스팜코리아에서 주최한 걷기 기부<br class="mb"> 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는<br class="mb"> 애니메이션 구현',
                 },
                 img: {
                     pc: require('@/assets/img/project04_pc.png'),
@@ -128,7 +128,7 @@
                     consultant: '옥스팜코리아',
                     team: 'SKNK',
                     work: 'frontend',
-                    platform: 'drupal9/css/jquery',
+                    platform: 'drupal9 / css / jquery',
                 },
                 link: {
                     href: 'https://v50.oxfamtrailwalker.or.kr/',
