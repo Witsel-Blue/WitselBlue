@@ -74,7 +74,6 @@
                         var x = (footerTop - scrollStart);
                         var r = h/x*100;
                         footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
-                        
                         title.classList.add('active');
                     } else {
                         title.classList.remove('active');
@@ -93,7 +92,7 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        background-color: $gray2;
+        background: radial-gradient(circle, $blue1 0%, $white1 100%);
     }
 
     .footer-bg {
@@ -102,6 +101,7 @@
         height: 20%;
         background-color: $white2;
         border-radius: 0 0 100% 100%;
+        box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1), 0 2px 24px rgba(0, 0, 0, 0.1);
     }
 
     .footer {

@@ -62,7 +62,7 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        background-color: $gray2;
+        background: radial-gradient(circle, $blue1 0%, $white1 100%);
     }
 
     .footer-bg {
@@ -71,6 +71,7 @@
         height: 20%;
         background-color: $white2;
         border-radius: 0 0 100% 100%;
+        box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1), 0 2px 24px rgba(0, 0, 0, 0.1);
     }
 
     .footer {
@@ -144,6 +145,14 @@
         }
         .footer {
             padding: 5vh 10vw 20vh;
+        }
+        .hover-flip {
+            .back {
+                a h3 {
+                    margin-top: 4px;
+                    font-size: 1.6rem;
+                }
+            }
         }
     }
 </style>
