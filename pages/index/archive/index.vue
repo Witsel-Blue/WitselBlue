@@ -25,7 +25,7 @@
                     <div class="desc">
                         <p class="work">{{ list.work }}</p>
                         <Nuxt-link 
-                            class="title mouse-hover"
+                            class="title mouse-hover1"
                             :to=list.path>
                             <TextShifting :text="list.name"></TextShifting>
                         </Nuxt-link>

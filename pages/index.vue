@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     
-    <GNB></GNB>
     <CursorCustom></CursorCustom>
+    <GNB></GNB>
     <Page></Page>
 
   </div>

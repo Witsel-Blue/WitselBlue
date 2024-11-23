@@ -28,16 +28,30 @@
                 });
 
 
-                var hoverElems = document.querySelectorAll('.mouse-hover');
+                var hoverElems = document.querySelectorAll('.mouse-hover1');
 
                 for (var i = 0; i < hoverElems.length; i++) {
                     var x = hoverElems[i];
 
                     x.addEventListener("mouseenter", e => {
-                        circle.classList.add('hover');
+                        circle.classList.add('hover1');
                     });
                     x.addEventListener("mouseleave", e => {
-                        circle.classList.remove('hover');
+                        circle.classList.remove('hover1');
+                    });
+                }
+
+
+                var hoverElems2 = document.querySelectorAll('.mouse-hover2');
+
+                for (var i = 0; i < hoverElems2.length; i++) {
+                    var x2 = hoverElems2[i];
+
+                    x2.addEventListener("mouseenter", e => {
+                        circle.classList.add('hover2');
+                    });
+                    x2.addEventListener("mouseleave", e => {
+                        circle.classList.remove('hover2');
                     });
                 }
 
@@ -69,15 +83,22 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        z-index: 1;
+        z-index: 101;
         border: 2px solid $black1;
         transition: width 0.4s, height 0.4s;
 
-        &.hover {
+        &.hover1 {
             width: 120px;
             height: 120px;
             border: none;
-            background: #fff;
+            background: rgb(202, 202, 202);
+            mix-blend-mode: difference;
+            transition: width 0.4s, height 0.4s;
+        }
+
+        &.hover2 {
+            width: 100px;
+            height: 100px;
             transition: width 0.4s, height 0.4s;
         }
 
@@ -88,8 +109,9 @@
 </style>
 
 <style>
-    .mouse-hover {
-        z-index: 10;
+    .mouse-hover1,
+    .mouse-hover2 {
+        z-index: 100;
         position: relative;
     }
 </style>

@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="back">
-                    <a :href="pagination.nextLink">
+                    <a :href="pagination.nextLink" class="mouse-hover2">
                         <p>{{ pagination.nextWork }}</p>
                         <h3 class="ft-diphylleia">{{ pagination.nextText }}</h3>
                     </a>
