@@ -1,9 +1,10 @@
 <template>
     <div id="home">
-        <section id="mainvisual">
+        <section id="main">
+          <Mainvisual />
           <div class="inner">
-            <TextScroll :text="'WitselBlue'"></TextScroll>
             <p class="subtext">frontend developer</p>
+            <TextScroll :text="'WitselBlue'"></TextScroll>
           </div>
         </section>
         <section class="profile">
@@ -133,6 +134,8 @@
 </template>
 
 <script>
+  import Mainvisual from '@/layouts/Mainvisual.vue';
+  import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
   import Footer from '@/layouts/Footer.vue';
   import TextScroll from '@/components/TextScroll.vue';
   import ParallaxImg from '@/components/ParallaxImg.vue';
@@ -140,6 +143,8 @@
   export default {
     name: 'Index',
     components: {
+      Mainvisual,
+      ButtonScrollDown,
       Footer,
       TextScroll,
       ParallaxImg,
