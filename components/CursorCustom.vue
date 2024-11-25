@@ -8,11 +8,10 @@
     export default {
         mounted() {
             this.mouseMove();
-            this.mouseHover();
+            this.$nextTick(() => {
+                this.mouseHover();
+            });
         },
-        // beforeDestroy() {
-        //     window.removeEventListener(this.handleResize);
-        // },
         methods: {
             mouseMove() {
                 var winW = window.innerWidth;
@@ -39,6 +38,8 @@
                     const gsap = this.$gsap;
                     var circle = this.$refs.circle;
                     var hoverElems = document.querySelectorAll('.mouse-hover1');
+
+                    console.log(hoverElems);
 
                     for (var i = 0; i < hoverElems.length; i++) {
                         var x = hoverElems[i];
@@ -84,32 +85,42 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '@/assets/scss/base/variables.scss';
+
+    html, a {
+        cursor: none !important;
+    }
+
+    .mouse-hover1,
+    .mouse-hover2 {
+        z-index: 100;
+        position: relative;
+    }
 
     .cursor-circle {
         position: fixed;
         pointer-events: none;
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         z-index: 101;
         border: 2px solid $black1;
-        transition: width 0.4s, height 0.4s;
+        transition: width 0.2s, height 0.2s;
 
         &.hover1 {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border: none;
             background: rgb(202, 202, 202);
             mix-blend-mode: difference;
-            transition: width 0.4s, height 0.4s;
+            transition: width 0.2s, height 0.2s;
         }
 
         &.hover2 {
             width: 100px;
             height: 100px;
-            transition: width 0.4s, height 0.4s;
+            transition: width 0.2s, height 0.2s;
         }
 
         &.no-cursor {
@@ -119,16 +130,11 @@
 
     // mobile
     @media all and (max-width: $mobile) {
+        html, a {
+            cursor: initial !important;
+        }
         .cursor-circle {
             display: none;
         }
-    }
-</style>
-
-<style>
-    .mouse-hover1,
-    .mouse-hover2 {
-        z-index: 100;
-        position: relative;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div id="pager">
-        <div class="wrapper mouse-none">
+        <div class="wrapper mouse-hover1">
             <img src="@/assets/img/pager.svg" @click="scrollToTop">
         </div>
     </div>
@@ -62,7 +62,7 @@
             img {
                 width: 100%;
                 height: 100%;
-                cursor: pointer;
+                // cursor: pointer;
             }
         }
     }

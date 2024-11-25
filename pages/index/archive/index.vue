@@ -1,5 +1,6 @@
 <template>
     <div id="archive" class="page">
+        <CursorCustom />
         <PageTransition :title="title"></PageTransition>
         <div class="main">
             <h1 class="title ft-bagel">{{ title }}</h1>
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+    import CursorCustom from '@/components/CursorCustom.vue';
     import Footer from '@/layouts/Footer.vue';
     import PageTransition from '@/layouts/PageTransition.vue';
     import gsap from 'gsap';
@@ -52,6 +54,7 @@
     
     export default {
         components: {
+            CursorCustom,
             Footer,
             PageTransition,
             TextShifting,

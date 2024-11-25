@@ -1,10 +1,11 @@
 <template>
     <div id="home">
+        <CursorCustom />
         <section id="main">
           <Mainvisual />
           <div class="inner">
             <p class="subtext">frontend developer</p>
-            <TextScroll :text="'WitselBlue'"></TextScroll>
+            <TextScroll :text="'WitselBlue'" class="mouse-hover1"></TextScroll>
           </div>
         </section>
         <section class="profile">
@@ -134,6 +135,7 @@
 </template>
 
 <script>
+  import CursorCustom from '@/components/CursorCustom.vue';
   import Mainvisual from '@/layouts/Mainvisual.vue';
   import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
   import Footer from '@/layouts/Footer.vue';
@@ -143,6 +145,7 @@
   export default {
     name: 'Index',
     components: {
+      CursorCustom,
       Mainvisual,
       ButtonScrollDown,
       Footer,
