@@ -17,6 +17,7 @@
                 <span class="ft-tanpearl" style="--i:12">e</span>
                 <span class="ft-tanpearl" style="--i:13">!</span>
             </h1>
+            <div>
                 <ul class="lists">
                     <li data-aos="fade-up">
                         <ButtonRound
@@ -29,6 +30,26 @@
                         </ButtonRound>
                     </li>
                 </ul>
+            </div>
+            <div>
+                <ul class="sub-lists">
+                    <li data-aos="fade-up">
+                        <a href="https://github.com/Witsel-Blue" target="_blank" class="mouse-hover2">
+                            github
+                        </a>
+                    </li>
+                    <li data-aos="fade-up">
+                        <a href="www.linkedin.com/in/witselblue" target="_blank" class="mouse-hover2">
+                            linkedin
+                        </a>
+                    </li>
+                    <li data-aos="fade-up">
+                        <a href="https://witselblue.slack.com/team/U0830TL3ZDW" target="_blank" class="mouse-hover2">
+                            slack
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -166,6 +187,16 @@
                 }
             }
         }
+
+        .sub-lists {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            a {
+                color: $white1;
+            }
+        }
     }
 
     // mobile
@@ -179,9 +210,6 @@
                 span {
                     min-width: 8px;
                 }
-            }
-            .lists {
-                flex-direction: column;
             }
         }
     }

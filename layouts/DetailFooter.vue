@@ -18,14 +18,28 @@
                     </a>
                 </div>
             </div>
+            <ButtonRound :link="link" />
         </div>
     </div>
 </template>
 
 <script>
+    import ButtonRound from '@/components/ButtonRound.vue';
+
     export default {
+        components: {
+            ButtonRound,
+        },
         props: {
             pagination: Object,
+        },
+        data() {
+            return {
+                link: {
+                    back: 'window.history.back();',
+                    text: 'Go Back',
+                }
+            }
         },
         mounted() {
             setTimeout(() => {
@@ -138,6 +152,31 @@
         }
     }
 
+    #button-round::v-deep {
+        margin-top: 16px;
+        
+        .button {
+            padding: 16px;
+            border-radius: 32px;
+            &::after {
+                border: 1px solid $white1 !important;
+                border-radius: 32px;
+            }
+        }
+        .circle::before {
+            background-color: $white1 !important;
+        }
+        .title {
+            color: $white1 !important;
+        }
+
+        &:hover {
+            .title {
+                color: $black1 !important;
+            }
+        }
+    }
+
     // mobile
     @media all and (max-width: $mobile) {
         .footer-bg {
@@ -145,6 +184,7 @@
         }
         .footer {
             padding: 5vh 10vw 10vh;
+            gap: 24px;
         }
         .hover-flip {
             .back {

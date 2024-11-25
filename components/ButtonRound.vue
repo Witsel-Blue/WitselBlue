@@ -4,11 +4,11 @@
             class="button mouse-none"
             data-block="button"
             :href="link.href"
+            :onclick="link.back"
             target="_blank">
             <span class="circle" ref="circle"></span>
             <span class="title">{{ link.text }}</span>
         </a>
-
     </div>
 </template>
 
@@ -128,8 +128,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 8px 16px;
-        border-radius: 16px;
+        padding: 16px;
+        border-radius: 32px;
         position: relative;
         overflow: hidden;
 
@@ -140,7 +140,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            border-radius: 16px;
+            border-radius: 32px;
             border: 1px solid $black1;
         }
 

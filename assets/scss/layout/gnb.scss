@@ -106,15 +106,20 @@
                     margin-top: 16px;
                 }
                 li {
-                    overflow: hidden;
+                    // overflow: hidden;
                 }
                 a {
                     color: $white1;
                     font-size: 2rem;
+                    line-height: 1;
                     p {
+                        font-family: "Bagel";
                         text-align: right;
-                        transform: translateY(100%);
-                        transition: all 0.4s ease;
+                        // transform: translateY(100%);
+                        // transition: all 0.4s ease;
+                        span {
+                            font-family: "Bagel";
+                        }
                     }
                 }
             }

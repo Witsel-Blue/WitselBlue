@@ -116,8 +116,8 @@
         }
 
         &.hover2 {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             transition: width 0.2s, height 0.2s;
         }
 
