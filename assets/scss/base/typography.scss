@@ -89,3 +89,14 @@ h5,
 }
 
 /* ----- FONT COLOR ----- */
+
+br.mb {
+    display: none;
+}
+
+// mobile
+@media all and (max-width: $mobile) {
+    br.mb {
+        display: block;
+    }
+}

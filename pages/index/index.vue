@@ -10,11 +10,13 @@
         </section>
         <section class="profile">
           <div class="inner">
-            <ParallaxImg :src="profile.img"></ParallaxImg>
-            <p class="txt-c">
-              안녕하세요, 프론트엔드 개발자 비첼블루입니다. <br>
-              인터렉티브 웹 디자인과 개발에 관심이 있어 <br>
-              다양한 방법으로 사용자와 소통할 수 있는 사이트를 개발하고자 합니다.
+            <div data-aos="fade-up">
+              <ParallaxImg :src="profile.img"></ParallaxImg>
+            </div>
+            <p class="txt-c" data-aos="fade-up">
+              안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1">비첼블루</span>입니다. <br>
+              <span class="mouse-hover1">인터렉티브</span> 웹 디자인과<br class="mb"> 개발에 관심을 두고<br>
+              다양한 방법으로 경험할 수 있는<br class="mb"> 웹사이트를 만들고자 합니다.
             </p>
           </div>
         </section>
