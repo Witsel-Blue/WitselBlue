@@ -39,8 +39,6 @@
                     var circle = this.$refs.circle;
                     var hoverElems = document.querySelectorAll('.mouse-hover1');
 
-                    console.log(hoverElems);
-
                     for (var i = 0; i < hoverElems.length; i++) {
                         var x = hoverElems[i];
 

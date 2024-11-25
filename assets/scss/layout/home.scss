@@ -3,28 +3,33 @@
 #home {
   section:not(#main) {
     // border: 1px solid black;
-    padding: 10vh 0;
+    // padding: 10vh 0;
   }
   .inner {
     // border: 1px solid blue;
     width: 80%;
     max-width: $width-m;
     margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    .subtitle {
-      font-size: 3rem;
-      margin-bottom: 5vh;
+    .subtitle-wrap {
+      height: 3rem;
+      text-align: center;
+      .subtitle {
+        font-size: 3rem;
+        line-height: 1;
+        position: initial;
+        &.active {
+          position: fixed;
+          top: 5vh;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
     }
   }
   #main {
     position: relative;
     width: 100%;
-    height: 150vh;
-    background: linear-gradient(180deg, $gray0 0%, $white2 100%);
-    // background-color: #56779f;
+    height: 120vh;
     #mainvisual {
       position: absolute;
       top: 0;
@@ -55,17 +60,17 @@
     }
   }
   .profile {
-    // border: 1px solid red;
-    // background: linear-gradient(180deg, rgba(86,119,159,1) 0%, rgba(205,214,224,1) 61%, rgba(247,247,247,1) 100%);
     width: 100%;
-    padding: 15vh 0;
     #parallax-img::v-deep {
       width: 32%;
-      border-radius: 80px;
+      border-radius: 50%;
       overflow: hidden;
       margin: auto;  
       .parallax-cont {
-        padding-top: 128%;
+        padding-top: 100%;
+        .img {
+          height: 150%;
+        }
       }
     }
     p {
@@ -76,6 +81,7 @@
   .archive {
     .container {
       width: 100%;
+      margin-top: 10vh;
       .panel {
         width: 40%;
         &:not(:first-child) {
@@ -198,16 +204,18 @@
 @media all and (max-width: $mobile) {
   #home {
     .inner {
-      .subtitle {
-        font-size: 2.4rem;
+      .subtitle-wrap {
+        .subtitle {
+          font-size: 2.4rem;
+        }
       }
     }
 
-    #mainvisual {
+    #main {
       .inner {
         .subtext {
           font-size: 1rem;
-          top: 40vh;
+          top: 42vh;
         }
       }
     }
@@ -233,6 +241,7 @@
     
     .project {
       .container {
+        margin-top: 10vh;
         padding: 0;
         width: 100% !important;
         height: auto;

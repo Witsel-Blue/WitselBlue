@@ -18,13 +18,15 @@
             </p>
           </div>
         </section>
-        <section class="archive">
+        <!-- <section class="archive" ref="archive">
           <div class="inner">
-            <Nuxt-link
-              class="subtitle ft-bagel txt-c mouse-hover1"
-              to="/archive">
-              Archive
-            </Nuxt-link>
+            <div class="subtitle-wrap">
+              <Nuxt-link
+                class="subtitle ft-bagel txt-c mouse-hover1"
+                to="/archive">
+                Archive
+              </Nuxt-link>
+            </div>
             <ul class="container" ref="comp">
               <li
                 class="panel"
@@ -54,13 +56,15 @@
             </ul>
           </div>
         </section>
-        <section class="project">
+        <section class="project" ref="project">
           <div class="inner">
-            <Nuxt-link
-              class="subtitle ft-bagel txt-c mouse-hover1"
-              to="/project">
-              Project
-            </Nuxt-link>
+            <div class="subtitle-wrap">
+              <Nuxt-link
+                class="subtitle ft-bagel txt-c mouse-hover1"
+                to="/project">
+                Project
+              </Nuxt-link>
+            </div>
           </div>
           <ul class="container" ref="comp">
             <li class="panel"></li>
@@ -90,13 +94,12 @@
               </div>
             </li>
           </ul>
-        </section>
-        <section class="skills">
+        </section> -->
+        <!-- <section class="skills">
           <div class="inner">
             <h1 class="subtitle ft-bagel txt-c">Skills</h1>
             <div class="wrap">
               <div>
-                <!-- <h3 class="txt-c">Language</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in language">
                     <img :src="list.img">
@@ -104,7 +107,6 @@
                 </ul>
               </div>
               <div>
-                <!-- <h3 class="txt-c">Framework</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in framework">
                     <img :src="list.img">
@@ -112,7 +114,6 @@
                 </ul>
               </div>
               <div>
-                <!-- <h3 class="txt-c">Etc</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in etc">
                     <img :src="list.img">
@@ -120,7 +121,6 @@
                 </ul>
               </div>
               <div>
-                <!-- <h3 class="txt-c">Design</h3> -->
                 <ul class="mt-32">
                   <li v-for="list in design">
                     <img :src="list.img">
@@ -129,7 +129,7 @@
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
         <Footer></Footer>
     </div>
 </template>

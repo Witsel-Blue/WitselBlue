@@ -43,25 +43,23 @@
                 light.position.set(2, 8, 10);
                 scene.add(light);
 
-                // material
+                // object
+                const object = new THREE.Group();
+
                 const material = new THREE.MeshStandardMaterial({
                     color: 0x56779F,
                 });
-                const geometry = new THREE.TorusKnotGeometry( 1, 0.4, 128, 128, 1, 3 );
-                const object = new THREE.Mesh(geometry, material);
+                const geometry1 = new THREE.TorusKnotGeometry( 1, 0.4, 128, 128, 1, 3 );
+                const torus = new THREE.Mesh(geometry1, material);
+                torus.position.set(1.6, -0.2, 1);
+                object.add(torus);
+
+                const geometry2 = new THREE.SphereGeometry( 0.8, 64, 32 );
+                const sphere = new THREE.Mesh(geometry2, material);
+                sphere.position.set(-1.8, 0.6, 1);
+                object.add(sphere);
+                
                 scene.add(object);
-
-                // for ( let i = 0; i < 150; i ++ ) {
-                //     const object = new THREE.Mesh( geometry, material );
-                //     object.position.x = Math.random() * 80 - 40;
-                //     object.position.y = Math.random() * 80 - 40;
-                //     object.position.z = Math.random() * 80 - 40;
-                //     object.rotation.x = Math.random() * 2 * Math.PI;
-                //     object.rotation.y = Math.random() * 2 * Math.PI;
-                //     object.rotation.z = Math.random() * 2 * Math.PI;
-                //     scene.add( object );    
-                // }
-
                 renderer.render(scene, camera);
 
                 // responsive
