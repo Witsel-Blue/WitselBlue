@@ -5,7 +5,7 @@
           <Mainvisual />
           <div class="inner">
             <p class="subtext">frontend developer</p>
-            <TextScroll :text="'WitselBlue'" class="mouse-hover1"></TextScroll>
+            <TextScroll :text="'WitselBlue'"></TextScroll>
           </div>
         </section>
         <section class="profile">

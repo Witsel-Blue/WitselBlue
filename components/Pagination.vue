@@ -34,11 +34,9 @@
             window.scrollTo({
                 top: 0,
             });
-            this.typewriter();
         },
         methods: {
-            typewriter() {
-            }
+
         }
     }
 

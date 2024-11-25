@@ -107,7 +107,10 @@
     // mobile
     @media all and (max-width: $mobile) {
         #page-transition {
-            display: none;
+            #text-mask {
+                max-width: 80vw;
+                font-size: 3rem;
+            }
         } 
     }
 </style>

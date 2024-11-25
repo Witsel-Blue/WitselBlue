@@ -2,7 +2,7 @@
     <div id="text-scroll">
         <div class="text-wrapper">
             <span
-                class="text"
+                class="text mouse-hover1"
                 v-for="(text, idx) in textArray"
                 :key="text.id"
                 :style="'--i:'+idx">

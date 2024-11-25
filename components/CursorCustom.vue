@@ -88,7 +88,7 @@
 <style lang="scss">
     @import '@/assets/scss/base/variables.scss';
 
-    html, a {
+    html, a, button {
         cursor: none !important;
     }
 
@@ -130,7 +130,7 @@
 
     // mobile
     @media all and (max-width: $mobile) {
-        html, a {
+        html, a, button {
             cursor: initial !important;
         }
         .cursor-circle {
