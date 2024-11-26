@@ -9,7 +9,7 @@
     let camera, scene, renderer;
   
     export default {
-        name: 'TheCanvas',
+        name: 'Mainvisual',
         data: function() {
             return {
             
@@ -100,57 +100,6 @@
                 animate();
 
             },
-            // main() {
-            //     const result = document.querySelector('#mainvisual');
-
-            //     // 1. Scene: 화면에서 보여주려는 객체를 담는 공간
-            //     const scene = new THREE.Scene();
-            //     scene.background = new THREE.Color(0xf7f7f7);
-
-            //     // 2. Camera : Scene을 바라볼 시점
-            //     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 500);
-            //     camera.position.set(5, 5, 5);
-            //     camera.lookAt(0, 0, 0);
-
-            //     // 3. Renderer : Scene+Camera, 화면 그려주는 역할
-            //     const renderer = new THREE.WebGLRenderer();
-            //     renderer.setSize( window.innerWidth, window.innerHeight );
-            //     result.appendChild( renderer.domElement );
-
-            //     const light = new THREE.DirectionalLight(0xffffff);
-            //     light.position.set(2, 4, 3);
-            //     scene.add(light);
-
-            //     // material
-            //     const material = new THREE.MeshStandardMaterial({
-            //         color: 0x56779F,
-            //     });
-            //     const bottomGeometry = new THREE.DodecahedronGeometry(2, 1);
-            //     const bottom = new THREE.Mesh(bottomGeometry, material);
-            //     scene.add(bottom);
-
-            //     renderer.render(scene, camera);
-
-            //     // 화면 반응형
-            //     window.addEventListener('resize', ()=> {
-            //         camera.aspect = window.innerWidth/window.innerHeight;
-            //         camera.updateProjectionMatrix();
-            //         renderer.setSize(window.innerWidth, window.innerHeight);
-            //     })
-
-            //     // Orbit Controls
-            //     const controls = new OrbitControls(camera, renderer.domElement);
-            //     controls.enableDamping = true;
-
-            //     // Animation
-            //     function animate() {
-            //         renderer.render(scene, camera);
-            //         controls.update();
-            //         requestAnimationFrame(animate);
-            //     }
-            //     animate();
-
-            // },
         }
     }
   

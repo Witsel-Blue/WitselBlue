@@ -66,6 +66,14 @@
                 title: 'project',
                 lists: [
                     {
+                        name: 'Portfolio',
+                        path: '/project/portfolio',
+                        link: '',
+                        img: require('@/assets/img/project09_main.png'),
+                        work: 'development',
+                        duration: '2024.11',
+                    },
+                    {
                         name: 'Monimo',
                         path: '/project/monimo',
                         link: 'https://www.monimo.com/w/main/WPFMHP0101M0',

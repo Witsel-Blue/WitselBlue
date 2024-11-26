@@ -21,20 +21,12 @@
             </section>
             <section class="device-bg" data-aos="fade-up">
                 <div class="inner">
-                    <ul class="device_mb">
-                        <li data-aos="fade-up">
-                            <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project08_mb01.png" class="img">
-                        </li>
-                        <li data-aos="fade-up">
-                            <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project08_mb02.png" class="img">
-                        </li>
-                        <li data-aos="fade-up">
-                            <img src="@/assets/img/device-iphone15.png" class="device">
-                            <img src="@/assets/img/project08_mb03.png" class="img">
-                        </li>
-                    </ul>
+                    <div class="device_pc" data-aos="fade-up">
+                        <img src="@/assets/img/device-laptop.png" class="device">
+                        <div class="img-wrap">
+                            <img :src="img.pc" class="img">
+                        </div>
+                    </div>
                 </div>
             </section>
             <section>
@@ -43,7 +35,7 @@
                         <li v-if="desc.team">
                             <dl data-aos="fade-up">
                                 <dt>팀 / 발주처</dt>
-                                <dd>{{ desc.team }} / {{ desc.consultant }}</dd>
+                                <dd>{{ desc.team }}</dd>
                             </dl>
                         </li>
                         <li v-if="desc.duration">
@@ -59,6 +51,19 @@
                             </dl>
                         </li>
                     </ul>
+                </div>
+            </section>
+            <section class="img-pc">
+                <div class="inner">
+                    <img :src="img.img1" data-aos="fade-up">
+                    <img :src="img.img2" data-aos="fade-up">
+                </div>
+            </section>
+            <section class="img-mb device-bg" data-aos="fade-up">
+                <div class="inner">
+                    <img :src="img.mb1" data-aos="fade-up">
+                    <img :src="img.mb2" data-aos="fade-up">
+                    <img :src="img.mb3" data-aos="fade-up">
                 </div>
             </section>
             <section>
@@ -106,57 +111,46 @@
         },
         data() {
             return {
-                title: 'RNJOB App',
+                title: 'Portfolio',
                 main: {
-                    mainvisual: require('@/assets/img/project08_main.png'),
-                    id: '08',
-                    title: 'RNJOB App',
-                    link: 'https://rnjob.or.kr/',
+                    mainvisual: require('@/assets/img/project09_main.png'),
+                    id: '09',
+                    title: 'Portfolio',
                     description: 
-                        '간호 커리어 종합 지원 센터,<br> RNJOB의 앱 퍼블리싱에 참여',
+                        'vue와 nuxt로 구축한 2024년 버전 포트폴리오 사이트입니다.<br> GSAP, AOS 등의 라이브러리를 이용하였고, <br> 메인비주얼은 three.js를 사용했습니다. <br> GitHub에 전체 코드를 올려두었으니 확인해 보세요!',
+                },
+                img: {
+                    pc: require('@/assets/img/project09_pc.png'),
+                    img1: require('@/assets/img/project09_img1.png'),
+                    img2: require('@/assets/img/project09_img2.png'),
+                    mb1: require('@/assets/img/project09_mb01.png'),
+                    mb2: require('@/assets/img/project09_mb02.png'),
+                    mb3: require('@/assets/img/project09_mb03.png'),
                 },
                 desc: {
-                    duration: '2021.07',
-                    consultant: '간호인력취업교육센터',
-                    team: 'SKNK',
-                    work: 'publishing',
-                    platform: 'vue / html / css / jquery',
+                    duration: '2024.11',
+                    consultant: '',
+                    team: 'Witsel Blue',
+                    work: 'development',
+                    platform: 'vue / scss / javascript',
                 },
                 link: {
-                    href: 'https://rnjob.or.kr/',
-                    text: 'Visit Site',
+                    href: 'https://github.com/Witsel-Blue/WitselBlue',
+                    text: 'View Code',
                     target: '_blank',
                 },
                 pagination: {
                     href: '/project',
                     text: 'view all project',
-                    prevLink: '/project/KACE',
-                    prevText: 'KACE',
-                    nextLink: '/project/portfolio',
-                    nextText: 'Portfolio',
-                    nextWork: 'development',
-                    nextImg: require('@/assets/img/project09_main.png'),
+                    prevLink: '/project/RNJOB',
+                    prevText: 'RNJOB App',
+                    nextLink: '/project/monimo',
+                    nextText: 'Monimo',
+                    nextWork: 'frontend',
+                    nextImg: require('@/assets/img/project01_main.png'),
                 }
             }
         },
-        mounted() {
-            setTimeout(() => {
-                this.getMbHeight();
-            }, '1000');
-            window.addEventListener('resize', this.getMbHeight);
-        },
-        methods: {
-            getMbHeight() {
-                var mb = document.querySelector('.device_mb .device');
-                var mbH = mb.clientHeight;
-                var mbImg = document.querySelectorAll('.device_mb .img');
-                
-                for (var i = 0; i < mbImg.length; i++) {
-                    var c = mbImg[i];
-                    c.style.height = mbH + 'px';
-                }
-            },
-        }
     }
 </script>
 
