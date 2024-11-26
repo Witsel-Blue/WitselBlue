@@ -30,7 +30,7 @@
                 scene.background = new THREE.Color(0xf7f7f7);
 
                 // 2. Camera : Scene을 바라볼 시점
-                camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 500 );
+                camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 500 );
                 camera.position.z = 10;
 
                 // 3. Renderer : Scene+Camera, 화면 그려주는 역할
@@ -40,15 +40,17 @@
 
                 // light
                 const light = new THREE.DirectionalLight(0xffffff);
-                light.position.set(2, 8, 10);
+                light.position.set(-5, 10, 50);
                 scene.add(light);
 
-                // object
-                const material = new THREE.MeshStandardMaterial({
-                    color: 0x56779F,
+                // material
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0x9FB1C8,
                 });
-                // material.metalness = 0.1;
+                material.shininess = 100;
+                material.specular = new THREE.Color(0xffffff);
 
+                // object
                 const geometry1 = new THREE.TorusKnotGeometry( 1, 0.4, 128, 128, 1, 3 );
                 const torus = new THREE.Mesh(geometry1, material);
                 torus.position.set(1.6, -0.2, 1);
@@ -155,7 +157,4 @@
 </script>
   
 <style lang="scss" scoped>
-    #mainvisual {
-
-    }
 </style>
