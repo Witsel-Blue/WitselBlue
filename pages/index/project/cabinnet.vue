@@ -116,8 +116,11 @@
                 link: {
                     href: '',
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/DCDCenter',
                     prevText: 'DCDCenter',
                     nextLink: '/project/KACE',

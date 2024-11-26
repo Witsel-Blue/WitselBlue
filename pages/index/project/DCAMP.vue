@@ -138,8 +138,11 @@
                 link: {
                     href: 'https://dcamp.kr/',        
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/OnlineMemorial',
                     prevText: '4·16 Online Memorial',
                     nextLink: '/project/OxfamVirtualWalker',

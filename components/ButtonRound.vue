@@ -4,8 +4,7 @@
             class="button mouse-none"
             data-block="button"
             :href="link.href"
-            :onclick="link.back"
-            target="_blank">
+            :target="link.target">
             <span class="circle" ref="circle"></span>
             <span class="title">{{ link.text }}</span>
         </a>

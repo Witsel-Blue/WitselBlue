@@ -18,7 +18,7 @@
                     </a>
                 </div>
             </div>
-            <ButtonRound :link="link" />
+            <ButtonRound :link="pagination" />
         </div>
     </div>
 </template>
@@ -32,14 +32,6 @@
         },
         props: {
             pagination: Object,
-        },
-        data() {
-            return {
-                link: {
-                    back: 'window.history.back();',
-                    text: 'Go Back',
-                }
-            }
         },
         mounted() {
             setTimeout(() => {
@@ -154,7 +146,7 @@
 
     #button-round::v-deep {
         margin-top: 16px;
-        
+
         .button {
             padding: 16px;
             border-radius: 32px;

@@ -137,8 +137,11 @@
                 link: {
                     href: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/monimo',
                     prevText: 'Monimo',
                     nextLink: '/project/DCAMP',

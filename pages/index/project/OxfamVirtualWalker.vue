@@ -137,8 +137,11 @@
                 link: {
                     href: 'https://v50.oxfamtrailwalker.or.kr/',
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/DCAMP',
                     prevText: 'DCAMP',
                     nextLink: '/project/DCDCenter',

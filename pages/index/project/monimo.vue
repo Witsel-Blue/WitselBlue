@@ -124,8 +124,11 @@
                 link: {
                     href: 'https://www.monimo.com/w/main/WPFMHP0101M0',
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/RNJOB',
                     prevText: 'RNJOB App',
                     nextLink: '/project/OnlineMemorial',

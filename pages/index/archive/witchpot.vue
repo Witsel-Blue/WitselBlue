@@ -81,8 +81,11 @@
                 link: {
                     href: 'https://editor.p5js.org/witselblue/full/w-L-mWvpM',
                     text: 'View Code',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/archive',
+                    text: 'view all archive',
                     prevLink: '/archive/zizi',
                     prevText: 'Zizi',
                     nextLink: '/archive/myisland',

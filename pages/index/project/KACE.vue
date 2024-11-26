@@ -121,8 +121,11 @@
                 link: {
                     href: 'http://www.kace.or.kr/',
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/cabinnet',
                     prevText: 'Cabinnet',
                     nextLink: '/project/RNJOB',

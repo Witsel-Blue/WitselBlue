@@ -76,8 +76,11 @@
                 link: {
                     href: '',
                     text: 'View Code',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/archive',
+                    text: 'view all archive',
                     prevLink: '/archive/witchpot',
                     prevText: 'WitchPot',
                     nextLink: '/archive/kiki',

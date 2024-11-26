@@ -125,8 +125,11 @@
                 link: {
                     href: 'https://rnjob.or.kr/',
                     text: 'Visit Site',
+                    target: '_blank',
                 },
                 pagination: {
+                    href: '/project',
+                    text: 'view all project',
                     prevLink: '/project/KACE',
                     prevText: 'KACE',
                     nextLink: '/project/monimo',
