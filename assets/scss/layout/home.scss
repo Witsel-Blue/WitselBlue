@@ -45,10 +45,10 @@
         text-align: center;
         font-size: 1.6rem;
         position: absolute;
-        top: 40vh;
+        top: 60vh;
       }
       #text-scroll::v-deep {
-        top: calc(40vh + 1.6rem + 8vh);
+        top: calc(60vh + 1.6rem + 8vh);
         span {
           font-family: "Bagel";
         }
@@ -222,7 +222,7 @@
       .inner {
         .subtext {
           font-size: 1rem;
-          top: 42vh;
+          top: 64vh;
         }
       }
     }
