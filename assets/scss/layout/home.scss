@@ -191,6 +191,7 @@
   }
 
   .skills {
+    padding: 10vh 0;
     .wrap {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -200,6 +201,10 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 16px;
+        li {
+          word-break: break-all;
+          text-align: center;
+        }
       }
     }
   }

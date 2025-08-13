@@ -68,14 +68,10 @@
             <div>
                 <ul class="lists">
                     <li data-aos="fade-up">
-                        <ButtonRound
-                            :link="link"
-                        />
+                        <ButtonRound :link="link" />
                     </li>
                     <li data-aos="fade-up">
-                        <ButtonRound
-                            :link="link2"
-                        />
+                        <ButtonRound :link="link2" />
                     </li>
                 </ul>
             </div>
@@ -130,6 +126,7 @@ export default {
             link2: {
                 href: '/resume',
                 text: 'view resume',
+                target: '_blank',
             },
         }
     },

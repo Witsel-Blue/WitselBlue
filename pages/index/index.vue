@@ -25,6 +25,47 @@
                 </p>
             </div>
         </section>
+        <section class="skills">
+            <div class="inner">
+                <h1 class="subtitle ft-bagel txt-c">
+                    Skills
+                </h1>
+                <div class="wrap">
+                    <div>
+                        <ul class="mt-32">
+                            <li v-for="list in language">
+                                <img :src="list.img">
+                                <p>{{ list.name }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="mt-32">
+                            <li v-for="list in framework">
+                                <img :src="list.img">
+                                <p>{{ list.name }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="mt-32">
+                            <li v-for="list in etc">
+                                <img :src="list.img">
+                                <p>{{ list.name }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="mt-32">
+                            <li v-for="list in design">
+                                <img :src="list.img">
+                                <p>{{ list.name }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- <section class="archive" ref="archive">
           <div class="inner">
             <div class="subtitle-wrap">
@@ -101,41 +142,6 @@
               </div>
             </li>
           </ul>
-        </section> -->
-        <!-- <section class="skills">
-          <div class="inner">
-            <h1 class="subtitle ft-bagel txt-c">Skills</h1>
-            <div class="wrap">
-              <div>
-                <ul class="mt-32">
-                  <li v-for="list in language">
-                    <img :src="list.img">
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <ul class="mt-32">
-                  <li v-for="list in framework">
-                    <img :src="list.img">
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <ul class="mt-32">
-                  <li v-for="list in etc">
-                    <img :src="list.img">
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <ul class="mt-32">
-                  <li v-for="list in design">
-                    <img :src="list.img">
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </section> -->
         <Footer />
     </div>
@@ -248,16 +254,28 @@ export default {
                     img: require('@/assets/img/skills-framework2.png'),
                 },
                 {
+                    name: 'react',
+                    img: require('@/assets/img/skills-framework9.png'),
+                },
+                {
+                    name: 'next.js',
+                    img: require('@/assets/img/skills-framework10.png'),
+                },
+                {
                     name: 'GSAP',
                     img: require('@/assets/img/skills-framework3.png'),
                 },
                 {
                     name: 'p5.js',
-                    img: require('@/assets/img/skills-framework4.svg'),
+                    img: require('@/assets/img/skills-framework4.png'),
                 },
                 {
                     name: 'three.js',
                     img: require('@/assets/img/skills-framework5.png'),
+                },
+                {
+                    name: 'pixi.js',
+                    img: require('@/assets/img/skills-framework12.png'),
                 },
                 {
                     name: 'drupal',
@@ -270,6 +288,10 @@ export default {
                 {
                     name: 'tailwind',
                     img: require('@/assets/img/skills-framework8.png'),
+                },
+                {
+                    name: 'python',
+                    img: require('@/assets/img/skills-framework11.png'),
                 },
             ],
             etc: [
@@ -301,11 +323,11 @@ export default {
                 },
                 {
                     name: 'photoshop',
-                    img: require('@/assets/img/skills-design2.svg'),
+                    img: require('@/assets/img/skills-design2.png'),
                 },
                 {
                     name: 'illlustrator',
-                    img: require('@/assets/img/skills-design3.svg'),
+                    img: require('@/assets/img/skills-design3.png'),
                 },
             ],
         }
