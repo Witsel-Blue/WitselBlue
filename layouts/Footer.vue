@@ -1,50 +1,110 @@
 <template>
-    <div id="footer" ref="footer">
-        <div class="footer-bg" ref="bg"></div>
+    <div
+        id="footer"
+        ref="footer"
+    >
+        <div
+            ref="bg"
+            class="footer-bg"
+        />
         <div class="footer">
-            <h1 ref="title" data-aos="fade-up">
-                <span class="ft-tanpearl" style="--i:1">w</span>
-                <span class="ft-tanpearl" style="--i:2">o</span>
-                <span class="ft-tanpearl" style="--i:3">r</span>
-                <span class="ft-tanpearl" style="--i:4">k</span>
-                <span class="ft-tanpearl" style="--i:5"></span>
-                <span class="ft-tanpearl" style="--i:6">w</span>
-                <span class="ft-tanpearl" style="--i:7">i</span>
-                <span class="ft-tanpearl" style="--i:8">t</span>
-                <span class="ft-tanpearl" style="--i:9">h</span>
-                <span class="ft-tanpearl" style="--i:10"></span>
-                <span class="ft-tanpearl" style="--i:11">m</span>
-                <span class="ft-tanpearl" style="--i:12">e</span>
-                <span class="ft-tanpearl" style="--i:13">!</span>
+            <h1
+                ref="title"
+                data-aos="fade-up"
+            >
+                <span
+                    class="ft-tanpearl"
+                    style="--i:1"
+                >w</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:2"
+                >o</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:3"
+                >r</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:4"
+                >k</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:5"
+                />
+                <span
+                    class="ft-tanpearl"
+                    style="--i:6"
+                >w</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:7"
+                >i</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:8"
+                >t</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:9"
+                >h</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:10"
+                />
+                <span
+                    class="ft-tanpearl"
+                    style="--i:11"
+                >m</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:12"
+                >e</span>
+                <span
+                    class="ft-tanpearl"
+                    style="--i:13"
+                >!</span>
             </h1>
             <div>
                 <ul class="lists">
                     <li data-aos="fade-up">
                         <ButtonRound
-                            :link="link">
-                        </ButtonRound>
+                            :link="link"
+                        />
                     </li>
                     <li data-aos="fade-up">
                         <ButtonRound
-                            :link="link2">
-                        </ButtonRound>
+                            :link="link2"
+                        />
                     </li>
                 </ul>
             </div>
             <div>
                 <ul class="sub-lists">
                     <li data-aos="fade-up">
-                        <a href="https://github.com/Witsel-Blue" target="_blank" class="mouse-hover2">
+                        <a
+                            href="https://github.com/Witsel-Blue"
+                            target="_blank"
+                            class="mouse-hover2"
+                        >
                             github
                         </a>
                     </li>
                     <li data-aos="fade-up">
-                        <a href="www.linkedin.com/in/witselblue" target="_blank" class="mouse-hover2">
+                        <a
+                            href="www.linkedin.com/in/witselblue"
+                            target="_blank"
+                            class="mouse-hover2"
+                        >
                             linkedin
                         </a>
                     </li>
                     <li data-aos="fade-up">
-                        <a href="https://witselblue.slack.com/team/U0830TL3ZDW" target="_blank" class="mouse-hover2">
+                        <a
+                            href="https://witselblue.slack.com/team/U0830TL3ZDW"
+                            target="_blank"
+                            class="mouse-hover2"
+                        >
                             slack
                         </a>
                     </li>
@@ -55,55 +115,55 @@
 </template>
 
 <script>
-    import ButtonRound from '@/components/ButtonRound.vue';
+import ButtonRound from '@/components/ButtonRound.vue';
 
-    export default {
-        components: {
-            ButtonRound,
-        },
-        data() {
-            return {
-                link: {
-                    href: 'mailto:witselblue@gmail.com',
-                    text: 'send mail',
-                },
-                link2: {
-                    href: '/resume',
-                    text: 'view resume',
-                },
-            }
-        },
-        mounted() {
-            setTimeout(() => {
-                this.bgScroll();
-            }, 1000);
-        },
-        methods: {
-            bgScroll() {
-                var footerBg = this.$refs.bg;
-                var winH = window.innerHeight;
-                var scrollStart = footerBg.offsetTop - winH*2/3;
-                var footerTop = footerBg.offsetTop;
-
-                var title = this.$refs.title;
-
-                window.addEventListener('scroll', function() {
-                    var scrollY = window.scrollY;
-
-                    if ( scrollStart < scrollY ) {
-                        var h = -(scrollY - footerTop);
-                        var x = (footerTop - scrollStart);
-                        var r = h/x*100;
-                        footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
-                        title.classList.add('active');
-                    } else {
-                        title.classList.remove('active');
-                    }
-
-                });
+export default {
+    components: {
+        ButtonRound,
+    },
+    data() {
+        return {
+            link: {
+                href: 'mailto:witselblue@gmail.com',
+                text: 'send mail',
+            },
+            link2: {
+                href: '/resume',
+                text: 'view resume',
             },
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.bgScroll();
+        }, 1000);
+    },
+    methods: {
+        bgScroll() {
+            var footerBg = this.$refs.bg;
+            var winH = window.innerHeight;
+            var scrollStart = footerBg.offsetTop - winH*2/3;
+            var footerTop = footerBg.offsetTop;
+
+            var title = this.$refs.title;
+
+            window.addEventListener('scroll', function() {
+                var scrollY = window.scrollY;
+
+                if ( scrollStart < scrollY ) {
+                    var h = -(scrollY - footerTop);
+                    var x = (footerTop - scrollStart);
+                    var r = h/x*100;
+                    footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
+                    title.classList.add('active');
+                } else {
+                    title.classList.remove('active');
+                }
+
+            });
+        },
     }
+}
 </script>
 
 <style lang="scss" scoped>

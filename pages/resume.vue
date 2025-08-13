@@ -1,6 +1,10 @@
 <template>
-    <div id="resume"
-        oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <div
+        id="resume"
+        oncontextmenu="return false"
+        ondragstart="return false"
+        onselectstart="return false"
+    >
         <img src="@/static/resume.png">
     </div>
 </template>

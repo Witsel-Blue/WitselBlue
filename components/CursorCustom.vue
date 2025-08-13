@@ -1,86 +1,89 @@
 <template>
     <div id="cursor-custom">
-        <div class="cursor-circle" ref="circle"></div>
+        <div
+            ref="circle"
+            class="cursor-circle"
+        />
     </div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            this.mouseMove();
-            this.$nextTick(() => {
-                this.mouseHover();
-            });
+export default {
+    mounted() {
+        this.mouseMove();
+        this.$nextTick(() => {
+            this.mouseHover();
+        });
+    },
+    methods: {
+        mouseMove() {
+            var winW = window.innerWidth;
+
+            if (winW > 425) {
+                const gsap = this.$gsap;
+                var circle = this.$refs.circle;
+
+                gsap.set(".cursor-circle", {xPercent: -50, yPercent: -50});
+
+                let xTo = gsap.quickTo(".cursor-circle", "x", {duration: 0.4, ease: "power3"}),
+                    yTo = gsap.quickTo(".cursor-circle", "y", {duration: 0.4, ease: "power3"});
+
+                window.addEventListener("mousemove", e => {
+                    xTo(e.clientX);
+                    yTo(e.clientY);
+                });
+            }
         },
-        methods: {
-            mouseMove() {
-                var winW = window.innerWidth;
+        mouseHover() {
+            var winW = window.innerWidth;
 
-                if (winW > 425) {
-                    const gsap = this.$gsap;
-                    var circle = this.$refs.circle;
+            if (winW > 425) {
+                const gsap = this.$gsap;
+                var circle = this.$refs.circle;
+                var hoverElems = document.querySelectorAll('.mouse-hover1');
 
-                    gsap.set(".cursor-circle", {xPercent: -50, yPercent: -50});
+                for (var i = 0; i < hoverElems.length; i++) {
+                    var x = hoverElems[i];
 
-                    let xTo = gsap.quickTo(".cursor-circle", "x", {duration: 0.4, ease: "power3"}),
-                        yTo = gsap.quickTo(".cursor-circle", "y", {duration: 0.4, ease: "power3"});
-
-                    window.addEventListener("mousemove", e => {
-                        xTo(e.clientX);
-                        yTo(e.clientY);
+                    x.addEventListener("mouseenter", e => {
+                        circle.classList.add('hover1');
+                    });
+                    x.addEventListener("mouseleave", e => {
+                        circle.classList.remove('hover1');
                     });
                 }
-            },
-            mouseHover() {
-                var winW = window.innerWidth;
-
-                if (winW > 425) {
-                    const gsap = this.$gsap;
-                    var circle = this.$refs.circle;
-                    var hoverElems = document.querySelectorAll('.mouse-hover1');
-
-                    for (var i = 0; i < hoverElems.length; i++) {
-                        var x = hoverElems[i];
-
-                        x.addEventListener("mouseenter", e => {
-                            circle.classList.add('hover1');
-                        });
-                        x.addEventListener("mouseleave", e => {
-                            circle.classList.remove('hover1');
-                        });
-                    }
 
 
-                    var hoverElems2 = document.querySelectorAll('.mouse-hover2');
+                var hoverElems2 = document.querySelectorAll('.mouse-hover2');
 
-                    for (var i = 0; i < hoverElems2.length; i++) {
-                        var x2 = hoverElems2[i];
+                for (var i = 0; i < hoverElems2.length; i++) {
+                    var x2 = hoverElems2[i];
 
-                        x2.addEventListener("mouseenter", e => {
-                            circle.classList.add('hover2');
-                        });
-                        x2.addEventListener("mouseleave", e => {
-                            circle.classList.remove('hover2');
-                        });
-                    }
+                    x2.addEventListener("mouseenter", e => {
+                        circle.classList.add('hover2');
+                    });
+                    x2.addEventListener("mouseleave", e => {
+                        circle.classList.remove('hover2');
+                    });
+                }
 
 
-                    var noHoverElems = document.querySelectorAll('.mouse-none');
+                var noHoverElems = document.querySelectorAll('.mouse-none');
 
-                    for (var i = 0; i < noHoverElems.length; i++) {
-                        var x2 = noHoverElems[i];
+                for (var i = 0; i < noHoverElems.length; i++) {
+                    var x2 = noHoverElems[i];
 
-                        x2.addEventListener("mouseenter", e => {
-                            circle.classList.add('no-cursor');
-                        });
-                        x2.addEventListener("mouseleave", e => {
-                            circle.classList.remove('no-cursor');
-                        });
-                    }
+                    x2.addEventListener("mouseenter", e => {
+                        circle.classList.add('no-cursor');
+                    });
+                    x2.addEventListener("mouseleave", e => {
+                        circle.classList.remove('no-cursor');
+                    });
                 }
             }
         }
     }
+}
 </script>
 
 <style lang="scss">

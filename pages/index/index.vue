@@ -2,23 +2,28 @@
     <div id="home">
         <CursorCustom />
         <section id="main">
-          <Mainvisual />
-          <div class="inner">
-            <p class="subtext">frontend developer</p>
-            <TextScroll :text="'WitselBlue'"></TextScroll>
-          </div>
+            <Mainvisual />
+            <div class="inner">
+                <p class="subtext">
+                    frontend developer
+                </p>
+                <TextScroll :text="'WitselBlue'" />
+            </div>
         </section>
         <section class="profile">
-          <div class="inner">
-            <div data-aos="fade-up">
-              <ParallaxImg :src="profile.img"></ParallaxImg>
+            <div class="inner">
+                <div data-aos="fade-up">
+                    <ParallaxImg :src="profile.img" />
+                </div>
+                <p
+                    class="txt-c"
+                    data-aos="fade-up"
+                >
+                    안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1">비첼블루</span>입니다. <br>
+                    <span class="mouse-hover1">인터렉티브</span> 웹 디자인과<br class="mb"> 개발에 관심을 두고<br>
+                    다양한 방법으로 경험할 수 있는<br class="mb"> 웹사이트를 만들고자 합니다.
+                </p>
             </div>
-            <p class="txt-c" data-aos="fade-up">
-              안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1">비첼블루</span>입니다. <br>
-              <span class="mouse-hover1">인터렉티브</span> 웹 디자인과<br class="mb"> 개발에 관심을 두고<br>
-              다양한 방법으로 경험할 수 있는<br class="mb"> 웹사이트를 만들고자 합니다.
-            </p>
-          </div>
         </section>
         <!-- <section class="archive" ref="archive">
           <div class="inner">
@@ -132,213 +137,213 @@
             </div>
           </div>
         </section> -->
-        <Footer></Footer>
+        <Footer />
     </div>
 </template>
 
 <script>
-  import CursorCustom from '@/components/CursorCustom.vue';
-  import Mainvisual from '@/layouts/Mainvisual.vue';
-  import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
-  import Footer from '@/layouts/Footer.vue';
-  import TextScroll from '@/components/TextScroll.vue';
-  import ParallaxImg from '@/components/ParallaxImg.vue';
+import CursorCustom from '@/components/CursorCustom.vue';
+import Mainvisual from '@/layouts/Mainvisual.vue';
+import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
+import Footer from '@/layouts/Footer.vue';
+import TextScroll from '@/components/TextScroll.vue';
+import ParallaxImg from '@/components/ParallaxImg.vue';
 
-  export default {
+export default {
     name: 'Index',
     components: {
-      CursorCustom,
-      Mainvisual,
-      ButtonScrollDown,
-      Footer,
-      TextScroll,
-      ParallaxImg,
-    },
-    mounted() {
-      window.scrollTo({
-        top: 0,
-      });
-      this.scrollVertical();
+        CursorCustom,
+        Mainvisual,
+        ButtonScrollDown,
+        Footer,
+        TextScroll,
+        ParallaxImg,
     },
     data() {
-      return {
-        profile : {
-          img: require('@/assets/img/profile.jpg'),
-        },
-        archive: [
-          {
-            name: 'Kiki',
-            path: '/archive/kiki',
-            img: require('@/assets/img/archive01_main.png'),
-            work: 'p5.js',
-          },
-          {
-            name: 'Zizi',
-            path: '/archive/zizi',
-            img: require('@/assets/img/archive02_main.png'),
-            work: 'p5.js',
-          },
-          {
-            name: 'Witch Pot',
-            path: '/archive/witchpot',
-            img: require('@/assets/img/archive03_main.png'),
-            work: 'p5.js',
-          },
-          {
-            name: 'My Island',
-            path: '/archive/myisland',
-            img: '',
-            work: 'three.js',
-          },
-        ],
-        project: [
-          {
-            name: 'Monimo',
-            path: '/project/monimo',
-            link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
-            img: require('@/assets/img/project01_main.png'),
-            work: 'development',
-            duration: '2024.07-2024.10',
-          },
-          {
-            name: '4·16 Online Memorial',
-            path: '/project/OnlineMemorial',
-            link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
-            img: require('@/assets/img/project02_main.png'),
-            work: 'publishing',
-            duration: '2022.04',
-          },
-          {
-            name: 'DCAMP',
-            path: '/project/DCAMP',
-            link: 'https://dcamp.kr/',
-            img: require('@/assets/img/project03_main.png'),
-            work: 'frontend',
-            duration: '2022.01-2022.03',
-          },
-        ],
-        language: [
-          {
-            name: 'html',
-            img: require('@/assets/img/skills-language1.png'),
-          },
-          {
-            name: 'css',
-            img: require('@/assets/img/skills-language2.png'),
-          },
-          {
-            name: 'javascript',
-            img: require('@/assets/img/skills-language4.png'),
-          },
-          {
-            name: 'scss',
-            img: require('@/assets/img/skills-language3.png'),
-          },
-          {
-            name: 'jquery',
-            img: require('@/assets/img/skills-language5.png'),
-          },
-        ],
-        framework: [
-          {
-            name: 'vue.js',
-            img: require('@/assets/img/skills-framework1.png'),
-          },
-          {
-            name: 'nuxt.js',
-            img: require('@/assets/img/skills-framework2.png'),
-          },
-          {
-            name: 'GSAP',
-            img: require('@/assets/img/skills-framework3.png'),
-          },
-          {
-            name: 'p5.js',
-            img: require('@/assets/img/skills-framework4.svg'),
-          },
-          {
-            name: 'three.js',
-            img: require('@/assets/img/skills-framework5.png'),
-          },
-          {
-            name: 'drupal',
-            img: require('@/assets/img/skills-framework6.png'),
-          },
-          {
-            name: 'wordpress',
-            img: require('@/assets/img/skills-framework7.png'),
-          },
-          {
-            name: 'tailwind',
-            img: require('@/assets/img/skills-framework8.png'),
-          },
-        ],
-        etc: [
-          {
-            name: 'GitHub',
-            img: require('@/assets/img/skills-etc1.png'),
-          },
-          {
-            name: 'docker',
-            img: require('@/assets/img/skills-etc2.png'),
-          },
-          {
-            name: 'storybook',
-            img: require('@/assets/img/skills-etc3.png'),
-          },
-          {
-            name: 'gabia',
-            img: require('@/assets/img/skills-etc4.png'),
-          },
-          {
-            name: 'cyberduck',
-            img: require('@/assets/img/skills-etc5.png'),
-          },
-        ],
-        design: [
-          {
-            name: 'figma',
-            img: require('@/assets/img/skills-design1.png'),
-          },
-          {
-            name: 'photoshop',
-            img: require('@/assets/img/skills-design2.svg'),
-          },
-          {
-            name: 'illlustrator',
-            img: require('@/assets/img/skills-design3.svg'),
-          },
-        ],
-      }
+        return {
+            profile : {
+                img: require('@/assets/img/profile.jpg'),
+            },
+            archive: [
+                {
+                    name: 'Kiki',
+                    path: '/archive/kiki',
+                    img: require('@/assets/img/archive01_main.png'),
+                    work: 'p5.js',
+                },
+                {
+                    name: 'Zizi',
+                    path: '/archive/zizi',
+                    img: require('@/assets/img/archive02_main.png'),
+                    work: 'p5.js',
+                },
+                {
+                    name: 'Witch Pot',
+                    path: '/archive/witchpot',
+                    img: require('@/assets/img/archive03_main.png'),
+                    work: 'p5.js',
+                },
+                {
+                    name: 'My Island',
+                    path: '/archive/myisland',
+                    img: '',
+                    work: 'three.js',
+                },
+            ],
+            project: [
+                {
+                    name: 'Monimo',
+                    path: '/project/monimo',
+                    link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
+                    img: require('@/assets/img/project01_main.png'),
+                    work: 'development',
+                    duration: '2024.07-2024.10',
+                },
+                {
+                    name: '4·16 Online Memorial',
+                    path: '/project/OnlineMemorial',
+                    link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
+                    img: require('@/assets/img/project02_main.png'),
+                    work: 'publishing',
+                    duration: '2022.04',
+                },
+                {
+                    name: 'DCAMP',
+                    path: '/project/DCAMP',
+                    link: 'https://dcamp.kr/',
+                    img: require('@/assets/img/project03_main.png'),
+                    work: 'frontend',
+                    duration: '2022.01-2022.03',
+                },
+            ],
+            language: [
+                {
+                    name: 'html',
+                    img: require('@/assets/img/skills-language1.png'),
+                },
+                {
+                    name: 'css',
+                    img: require('@/assets/img/skills-language2.png'),
+                },
+                {
+                    name: 'javascript',
+                    img: require('@/assets/img/skills-language4.png'),
+                },
+                {
+                    name: 'scss',
+                    img: require('@/assets/img/skills-language3.png'),
+                },
+                {
+                    name: 'jquery',
+                    img: require('@/assets/img/skills-language5.png'),
+                },
+            ],
+            framework: [
+                {
+                    name: 'vue.js',
+                    img: require('@/assets/img/skills-framework1.png'),
+                },
+                {
+                    name: 'nuxt.js',
+                    img: require('@/assets/img/skills-framework2.png'),
+                },
+                {
+                    name: 'GSAP',
+                    img: require('@/assets/img/skills-framework3.png'),
+                },
+                {
+                    name: 'p5.js',
+                    img: require('@/assets/img/skills-framework4.svg'),
+                },
+                {
+                    name: 'three.js',
+                    img: require('@/assets/img/skills-framework5.png'),
+                },
+                {
+                    name: 'drupal',
+                    img: require('@/assets/img/skills-framework6.png'),
+                },
+                {
+                    name: 'wordpress',
+                    img: require('@/assets/img/skills-framework7.png'),
+                },
+                {
+                    name: 'tailwind',
+                    img: require('@/assets/img/skills-framework8.png'),
+                },
+            ],
+            etc: [
+                {
+                    name: 'GitHub',
+                    img: require('@/assets/img/skills-etc1.png'),
+                },
+                {
+                    name: 'docker',
+                    img: require('@/assets/img/skills-etc2.png'),
+                },
+                {
+                    name: 'storybook',
+                    img: require('@/assets/img/skills-etc3.png'),
+                },
+                {
+                    name: 'gabia',
+                    img: require('@/assets/img/skills-etc4.png'),
+                },
+                {
+                    name: 'cyberduck',
+                    img: require('@/assets/img/skills-etc5.png'),
+                },
+            ],
+            design: [
+                {
+                    name: 'figma',
+                    img: require('@/assets/img/skills-design1.png'),
+                },
+                {
+                    name: 'photoshop',
+                    img: require('@/assets/img/skills-design2.svg'),
+                },
+                {
+                    name: 'illlustrator',
+                    img: require('@/assets/img/skills-design3.svg'),
+                },
+            ],
+        }
+    },
+    mounted() {
+        window.scrollTo({
+            top: 0,
+        });
+        this.scrollVertical();
     },
     methods: {
-      scrollVertical() {
-        var winW = window.innerWidth;
+        scrollVertical() {
+            var winW = window.innerWidth;
 
-        if (winW > 425) {
-          const gsap = this.$gsap;
-          const ScrollTrigger = this.$ScrollTrigger;
+            if (winW > 425) {
+                const gsap = this.$gsap;
+                const ScrollTrigger = this.$ScrollTrigger;
                     
-          let horizontalSections = gsap.utils.toArray(".project .container");
+                let horizontalSections = gsap.utils.toArray(".project .container");
 
-          horizontalSections.forEach((container) => {
-            let sections = container.querySelectorAll(".project .panel");
+                horizontalSections.forEach((container) => {
+                    let sections = container.querySelectorAll(".project .panel");
 
-            gsap.to(sections, {
-              xPercent: -100 * (sections.length),
-              ease: "none",
-              scrollTrigger: {
-              trigger: container,
-                pin: true,
-                scrub: 1,
-              }
-            });
-          })
-        }
+                    gsap.to(sections, {
+                        xPercent: -100 * (sections.length),
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: container,
+                            pin: true,
+                            scrub: 1,
+                        }
+                    });
+                })
+            }
 
-      },
+        },
     },
-  }
+}
 </script>
 
 <style lang="scss" scoped>

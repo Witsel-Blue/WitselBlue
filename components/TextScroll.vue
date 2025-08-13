@@ -2,10 +2,11 @@
     <div id="text-scroll">
         <div class="text-wrapper">
             <span
-                class="text mouse-hover1"
                 v-for="(text, idx) in textArray"
                 :key="text.id"
-                :style="'--i:'+idx">
+                class="text mouse-hover1"
+                :style="'--i:'+idx"
+            >
                 {{ text[0] }}
             </span>
         </div>
@@ -13,79 +14,79 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            text: String,
-        },
-        data() {
-            return {
-                textArray: [],
-            }
-        },
-        mounted() {
-            this.splitTexts();
-            setTimeout(() => {
-                this.parallaxScroll();
-            }, 100);
-        },
-        methods: {
-            splitTexts() {
-                var str = this.text;
-                var arr = str.split('');
-                arr = arr.map((item, index) => ({ ...item, id: index + 1 }));
-                this.textArray = arr;
-            },
-            parallaxScroll() {
-                window.addEventListener('scroll', function() {
-                    var scrolled = window.scrollY;
-                    var texts = this.document.getElementsByClassName('text');
-                    var winH = window.innerHeight;
-
-                    if ( texts[0] ) {
-                        texts[0].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
-                        texts[0].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[1] ) {
-                        texts[1].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                        texts[1].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[2] ) {
-                        texts[2].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
-                        texts[2].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[3] ) {
-                        texts[3].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
-                        texts[3].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[4] ) {
-                        texts[4].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
-                        texts[4].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[5] ) {
-                        texts[5].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                        texts[5].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[6] ) {
-                        texts[6].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
-                        texts[6].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[7] ) {
-                        texts[7].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
-                        texts[7].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[8] ) {
-                        texts[8].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
-                        texts[8].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    if ( texts[9] ) {
-                        texts[9].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                        texts[9].style.opacity = (winH - scrolled)*0.01;
-                    }
-                    
-                });
-            },
+export default {
+    props: {
+        text: String,
+    },
+    data() {
+        return {
+            textArray: [],
         }
+    },
+    mounted() {
+        this.splitTexts();
+        setTimeout(() => {
+            this.parallaxScroll();
+        }, 100);
+    },
+    methods: {
+        splitTexts() {
+            var str = this.text;
+            var arr = str.split('');
+            arr = arr.map((item, index) => ({ ...item, id: index + 1 }));
+            this.textArray = arr;
+        },
+        parallaxScroll() {
+            window.addEventListener('scroll', function() {
+                var scrolled = window.scrollY;
+                var texts = this.document.getElementsByClassName('text');
+                var winH = window.innerHeight;
+
+                if ( texts[0] ) {
+                    texts[0].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
+                    texts[0].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[1] ) {
+                    texts[1].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
+                    texts[1].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[2] ) {
+                    texts[2].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
+                    texts[2].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[3] ) {
+                    texts[3].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
+                    texts[3].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[4] ) {
+                    texts[4].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
+                    texts[4].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[5] ) {
+                    texts[5].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
+                    texts[5].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[6] ) {
+                    texts[6].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
+                    texts[6].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[7] ) {
+                    texts[7].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
+                    texts[7].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[8] ) {
+                    texts[8].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
+                    texts[8].style.opacity = (winH - scrolled)*0.01;
+                }
+                if ( texts[9] ) {
+                    texts[9].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
+                    texts[9].style.opacity = (winH - scrolled)*0.01;
+                }
+                    
+            });
+        },
     }
+}
 </script>
 
 <style lang="scss" scoped>

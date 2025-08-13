@@ -1,16 +1,16 @@
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  // noCursor();
+    createCanvas(windowWidth, windowHeight);
+    // noCursor();
 }
 
 function draw() {
-  face(width/2, height/2);
-  // butterfly();
+    face(width/2, height/2);
+    // butterfly();
 }
 
 function butterfly() {
-  strokeWeight(3);
-  push();
+    strokeWeight(3);
+    push();
     translate(mouseX, mouseY);
     fill("rgb(243,224,118)");
     ellipse(-12, 10, 20, 20);
@@ -22,11 +22,11 @@ function butterfly() {
     strokeWeight(3);
     noFill();
     arc(0, -25, 15, 15, -45, 180);
-  pop();
+    pop();
 }
 
 function face(x, y) {
-  push();
+    push();
   
     translate(x, y);
   
@@ -61,13 +61,13 @@ function face(x, y) {
   
     // ears
     push();
-      translate(earMove.x, earMove.y);
-      fill("rgb(53,64,94)");
-      ellipse(-80, -90, 80, 140);
-      ellipse(80, -90, 80, 140);
-      fill("#442F68");
-      ellipse(-80, -90, 50, 110);
-      ellipse(80, -90, 50, 110);
+    translate(earMove.x, earMove.y);
+    fill("rgb(53,64,94)");
+    ellipse(-80, -90, 80, 140);
+    ellipse(80, -90, 80, 140);
+    fill("#442F68");
+    ellipse(-80, -90, 50, 110);
+    ellipse(80, -90, 50, 110);
     pop();
   
     // face
@@ -76,60 +76,60 @@ function face(x, y) {
   
     // eyes
     push();
-      translate(eyeMove.x, eyeMove.y);
+    translate(eyeMove.x, eyeMove.y);
   
-      if(mouseIsPressed) {
-         // closedEyes
+    if(mouseIsPressed) {
+        // closedEyes
         line(-30, 30, -75, 30);
         line(-30, 30, -70, 50);
         line(-30, 30, -70, 10);
         line(30, 30, 75, 30);
         line(30, 30, 70, 50);
         line(30, 30, 70, 10);
-      } else {
+    } else {
         //eyes
         fill("white");
         ellipse(-60, 20, 100, 100);
         ellipse(60, 20, 100, 100);
         // pupil
         push();
-          translate(pupilMove.x, pupilMove.y);
-          fill("rgb(0,0,0)");
-          ellipse(60, 20, 40, 60);
-          ellipse(-60, 20, 40, 60);
+        translate(pupilMove.x, pupilMove.y);
+        fill("rgb(0,0,0)");
+        ellipse(60, 20, 40, 60);
+        ellipse(-60, 20, 40, 60);
         pop(); 
-      }
+    }
   
     pop();
   
     // nose
     push();
-      translate(noseMove.x, noseMove.y);
-      line(-3, 70, 3, 70);
-      line(0, 75, -5, 70);
-      line(0, 75, 5, 70);
-      line(0, 75, 0, 90);
+    translate(noseMove.x, noseMove.y);
+    line(-3, 70, 3, 70);
+    line(0, 75, -5, 70);
+    line(0, 75, 5, 70);
+    line(0, 75, 0, 90);
     pop();
   
     // mouth
     push();
-      translate(mouthMove.x, noseMove.y);
-      fill("rgb(187,75,95)");
-      ellipse(0, 100, 40, 30);
+    translate(mouthMove.x, noseMove.y);
+    fill("rgb(187,75,95)");
+    ellipse(0, 100, 40, 30);
     pop();
   
     // whiskers
     push();
-      translate(whiskersMove.x, whiskersMove.y);
-      strokeWeight(2);
-      line(-80, 80, -130, 65);
-      line(-80, 92.5, -150, 92.5);
-      line(-80, 105, -130, 115);
-      line(80, 80, 130, 65);
-      line(80, 92.5, 150, 92.5);
-      line(80, 105, 130, 115);
+    translate(whiskersMove.x, whiskersMove.y);
+    strokeWeight(2);
+    line(-80, 80, -130, 65);
+    line(-80, 92.5, -150, 92.5);
+    line(-80, 105, -130, 115);
+    line(80, 80, 130, 65);
+    line(80, 92.5, 150, 92.5);
+    line(80, 105, 130, 115);
     pop();
   
-  pop();
+    pop();
   
 }

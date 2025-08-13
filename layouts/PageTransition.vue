@@ -2,44 +2,44 @@
     <div id="page-transition">
         <div class="bg">
             <TextMask 
-                :text="title">
-            </TextMask>
+                :text="title"
+            />
         </div>
-        <div class="bg2"></div>
+        <div class="bg2" />
     </div>
 </template>
 
 <script>
-    import TextMask from '@/components/TextMask.vue';
+import TextMask from '@/components/TextMask.vue';
 
-    export default {
-        components: {
-            TextMask,
-        },
-        props: {
-            title: String,
-        },
-        data() {
-            return {
-            }
-        },
-        mounted() {
-            this.pageTransition();
-            window.scrollTo({
-                top: 0,
-            });
-        },
-        methods: {
-            pageTransition() {
-                setTimeout(function(){
-                    document.getElementById('page-transition').classList.add('active');
-                }, 1200);
-                setTimeout(function(){
-                    document.getElementById('page-transition').classList.add('active2');
-                }, 2000);
-            },
+export default {
+    components: {
+        TextMask,
+    },
+    props: {
+        title: String,
+    },
+    data() {
+        return {
         }
+    },
+    mounted() {
+        this.pageTransition();
+        window.scrollTo({
+            top: 0,
+        });
+    },
+    methods: {
+        pageTransition() {
+            setTimeout(function(){
+                document.getElementById('page-transition').classList.add('active');
+            }, 1200);
+            setTimeout(function(){
+                document.getElementById('page-transition').classList.add('active2');
+            }, 2000);
+        },
     }
+}
 </script>
 
 <style lang="scss" scoped>

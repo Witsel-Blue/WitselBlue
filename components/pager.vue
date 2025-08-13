@@ -1,47 +1,50 @@
 <template>
     <div id="pager">
         <div class="wrapper mouse-hover1">
-            <img src="@/assets/img/pager.svg" @click="scrollToTop">
+            <img
+                src="@/assets/img/pager.svg"
+                @click="scrollToTop"
+            >
         </div>
     </div>
 </template>
 
 <script>
-    import gsap from 'gsap';
-    import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
-    if (process.client) {
-        gsap.registerPlugin(ScrollTrigger);
-    }
+if (process.client) {
+    gsap.registerPlugin(ScrollTrigger);
+}
     
-    export default {
-        mounted() {
-            this.rotationAnim();
-        },
-        methods: {
-            rotationAnim() {
-                const gsap = this.$gsap;
-                const ScrollTrigger = this.$ScrollTrigger;
+export default {
+    mounted() {
+        this.rotationAnim();
+    },
+    methods: {
+        rotationAnim() {
+            const gsap = this.$gsap;
+            const ScrollTrigger = this.$ScrollTrigger;
 
-                gsap.to("#pager", {
-                    scrollTrigger: {
-                        trigger: "#app",
-                        duration: '100%',
-                        // markers: true,
-                        scrub: 1,
-                    },
-                    rotation: 360,
-                    repeat: 1,
-                });
-            },
-            scrollToTop() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                });
-            }
+            gsap.to("#pager", {
+                scrollTrigger: {
+                    trigger: "#app",
+                    duration: '100%',
+                    // markers: true,
+                    scrub: 1,
+                },
+                rotation: 360,
+                repeat: 1,
+            });
         },
-    }
+        scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        }
+    },
+}
 </script>
 
 <style lang="scss" scoped>

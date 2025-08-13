@@ -1,107 +1,116 @@
 <template>
     <div id="project_detail">
         <CursorCustom />
-        <PageTransition :title="title"></PageTransition>
+        <PageTransition :title="title" />
         <div class="contents">
             <section class="main">
                 <div class="inner">
-                    <div class="mainvisual" data-aos="fade-up">
-                        <ParallaxImg :src="main.mainvisual"></ParallaxImg>
+                    <div
+                        class="mainvisual"
+                        data-aos="fade-up"
+                    >
+                        <ParallaxImg :src="main.mainvisual" />
                     </div>
-                    <div class="title" data-aos="fade-up">
+                    <div
+                        class="title"
+                        data-aos="fade-up"
+                    >
                         <p>{{ work }}</p>
                         <a
                             class="mouse-hover1"
                             target="_blank"
-                            :href=link.href>
-                            <TextShifting :text="main.title"></TextShifting>
+                            :href="link.href"
+                        >
+                            <TextShifting :text="main.title" />
                         </a>
                     </div>
                 </div>
             </section>
             <section class="iframe mouse-none">
                 <div class="inner">
-                    <iframe src="https://editor.p5js.org/witselblue/full/w-L-mWvpM"></iframe>
+                    <iframe src="https://editor.p5js.org/witselblue/full/w-L-mWvpM" />
                 </div>
             </section>
             <section>
                 <div class="inner">
                     <p
+                        v-if="main.description"
                         data-aos="fade-up"
-                        class="txt-c"
-                        v-html="main.description" 
-                        v-if="main.description">
-                    </p>
+                        class="txt-c" 
+                        v-html="main.description"
+                    />
                     <ButtonRound
+                        v-if="link.href"
                         data-aos="fade-up"
                         class="mt-32 txt-c"
-                        v-if="link.href"
                         :link="link"
                     />
                 </div>
             </section>
         </div>
         <Pagination 
-            :pagination="pagination" />
+            :pagination="pagination"
+        />
         <DetailFooter 
-            :pagination="pagination" />
+            :pagination="pagination"
+        />
     </div>
 </template>
 
 <script>
-    import CursorCustom from '@/components/CursorCustom.vue';
-    import PageTransition from '@/layouts/PageTransition.vue';
-    import ParallaxImg from '@/components/ParallaxImg.vue';
-    import ButtonRound from '@/components/ButtonRound.vue';
-    import TextShifting from '@/components/TextShifting.vue';
-    import Pagination from '@/components/Pagination.vue';
-    import DetailFooter from '@/layouts/DetailFooter.vue';
+import CursorCustom from '@/components/CursorCustom.vue';
+import PageTransition from '@/layouts/PageTransition.vue';
+import ParallaxImg from '@/components/ParallaxImg.vue';
+import ButtonRound from '@/components/ButtonRound.vue';
+import TextShifting from '@/components/TextShifting.vue';
+import Pagination from '@/components/Pagination.vue';
+import DetailFooter from '@/layouts/DetailFooter.vue';
     
-    export default {
-        components: {
-            CursorCustom,
-            PageTransition,
-            ParallaxImg,
-            ButtonRound,
-            TextShifting,
-            Pagination,
-            DetailFooter,
-        },
-        data() {
-            return {
+export default {
+    components: {
+        CursorCustom,
+        PageTransition,
+        ParallaxImg,
+        ButtonRound,
+        TextShifting,
+        Pagination,
+        DetailFooter,
+    },
+    data() {
+        return {
+            title: 'Witch Pot',
+            work: 'p5.js',
+            main: {
+                mainvisual: require('@/assets/img/archive03_main.png'),
+                id: '03',
                 title: 'Witch Pot',
-                work: 'p5.js',
-                main: {
-                    mainvisual: require('@/assets/img/archive03_main.png'),
-                    id: '03',
-                    title: 'Witch Pot',
-                    description: 
+                description: 
                         '마녀배달부 키키의 솥에서<br> 반짝거리는 연기의 길을 그릴 수 있습니다.',
-                },
-                link: {
-                    href: 'https://editor.p5js.org/witselblue/full/w-L-mWvpM',
-                    text: 'View Code',
-                    target: '_blank',
-                },
-                pagination: {
-                    href: '/archive',
-                    text: 'view all archive',
-                    prevLink: '/archive/zizi',
-                    prevText: 'Zizi',
-                    nextLink: '/archive/myisland',
-                    nextText: 'MyIsland',
-                    nextWork: 'three.js',
-                    // nextImg: require('@/assets/img/archive03_main.png'),
-                },
-            }
-        },
-        mounted() {
- 
-        },
-        methods: {
-
+            },
+            link: {
+                href: 'https://editor.p5js.org/witselblue/full/w-L-mWvpM',
+                text: 'View Code',
+                target: '_blank',
+            },
+            pagination: {
+                href: '/archive',
+                text: 'view all archive',
+                prevLink: '/archive/zizi',
+                prevText: 'Zizi',
+                nextLink: '/archive/myisland',
+                nextText: 'MyIsland',
+                nextWork: 'three.js',
+                // nextImg: require('@/assets/img/archive03_main.png'),
+            },
         }
+    },
+    mounted() {
+ 
+    },
+    methods: {
+
     }
+}
 </script>
 
 <style lang="scss" scoped>

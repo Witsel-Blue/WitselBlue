@@ -1,15 +1,13 @@
 <template>
     <div id="default">
-
-        <Nuxt></Nuxt>
-        
+        <Nuxt />
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'defaultLayout',
-    }
+export default {
+    name: 'DefaultLayout',
+}
 </script>
 
 <style lang="scss" scoped>

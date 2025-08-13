@@ -1,8 +1,13 @@
 <template>
     <div id="detail_footer">
-        <div class="footer-bg" ref="bg"></div>
+        <div
+            ref="bg"
+            class="footer-bg"
+        />
         <div class="footer">
-            <p data-aos="fade-up">next project</p>
+            <p data-aos="fade-up">
+                next project
+            </p>
             <div class="hover-flip">
                 <div class="front">
                     <div class="res-box-wrap">
@@ -12,7 +17,10 @@
                     </div>
                 </div>
                 <div class="back">
-                    <a :href="pagination.nextLink" class="mouse-hover1">
+                    <a
+                        :href="pagination.nextLink"
+                        class="mouse-hover1"
+                    >
                         <p>{{ pagination.nextWork }}</p>
                         <h3 class="ft-diphylleia">{{ pagination.nextText }}</h3>
                     </a>
@@ -24,41 +32,41 @@
 </template>
 
 <script>
-    import ButtonRound from '@/components/ButtonRound.vue';
+import ButtonRound from '@/components/ButtonRound.vue';
 
-    export default {
-        components: {
-            ButtonRound,
+export default {
+    components: {
+        ButtonRound,
+    },
+    props: {
+        pagination: Object,
+    },
+    mounted() {
+        setTimeout(() => {
+            this.bgScroll();
+        }, 1000);
+    },
+    methods: {
+        bgScroll() {
+            var footerBg = this.$refs.bg;
+            var winH = window.innerHeight;
+            var scrollStart = footerBg.offsetTop - winH*2/3;
+            var footerTop = footerBg.offsetTop;
+
+            window.addEventListener('scroll', function() {
+                var scrollY = window.scrollY;
+
+                if ( scrollStart < scrollY ) {
+                    var h = -(scrollY - footerTop);
+                    var x = (footerTop - scrollStart);
+                    var r = h/x*100;
+                    footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
+                }
+
+            });
         },
-        props: {
-            pagination: Object,
-        },
-        mounted() {
-            setTimeout(() => {
-                this.bgScroll();
-            }, 1000);
-        },
-        methods: {
-            bgScroll() {
-                var footerBg = this.$refs.bg;
-                var winH = window.innerHeight;
-                var scrollStart = footerBg.offsetTop - winH*2/3;
-                var footerTop = footerBg.offsetTop;
-
-                window.addEventListener('scroll', function() {
-                    var scrollY = window.scrollY;
-
-                    if ( scrollStart < scrollY ) {
-                        var h = -(scrollY - footerTop);
-                        var x = (footerTop - scrollStart);
-                        var r = h/x*100;
-                        footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
-                    }
-
-                });
-            },
-        }
     }
+}
 </script>
 
 <style lang="scss" scoped>

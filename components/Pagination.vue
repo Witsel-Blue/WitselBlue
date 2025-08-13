@@ -1,44 +1,44 @@
 <template>
     <div id="pagination">
         <ul class="pager">
-                <li class="mouse-hover1">
-                    <Nuxt-link :to="pagination.prevLink">
-                        <TextShifting :text="pagination.prevText"></TextShifting>
-                    </Nuxt-link>
-                </li>
-                <li class="mouse-hover1">
-                    <Nuxt-link :to="pagination.nextLink">
-                        <TextShifting :text="pagination.nextText"></TextShifting>
-                    </Nuxt-link>
-                </li>
-            </ul>
+            <li class="mouse-hover1">
+                <Nuxt-link :to="pagination.prevLink">
+                    <TextShifting :text="pagination.prevText" />
+                </Nuxt-link>
+            </li>
+            <li class="mouse-hover1">
+                <Nuxt-link :to="pagination.nextLink">
+                    <TextShifting :text="pagination.nextText" />
+                </Nuxt-link>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
-    import TextShifting from '@/components/TextShifting.vue';
+import TextShifting from '@/components/TextShifting.vue';
 
-    export default {
-        components: {
-            TextShifting,
-        },
-        props: {
-            pagination: Object,
-        },
-        data() {
-            return {
-
-            }
-        },
-        mounted() {
-            window.scrollTo({
-                top: 0,
-            });
-        },
-        methods: {
+export default {
+    components: {
+        TextShifting,
+    },
+    props: {
+        pagination: Object,
+    },
+    data() {
+        return {
 
         }
+    },
+    mounted() {
+        window.scrollTo({
+            top: 0,
+        });
+    },
+    methods: {
+
     }
+}
 
 </script>
 

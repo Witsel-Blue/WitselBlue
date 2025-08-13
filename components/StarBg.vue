@@ -1,39 +1,60 @@
 <template>
     <div id="star-bg">
         <div class="star-wrap">
-            <img class="star1 y1" src="@/assets/img/star1.png">
-            <img class="star2" src="@/assets/img/star1.png">
-            <img class="star3 y1" src="@/assets/img/star1.png">
-            <img class="star4" src="@/assets/img/star1.png">
-            <img class="star5" src="@/assets/img/star2.png">
-            <img class="star6" src="@/assets/img/star3.png">
-            <img class="star7" src="@/assets/img/star3.png">
+            <img
+                class="star1 y1"
+                src="@/assets/img/star1.png"
+            >
+            <img
+                class="star2"
+                src="@/assets/img/star1.png"
+            >
+            <img
+                class="star3 y1"
+                src="@/assets/img/star1.png"
+            >
+            <img
+                class="star4"
+                src="@/assets/img/star1.png"
+            >
+            <img
+                class="star5"
+                src="@/assets/img/star2.png"
+            >
+            <img
+                class="star6"
+                src="@/assets/img/star3.png"
+            >
+            <img
+                class="star7"
+                src="@/assets/img/star3.png"
+            >
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            setTimeout(() => {
-                this.parallaxScroll();
-            }, 100);
-        },
-        methods: {
-            parallaxScroll() {
-                window.addEventListener('scroll', function() {
-                    var scrolled = window.scrollY;
-                    var img = document.querySelectorAll('.y1');
+export default {
+    mounted() {
+        setTimeout(() => {
+            this.parallaxScroll();
+        }, 100);
+    },
+    methods: {
+        parallaxScroll() {
+            window.addEventListener('scroll', function() {
+                var scrolled = window.scrollY;
+                var img = document.querySelectorAll('.y1');
 
-                    for (var i = 0; i < img.length; i++) {
-                        var c = img[i];
-                        c.style.transform = 'translate3d(0,' + scrolled * -0.3 + 'px, 0)';
-                    }
-                    // this.document.querySelector('.star-wrap').style.transform = 'translate3d(0,' + scrolled * -0.3 + 'px, 0)';
-                });
-            },
-        }
+                for (var i = 0; i < img.length; i++) {
+                    var c = img[i];
+                    c.style.transform = 'translate3d(0,' + scrolled * -0.3 + 'px, 0)';
+                }
+                // this.document.querySelector('.star-wrap').style.transform = 'translate3d(0,' + scrolled * -0.3 + 'px, 0)';
+            });
+        },
     }
+}
 </script>
 
 <style lang="scss" scoped>

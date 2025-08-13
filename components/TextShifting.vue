@@ -3,34 +3,35 @@
         <span
             v-for="(text, idx) in textArray"
             :key="text.id"
-            :style="'--i:'+idx">
+            :style="'--i:'+idx"
+        >
             {{ text[0] }}
         </span>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            text: String,
+export default {
+    props: {
+        text: String,
+    },
+    data() {
+        return {
+            textArray: [],
+        }
+    },
+    mounted() {
+        this.splitTexts();
+    },
+    methods: {
+        splitTexts() {
+            var str = this.text;
+            var arr = str.split('');
+            arr = arr.map((item, index) => ({ ...item, id: index + 1 }));
+            this.textArray = arr;
         },
-        data() {
-            return {
-                textArray: [],
-            }
-        },
-        mounted() {
-            this.splitTexts();
-        },
-        methods: {
-            splitTexts() {
-                var str = this.text;
-                var arr = str.split('');
-                arr = arr.map((item, index) => ({ ...item, id: index + 1 }));
-                this.textArray = arr;
-            },
-        },
-    }
+    },
+}
 </script>
 
 <style lang="scss" scoped>

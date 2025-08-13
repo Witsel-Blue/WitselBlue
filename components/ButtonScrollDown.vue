@@ -1,28 +1,29 @@
 <template>
     <div id="button-scrolldown">
         <button 
+            class="scroll-down mouse-hover1"
             @click="scrollDown"
-            class="scroll-down mouse-hover1">
+        >
             <img src="@/assets/img/arrow.svg">
         </button>
     </div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            this.scrollDown();
-        },
-        methods: {
-            scrollDown() {
-                var h = window.innerHeight;
-                window.scrollTo({
-                    top: h,
-                    behavior: 'smooth',
-                });
-            }
-        },
-    }
+export default {
+    mounted() {
+        this.scrollDown();
+    },
+    methods: {
+        scrollDown() {
+            var h = window.innerHeight;
+            window.scrollTo({
+                top: h,
+                behavior: 'smooth',
+            });
+        }
+    },
+}
 </script>
 
 <style lang="scss" scoped>

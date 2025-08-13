@@ -3,8 +3,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
  
 export default ({ app }) => {
-  app.AOS = AOS.init({
-    once: true,
-    duration: 600,
-  })
+    app.AOS = AOS.init({
+        once: true,
+        duration: 600,
+    })
 }

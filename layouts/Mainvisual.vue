@@ -6,15 +6,15 @@
 </template>
   
 <script>
-    // import MainThree from "@/components/MainThree.vue";
-    import MainP5 from "@/components/MainP5.vue";
+// import MainThree from "@/components/MainThree.vue";
+import MainP5 from "@/components/MainP5.vue";
 
-    export default {
-        name: 'Mainvisual',
-        components: {
-            // MainThree,
-            MainP5,
-        },
+export default {
+    name: 'Mainvisual',
+    components: {
+        // MainThree,
+        MainP5,
+    },
 }
 </script>
   
