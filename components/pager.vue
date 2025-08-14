@@ -52,8 +52,8 @@ export default {
     
     #pager {
         position: fixed;
-        bottom: 5%;
-        right: 5vw;
+        bottom: 2%;
+        right: 2vw;
         z-index: 100;
         .wrapper {
             width: 10vw;

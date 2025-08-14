@@ -20,6 +20,10 @@
                     <Pager />
                 </li>
             </ul>
+            <ChangeLang />
+            <div class="desc">
+                <p>2025 &copy;witselblue</p>
+            </div>
         </nav>
 
         <div 
@@ -66,7 +70,7 @@
                 </nav>
             </div>
             <div class="desc">
-                <p>2024 &copy;witselblue</p>
+                <p>2025 &copy;witselblue</p>
             </div>
             <div
                 class="shadow"
@@ -79,10 +83,12 @@
 
 <script>
 import Pager from '@/components/pager.vue';
+import ChangeLang from '@/components/ChangeLang.vue';
     
 export default {
     components: {
         Pager,
+        ChangeLang,
     },
     data() {
         return {
