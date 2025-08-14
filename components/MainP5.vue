@@ -1,7 +1,7 @@
 <template>
     <div
         ref="p5Container"
-        class="p5-wrapper"
+        class="p5-wrapper mouse-none"
     />
 </template>
 

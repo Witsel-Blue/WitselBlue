@@ -45,10 +45,10 @@
         text-align: center;
         font-size: 1.6rem;
         position: absolute;
-        top: 60vh;
+        bottom: calc(16vh + 3rem + 1.6rem + 2vh);
       }
       #text-scroll::v-deep {
-        top: calc(60vh + 1.6rem + 8vh);
+        bottom: calc(16vh + 3rem);
         span {
           font-family: "Bagel";
         }
@@ -61,7 +61,7 @@
   }
   .profile {
     width: 100%;
-    padding: 40vh 0 10vh;
+    padding: 60vh 0 10vh;
     #parallax-img::v-deep {
       width: 32%;
       border-radius: 60px;
@@ -199,8 +199,7 @@
       ul {
         display: grid;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 16px;
+        grid-template-columns: 1fr 1fr 1fr;
         li {
           word-break: break-all;
           text-align: center;
@@ -227,7 +226,6 @@
       .inner {
         .subtext {
           font-size: 1rem;
-          top: 64vh;
         }
       }
     }

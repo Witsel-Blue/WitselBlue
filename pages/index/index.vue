@@ -33,33 +33,30 @@
                 <div class="wrap">
                     <div>
                         <ul class="mt-32">
-                            <li v-for="list in language">
+                            <li v-for="list in language" :key="list.name" :data-name="list.name">
                                 <img :src="list.img">
-                                <p>{{ list.name }}</p>
+                                <!-- <p>{{ list.name }}</p> -->
                             </li>
                         </ul>
                     </div>
                     <div>
                         <ul class="mt-32">
-                            <li v-for="list in framework">
+                            <li v-for="list in framework" :key="list.name" :data-name="list.name">
                                 <img :src="list.img">
-                                <p>{{ list.name }}</p>
                             </li>
                         </ul>
                     </div>
                     <div>
                         <ul class="mt-32">
-                            <li v-for="list in etc">
+                            <li v-for="list in etc" :key="list.name" :data-name="list.name">
                                 <img :src="list.img">
-                                <p>{{ list.name }}</p>
                             </li>
                         </ul>
                     </div>
                     <div>
                         <ul class="mt-32">
-                            <li v-for="list in design">
+                            <li v-for="list in design" :key="list.name" :data-name="list.name">
                                 <img :src="list.img">
-                                <p>{{ list.name }}</p>
                             </li>
                         </ul>
                     </div>

@@ -1,9 +1,8 @@
 <template>
     <div id="cursor-custom">
-        <div
-            ref="circle"
-            class="cursor-circle"
-        />
+        <div ref="circle" class="cursor-circle">
+            <span ref="cursorText" class="cursor-text"></span>
+        </div>
     </div>
 </template>
 
@@ -40,8 +39,8 @@ export default {
             if (winW > 425) {
                 const gsap = this.$gsap;
                 var circle = this.$refs.circle;
-                var hoverElems = document.querySelectorAll('.mouse-hover1');
 
+                var hoverElems = document.querySelectorAll('.mouse-hover1');
                 for (var i = 0; i < hoverElems.length; i++) {
                     var x = hoverElems[i];
 
@@ -53,9 +52,7 @@ export default {
                     });
                 }
 
-
                 var hoverElems2 = document.querySelectorAll('.mouse-hover2');
-
                 for (var i = 0; i < hoverElems2.length; i++) {
                     var x2 = hoverElems2[i];
 
@@ -67,9 +64,7 @@ export default {
                     });
                 }
 
-
                 var noHoverElems = document.querySelectorAll('.mouse-none');
-
                 for (var i = 0; i < noHoverElems.length; i++) {
                     var x2 = noHoverElems[i];
 
@@ -80,6 +75,25 @@ export default {
                         circle.classList.remove('no-cursor');
                     });
                 }
+
+                // index > skills
+                var skillElems = document.querySelectorAll('#home .skills li');
+                var cursorText = this.$refs.cursorText;
+                for (let i = 0; i < skillElems.length; i++) {
+                    const li = skillElems[i];
+                    const skillName = li.querySelector('img')?.getAttribute('alt') || li.getAttribute('data-name') || '';
+
+                    li.addEventListener("mouseenter", () => {
+                        cursorText.textContent = skillName;
+                        circle.classList.add('hover-skill');
+                    });
+
+                    li.addEventListener("mouseleave", () => {
+                        cursorText.textContent = '';
+                        circle.classList.remove('hover-skill');
+                    });
+                }
+
             }
         }
     }
@@ -94,7 +108,8 @@ export default {
     }
 
     .mouse-hover1,
-    .mouse-hover2 {
+    .mouse-hover2,
+    .mouse-hover3 {
         z-index: 100;
         position: relative;
     }
@@ -126,6 +141,21 @@ export default {
 
         &.no-cursor {
             display: none;
+        }
+
+        &.hover-skill {
+            width: 80px;
+            height: 80px;
+            border: none;
+            background: rgba(62, 60, 60, 0.8);
+            transition: width 0.2s, height 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 8px;
+            word-break: break-all;
+            text-align: center;
         }
     }
 
