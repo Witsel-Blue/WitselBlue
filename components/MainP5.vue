@@ -24,23 +24,22 @@ export default {
             const p5 = (await import('p5')).default;
 
             const sketch = (s) => {
-                // === 함수 정의 ===
-                s.butterfly = function () {
-                    s.strokeWeight(3);
-                    s.push();
-                    s.translate(s.mouseX, s.mouseY);
-                    s.fill("rgb(243,224,118)");
-                    s.ellipse(-12, 10, 20, 20);
-                    s.ellipse(-15, -10, 28, 28);
-                    s.ellipse(12, 10, 20, 20);
-                    s.ellipse(15, -10, 28, 28);
-                    s.strokeWeight(10);
-                    s.line(0, -15, 0, 15);
-                    s.strokeWeight(3);
-                    s.noFill();
-                    s.arc(0, -25, 15, 15, -45, 180);
-                    s.pop();
-                };
+                // s.butterfly = function () {
+                //     s.strokeWeight(3);
+                //     s.push();
+                //     s.translate(s.mouseX, s.mouseY);
+                //     s.fill("rgb(243,224,118)");
+                //     s.ellipse(-12, 10, 20, 20);
+                //     s.ellipse(-15, -10, 28, 28);
+                //     s.ellipse(12, 10, 20, 20);
+                //     s.ellipse(15, -10, 28, 28);
+                //     s.strokeWeight(10);
+                //     s.line(0, -15, 0, 15);
+                //     s.strokeWeight(3);
+                //     s.noFill();
+                //     s.arc(0, -25, 15, 15, -45, 180);
+                //     s.pop();
+                // };
 
                 s.face = function (x, y) {
                     s.push();

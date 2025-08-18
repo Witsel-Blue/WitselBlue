@@ -1,6 +1,6 @@
 <template>
     <div id="cursor-custom">
-        <div ref="circle" class="cursor-circle">
+        <div ref="circle" class="cursor-circle" :class="cursorClasses">
             <span ref="cursorText" class="cursor-text"></span>
         </div>
     </div>
@@ -8,6 +8,22 @@
 
 <script>
 export default {
+    data() {
+        return {
+            activeClasses: [],
+        }
+    },
+    computed: {
+        cursorClasses() {
+            return [this.extraClass, ...this.activeClasses]
+        }
+    },
+    props: {
+        extraClass: {
+            type: String,
+            default: '',
+        },
+    },
     mounted() {
         this.mouseMove();
         this.$nextTick(() => {
@@ -156,6 +172,10 @@ export default {
             padding: 8px;
             word-break: break-all;
             text-align: center;
+        }
+
+        &.cursor-main {
+            background: red !important;
         }
     }
 

@@ -1,7 +1,7 @@
 <template>
     <div id="home">
-        <CursorCustom />
-        <section id="main">
+        <CursorCustom :extra-class="cursorClass" />
+        <section id="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain" >
             <Mainvisual />
             <div class="inner">
                 <p class="subtext">
@@ -10,137 +10,139 @@
                 <TextScroll :text="'WitselBlue'" />
             </div>
         </section>
-        <section class="profile">
-            <div class="inner">
-                <div data-aos="fade-up">
-                    <ParallaxImg :src="profile.img" />
+        <div @mouseleave="onMouseLeaveMain">
+            <section class="profile">
+                <div class="inner">
+                    <div data-aos="fade-up">
+                        <ParallaxImg :src="profile.img" />
+                    </div>
+                    <p
+                        class="txt-c"
+                        data-aos="fade-up"
+                    >
+                        안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1">비첼블루</span>입니다. <br>
+                        <span class="mouse-hover1">인터렉티브</span> 웹 디자인과<br class="mb"> 개발에 관심을 두고<br>
+                        다양한 방법으로 경험할 수 있는<br class="mb"> 웹사이트를 만들고자 합니다.
+                    </p>
                 </div>
-                <p
-                    class="txt-c"
-                    data-aos="fade-up"
-                >
-                    안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1">비첼블루</span>입니다. <br>
-                    <span class="mouse-hover1">인터렉티브</span> 웹 디자인과<br class="mb"> 개발에 관심을 두고<br>
-                    다양한 방법으로 경험할 수 있는<br class="mb"> 웹사이트를 만들고자 합니다.
-                </p>
-            </div>
-        </section>
-        <section class="skills">
-            <div class="inner">
-                <h1 class="subtitle ft-bagel txt-c">
-                    Skills
-                </h1>
-                <div class="wrap">
-                    <div>
-                        <ul class="mt-32">
-                            <li v-for="list in language" :key="list.name" :data-name="list.name">
-                                <img :src="list.img">
-                                <!-- <p>{{ list.name }}</p> -->
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul class="mt-32">
-                            <li v-for="list in framework" :key="list.name" :data-name="list.name">
-                                <img :src="list.img">
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul class="mt-32">
-                            <li v-for="list in etc" :key="list.name" :data-name="list.name">
-                                <img :src="list.img">
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul class="mt-32">
-                            <li v-for="list in design" :key="list.name" :data-name="list.name">
-                                <img :src="list.img">
-                            </li>
-                        </ul>
+            </section>
+            <section class="skills">
+                <div class="inner">
+                    <h1 class="subtitle ft-bagel txt-c">
+                        Skills
+                    </h1>
+                    <div class="wrap">
+                        <div>
+                            <ul class="mt-32">
+                                <li v-for="list in language" :key="list.name" :data-name="list.name">
+                                    <img :src="list.img">
+                                    <!-- <p>{{ list.name }}</p> -->
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="mt-32">
+                                <li v-for="list in framework" :key="list.name" :data-name="list.name">
+                                    <img :src="list.img">
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="mt-32">
+                                <li v-for="list in etc" :key="list.name" :data-name="list.name">
+                                    <img :src="list.img">
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="mt-32">
+                                <li v-for="list in design" :key="list.name" :data-name="list.name">
+                                    <img :src="list.img">
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+            </section>
+            <!-- <section class="archive" ref="archive">
+            <div class="inner">
+                <div class="subtitle-wrap">
+                <Nuxt-link
+                    class="subtitle ft-bagel txt-c mouse-hover1"
+                    to="/archive">
+                    Archive
+                </Nuxt-link>
+                </div>
+                <ul class="container" ref="comp">
+                <li
+                    class="panel"
+                    v-for="list in archive"
+                    :key="list.name">
+                    <div class="wrap">
+                    <Nuxt-link 
+                        class="hover-img"
+                        :to=list.path>
+                        <div class="res-box-wrap">
+                        <div class="res-box">
+                            <img :src="list.img" v-if="list.img">
+                            <span class="empty" v-else></span>
+                        </div>
+                        </div>
+                        </Nuxt-link>
+                        <div class="desc">
+                        <p class="work">{{ list.work }}</p>
+                        <Nuxt-link 
+                            class="title mouse-hover1"
+                            :to=list.path>
+                        <TextShifting :text="list.name"></TextShifting>
+                        </Nuxt-link>
+                        </div>
+                    </div>
+                </li>
+                </ul>
             </div>
-        </section>
-        <!-- <section class="archive" ref="archive">
-          <div class="inner">
-            <div class="subtitle-wrap">
-              <Nuxt-link
-                class="subtitle ft-bagel txt-c mouse-hover1"
-                to="/archive">
-                Archive
-              </Nuxt-link>
+            </section>
+            <section class="project" ref="project">
+            <div class="inner">
+                <div class="subtitle-wrap">
+                <Nuxt-link
+                    class="subtitle ft-bagel txt-c mouse-hover1"
+                    to="/project">
+                    Project
+                </Nuxt-link>
+                </div>
             </div>
             <ul class="container" ref="comp">
-              <li
+                <li class="panel"></li>
+                <li
                 class="panel"
-                v-for="list in archive"
+                v-for="list in project"
                 :key="list.name">
                 <div class="wrap">
-                  <Nuxt-link 
+                    <Nuxt-link 
                     class="hover-img"
                     :to=list.path>
                     <div class="res-box-wrap">
-                      <div class="res-box">
+                        <div class="res-box">
                         <img :src="list.img" v-if="list.img">
                         <span class="empty" v-else></span>
-                      </div>
+                        </div>
                     </div>
                     </Nuxt-link>
                     <div class="desc">
-                      <p class="work">{{ list.work }}</p>
-                      <Nuxt-link 
+                    <p class="work">{{ list.work }}</p>
+                    <Nuxt-link 
                         class="title mouse-hover1"
                         :to=list.path>
-                      <TextShifting :text="list.name"></TextShifting>
-                      </Nuxt-link>
+                        <TextShifting :text="list.name"></TextShifting>
+                    </Nuxt-link>
                     </div>
-                  </div>
-              </li>
-            </ul>
-          </div>
-        </section>
-        <section class="project" ref="project">
-          <div class="inner">
-            <div class="subtitle-wrap">
-              <Nuxt-link
-                class="subtitle ft-bagel txt-c mouse-hover1"
-                to="/project">
-                Project
-              </Nuxt-link>
-            </div>
-          </div>
-          <ul class="container" ref="comp">
-            <li class="panel"></li>
-            <li
-              class="panel"
-              v-for="list in project"
-              :key="list.name">
-              <div class="wrap">
-                <Nuxt-link 
-                  class="hover-img"
-                  :to=list.path>
-                  <div class="res-box-wrap">
-                    <div class="res-box">
-                      <img :src="list.img" v-if="list.img">
-                      <span class="empty" v-else></span>
-                    </div>
-                  </div>
-                </Nuxt-link>
-                <div class="desc">
-                  <p class="work">{{ list.work }}</p>
-                  <Nuxt-link 
-                    class="title mouse-hover1"
-                    :to=list.path>
-                    <TextShifting :text="list.name"></TextShifting>
-                  </Nuxt-link>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </section> -->
-        <Footer />
+                </li>
+            </ul>
+            </section> -->
+            <Footer />
+        </div>
     </div>
 </template>
 
@@ -164,6 +166,7 @@ export default {
     },
     data() {
         return {
+            cursorClass: 'cursor-main',
             profile : {
                 img: require('@/assets/img/profile.jpg'),
             },
@@ -336,6 +339,12 @@ export default {
         this.scrollVertical();
     },
     methods: {
+        onMouseEnterMain() {
+            this.cursorClass = 'cursor-main';
+        },
+        onMouseLeaveMain() {
+            this.cursorClass = '';
+        },
         scrollVertical() {
             var winW = window.innerWidth;
 
