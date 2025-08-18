@@ -153,7 +153,7 @@ export default {
                 s.draw = function () {
                     s.background("#f7f7f7");
                     s.face(s.width / 2, s.height * 2 / 5);
-                    s.butterfly();
+                    // s.butterfly();
                 };
 
                 s.windowResized = function () {

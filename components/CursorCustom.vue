@@ -2,12 +2,18 @@
     <div id="cursor-custom">
         <div ref="circle" class="cursor-circle" :class="cursorClasses">
             <span ref="cursorText" class="cursor-text"></span>
+            <Lottie v-if="showLottie" />
         </div>
     </div>
 </template>
 
 <script>
+import Lottie from '@/components/Lottie.vue';
+
 export default {
+    components: {
+        Lottie,
+    },
     data() {
         return {
             activeClasses: [],
@@ -23,6 +29,10 @@ export default {
             type: String,
             default: '',
         },
+        showLottie: {
+            type: Boolean,
+            default: false,
+        }
     },
     mounted() {
         this.mouseMove();

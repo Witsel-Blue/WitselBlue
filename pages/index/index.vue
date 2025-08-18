@@ -1,6 +1,6 @@
 <template>
     <div id="home">
-        <CursorCustom :extra-class="cursorClass" />
+        <CursorCustom :extra-class="cursorClass" :showLottie="showLottie" />
         <section id="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain" >
             <Mainvisual />
             <div class="inner">
@@ -36,7 +36,6 @@
                             <ul class="mt-32">
                                 <li v-for="list in language" :key="list.name" :data-name="list.name">
                                     <img :src="list.img">
-                                    <!-- <p>{{ list.name }}</p> -->
                                 </li>
                             </ul>
                         </div>
@@ -167,6 +166,7 @@ export default {
     data() {
         return {
             cursorClass: 'cursor-main',
+            showLottie: false,
             profile : {
                 img: require('@/assets/img/profile.jpg'),
             },
@@ -341,9 +341,11 @@ export default {
     methods: {
         onMouseEnterMain() {
             this.cursorClass = 'cursor-main';
+            this.showLottie = true;
         },
         onMouseLeaveMain() {
             this.cursorClass = '';
+            this.showLottie = false;
         },
         scrollVertical() {
             var winW = window.innerWidth;
