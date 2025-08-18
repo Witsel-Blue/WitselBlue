@@ -1,15 +1,21 @@
 <template>
     <div id="home">
-        <CursorCustom :extra-class="cursorClass" :showLottie="showLottie" />
-        <section id="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain" >
-            <Mainvisual />
-            <div class="inner">
-                <p class="subtext">
-                    frontend developer
-                </p>
-                <TextScroll :text="'WitselBlue'" />
-            </div>
-        </section>
+        <CursorCustom 
+            :extra-class="cursorClass" 
+            :showLottie="showLottie" 
+            :animationData="animationData"
+        />
+        <div @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain">
+            <section id="main">
+                <Mainvisual />
+                <div class="inner" @mouseleave="onMouseLeaveMain">
+                    <p class="subtext">
+                        frontend developer
+                    </p>
+                    <TextScroll :text="'WitselBlue'" />
+                </div>
+            </section>
+        </div>
         <div @mouseleave="onMouseLeaveMain">
             <section class="profile">
                 <div class="inner">
@@ -152,6 +158,7 @@ import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
 import Footer from '@/layouts/Footer.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
+import Butterfly from '@/assets/lottie/butterfly.json';
 
 export default {
     name: 'Index',
@@ -166,7 +173,8 @@ export default {
     data() {
         return {
             cursorClass: 'cursor-main',
-            showLottie: false,
+            showLottie: true,
+            animationData: Butterfly,
             profile : {
                 img: require('@/assets/img/profile.jpg'),
             },

@@ -2,7 +2,6 @@
 
 #home {
   section:not(#main) {
-    // border: 1px solid black;
     // padding: 10vh 0;
   }
   .inner {
@@ -30,6 +29,10 @@
     position: relative;
     width: 100%;
     height: 100vh;
+    ::v-deep .lottie-wrapper {
+      width: 100%;
+      height: 100%;
+    }
     #mainvisual {
       position: absolute;
       top: 0;
@@ -48,7 +51,7 @@
         bottom: calc(16vh + 3rem + 1.6rem + 2vh);
       }
       #text-scroll::v-deep {
-        bottom: calc(16vh + 3rem);
+        bottom: calc(16vh + 6rem);
         span {
           font-family: "Bagel";
         }

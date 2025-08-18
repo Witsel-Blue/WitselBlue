@@ -4,7 +4,7 @@
             <span
                 v-for="(text, idx) in textArray"
                 :key="text.id"
-                class="text mouse-hover1"
+                class="text"
                 :style="'--i:'+idx"
             >
                 {{ text[0] }}
@@ -102,6 +102,7 @@ export default {
             font-size: 0;
             font-family: sans-serif;
             white-space: nowrap;
+            height: 0;
             span {
                 position: relative;
                 display: inline-block;

@@ -2,7 +2,7 @@
     <div id="cursor-custom">
         <div ref="circle" class="cursor-circle" :class="cursorClasses">
             <span ref="cursorText" class="cursor-text"></span>
-            <Lottie v-if="showLottie" />
+            <Lottie v-if="showLottie" :animationData="animationData" />
         </div>
     </div>
 </template>
@@ -14,16 +14,6 @@ export default {
     components: {
         Lottie,
     },
-    data() {
-        return {
-            activeClasses: [],
-        }
-    },
-    computed: {
-        cursorClasses() {
-            return [this.extraClass, ...this.activeClasses]
-        }
-    },
     props: {
         extraClass: {
             type: String,
@@ -32,6 +22,20 @@ export default {
         showLottie: {
             type: Boolean,
             default: false,
+        },
+        animationData: {
+            type: Object,
+            required: false,
+        }
+    },
+    data() {
+        return {
+            activeClasses: [],
+        }
+    },
+    computed: {
+        cursorClasses() {
+            return [this.extraClass, ...this.activeClasses]
         }
     },
     mounted() {
@@ -185,7 +189,10 @@ export default {
         }
 
         &.cursor-main {
-            background: red !important;
+            width: 100px;
+            height: 100px;
+            border: none;
+            transition: width 0.2s, height 0.2s;
         }
     }
 

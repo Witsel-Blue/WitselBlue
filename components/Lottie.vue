@@ -1,28 +1,37 @@
 <template>
-  <div ref="lottieContainer" class="lottie-wrapper"></div>
+    <div ref="lottieContainer" class="lottie-wrapper"></div>
 </template>
 
 <script>
-export default {
-  mounted() {
-    const animationData = require('@/assets/lottie/butterfly.json')
+import lottie from 'lottie-web'
 
-    this.$lottie.loadAnimation({
-      container: this.$refs.lottieContainer,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData
-    })
-  }
+export default {
+    props: {
+            animationData: {
+                type: Object,
+                required: true
+            },
+            loop: {
+                type: Boolean,
+                default: true
+            },
+            autoplay: {
+                type: Boolean,
+                default: true
+            }
+    },
+    mounted() {
+        lottie.loadAnimation({
+            container: this.$refs.lottieContainer,
+            renderer: 'svg',
+            loop: this.loop,
+            autoplay: this.autoplay,
+            animationData: this.animationData
+        })
+    }
 }
 </script>
 
 <style scoped>
-.lottie-wrapper {
-  width: 300px;
-  height: 300px;
-  margin: auto;
-  border: 1px solid red;
-}
+
 </style>
