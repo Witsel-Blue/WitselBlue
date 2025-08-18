@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/base/variables.scss';
+    @use '@/assets/scss/base/variables.scss' as *;
 
     html, a, button {
         cursor: none !important;

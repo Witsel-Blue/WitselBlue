@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/base/variables.scss';
+    @use '@/assets/scss/base/variables.scss' as *;
     
     #text-mask {
         color: transparent;

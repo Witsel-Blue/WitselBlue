@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/base/variables.scss';
+    @use '@/assets/scss/base/variables.scss' as *;
     
     #star-bg {
         width: 100%;

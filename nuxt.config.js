@@ -45,5 +45,13 @@ export default {
             'three',
             'gsap'
         ],
+        loaders: {
+            scss: {
+                implementation: require('sass'),
+            },
+            sass: {
+                implementation: require('sass'),
+            }
+        }
     }
 }

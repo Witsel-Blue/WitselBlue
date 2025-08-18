@@ -225,6 +225,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    @use '@/assets/scss/base/variables.scss' as *;
     @import '@/assets/scss/layout/page.scss';
 
     .page .container .panel:nth-child(2) .desc {
