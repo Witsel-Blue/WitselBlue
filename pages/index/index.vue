@@ -21,11 +21,11 @@
                         <ParallaxImg :src="profile.img" />
                     </div>
                     <p class="txt-c" data-aos="fade-up">
-                        안녕하세요,<br class="mb"> <span class="mouse-hover1">서울</span>에서 활동 중인 개발자 <span class="mouse-hover1">비첼블루</span>입니다.<br>
+                        안녕하세요,<br class="mb"> <span class="mouse-hover1">서울</span>에서 활동 중인 개발자<br class="mb"> <span class="mouse-hover1">비첼블루</span>입니다.<br><br class="mb">
                         WebGl, GSAP, Lottie, SVG 등을 활용해<br>
-                        직관적이고 <span class="mouse-hover1">인터렉티브</span>한 사이트를<br class="mb"> 구현하고자 하고,<br>
-                        효율적이고 확장성을 고려한 <span class="mouse-hover1">클린코딩</span>을 지향합니다.<br>
-                        웹사이트를 방문하는 사용자가 단순히 정보를 얻는 것을 넘어<br>
+                        직관적이고 <span class="mouse-hover1">인터렉티브</span>한<br class="mb"> 사이트를 구현하고자 하고,<br>
+                        효율적이고 확장성을 고려한<br class="mb"> <span class="mouse-hover1">클린코딩</span>을 지향합니다.<br><br class="mb">
+                        웹사이트를 방문하는 사용자가<br class="mb"> 단순히 정보를 얻는 것을 넘어<br>
                         새로운 경험을 할 수 있도록 돕는<br class="mb"> <span class="mouse-hover1">프론트엔드 개발자</span>가 되고 싶습니다.
                     </p>
                 </div>
@@ -119,6 +119,13 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+            </section>
+            <section class="selected-works">
+                <div class="inner">
+                    <h1 class="subtitle ft-bagel txt-c">
+                        Selected Works
+                    </h1>
                 </div>
             </section>
             <Footer />
