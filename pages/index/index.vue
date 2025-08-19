@@ -5,7 +5,7 @@
             :showLottie="showLottie" 
             :animationData="animationData"
         />
-        <section id="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain">
+        <section id="main" ref="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain">
             <Mainvisual />
             <div class="inner">
                 <p class="subtext">
@@ -15,22 +15,34 @@
             </div>
         </section>
         <div @mouseleave="onMouseLeaveMain">
-            <section class="profile">
+            <section class="profile" ref="profile">
                 <div class="inner">
                     <div data-aos="fade-up">
                         <ParallaxImg :src="profile.img" />
                     </div>
-                    <p class="txt-c" data-aos="fade-up">
-                        안녕하세요,<br class="mb"> <span class="mouse-hover1">서울</span>에서 활동 중인 개발자<br class="mb"> <span class="mouse-hover1">비첼블루</span>입니다.<br><br class="mb">
-                        WebGl, GSAP, Lottie, SVG 등을 활용해<br>
-                        직관적이고 <span class="mouse-hover1">인터렉티브</span>한<br class="mb"> 사이트를 구현하고자 하고,<br>
-                        효율적이고 확장성을 고려한<br class="mb"> <span class="mouse-hover1">클린코딩</span>을 지향합니다.<br><br class="mb">
-                        웹사이트를 방문하는 사용자가<br class="mb"> 단순히 정보를 얻는 것을 넘어<br>
-                        새로운 경험을 할 수 있도록 돕는<br class="mb"> <span class="mouse-hover1">프론트엔드 개발자</span>가 되고 싶습니다.
-                    </p>
+                    <ul class="txt-c" data-aos="fade-up">
+                        <li>
+                            안녕하세요,<br class="mb"> <span class="mouse-hover1">서울</span>에서 활동 중인 개발자<br class="mb"> <span class="mouse-hover1">비첼블루</span>입니다.<br><br class="mb">
+                        </li>
+                        <li>
+                            WebGl, GSAP, Lottie, SVG 등을 활용해<br>
+                        </li>
+                        <li>
+                            직관적이고 <span class="mouse-hover1">인터렉티브</span>한<br class="mb"> 사이트를 구현하고자 하고,<br>
+                        </li>
+                        <li>
+                            효율적이고 확장성을 고려한<br class="mb"> <span class="mouse-hover1">클린코딩</span>을 지향합니다.<br><br class="mb">
+                        </li>
+                        <li>
+                            웹사이트를 방문하는 사용자가<br class="mb"> 단순히 정보를 얻는 것을 넘어<br>
+                        </li>
+                        <li>
+                            새로운 경험을 할 수 있도록 돕는<br class="mb"> <span class="mouse-hover1">프론트엔드 개발자</span>가 되고 싶습니다.
+                        </li>
+                    </ul>
                 </div>
             </section>
-            <section class="about">
+            <section class="about" ref="about">
                 <div class="inner">
                     <h1 class="subtitle ft-bagel txt-c">
                         About
@@ -81,10 +93,7 @@
                     </ul>
                 </div>
             </section>
-            <section>
-                <SkewCard />
-            </section>
-            <section class="skills">
+            <section class="skills" ref="skills">
                 <div class="inner">
                     <h1 class="subtitle ft-bagel txt-c">
                         Skills
@@ -121,12 +130,41 @@
                     </div>
                 </div>
             </section>
-            <section class="selected-works">
+            <section class="project" ref="project">
                 <div class="inner">
                     <h1 class="subtitle ft-bagel txt-c">
                         Selected Works
                     </h1>
                 </div>
+                <ul class="container" ref="comp">
+                    <li class="panel"></li>
+                    <li
+                        class="panel"
+                        v-for="list in project"
+                        :key="list.name">
+                        <div class="wrap">
+                            <Nuxt-link 
+                            class="hover-img"
+                            :to=list.path>
+                            <div class="res-box-wrap">
+                                <div class="res-box">
+                                <img :src="list.img" v-if="list.img">
+                                <span class="empty" v-else></span>
+                                </div>
+                            </div>
+                            </Nuxt-link>
+                            <div class="desc">
+                            <p class="work">{{ list.work }}</p>
+                            <Nuxt-link 
+                                class="title mouse-hover1"
+                                :to=list.path>
+                                <TextShifting :text="list.name"></TextShifting>
+                            </Nuxt-link>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="panel"></li>
+                </ul>
             </section>
             <Footer />
         </div>
@@ -141,7 +179,6 @@ import Footer from '@/layouts/Footer.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
-import SkewCard from '@/components/SkewCard.vue';
 
 export default {
     name: 'Index',
@@ -152,7 +189,6 @@ export default {
         Footer,
         TextScroll,
         ParallaxImg,
-        SkewCard,
     },
     data() {
         return {
@@ -328,6 +364,7 @@ export default {
         window.scrollTo({
             top: 0,
         });
+        this.scrollVertical();
     },
     methods: {
         onMouseEnterMain() {
@@ -337,6 +374,31 @@ export default {
         onMouseLeaveMain() {
             this.cursorClass = '';
             this.showLottie = false;
+        },
+        scrollVertical() {
+            var winW = window.innerWidth;
+
+            if (winW > 425) {
+                const gsap = this.$gsap;
+                const ScrollTrigger = this.$ScrollTrigger;
+                    
+                let horizontalSections = gsap.utils.toArray(".project .container");
+
+                horizontalSections.forEach((container) => {
+                    let sections = container.querySelectorAll(".project .panel");
+
+                    gsap.to(sections, {
+                        xPercent: -100 * (sections.length - 1),
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: container,
+                            pin: true,
+                            scrub: 1.6,
+                            end: () => "+=" + container.offsetWidth * (sections.length - 1) * 1.6,
+                        }
+                    });
+                })
+            }
         },
     },
 }

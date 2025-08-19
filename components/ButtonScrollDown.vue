@@ -17,8 +17,9 @@ export default {
     methods: {
         scrollDown() {
             var h = window.innerHeight;
+            var w = window.innerWidth;
             window.scrollTo({
-                top: h,
+                top: h + w*1.2,
                 behavior: 'smooth',
             });
         }

@@ -16,6 +16,7 @@
             ref="comp"
             class="container"
         >
+            <li class="panel"></li>
             <li
                 v-for="list in lists"
                 :key="list.name"
@@ -192,7 +193,8 @@ export default {
                         scrollTrigger: {
                             trigger: container,
                             pin: true,
-                            scrub: 1,
+                            scrub: 1.6,
+                            end: () => "+=" + container.offsetWidth * (sections.length - 1) * 1.6,
                         }
                     });
                 })
@@ -227,15 +229,4 @@ export default {
 <style lang="scss" scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     @import '@/assets/scss/layout/page.scss';
-
-    .page .container .panel:nth-child(2) .desc {
-        max-width: 38%;
-    }
-
-    // mobile
-    @media all and (max-width: $mobile) {
-        .page .container .panel:nth-child(2) .desc {
-            max-width: 100%;
-        }
-    }
 </style>
