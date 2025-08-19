@@ -42,6 +42,52 @@
                     </ul>
                 </div>
             </section>
+            <section class="selected" ref="selected">
+                <div class="inner">
+                    <h1 class="subtitle ft-bagel txt-c" ref="fixedTitle">
+                        Selected Works
+                    </h1>
+                </div>
+                <ul class="container" ref="comp">
+                    <li class="panel"></li>
+                    <li
+                        class="panel"
+                        v-for="list in selected"
+                        :key="list.name">
+                        <div class="wrap">
+                            <Nuxt-link 
+                            class="hover-img"
+                            :to=list.path>
+                            <div class="res-box-wrap">
+                                <div class="res-box">
+                                <img :src="list.img" v-if="list.img">
+                                <span class="empty" v-else></span>
+                                </div>
+                            </div>
+                            </Nuxt-link>
+                            <div class="desc">
+                            <p class="work">{{ list.work }}</p>
+                            <Nuxt-link 
+                                class="title mouse-hover1"
+                                :to=list.path>
+                                <TextShifting :text="list.name"></TextShifting>
+                            </Nuxt-link>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="panel">
+                        <h4>view more</h4>
+                        <ul class="lists">
+                            <li>
+                                <ButtonRound :link="link" />
+                            </li>
+                            <li>
+                                <ButtonRound :link="link2" />
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
             <section class="about" ref="about">
                 <div class="inner">
                     <h1 class="subtitle ft-bagel txt-c">
@@ -130,42 +176,6 @@
                     </div>
                 </div>
             </section>
-            <section class="project" ref="project">
-                <div class="inner">
-                    <h1 class="subtitle ft-bagel txt-c">
-                        Selected Works
-                    </h1>
-                </div>
-                <ul class="container" ref="comp">
-                    <li class="panel"></li>
-                    <li
-                        class="panel"
-                        v-for="list in project"
-                        :key="list.name">
-                        <div class="wrap">
-                            <Nuxt-link 
-                            class="hover-img"
-                            :to=list.path>
-                            <div class="res-box-wrap">
-                                <div class="res-box">
-                                <img :src="list.img" v-if="list.img">
-                                <span class="empty" v-else></span>
-                                </div>
-                            </div>
-                            </Nuxt-link>
-                            <div class="desc">
-                            <p class="work">{{ list.work }}</p>
-                            <Nuxt-link 
-                                class="title mouse-hover1"
-                                :to=list.path>
-                                <TextShifting :text="list.name"></TextShifting>
-                            </Nuxt-link>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="panel"></li>
-                </ul>
-            </section>
             <Footer />
         </div>
     </div>
@@ -179,6 +189,7 @@ import Footer from '@/layouts/Footer.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
+import ButtonRound from '@/components/ButtonRound.vue';
 
 export default {
     name: 'Index',
@@ -189,6 +200,7 @@ export default {
         Footer,
         TextScroll,
         ParallaxImg,
+        ButtonRound,
     },
     data() {
         return {
@@ -198,33 +210,7 @@ export default {
             profile : {
                 img: require('@/assets/img/profile.jpg'),
             },
-            archive: [
-                {
-                    name: 'Kiki',
-                    path: '/archive/kiki',
-                    img: require('@/assets/img/archive01_main.png'),
-                    work: 'p5.js',
-                },
-                {
-                    name: 'Zizi',
-                    path: '/archive/zizi',
-                    img: require('@/assets/img/archive02_main.png'),
-                    work: 'p5.js',
-                },
-                {
-                    name: 'Witch Pot',
-                    path: '/archive/witchpot',
-                    img: require('@/assets/img/archive03_main.png'),
-                    work: 'p5.js',
-                },
-                {
-                    name: 'My Island',
-                    path: '/archive/myisland',
-                    img: '',
-                    work: 'three.js',
-                },
-            ],
-            project: [
+            selected: [
                 {
                     name: 'Monimo',
                     path: '/project/monimo',
@@ -358,6 +344,14 @@ export default {
                     img: require('@/assets/img/skills-design3.png'),
                 },
             ],
+            link: {
+                href: '/project',
+                text: 'project',
+            },
+            link2: {
+                href: '/archive',
+                text: 'archive',
+            },
         }
     },
     mounted() {
@@ -365,6 +359,7 @@ export default {
             top: 0,
         });
         this.scrollVertical();
+        this.titleScroll();
     },
     methods: {
         onMouseEnterMain() {
@@ -382,10 +377,10 @@ export default {
                 const gsap = this.$gsap;
                 const ScrollTrigger = this.$ScrollTrigger;
                     
-                let horizontalSections = gsap.utils.toArray(".project .container");
+                let horizontalSections = gsap.utils.toArray(".selected .container");
 
                 horizontalSections.forEach((container) => {
-                    let sections = container.querySelectorAll(".project .panel");
+                    let sections = container.querySelectorAll(".selected .panel");
 
                     gsap.to(sections, {
                         xPercent: -100 * (sections.length - 1),
@@ -400,7 +395,24 @@ export default {
                 })
             }
         },
-    },
+        titleScroll() {
+            const title = this.$refs.fixedTitle;
+            const winH = window.innerHeight;
+            const titleTop = title.offsetTop - winH*10/100;
+            const content = document.querySelector('.selected');
+            const contTop = content.offsetTop;
+            const contEnd = contTop + content.offsetHeight;
+
+            window.addEventListener('scroll', function() {
+                const scrolled = window.scrollY;
+                if ( titleTop < scrolled && scrolled < contEnd - winH ) {
+                    title.classList.add('active');
+                } else {
+                    title.classList.remove('active');
+                }
+            });
+        },
+    }
 }
 </script>
 
