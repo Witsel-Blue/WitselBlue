@@ -5,17 +5,15 @@
             :showLottie="showLottie" 
             :animationData="animationData"
         />
-        <div @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain">
-            <section id="main">
-                <Mainvisual />
-                <div class="inner" @mouseleave="onMouseLeaveMain">
-                    <p class="subtext">
-                        frontend developer
-                    </p>
-                    <TextScroll :text="'WitselBlue'" />
-                </div>
-            </section>
-        </div>
+        <section id="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain">
+            <Mainvisual />
+            <div class="inner">
+                <p class="subtext">
+                    frontend developer
+                </p>
+                <TextScroll :text="'WitselBlue'" />
+            </div>
+        </section>
         <div @mouseleave="onMouseLeaveMain">
             <section class="profile">
                 <div class="inner">
@@ -69,83 +67,6 @@
                     </div>
                 </div>
             </section>
-            <!-- <section class="archive" ref="archive">
-            <div class="inner">
-                <div class="subtitle-wrap">
-                <Nuxt-link
-                    class="subtitle ft-bagel txt-c mouse-hover1"
-                    to="/archive">
-                    Archive
-                </Nuxt-link>
-                </div>
-                <ul class="container" ref="comp">
-                <li
-                    class="panel"
-                    v-for="list in archive"
-                    :key="list.name">
-                    <div class="wrap">
-                    <Nuxt-link 
-                        class="hover-img"
-                        :to=list.path>
-                        <div class="res-box-wrap">
-                        <div class="res-box">
-                            <img :src="list.img" v-if="list.img">
-                            <span class="empty" v-else></span>
-                        </div>
-                        </div>
-                        </Nuxt-link>
-                        <div class="desc">
-                        <p class="work">{{ list.work }}</p>
-                        <Nuxt-link 
-                            class="title mouse-hover1"
-                            :to=list.path>
-                        <TextShifting :text="list.name"></TextShifting>
-                        </Nuxt-link>
-                        </div>
-                    </div>
-                </li>
-                </ul>
-            </div>
-            </section>
-            <section class="project" ref="project">
-            <div class="inner">
-                <div class="subtitle-wrap">
-                <Nuxt-link
-                    class="subtitle ft-bagel txt-c mouse-hover1"
-                    to="/project">
-                    Project
-                </Nuxt-link>
-                </div>
-            </div>
-            <ul class="container" ref="comp">
-                <li class="panel"></li>
-                <li
-                class="panel"
-                v-for="list in project"
-                :key="list.name">
-                <div class="wrap">
-                    <Nuxt-link 
-                    class="hover-img"
-                    :to=list.path>
-                    <div class="res-box-wrap">
-                        <div class="res-box">
-                        <img :src="list.img" v-if="list.img">
-                        <span class="empty" v-else></span>
-                        </div>
-                    </div>
-                    </Nuxt-link>
-                    <div class="desc">
-                    <p class="work">{{ list.work }}</p>
-                    <Nuxt-link 
-                        class="title mouse-hover1"
-                        :to=list.path>
-                        <TextShifting :text="list.name"></TextShifting>
-                    </Nuxt-link>
-                    </div>
-                </div>
-                </li>
-            </ul>
-            </section> -->
             <Footer />
         </div>
     </div>
@@ -344,7 +265,6 @@ export default {
         window.scrollTo({
             top: 0,
         });
-        this.scrollVertical();
     },
     methods: {
         onMouseEnterMain() {
@@ -354,31 +274,6 @@ export default {
         onMouseLeaveMain() {
             this.cursorClass = '';
             this.showLottie = false;
-        },
-        scrollVertical() {
-            var winW = window.innerWidth;
-
-            if (winW > 425) {
-                const gsap = this.$gsap;
-                const ScrollTrigger = this.$ScrollTrigger;
-                    
-                let horizontalSections = gsap.utils.toArray(".project .container");
-
-                horizontalSections.forEach((container) => {
-                    let sections = container.querySelectorAll(".project .panel");
-
-                    gsap.to(sections, {
-                        xPercent: -100 * (sections.length),
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: container,
-                            pin: true,
-                            scrub: 1,
-                        }
-                    });
-                })
-            }
-
         },
     },
 }
