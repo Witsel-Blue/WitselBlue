@@ -81,6 +81,9 @@
                     </ul>
                 </div>
             </section>
+            <section>
+                <SkewCard />
+            </section>
             <section class="skills">
                 <div class="inner">
                     <h1 class="subtitle ft-bagel txt-c">
@@ -131,6 +134,7 @@ import Footer from '@/layouts/Footer.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
+import SkewCard from '@/components/SkewCard.vue';
 
 export default {
     name: 'Index',
@@ -141,6 +145,7 @@ export default {
         Footer,
         TextScroll,
         ParallaxImg,
+        SkewCard,
     },
     data() {
         return {
