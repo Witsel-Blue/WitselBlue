@@ -20,14 +20,65 @@
                     <div data-aos="fade-up">
                         <ParallaxImg :src="profile.img" />
                     </div>
-                    <p
-                        class="txt-c"
-                        data-aos="fade-up"
-                    >
-                        안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1">비첼블루</span>입니다. <br>
-                        <span class="mouse-hover1">인터렉티브</span> 웹 디자인과<br class="mb"> 개발에 관심을 두고<br>
-                        다양한 방법으로 경험할 수 있는<br class="mb"> 웹사이트를 만들고자 합니다.
+                    <p class="txt-c" data-aos="fade-up">
+                        안녕하세요,<br class="mb"> <span class="mouse-hover1">서울</span>에서 활동 중인 개발자 <span class="mouse-hover1">비첼블루</span>입니다.<br>
+                        WebGl, GSAP, Lottie, SVG 등을 활용해<br>
+                        직관적이고 <span class="mouse-hover1">인터렉티브</span>한 사이트를<br class="mb"> 구현하고자 하고,<br>
+                        효율적이고 확장성을 고려한 <span class="mouse-hover1">클린코딩</span>을 지향합니다.<br>
+                        웹사이트를 방문하는 사용자가 단순히 정보를 얻는 것을 넘어<br>
+                        새로운 경험을 할 수 있도록 돕는<br class="mb"> <span class="mouse-hover1">프론트엔드 개발자</span>가 되고 싶습니다.
                     </p>
+                </div>
+            </section>
+            <section class="about">
+                <div class="inner">
+                    <h1 class="subtitle ft-bagel txt-c">
+                        About
+                    </h1>
+                    <ul class="txt-c" data-aos="fade-up">
+                        <li>
+                            <h4>Skills & Strengths</h4>
+                            <ul class="dot">
+                                <li>
+                                    Vue, React, Drupal, pure HTML
+                                </li>
+                                <li>
+                                    모션·애니메이션 기반 인터렉션 구현
+                                </li>
+                                <li>
+                                    반응형 & 웹접근성 고려        
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h4>Values</h4>
+                            <ul class="dot">
+                                <li>
+                                    확장성과 유지보수성을 고려한 코드
+                                </li>
+                                <li>
+                                    기획, 디자인, 백엔드 기초 지식 보유
+                                </li>
+                                <li>
+                                    1인 개발 경험, 여러 팀과 협력 경험 모두 보유
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h4>Beyond Code</h4>
+                            <ul class="dot">
+                                <li>
+                                    키아누 리브스를 좋아합니다
+                                </li>
+                                <li>
+                                    테크노 음악을 좋아합니다 (SebastiAn을 꼭 들어주세요)
+                                </li>
+                                <li>
+                                    진과 싱글몰트 위스키를 좋아합니다
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </section>
             <section class="skills">

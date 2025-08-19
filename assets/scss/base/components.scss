@@ -37,3 +37,22 @@
         }
     }
 }
+
+/*----- LIST DESIGN -----*/
+ul.dot {
+    display: inline-block;
+    li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &::before {
+            content: "";
+            width: 8px;
+            height: 1px;
+            display: inline-block;
+            background-color: $black1;
+        }
+    }
+}

@@ -144,7 +144,6 @@ export default {
                     s.pop();
                 };
 
-                // === p5 setup/draw ===
                 s.setup = function () {
                     s.createCanvas(s.windowWidth, s.windowHeight);
                     s.noCursor();

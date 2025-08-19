@@ -9,20 +9,10 @@
     width: 80%;
     max-width: $width-m;
     margin: auto;
-    .subtitle-wrap {
-      height: 3rem;
-      text-align: center;
-      .subtitle {
-        font-size: 3rem;
-        line-height: 1;
-        position: initial;
-        &.active {
-          position: fixed;
-          top: 5vh;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-      }
+    .subtitle {
+      font-size: 2.4rem;
+      line-height: 1;
+      margin-bottom: 1.6rem;
     }
   }
   #main {
@@ -60,6 +50,20 @@
         position: absolute;
         top: calc(40vh + 5rem + 10vh);
       }
+    }
+  }
+  .about {
+    h4 {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .inner > ul {
+      > li:not(:first-child) {
+        margin-top: 1.6rem;
+      }
+    }
+    ul.dot li {
+      justify-content: center;
     }
   }
   .profile {
