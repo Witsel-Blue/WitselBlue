@@ -143,7 +143,7 @@
 
   .profile {
     width: 100%;
-    padding-top: 50vh !important;
+    margin-top: 50vh;
     #parallax-img::v-deep {
       width: 32%;
       border-radius: 60px;
@@ -163,6 +163,9 @@
         font-family: "Diphylleia";
         font-size: 1.6rem;
         line-height: 1;
+      }
+      li {
+        overflow: hidden;
       }
     }
   }
