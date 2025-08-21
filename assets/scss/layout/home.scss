@@ -92,10 +92,13 @@
           width: 80%;
           position: relative;
         }
-        .hover-img {
+        ::v-deep .hover-img {
           width: 80%;
           max-width: $width-m;
           display: block;
+          background: #fff;
+          overflow:hidden;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
           .res-box-wrap {
             padding-bottom: 72%;
           }

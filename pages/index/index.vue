@@ -55,16 +55,7 @@
                         v-for="list in selected"
                         :key="list.name">
                         <div class="wrap">
-                            <Nuxt-link 
-                            class="hover-img"
-                            :to=list.path>
-                            <div class="res-box-wrap">
-                                <div class="res-box">
-                                <img :src="list.img" v-if="list.img">
-                                <span class="empty" v-else></span>
-                                </div>
-                            </div>
-                            </Nuxt-link>
+                            <SkewCardX :img="list.img" :path="list.path" />
                             <div class="desc">
                             <p class="work">{{ list.work }}</p>
                             <Nuxt-link 
@@ -189,6 +180,7 @@ import Footer from '@/layouts/Footer.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
+import SkewCardX from '@/components/SkewCardX.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 
 export default {
@@ -200,6 +192,7 @@ export default {
         Footer,
         TextScroll,
         ParallaxImg,
+        SkewCardX,
         ButtonRound,
     },
     data() {

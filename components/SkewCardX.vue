@@ -1,12 +1,34 @@
 <template>
   <div class="skew-section" ref="section">
-    <slot></slot>
+    <Nuxt-link 
+        v-if="path"
+        :to=path
+        class="hover-img">
+        <div class="img">
+            <div class="res-box-wrap">
+                <div class="res-box">
+                    <img :src="img" />
+                </div>
+            </div>
+        </div>
+    </Nuxt-link>
+    <img :src="img" v-else-if="img" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SkewSection',
+  name: 'SkewCardX',
+  props: {
+    img: {
+        type: String,
+        required: true,
+    },
+    path: {
+        type: String,
+        required: true,
+    }
+  },
   data() {
     return {
       currentPos: 0,
@@ -23,9 +45,9 @@ export default {
       const loop = () => {
         const newPos = window.pageYOffset;
         const diff = newPos - this.currentPos;
-        const speed = diff * 0.15;
+        const speed = diff * 0.08;
 
-        section.style.transform = `skewY(${speed}deg)`;
+        section.style.transform = `skewX(${speed}deg)`;
 
         this.currentPos = newPos;
         requestAnimationFrame(loop);
@@ -40,10 +62,5 @@ export default {
 <style scoped>
 .skew-section {
   transition: transform 0.2s ease-out;
-  width: 300px;
-  height: 400px;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 </style>
