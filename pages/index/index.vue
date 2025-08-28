@@ -404,7 +404,7 @@ export default {
                 }
 
                 // 스크롤 업 재진입
-                if (!animated && profileBottom <= viewportHeight && profileBottom >= viewportHeight * 0.1) {
+                if (!animated && profileBottom <= viewportHeight && profileBottom >= viewportHeight * 0.2) {
                     if (staggerTween) staggerTween.kill();
                     staggerTween = gsap.to(paragraphs, {
                         yPercent: 0,
