@@ -21,7 +21,7 @@
                         v-for="tab in mainTabs"
                         :key="tab"
                         :class="{ active: activeMain === tab }"
-                        @click="activeMain = tab"
+                        @click="selectMain(tab)"
                     >
                         {{ tab }}
                     </button>
@@ -46,13 +46,20 @@
                     :key="i"
                     class="list-card"
                 >
-                    <img v-if="item.img" :src="item.img" :alt="item.name || item.title" />
-
-                    <h3>{{ item.name || item.title }}</h3>
-                    <p v-if="item.artist">{{ item.artist }}</p>
-                    <p>{{ item.work }}</p>
-
-                    <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
+                    <SkewCardY :img="item.img" :path="item.path" />
+                    <div class="desc">
+                        <p class="work">{{ item.tags.work }}</p>
+                        <Nuxt-link 
+                            class="title mouse-hover1"
+                            :to=item.path>
+                            <TextShifting :text="item.name" :key="item.path"></TextShifting>
+                        </Nuxt-link>
+                        <div class="tags">
+                            <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
+                                #{{ value }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,9 +76,10 @@ import Footer from '@/layouts/Footer.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import TextShifting from '@/components/TextShifting.vue';
 import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
 import StarBg from '@/components/StarBg.vue';
+import SkewCardY from '@/components/SkewCardY.vue';
+import TextShifting from '@/components/TextShifting.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -103,19 +111,37 @@ export default {
         }
     },
     computed: {
-    filteredLists() {
-      if (this.activeMain === 'all') {
-            return [...this.archive.dev, ...this.archive.music]
-        }
-        let list = this.archive[this.activeMain] || []
-        if (this.activeSub === 'all') {
-            return list
-        }
-        return list.filter(item => item.work === this.activeSub)
-        }
+  filteredLists() {
+    let list = [];
+
+    // mainTabs 분기
+    if (this.activeMain === 'all') {
+      list = [...this.archive.dev, ...this.archive.music];
+    } else if (this.activeMain === 'dev') {
+      list = [...this.archive.dev];
+    } else if (this.activeMain === 'music') {
+      list = [...this.archive.music];
+    }
+
+    // subTabs 필터
+    if (this.activeSub !== 'all') {
+      list = list.filter(item => (item.tags?.work || item.work) === this.activeSub);
+    }
+
+    // music 항목은 name이 없는 경우 artist를 name으로 매핑
+    list = list.map(item => {
+      if (!item.name && item.artist) {
+        return { ...item, name: item.name || item.artist };
+      }
+      return item;
+    });
+
+    return list;
+  }
     },
     watch: {
-        activeMain() {
+        selectMain(tab) {
+            this.activeMain = tab;
             this.activeSub = 'all';
         }
     },
@@ -143,6 +169,10 @@ export default {
                 }
 
             });
+        },
+        selectMain(tab) {
+            this.activeMain = tab;
+            this.activeSub = 'all';
         }
     },
 }

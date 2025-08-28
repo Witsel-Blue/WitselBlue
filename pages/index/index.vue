@@ -57,12 +57,12 @@
                         <div class="wrap">
                             <SkewCardX :img="list.img" :path="list.path" />
                             <div class="desc">
-                            <p class="work">{{ list.work }}</p>
-                            <Nuxt-link 
-                                class="title mouse-hover1"
-                                :to=list.path>
-                                <TextShifting :text="list.name"></TextShifting>
-                            </Nuxt-link>
+                                <p class="work">{{ list.work }}</p>
+                                <Nuxt-link 
+                                    class="title mouse-hover1"
+                                    :to=list.path>
+                                    <TextShifting :text="list.name"></TextShifting>
+                                </Nuxt-link>
                             </div>
                         </div>
                     </li>
@@ -184,6 +184,7 @@ import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
 import SkewCardX from '@/components/SkewCardX.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
+import TextShifting from '@/components/TextShifting.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);

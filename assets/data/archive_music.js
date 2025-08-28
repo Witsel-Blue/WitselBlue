@@ -1,18 +1,25 @@
 export default [
     {
         artist: 'Witsel Blue',
-        title: 'Email',
+        name: 'Email',
         path: '/archive/music/email',
-        img: '',
         link: 'https://on.soundcloud.com/BOMjpDyJE2yg06jhoN',
-        work: 'producing',
+        img: '',
+        tags: {
+            work: 'producing',
+            genre: 'techno',
+        }
     },
     {
         artist: 'Witsel Blue',
-        title: 'MIX 01',
+        name: 'MIX 01',
         path: '/archive/music/mix01',
-        img: '',
         link: 'https://on.soundcloud.com/WGXoSOJ8HZnULNn990',
-        work: 'dj',
+        img: '',
+        tags: {
+            work: 'dj',
+            genre: 'techno',
+            genre2: 'house'
+        }
     }
 ]

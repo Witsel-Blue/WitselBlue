@@ -5,11 +5,13 @@
     width: 100%;
     min-height: 100vh;
     overflow: hidden;
+    background-color: #f7f7f7;
+    color: #3e3c3c;
+
     .main {
         border: 1px solid red;
         background: linear-gradient(180deg, $gray0 0%, $white2 100%);
         width: 100%;
-        // height: 100vh;
         padding: 10vh 10vw;
         display: flex;
         flex-direction: column;
@@ -18,7 +20,7 @@
         text-align: center;
         position: relative;
         .title {
-            font-size: 5rem;
+            font-size: 4rem;
             line-height: 1;
             z-index: 100;
             position: initial;
@@ -37,6 +39,45 @@
         #button-scrolldown {
             margin-top: 24px;
         }
+    }
+    .list-wrap {
+        .inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 64px 32px;
+            .skew-section {
+                width: 72%;
+            }
+            .desc {
+                position: absolute;
+                bottom: 16px;
+                right: 0;
+                width: 50%;
+                .work {
+                    font-size: 0.8rem;
+                }
+                .title::v-deep {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    span {
+                        font-family: "Diphylleia";
+                    }
+                }
+            }
+            .tags {
+                p {
+                    display: inline-block;
+                    font-size: 0.8rem;
+                    color: $gray2;
+                    &:not(:first-child) {
+                        margin-left: 4px;
+                    }
+                }
+            }
+        }
+    }
+    .list-card {
+        position: relative;
     }
 }
 

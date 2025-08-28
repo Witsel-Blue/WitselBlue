@@ -76,14 +76,19 @@
                     :key="i"
                     class="list-card"
                 >
-                    <img :src="item.img" :alt="item.name" />
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.work }} | {{ item.duration }}</p>
-                    <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
-                    <div class="tags">
-                        <span v-for="(value, key) in item.tags" :key="key">
-                            #{{ value }}
-                        </span>
+                    <SkewCardY :img="item.img" :path="item.path" />
+                    <div class="desc">
+                        <p class="work">{{ item.tags.work }}</p>
+                        <Nuxt-link 
+                            class="title mouse-hover1"
+                            :to=item.path>
+                            <TextShifting :text="item.name"></TextShifting>
+                        </Nuxt-link>
+                        <div class="tags">
+                            <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
+                                #{{ value }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,9 +105,10 @@ import Footer from '@/layouts/Footer.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import TextShifting from '@/components/TextShifting.vue';
 import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
 import StarBg from '@/components/StarBg.vue';
+import SkewCardY from '@/components/SkewCardY.vue';
+import TextShifting from '@/components/TextShifting.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
