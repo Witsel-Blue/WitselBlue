@@ -8,110 +8,114 @@
             class="footer-bg"
         />
         <div class="footer">
-            <h1
-                ref="title"
-                data-aos="fade-up"
-            >
-                <span
-                    class="ft-tanpearl"
-                    style="--i:1"
-                >w</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:2"
-                >o</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:3"
-                >r</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:4"
-                >k</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:5"
-                />
-                <span
-                    class="ft-tanpearl"
-                    style="--i:6"
-                >w</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:7"
-                >i</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:8"
-                >t</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:9"
-                >h</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:10"
-                />
-                <span
-                    class="ft-tanpearl"
-                    style="--i:11"
-                >m</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:12"
-                >e</span>
-                <span
-                    class="ft-tanpearl"
-                    style="--i:13"
-                >!</span>
-            </h1>
-            <div>
-                <ul class="lists">
-                    <li data-aos="fade-up">
-                        <ButtonRound :link="link" />
-                    </li>
-                    <li data-aos="fade-up">
-                        <ButtonRound :link="link2" />
-                    </li>
-                </ul>
+            <div class="top">
+                <h1
+                    ref="title"
+                    data-aos="fade-up"
+                >
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:1"
+                    >w</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:2"
+                    >o</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:3"
+                    >r</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:4"
+                    >k</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:5"
+                    />
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:6"
+                    >w</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:7"
+                    >i</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:8"
+                    >t</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:9"
+                    >h</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:10"
+                    />
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:11"
+                    >m</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:12"
+                    >e</span>
+                    <span
+                        class="ft-tanpearl"
+                        style="--i:13"
+                    >!</span>
+                </h1>
+                <div>
+                    <ul class="lists">
+                        <li data-aos="fade-up">
+                            <ButtonRound :link="link" />
+                        </li>
+                        <li data-aos="fade-up">
+                            <ButtonRound :link="link2" />
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="sub-lists">
+                        <li data-aos="fade-up">
+                            <a
+                                href="https://github.com/Witsel-Blue"
+                                target="_blank"
+                                class="mouse-hover3"
+                            >
+                                github
+                            </a>
+                        </li>
+                        <li data-aos="fade-up">
+                            <a
+                                href="www.linkedin.com/in/witselblue"
+                                target="_blank"
+                                class="mouse-hover3"
+                            >
+                                linkedin
+                            </a>
+                        </li>
+                        <li data-aos="fade-up">
+                            <a
+                                href="https://witselblue.slack.com/team/U0830TL3ZDW"
+                                target="_blank"
+                                class="mouse-hover3"
+                            >
+                                slack
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                <ul class="sub-lists">
-                    <li data-aos="fade-up">
-                        <a
-                            href="https://github.com/Witsel-Blue"
-                            target="_blank"
-                            class="mouse-hover2"
-                        >
-                            github
-                        </a>
-                    </li>
-                    <li data-aos="fade-up">
-                        <a
-                            href="www.linkedin.com/in/witselblue"
-                            target="_blank"
-                            class="mouse-hover2"
-                        >
-                            linkedin
-                        </a>
-                    </li>
-                    <li data-aos="fade-up">
-                        <a
-                            href="https://witselblue.slack.com/team/U0830TL3ZDW"
-                            target="_blank"
-                            class="mouse-hover2"
-                        >
-                            slack
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="convenience" data-aos="fade-up">
-                <ChangeLang />
-                <ChangeCursor />
-            </div>
-            <div class="desc">
-                <p>2025 &copy;witselblue</p>
+            <div class="bottom">
+                <div class="convenience">
+                    <ChangeLang />
+                    <ChangeCursor />
+                </div>
+                <div class="desc">
+                    <p>2025 &copy;witselblue</p>
+                </div>
             </div>
         </div>
     </div>
@@ -197,91 +201,114 @@ export default {
         color: $white1;
         width: 100%;
         height: 80%;
-        padding: 15vh 10vw;
+        padding: 10vh 5vw 2.4vh;
         display: flex;
-        align-items: center;
-        justify-content: center;
         flex-direction: column;
-        position: relative;
-
-        h1 {
-            font-size: 3rem;
-            font-weight: normal;
-            display: inline-flex;
-
-            span {
-                position: relative;
-                display: inline-block;
-                min-width: 16px;
-            }
-
-            &.active span {
-                animation: flip 0.8s;
-                animation-delay: calc(0.04s * var(--i));
-            }
-        }
-
-        @keyframes flip {
-            0%, 50% {
-                transform: rotateY(360deg);
-            }
-        }
-
-        .lists {
-            margin-top: 40px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-
-            #button-round::v-deep {
-                .button {
-                    padding: 16px;
-                    border-radius: 32px;
-                    &::after {
-                        border: 1px solid $white1 !important;
-                        border-radius: 32px;
-                    }
-                }
-                .circle::before {
-                    background-color: $white1 !important;
-                }
-                .title {
-                    color: $white1 !important;
-                }
-
-                &:hover {
-                    .title {
-                        color: $black1 !important;
-                    }
-                }
-            }
-        }
-
-        .sub-lists {
-            margin-top: 40px;
+        justify-content: space-between;
+        
+        .top {
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 24px;
+            flex-direction: column;
+            gap: 40px;
+            
+            h1 {
+                font-size: 3rem;
+                font-weight: normal;
+                display: inline-flex;
 
-            a {
-                color: $white1;
+                span {
+                    position: relative;
+                    display: inline-block;
+                    min-width: 16px;
+                }
+
+                &.active span {
+                    animation: flip 0.8s;
+                    animation-delay: calc(0.04s * var(--i));
+                }
+            }
+
+            @keyframes flip {
+                0%, 50% {
+                    transform: rotateY(360deg);
+                }
+            }
+
+            .lists {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+
+                #button-round::v-deep {
+                    .button {
+                        padding: 16px;
+                        border-radius: 32px;
+                        &::after {
+                            border: 1px solid $white1 !important;
+                            border-radius: 32px;
+                        }
+                    }
+                    .circle::before {
+                        background-color: $white1 !important;
+                    }
+                    .title {
+                        color: $white1 !important;
+                    }
+
+                    &:hover {
+                        .title {
+                            color: $black1 !important;
+                        }
+                    }
+                }
+            }
+
+            .sub-lists {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+
+                a {
+                    color: $white1;
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        width: 0;
+                        height: 2px;
+                        background-color: $white1;
+                        position: absolute;
+                        left: 0;
+                        bottom: -2px;
+                    }
+
+                    &:hover::after{
+                        width: 100%;
+                        transition: width 0.2s ease-in;
+                    }
+                }
             }
         }
 
-        .convenience {
-            position: absolute;
-            bottom: 6vh;
-            display: flex;
-            gap: 24px;
-        }
+        .bottom {
+            position: relative;
+            .convenience {
+                display: flex;
+                gap: 24px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
 
-        .desc {
-            position: absolute;
-            font-size: 0.8rem;
-            left: 5vw;
-            bottom: 2.4vh;
-            color: $black1;
+            .desc {
+                left: 5vw;
+                font-size: 0.8rem;
+                color: $black1;
+            }
         }
     }
 

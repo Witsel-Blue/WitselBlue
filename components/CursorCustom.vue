@@ -94,6 +94,18 @@ export default {
                     });
                 }
 
+                var hoverElems2 = document.querySelectorAll('.mouse-hover3');
+                for (var i = 0; i < hoverElems2.length; i++) {
+                    var x2 = hoverElems2[i];
+
+                    x2.addEventListener("mouseenter", e => {
+                        circle.classList.add('hover3');
+                    });
+                    x2.addEventListener("mouseleave", e => {
+                        circle.classList.remove('hover3');
+                    });
+                }
+
                 var noHoverElems = document.querySelectorAll('.mouse-none');
                 for (var i = 0; i < noHoverElems.length; i++) {
                     var x2 = noHoverElems[i];
@@ -164,10 +176,17 @@ export default {
         }
 
         &.hover2 {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             border: none;
-            background: rgba(62, 60, 60, 0.8);
+            background: rgb(202, 202, 202);
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        &.hover3 {
+            width: 40px;
+            height: 40px;
             transition: width 0.2s, height 0.2s;
         }
 

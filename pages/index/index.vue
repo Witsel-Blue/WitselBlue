@@ -66,17 +66,6 @@
                             </div>
                         </div>
                     </li>
-                    <li class="panel">
-                        <h4>view more</h4>
-                        <ul class="lists">
-                            <li>
-                                <ButtonRound :link="link" />
-                            </li>
-                            <li>
-                                <ButtonRound :link="link2" />
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </section>
             <section class="about" ref="about">
@@ -183,7 +172,6 @@ import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
 import SkewCardX from '@/components/SkewCardX.vue';
-import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
 
 if (process.client) {
@@ -200,7 +188,6 @@ export default {
         TextScroll,
         ParallaxImg,
         SkewCardX,
-        ButtonRound,
     },
     data() {
         return {
@@ -453,8 +440,8 @@ export default {
                         scrollTrigger: {
                             trigger: container,
                             pin: true,
-                            scrub: 1.6,
-                            end: () => "+=" + container.offsetWidth * (sections.length - 1) * 1.6,
+                            scrub: 1.4,
+                            end: () => "+=" + container.offsetWidth * (sections.length - 1) * 1.4,
                         }
                     });
                 })
