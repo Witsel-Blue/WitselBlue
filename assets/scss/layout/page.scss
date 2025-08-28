@@ -5,10 +5,10 @@
     min-height: 100vh;
     overflow: hidden;
     .main {
-        // background-color: $gray0;
+        border: 1px solid red;
         background: linear-gradient(180deg, $gray0 0%, $white2 100%);
         width: 100%;
-        height: 100vh;
+        // height: 100vh;
         padding: 10vh 10vw;
         display: flex;
         flex-direction: column;
@@ -31,69 +31,11 @@
         }
         #star-bg {
             position: absolute;
-            top: 20%;
+            top: 0;
         }
         #button-scrolldown {
             margin-top: 24px;
         }
-    }
-    .container {
-        padding: 10vh 0;
-        overscroll-behavior: none;
-        height: 100vh;
-        display: flex;
-        .panel {
-            flex: 0 0 80vw;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            .wrap {
-                width: 80%;
-                position: relative;
-            }
-            .hover-img {
-                width: 80%;
-                max-width: $width-m;
-                display: block;
-                .res-box-wrap {
-                    padding-bottom: 72%;
-                }
-                .empty {
-                    width: 100%;
-                    height: 100%;
-                    background-color: $gray1;
-                    display: block;
-                }
-            }
-            .desc {
-                position: absolute;
-                bottom: 4%;
-                right: 0;
-                max-width: 48%;
-                .work {
-                    font-size: 0.8rem;
-                    // mix-blend-mode: hard-light;
-                }
-                .title::v-deep {
-                    margin-top: 4px;
-                    display: inline-block;
-                    font-size: 2.4rem;
-                    font-weight: bold;
-                    display: block;
-                    span {
-                        font-family: "Diphylleia";
-                        // mix-blend-mode: hard-light;
-                    }
-                }
-            }
-        }
-    }
-}
-
-#archive {
-    .container {
-        width: 240% !important;
     }
 }
 
