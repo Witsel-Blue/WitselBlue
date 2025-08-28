@@ -5,6 +5,7 @@
     >
         <CursorCustom />
         <PageTransition :title="title" />
+
         <div class="main">
             <h1 class="title ft-bagel">
                 {{ title }}
@@ -12,56 +13,53 @@
             <StarBg />
             <ButtonScrollDown />
         </div>
-        <ul
-            ref="comp"
-            class="container"
-        >
-            <li class="panel"></li>
-            <li
-                v-for="list in lists"
-                :key="list.name"
-                class="panel"
+
+        <!-- 탭 메뉴 -->
+        <div class="tab-menu">
+            <button
+                v-for="tab in mainTabs"
+                :key="tab"
+                :class="{ active: activeMain === tab }"
+                @click="activeMain = tab"
             >
-                <div
-                    class="wrap"
-                    data-aos="fade-up"
-                >
-                    <Nuxt-link 
-                        class="hover-img"
-                        :to="list.path"
-                    >
-                        <div class="res-box-wrap">
-                            <div class="res-box">
-                                <img
-                                    v-if="list.img"
-                                    :src="list.img"
-                                >
-                                <span
-                                    v-else
-                                    class="empty"
-                                />
-                            </div>
-                        </div>
-                    </Nuxt-link>
-                    <div class="desc">
-                        <p class="work">
-                            {{ list.work }}
-                        </p>
-                        <Nuxt-link 
-                            class="title mouse-hover1"
-                            :to="list.path"
-                        >
-                            <TextShifting :text="list.name" />
-                        </Nuxt-link>
-                    </div>
-                </div>
-            </li>
-        </ul>
+                {{ tab }}
+            </button>
+        </div>
+
+        <div v-if="activeMain !== 'all'" class="sub-tab-menu">
+            <button
+                v-for="tab in subTabs[activeMain]"
+                :key="tab"
+                :class="{ active: activeSub === tab }"
+                @click="activeSub = tab"
+            >
+                {{ tab }}
+            </button>
+        </div>
+
+        <div class="list-wrap">
+            <div
+                v-for="(item, i) in filteredLists"
+                :key="i"
+                class="list-card"
+            >
+                <img v-if="item.img" :src="item.img" :alt="item.name || item.title" />
+
+                <h3>{{ item.name || item.title }}</h3>
+                <p v-if="item.artist">{{ item.artist }}</p>
+                <p>{{ item.work }}</p>
+
+                <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
+            </div>
+        </div>
+
         <Footer />
     </div>
 </template>
 
 <script>
+import archiveDevData from '@/assets/data/archive_dev.js';
+import archiveMusicData from '@/assets/data/archive_music.js';
 import CursorCustom from '@/components/CursorCustom.vue';
 import Footer from '@/layouts/Footer.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
@@ -87,72 +85,40 @@ export default {
     data() {
         return {
             title: 'Archive',
-            lists: [
-                {
-                    name: 'Kiki',
-                    path: '/archive/kiki',
-                    img: require('@/assets/img/archive01_main.png'),
-                    work: 'p5.js',
-                },
-                {
-                    name: 'Zizi',
-                    path: '/archive/zizi',
-                    img: require('@/assets/img/archive02_main.png'),
-                    work: 'p5.js',
-                },
-                {
-                    name: 'Witch Pot',
-                    path: '/archive/witchpot',
-                    img: require('@/assets/img/archive03_main.png'),
-                    work: 'p5.js',
-                },
-                {
-                    name: 'My Island',
-                    path: '/archive/myisland',
-                    img: '',
-                    work: 'three.js',
-                },
-            ]
+            mainTabs: ['all', 'dev', 'music'],
+            activeMain: 'all',
+            subTabs: {
+                dev: ['all', 'p5.js', 'pixi.js', 'three.js'],
+                music: ['all', 'producing', 'dj'],
+            },
+            activeSub: 'all',
+            archive: {
+                dev: archiveDevData,
+                music: archiveMusicData,
+            }
+        }
+    },
+    computed: {
+    filteredLists() {
+      if (this.activeMain === 'all') {
+            return [...this.archive.dev, ...this.archive.music]
+        }
+        let list = this.archive[this.activeMain] || []
+        if (this.activeSub === 'all') {
+            return list
+        }
+        return list.filter(item => item.work === this.activeSub)
+        }
+    },
+    watch: {
+        activeMain() {
+            this.activeSub = 'all';
         }
     },
     mounted() {
-        this.scrollVertical();
         this.titleScroll();
-        window.addEventListener('resize', this.scrollVertical);
-    },
-    beforeDestroy() {
-        window.removeEventListener('resize', this.handleResize);
     },
     methods: {
-        scrollVertical() {
-            var winW = window.innerWidth;
-
-            if (winW > 425) {
-                const gsap = this.$gsap;
-                const ScrollTrigger = this.$ScrollTrigger;
-                    
-                let horizontalSections = gsap.utils.toArray(".container");
-
-                // var n = document.querySelectorAll('.panel').length;
-                // document.querySelector('.container').style.width = n*200 + '%';
-
-                horizontalSections.forEach((container) => {
-                    let sections = container.querySelectorAll(".panel");
-
-                    gsap.to(sections, {
-                        xPercent: -100 * (sections.length),
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: container,
-                            pin: true,
-                            scrub: 1.6,
-                            end: () => "+=" + container.offsetWidth * (sections.length - 1) * 1.6,
-                        }
-                    });
-                })
-            }
-
-        },
         titleScroll() {
             var title = document.querySelector('.title');
             var button = document.querySelector('#button-scrolldown');
