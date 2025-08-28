@@ -150,43 +150,43 @@ export default {
     },
     data() {
         return {
-            title: 'Oxfam Virtaulwalker',
+            title: 'DCDCenter',
             main: {
-                mainvisual: require('@/assets/img/project04_main.png'),
-                id: '04',
-                title: 'Oxfam Virtaulwalker',
+                mainvisual: require('@/assets/img/project05_main.png'),
+                id: '05',
+                title: 'DCDCenter',
                 description: 
-                        '옥스팜코리아에서 주최한 걷기 기부<br class="mb"> 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는<br class="mb"> 애니메이션 구현',
+                        '무용예술인의 직업전환과 복지증진을 위해<br> 다양한 지원사업을 신청할 수 있는 사이트',
             },
             img: {
-                pc: require('@/assets/img/project04_pc.png'),
-                img1: require('@/assets/img/project04_img1.png'),
-                img2: require('@/assets/img/project04_img2.png'),
-                mb1: require('@/assets/img/project04_mb01.png'),
-                mb2: require('@/assets/img/project04_mb02.png'),
-                mb3: require('@/assets/img/project04_mb03.png'),
+                pc: require('@/assets/img/project05_pc.png'),
+                img1: require('@/assets/img/project05_img1.png'),
+                img2: require('@/assets/img/project05_img2.png'),
+                mb1: require('@/assets/img/project05_mb01.png'),
+                mb2: require('@/assets/img/project05_mb02.png'),
+                mb3: require('@/assets/img/project05_mb03.png'),
             },
             desc: {
-                duration: '2021.08-2021.09',
-                consultant: '옥스팜코리아',
+                duration: '2021.11-2021.12',
+                consultant: '전문무용수지원센터',
                 team: 'SKNK',
                 work: 'frontend',
                 platform: 'drupal9 / css / jquery',
             },
             link: {
-                href: 'https://v50.oxfamtrailwalker.or.kr/',
+                href: 'https://www.dcdcenter.or.kr/',
                 text: 'Visit Site',
                 target: '_blank',
             },
             pagination: {
-                href: '/project',
-                text: 'view all project',
-                prevLink: '/project/DCAMP',
-                prevText: 'DCAMP',
-                nextLink: '/project/DCDCenter',
-                nextText: 'DCDCenter',
+                href: '/projects',
+                text: 'view all projects',
+                prevLink: '/projects/OxfamVirtualWalker',
+                prevText: 'Oxfam VirtualWalker',
+                nextLink: '/projects/cabinnet',
+                nextText: 'Cabinnet',
                 nextWork: 'frontend',
-                nextImg: require('@/assets/img/project05_main.png'),
+                nextImg: require('@/assets/img/project06_main.png'),
             }
         }
     }
@@ -194,17 +194,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
     @import '@/assets/scss/layout/page_detail.scss';
-
-    .contents .main .title {
-        max-width: 40%;
-    }
-
-    // mobile
-    @media all and (max-width: $mobile) {
-        .contents .main .title {
-            max-width: 100%;
-        }
-    }
 </style>

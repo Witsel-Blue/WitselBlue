@@ -40,10 +40,7 @@
                             class="device"
                         >
                         <div class="img-wrap">
-                            <img
-                                :src="img.pc"
-                                class="img"
-                            >
+                            <!-- <img :src="main.mainvisual" class="img"> -->
                         </div>
                     </div>
                 </div>
@@ -70,37 +67,6 @@
                             </dl>
                         </li>
                     </ul>
-                </div>
-            </section>
-            <section class="img-pc">
-                <div class="inner">
-                    <img
-                        :src="img.img1"
-                        data-aos="fade-up"
-                    >
-                    <img
-                        :src="img.img2"
-                        data-aos="fade-up"
-                    >
-                </div>
-            </section>
-            <section
-                class="img-mb device-bg"
-                data-aos="fade-up"
-            >
-                <div class="inner">
-                    <img
-                        :src="img.mb1"
-                        data-aos="fade-up"
-                    >
-                    <img
-                        :src="img.mb2"
-                        data-aos="fade-up"
-                    >
-                    <img
-                        :src="img.mb3"
-                        data-aos="fade-up"
-                    >
                 </div>
             </section>
             <section>
@@ -150,46 +116,38 @@ export default {
     },
     data() {
         return {
-            title: '4·16 Online Memorial',
+            title: 'Cabinnet',
             main: {
-                mainvisual: require('@/assets/img/project02_main.png'),
-                id: '02',
-                title: '4·16 Online Memorial',
+                mainvisual: require('@/assets/img/project06_main.png'),
+                id: '06',
+                title: 'Cabinnet',
                 description: 
-                        '세월호참사 10주기를 기념하여<br class="mb"> 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의<br class="mb"> 라이브러리를 이용하여 메인비주얼 구현',
-            },
-            img: {
-                pc: require('@/assets/img/project02_pc.png'),
-                img1: require('@/assets/img/project02_img1.png'),
-                img2: require('@/assets/img/project02_img2.png'),
-                mb1: require('@/assets/img/project02_mb01.png'),
-                mb2: require('@/assets/img/project02_mb02.png'),
-                mb3: require('@/assets/img/project02_mb03.png'),
+                        '나의 취향과 상품의 스토리가<br class="mb"> 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴<br class="mb"> 사회적경제의 상품과 브랜드를 소개<br> 네이버 블로그 형식으로 운영에서 쉽게<br class="mb"> 글을 작성할 수 있도록 개발',
             },
             desc: {
-                duration: '2022.04',
-                consultant: '4·16 재단',
+                duration: '2021.05-2021.07',
+                consultant: '서울 사회적경제 포털',
                 team: 'SKNK',
-                work: 'publishing',
-                platform: 'html / css / jquery',
+                work: 'frontend',
+                platform: 'drupal9 / css / jquery',
             },
             link: {
-                href: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
+                href: '',
                 text: 'Visit Site',
                 target: '_blank',
             },
             pagination: {
-                href: '/project',
-                text: 'view all project',
-                prevLink: '/project/monimo',
-                prevText: 'Monimo',
-                nextLink: '/project/DCAMP',
-                nextText: 'DCAMP',
+                href: '/projects',
+                text: 'view all projects',
+                prevLink: '/projects/DCDCenter',
+                prevText: 'DCDCenter',
+                nextLink: '/projects/KACE',
+                nextText: 'KACE',
                 nextWork: 'frontend',
-                nextImg: require('@/assets/img/project03_main.png'),
+                nextImg: require('@/assets/img/project07_pagination.png'),
             }
         }
-    },
+    }
 }
 </script>
 

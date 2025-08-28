@@ -1,6 +1,6 @@
 <template>
     <div
-        id="project"
+        id="projects"
         class="page"
     >
         <CursorCustom />
@@ -99,7 +99,7 @@ export default {
     },
     data() {
         return {
-            title: 'project',
+            title: 'projects',
             activeTab: 'all',
             lists: projectData,
             openedGroup: null,

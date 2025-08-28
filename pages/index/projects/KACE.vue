@@ -31,38 +31,21 @@
                 data-aos="fade-up"
             >
                 <div class="inner">
-                    <ul class="device_mb">
-                        <li data-aos="fade-up">
+                    <div
+                        class="device_pc"
+                        data-aos="fade-up"
+                    >
+                        <img
+                            src="@/assets/img/device-laptop.png"
+                            class="device"
+                        >
+                        <div class="img-wrap">
                             <img
-                                src="@/assets/img/device-iphone15.png"
-                                class="device"
-                            >
-                            <img
-                                src="@/assets/img/project01_mb01.png"
+                                :src="img.pc"
                                 class="img"
                             >
-                        </li>
-                        <li data-aos="fade-up">
-                            <img
-                                src="@/assets/img/device-iphone15.png"
-                                class="device"
-                            >
-                            <img
-                                src="@/assets/img/project01_mb02.png"
-                                class="img"
-                            >
-                        </li>
-                        <li data-aos="fade-up">
-                            <img
-                                src="@/assets/img/device-iphone15.png"
-                                class="device"
-                            >
-                            <img
-                                src="@/assets/img/project01_mb03.png"
-                                class="img"
-                            >
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section>
@@ -136,55 +119,42 @@ export default {
     },
     data() {
         return {
-            title: 'Monimo',
+            title: 'KACE',
             main: {
-                mainvisual: require('@/assets/img/project01_main.png'),
-                id: '01',
-                title: 'Monimo',
+                mainvisual: require('@/assets/img/project07_main.png'),
+                id: '07',
+                title: 'KACE',
+                link: 'http://www.kace.or.kr/',
                 description: 
-                        '삼성생명, 삼성화재, 삼성카드,<br class="mb"> 삼성증권에서 만든 금융 서비스 앱<br> 여러 팀과 협력하여<br class="mb"> 보안 시스템 아래에서 개발<br> 컴포넌트와 1400여개 페이지 관리,<br class="mb"> 카드 메인 페이지 담당',
+                        '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을<br class="mb"> 신청할 수 있는 서비스 제공<br> (사이트 리뉴얼을 위해 작업했으나<br class="mb"> 해당 링크에선 보실 수 없습니다)',
+            },
+            img: {
+                pc: require('@/assets/img/project07_pc.png'),
+                // mb: require('@/assets/img/project05_mb.png'),
             },
             desc: {
-                duration: '2024.07-2024.10',
-                consultant: 'Samsung',
-                team: 'lisn',
-                work: 'development',
-                platform: 'vue2 / storybook / scss',
+                duration: '2021.09-2021.10',
+                consultant: '한국지역사회교육협의회',
+                team: 'SKNK',
+                work: 'frontend',
+                platform: 'drupal9 / css / jquery',
             },
             link: {
-                href: 'https://www.monimo.com/w/main/WPFMHP0101M0',
+                href: 'http://www.kace.or.kr/',
                 text: 'Visit Site',
                 target: '_blank',
             },
             pagination: {
-                href: '/project',
-                text: 'view all project',
-                prevLink: '/project/RNJOB',
-                prevText: 'RNJOB App',
-                nextLink: '/project/OnlineMemorial',
-                nextText: '4·16 Online Memorial',
+                href: '/projects',
+                text: 'view all projects',
+                prevLink: '/projects/cabinnet',
+                prevText: 'Cabinnet',
+                nextLink: '/projects/RNJOB',
+                nextText: 'RNJOB App',
                 nextWork: 'publishing',
-                nextImg: require('@/assets/img/project02_main.png'),
-            },
-        }
-    },
-    mounted() {
-        setTimeout(() => {
-            this.getMbHeight();
-        }, '1000');
-        window.addEventListener('resize', this.getMbHeight);
-    },
-    methods: {
-        getMbHeight() {
-            var mb = document.querySelector('.device_mb .device');
-            var mbH = mb.clientHeight;
-            var mbImg = document.querySelectorAll('.device_mb .img');
-                
-            for (var i = 0; i < mbImg.length; i++) {
-                var c = mbImg[i];
-                c.style.height = mbH + 'px';
+                nextImg: require('@/assets/img/project08_main.png'),
             }
-        },
+        }
     }
 }
 </script>

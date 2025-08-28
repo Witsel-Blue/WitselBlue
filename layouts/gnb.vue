@@ -98,13 +98,13 @@ export default {
                     path: '/'
                 },
                 {
+                    name: '<p>Pr<span>o</span>jects</p>',
+                    path: '/projects'
+                },
+                {
                     name: '<p>Ar<span>h</span>ive</p>',
                     path: '/archive'
                 },
-                {
-                    name: '<p>Pr<span>o</span>ject</p>',
-                    path: '/project'
-                }
             ],
             open: false,
             headerShadow: false,
