@@ -147,16 +147,16 @@ export default {
     .cursor-circle {
         position: fixed;
         pointer-events: none;
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         z-index: 101;
         border: 2px solid $black1;
         transition: width 0.2s, height 0.2s;
 
         &.hover1 {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border: none;
             background: rgb(202, 202, 202);
             mix-blend-mode: difference;
@@ -164,8 +164,11 @@ export default {
         }
 
         &.hover2 {
-            width: 80px;
-            height: 80px;
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: rgb(202, 202, 202);
+            mix-blend-mode: difference;
             transition: width 0.2s, height 0.2s;
         }
 

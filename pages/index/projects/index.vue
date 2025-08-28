@@ -17,6 +17,7 @@
         <div class="tab-wrap">
             <div class="inner">
                 <button
+                    class="mouse-hover2"
                     :class="{ active: activeTab === 'all' }"
                     @click="selectAll"
                 >
@@ -24,8 +25,9 @@
                 </button>
                 <div class="tab-group" v-for="(tagsArr, group) in tabs" :key="group">
                     <button 
-                        @click="toggleGroup(group)"
+                        class="mouse-hover2"
                         :class="{ active: openedGroup === group }"
+                        @click="toggleGroup(group)"
                     >
                         {{ groupLabels[group] || group }}
                     </button>
@@ -33,6 +35,7 @@
                         <button
                             v-for="tag in tagsArr"
                             :key="tag"
+                            class="mouse-hover2"
                             :class="{ active: activeTab === tag }"
                             @click="activeTab = tag"
                         >

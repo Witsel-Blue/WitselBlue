@@ -15,7 +15,7 @@ export default {
         scrollDown() {
             const h = window.innerHeight;
             window.scrollTo({
-                top: h * 0.3,
+                top: h * 0.4,
                 behavior: 'smooth',
             });
         }

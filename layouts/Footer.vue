@@ -106,16 +106,27 @@
                     </li>
                 </ul>
             </div>
+            <div class="convenience" data-aos="fade-up">
+                <ChangeLang />
+                <ChangeCursor />
+            </div>
+            <div class="desc">
+                <p>2025 &copy;witselblue</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import ButtonRound from '@/components/ButtonRound.vue';
+import ChangeLang from '@/components/ChangeLang.vue';
+import ChangeCursor from '@/components/ChangeCursor.vue';
 
 export default {
     components: {
         ButtonRound,
+        ChangeLang,
+        ChangeCursor,
     },
     data() {
         return {
@@ -191,7 +202,7 @@ export default {
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 40px;
+        position: relative;
 
         h1 {
             font-size: 3rem;
@@ -217,42 +228,59 @@ export default {
         }
 
         .lists {
+            margin-top: 40px;
             display: flex;
             align-items: center;
             gap: 16px;
-        }
 
-        #button-round::v-deep {
-            .button {
-                padding: 16px;
-                border-radius: 32px;
-                &::after {
-                    border: 1px solid $white1 !important;
+            #button-round::v-deep {
+                .button {
+                    padding: 16px;
                     border-radius: 32px;
+                    &::after {
+                        border: 1px solid $white1 !important;
+                        border-radius: 32px;
+                    }
                 }
-            }
-            .circle::before {
-                background-color: $white1 !important;
-            }
-            .title {
-                color: $white1 !important;
-            }
-
-            &:hover {
+                .circle::before {
+                    background-color: $white1 !important;
+                }
                 .title {
-                    color: $black1 !important;
+                    color: $white1 !important;
+                }
+
+                &:hover {
+                    .title {
+                        color: $black1 !important;
+                    }
                 }
             }
         }
 
         .sub-lists {
+            margin-top: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 24px;
+
             a {
                 color: $white1;
             }
+        }
+
+        .convenience {
+            margin-top: 40px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .desc {
+            position: absolute;
+            font-size: 0.8rem;
+            left: 5vw;
+            bottom: 2.4vh;
+            color: $black1;
         }
     }
 

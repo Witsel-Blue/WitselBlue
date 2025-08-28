@@ -20,6 +20,7 @@
                     <button
                         v-for="tab in mainTabs"
                         :key="tab"
+                        class="mouse-hover2"
                         :class="{ active: activeMain === tab }"
                         @click="selectMain(tab)"
                     >
@@ -30,6 +31,7 @@
                     <button
                         v-for="tab in subTabs[activeMain]"
                         :key="tab"
+                        class="mouse-hover2"
                         :class="{ active: activeSub === tab }"
                         @click="activeSub = tab"
                     >

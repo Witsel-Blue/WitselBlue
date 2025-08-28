@@ -1,7 +1,7 @@
 <template>
-    <div id="change-lang">
-        <button class="active mouse-hover2">KO</button>
-        <button class="mouse-hover2">EN</button>
+    <div id="change-cursor">
+        <button class="active mouse-hover2">기본 커서로</button>
+        <button class="mouse-hover2">인터렉티브 커서로</button>
     </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
 <style lang="scss" scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
-    #change-lang {
+    #change-cursor {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -27,14 +27,14 @@ export default {
         
         button {
             font-size: 0.8rem;
-            color: #fff;
+            color: $white1;
 
             &:not(:last-child)::after {
                 content: '';
                 display: inline-block;
                 width: 1px;
                 height: 0.6rem;
-                background-color: #fff;
+                background-color: $white1;
                 margin: 0 8px;
             }
 
