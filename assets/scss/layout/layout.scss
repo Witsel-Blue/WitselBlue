@@ -5,3 +5,14 @@
     color: $black1;
     overflow: hidden;
 }
+
+.inner {
+    width: 80%;
+    max-width: $width-m;
+    margin: auto;
+}
+.inner-s {
+    width: 80%;
+    max-width: $width-s;
+    margin: auto;
+}

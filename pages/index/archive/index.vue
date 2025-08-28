@@ -14,42 +14,46 @@
             <ButtonScrollDown />
         </div>
 
-        <!-- 탭 메뉴 -->
-        <div class="tab-menu">
-            <button
-                v-for="tab in mainTabs"
-                :key="tab"
-                :class="{ active: activeMain === tab }"
-                @click="activeMain = tab"
-            >
-                {{ tab }}
-            </button>
-        </div>
-
-        <div v-if="activeMain !== 'all'" class="sub-tab-menu">
-            <button
-                v-for="tab in subTabs[activeMain]"
-                :key="tab"
-                :class="{ active: activeSub === tab }"
-                @click="activeSub = tab"
-            >
-                {{ tab }}
-            </button>
+        <div class="tab-wrap">
+            <div class="inner">
+                <div class="tab-main">
+                    <button
+                        v-for="tab in mainTabs"
+                        :key="tab"
+                        :class="{ active: activeMain === tab }"
+                        @click="activeMain = tab"
+                    >
+                        {{ tab }}
+                    </button>
+                </div>
+                <div v-if="activeMain !== 'all'" class="tab-sub">
+                    <button
+                        v-for="tab in subTabs[activeMain]"
+                        :key="tab"
+                        :class="{ active: activeSub === tab }"
+                        @click="activeSub = tab"
+                    >
+                        {{ tab }}
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="list-wrap">
-            <div
-                v-for="(item, i) in filteredLists"
-                :key="i"
-                class="list-card"
-            >
-                <img v-if="item.img" :src="item.img" :alt="item.name || item.title" />
+            <div class="inner">
+                <div
+                    v-for="(item, i) in filteredLists"
+                    :key="i"
+                    class="list-card"
+                >
+                    <img v-if="item.img" :src="item.img" :alt="item.name || item.title" />
 
-                <h3>{{ item.name || item.title }}</h3>
-                <p v-if="item.artist">{{ item.artist }}</p>
-                <p>{{ item.work }}</p>
+                    <h3>{{ item.name || item.title }}</h3>
+                    <p v-if="item.artist">{{ item.artist }}</p>
+                    <p>{{ item.work }}</p>
 
-                <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
+                    <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
+                </div>
             </div>
         </div>
 

@@ -14,75 +14,77 @@
             <ButtonScrollDown />
         </div>
 
-        <!-- 탭 메뉴 -->
-        <div class="tab-menu">
-            <button
-                :class="{ active: activeTab === 'all' }"
-                @click="activeTab = 'all'"
-            >
-                All
-            </button>
-            <div class="tab-group">
-                <h4>Work</h4>
+        <div class="tab-wrap">
+            <div class="inner">
                 <button
-                v-for="tag in tabs.work"
-                :key="tag"
-                :class="{ active: activeTab === tag }"
-                @click="activeTab = tag"
+                    :class="{ active: activeTab === 'all' }"
+                    @click="activeTab = 'all'"
                 >
-                    {{ tag }}
+                    All
                 </button>
-            </div>
-            <div class="tab-group">
-                <h4>Env</h4>
-                <button
-                v-for="tag in tabs.env"
-                :key="tag"
-                :class="{ active: activeTab === tag }"
-                @click="activeTab = tag"
-                >
-                    {{ tag }}
-                </button>
-            </div>
-            <div class="tab-group">
-                <h4>Team</h4>
-                <button
-                v-for="tag in tabs.team"
-                :key="tag"
-                :class="{ active: activeTab === tag }"
-                @click="activeTab = tag"
-                >
-                    {{ tag }}
-                </button>
-            </div>
-            <div class="tab-group">
-                <h4>Platform</h4>
-                <button
-                v-for="tag in tabs.platform"
-                :key="tag"
-                :class="{ active: activeTab === tag }"
-                @click="activeTab = tag"
-                >
-                    {{ tag }}
-                </button>
+                <div class="tab-group">
+                    <h4>Work</h4>
+                    <button
+                    v-for="tag in tabs.work"
+                    :key="tag"
+                    :class="{ active: activeTab === tag }"
+                    @click="activeTab = tag"
+                    >
+                        {{ tag }}
+                    </button>
+                </div>
+                <div class="tab-group">
+                    <h4>Env</h4>
+                    <button
+                    v-for="tag in tabs.env"
+                    :key="tag"
+                    :class="{ active: activeTab === tag }"
+                    @click="activeTab = tag"
+                    >
+                        {{ tag }}
+                    </button>
+                </div>
+                <div class="tab-group">
+                    <h4>Team</h4>
+                    <button
+                    v-for="tag in tabs.team"
+                    :key="tag"
+                    :class="{ active: activeTab === tag }"
+                    @click="activeTab = tag"
+                    >
+                        {{ tag }}
+                    </button>
+                </div>
+                <div class="tab-group">
+                    <h4>Platform</h4>
+                    <button
+                    v-for="tag in tabs.platform"
+                    :key="tag"
+                    :class="{ active: activeTab === tag }"
+                    @click="activeTab = tag"
+                    >
+                        {{ tag }}
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- 리스트 -->
         <div class="list-wrap">
-            <div
-                v-for="(item, i) in filteredLists"
-                :key="i"
-                class="list-card"
-            >
-                <img :src="item.img" :alt="item.name" />
-                <h3>{{ item.name }}</h3>
-                <p>{{ item.work }} | {{ item.duration }}</p>
-                <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
-                <div class="tags">
-                    <span v-for="(value, key) in item.tags" :key="key">
-                        #{{ value }}
-                    </span>
+            <div class="inner">
+                <div
+                    v-for="(item, i) in filteredLists"
+                    :key="i"
+                    class="list-card"
+                >
+                    <img :src="item.img" :alt="item.name" />
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.work }} | {{ item.duration }}</p>
+                    <a v-if="item.link" :href="item.link" target="_blank">Visit</a>
+                    <div class="tags">
+                        <span v-for="(value, key) in item.tags" :key="key">
+                            #{{ value }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

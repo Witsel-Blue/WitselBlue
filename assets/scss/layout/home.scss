@@ -1,18 +1,14 @@
 @use '@/assets/scss/base/variables.scss' as *;
+@import '@/assets/scss/layout/layout.scss';
 
 #home {
   section:not(#main) {
     padding: 10vh 0;
   }
-  .inner {
-    width: 80%;
-    max-width: $width-m;
-    margin: auto;
-    .subtitle {
-      font-size: 2.4rem;
-      line-height: 1;
-      margin-bottom: 1.6rem;
-    }
+  .subtitle {
+    font-size: 2.4rem;
+    line-height: 1;
+    margin-bottom: 1.6rem;
   }
 
   #main {

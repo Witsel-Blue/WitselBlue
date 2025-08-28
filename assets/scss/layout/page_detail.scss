@@ -1,4 +1,5 @@
 @use '@/assets/scss/base/variables.scss' as *;
+@import '@/assets/scss/layout/layout.scss';
 
 ::v-deep br.mb {
     display: none;
@@ -6,16 +7,16 @@
 
 .contents {
     section {
-        .inner {
-            width: 80%;
-            max-width: $width-m;
-            margin: auto;
-        }
+        // .inner {
+        //     width: 80%;
+        //     max-width: $width-m;
+        //     margin: auto;
+        // }
         &:not(.main) {
             padding: 5vh 0;
-            .inner {
-                max-width: $width-s;
-            }
+            // .inner {
+            //     max-width: $width-s;
+            // }
         }
         &:last-child {
             padding-bottom: 0;
