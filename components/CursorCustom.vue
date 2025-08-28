@@ -167,8 +167,7 @@ export default {
             width: 48px;
             height: 48px;
             border: none;
-            background: rgb(202, 202, 202);
-            mix-blend-mode: difference;
+            background: rgba(62, 60, 60, 0.8);
             transition: width 0.2s, height 0.2s;
         }
 

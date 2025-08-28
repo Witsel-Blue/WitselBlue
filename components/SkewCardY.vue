@@ -45,7 +45,7 @@ export default {
       const loop = () => {
         const newPos = window.pageYOffset;
         const diff = newPos - this.currentPos;
-        const speed = diff * 0.15;
+        const speed = diff * 0.12;
 
         section.style.transform = `skewY(${speed}deg)`;
 

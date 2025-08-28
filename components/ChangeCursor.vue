@@ -1,7 +1,7 @@
 <template>
     <div id="change-cursor">
-        <button class="active mouse-hover2">기본 커서로</button>
-        <button class="mouse-hover2">인터렉티브 커서로</button>
+        <button class="active mouse-hover2">인터렉티브 커서로</button>
+        <button class="mouse-hover2">기본 커서로</button>
     </div>
 </template>
 

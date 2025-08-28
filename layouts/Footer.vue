@@ -270,7 +270,8 @@ export default {
         }
 
         .convenience {
-            margin-top: 40px;
+            position: absolute;
+            bottom: 6vh;
             display: flex;
             gap: 24px;
         }
