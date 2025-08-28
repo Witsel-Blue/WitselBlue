@@ -27,7 +27,7 @@
                         @click="toggleGroup(group)"
                         :class="{ active: openedGroup === group }"
                     >
-                        {{ group }}
+                        {{ groupLabels[group] || group }}
                     </button>
                     <div v-if="openedGroup === group" class="tab-sub">
                         <button
@@ -36,7 +36,7 @@
                             :class="{ active: activeTab === tag }"
                             @click="activeTab = tag"
                         >
-                            {{ tag }}
+                            {{ tagLabels[tag] || tag }}
                         </button>
                     </div>
                 </div>
@@ -103,6 +103,21 @@ export default {
             activeTab: 'all',
             lists: projectData,
             openedGroup: null,
+            groupLabels: {
+                work: '업무영역',
+                env: '작업환경',
+                team: '기여도',
+                platform: '플랫폼',
+            },
+            tagLabels: {
+                development: '전체개발',
+                frontend: '프론트엔드',
+                publishing: '퍼블리싱',
+                individual: '개인',
+                teamwork: '팀워크',
+                web: '웹',
+                app: '앱',
+            }
         }
     },
     computed: {
@@ -128,6 +143,11 @@ export default {
         },
         filteredLists() {
             if (this.activeTab === 'all') return this.lists;
+
+            if (['work','env','team','platform'].includes(this.activeTab)) {
+                return this.lists.filter(item => item.tags[this.activeTab]);
+            }
+
             return this.lists.filter(item =>
                 Object.values(item.tags).includes(this.activeTab)
             );
@@ -147,13 +167,13 @@ export default {
                 var scrolled = window.scrollY;
 
                 if (titleTop < scrolled) {
-                    title.classList.add('active');
+                    // title.classList.add('active');
                 } else {
                     var x = 1 - scrolled * 0.008;
-                    var x2 = 1 - scrolled * 0.016;
-                    title.style.transform = 'scale(' + x + ')';
+                    var x2 = 1 - scrolled * 0.04;
+                    // title.style.transform = 'scale(' + x + ')';
                     button.style.opacity = x2;
-                    title.classList.remove('active');
+                    // title.classList.remove('active');
                 }
             });
         },
@@ -162,6 +182,7 @@ export default {
             this.openedGroup = null;
         },
         toggleGroup(group) {
+            this.activeTab = group;
             this.openedGroup = this.openedGroup === group ? null : group;
         }
     },

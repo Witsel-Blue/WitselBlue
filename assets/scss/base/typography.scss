@@ -8,6 +8,14 @@
 
 @font-face {
     font-family: "basic_font";
+    font-style: bold;
+    font-weight: 700;
+    src: url("@/static/fonts/Montserrat-SemiBold.ttf");
+    unicode-range: U+0020-007F;
+}
+
+@font-face {
+    font-family: "basic_font";
     font-style: normal;
     font-weight: 400;
     src: url("@/static/fonts/NotoSansKR-Light.ttf");

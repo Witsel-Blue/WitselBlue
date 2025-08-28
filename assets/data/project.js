@@ -7,8 +7,8 @@ export default [
         duration: '2025.06-2025.08',
         tags: {
             work: 'development',
+            team: 'individual',
             env: 'react',
-            team: '개인',
             platrom: 'web',
         }
     },
@@ -20,8 +20,8 @@ export default [
         duration: '2024.11',
         tags: {
             work: 'development',
+            team: 'individual',
             env: 'vue',
-            team: '개인',
             platform: 'web',
         }
     },
@@ -32,9 +32,9 @@ export default [
         img: require('@/assets/img/project01_main.png'),
         duration: '2024.07-2024.10',
         tags: {
-            work: 'development',
+            work: 'frontend',
+            team: 'teamwork',
             env: 'vue',
-            team: '팀',
             platform: 'app',
         }
     },
@@ -46,8 +46,8 @@ export default [
         duration: '2022.04',
         tags: {
             work: 'publishing',
-            env: 'html',
-            team: '팀',
+            team: 'teamwork',
+            env: 'vanila',
             platform: 'web',
         }
     },
@@ -59,8 +59,8 @@ export default [
         duration: '2022.01-2022.03',
         tags: {
             work: 'frontend',
+            team: 'teamwork',
             env: 'drupal',
-            team: '팀',
             platform: 'web',
         }
     },
@@ -72,8 +72,8 @@ export default [
         duration: '2021.08-2021.09',
         tags: {
             work: 'frontend',
+            team: 'teamwork',
             env: 'drupal',
-            team: '팀',
             platform: 'web',
         }
     },
@@ -85,8 +85,8 @@ export default [
         duration: '2021.11-2021.12',
         tags: {
             work: 'frontend',
+            team: 'teamwork',
             env: 'drupal',
-            team: '팀',
             platform: 'web',
         }
     },
@@ -98,8 +98,8 @@ export default [
         duration: '2021.05-2021.07',
         tags: {
             work: 'frontend',
+            team: 'teamwork',
             env: 'drupal',
-            team: '팀',
             platform: 'web',
         }
     },
@@ -111,8 +111,8 @@ export default [
         duration: '2021.09-2021.10',
         tags: {
             work: 'frontend',
+            team: 'teamwork',
             env: 'drupal',
-            team: '팀',
             platform: 'web',
         }
     },
@@ -124,8 +124,8 @@ export default [
         duration: '2021.07',
         tags: {
             work: 'publishing',
+            team: 'teamwork',
             env: 'drupal',
-            team: '팀',
             platform: 'app',
         }
     },

@@ -11,13 +11,9 @@
 
 <script>
 export default {
-    mounted() {
-        this.scrollDown();
-    },
     methods: {
         scrollDown() {
-            var h = window.innerHeight;
-            var w = window.innerWidth;
+            const h = window.innerHeight;
             window.scrollTo({
                 top: h * 0.3,
                 behavior: 'smooth',

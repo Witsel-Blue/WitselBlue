@@ -67,6 +67,9 @@ export default {
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     display: block;
+    &:hover img {
+      transform: scale(1.2);
+    }
   }
 }
 </style>

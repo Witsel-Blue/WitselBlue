@@ -23,7 +23,7 @@
                         :class="{ active: activeMain === tab }"
                         @click="selectMain(tab)"
                     >
-                        {{ tab }}
+                        {{ tabLabels[tab] || tab }}
                     </button>
                 </div>
                 <div v-if="activeMain !== 'all'" class="tab-sub">
@@ -33,7 +33,7 @@
                         :class="{ active: activeSub === tab }"
                         @click="activeSub = tab"
                     >
-                        {{ tab }}
+                        {{ tabLabels[tab] || tab }}
                     </button>
                 </div>
             </div>
@@ -97,8 +97,8 @@ export default {
     data() {
         return {
             title: 'Archive',
-            mainTabs: ['all', 'dev', 'music'],
-            activeMain: 'all',
+            mainTabs: ['dev', 'music'],
+            activeMain: 'dev',
             subTabs: {
                 dev: ['all', 'p5.js', 'pixi.js', 'three.js'],
                 music: ['all', 'producing', 'dj'],
@@ -107,37 +107,36 @@ export default {
             archive: {
                 dev: archiveDevData,
                 music: archiveMusicData,
+            },
+            tabLabels: {
+                dev: '개발',
+                music: '음악',
+                producing: '프로듀싱',
+                dj: '믹스셋'
             }
         }
     },
     computed: {
-  filteredLists() {
-    let list = [];
+        filteredLists() {
+            let list = []
 
-    // mainTabs 분기
-    if (this.activeMain === 'all') {
-      list = [...this.archive.dev, ...this.archive.music];
-    } else if (this.activeMain === 'dev') {
-      list = [...this.archive.dev];
-    } else if (this.activeMain === 'music') {
-      list = [...this.archive.music];
-    }
+            if (this.activeMain === 'dev') {
+                list = [...this.archive.dev]
+            } else if (this.activeMain === 'music') {
+                list = [...this.archive.music]
+            }
 
-    // subTabs 필터
-    if (this.activeSub !== 'all') {
-      list = list.filter(item => (item.tags?.work || item.work) === this.activeSub);
-    }
+            if (this.activeSub !== 'all') {
+                list = list.filter(item => (item.tags?.work || item.work) === this.activeSub)
+            }
 
-    // music 항목은 name이 없는 경우 artist를 name으로 매핑
-    list = list.map(item => {
-      if (!item.name && item.artist) {
-        return { ...item, name: item.name || item.artist };
-      }
-      return item;
-    });
-
-    return list;
-  }
+            return list.map(item => {
+                if (!item.name && item.artist) {
+                    return { ...item, name: item.artist }
+                }
+                return item
+            })
+        }
     },
     watch: {
         selectMain(tab) {
@@ -159,13 +158,13 @@ export default {
                 var scrolled = window.scrollY;
 
                 if ( titleTop < scrolled ) {
-                    title.classList.add('active');
+                    // title.classList.add('active');
                 } else {
                     var x = 1 - scrolled * 0.008;
-                    var x2 = 1 - scrolled * 0.016;
-                    title.style.transform = 'scale(' + x + ')';
+                    var x2 = 1 - scrolled * 0.04;
+                    // title.style.transform = 'scale(' + x + ')';
                     button.style.opacity = x2;
-                    title.classList.remove('active');
+                    // title.classList.remove('active');
                 }
 
             });
