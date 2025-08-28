@@ -18,53 +18,27 @@
             <div class="inner">
                 <button
                     :class="{ active: activeTab === 'all' }"
-                    @click="activeTab = 'all'"
+                    @click="selectAll"
                 >
                     All
                 </button>
-                <div class="tab-group">
-                    <h4>Work</h4>
-                    <button
-                    v-for="tag in tabs.work"
-                    :key="tag"
-                    :class="{ active: activeTab === tag }"
-                    @click="activeTab = tag"
+                <div class="tab-group" v-for="(tagsArr, group) in tabs" :key="group">
+                    <button 
+                        @click="toggleGroup(group)"
+                        :class="{ active: openedGroup === group }"
                     >
-                        {{ tag }}
+                        {{ group }}
                     </button>
-                </div>
-                <div class="tab-group">
-                    <h4>Env</h4>
-                    <button
-                    v-for="tag in tabs.env"
-                    :key="tag"
-                    :class="{ active: activeTab === tag }"
-                    @click="activeTab = tag"
-                    >
-                        {{ tag }}
-                    </button>
-                </div>
-                <div class="tab-group">
-                    <h4>Team</h4>
-                    <button
-                    v-for="tag in tabs.team"
-                    :key="tag"
-                    :class="{ active: activeTab === tag }"
-                    @click="activeTab = tag"
-                    >
-                        {{ tag }}
-                    </button>
-                </div>
-                <div class="tab-group">
-                    <h4>Platform</h4>
-                    <button
-                    v-for="tag in tabs.platform"
-                    :key="tag"
-                    :class="{ active: activeTab === tag }"
-                    @click="activeTab = tag"
-                    >
-                        {{ tag }}
-                    </button>
+                    <div v-if="openedGroup === group" class="tab-sub">
+                        <button
+                            v-for="tag in tagsArr"
+                            :key="tag"
+                            :class="{ active: activeTab === tag }"
+                            @click="activeTab = tag"
+                        >
+                            {{ tag }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,7 +56,7 @@
                         <Nuxt-link 
                             class="title mouse-hover1"
                             :to=item.path>
-                            <TextShifting :text="item.name"></TextShifting>
+                            <TextShifting :text="item.name" :key="item.path"></TextShifting>
                         </Nuxt-link>
                         <div class="tags">
                             <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
@@ -128,6 +102,7 @@ export default {
             title: 'project',
             activeTab: 'all',
             lists: projectData,
+            openedGroup: null,
         }
     },
     computed: {
@@ -174,13 +149,20 @@ export default {
                 if (titleTop < scrolled) {
                     title.classList.add('active');
                 } else {
-                    var x = 1 - scrolled * 0.0016;
+                    var x = 1 - scrolled * 0.008;
                     var x2 = 1 - scrolled * 0.016;
                     title.style.transform = 'scale(' + x + ')';
                     button.style.opacity = x2;
                     title.classList.remove('active');
                 }
             });
+        },
+        selectAll() {
+            this.activeTab = 'all';
+            this.openedGroup = null;
+        },
+        toggleGroup(group) {
+            this.openedGroup = this.openedGroup === group ? null : group;
         }
     },
 }

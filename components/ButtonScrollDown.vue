@@ -19,7 +19,7 @@ export default {
             var h = window.innerHeight;
             var w = window.innerWidth;
             window.scrollTo({
-                top: h + w*1.2,
+                top: h * 0.3,
                 behavior: 'smooth',
             });
         }

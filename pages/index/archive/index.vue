@@ -161,7 +161,7 @@ export default {
                 if ( titleTop < scrolled ) {
                     title.classList.add('active');
                 } else {
-                    var x = 1 - scrolled * 0.0016;
+                    var x = 1 - scrolled * 0.008;
                     var x2 = 1 - scrolled * 0.016;
                     title.style.transform = 'scale(' + x + ')';
                     button.style.opacity = x2;
