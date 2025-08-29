@@ -53,14 +53,14 @@
                     :key="i"
                     class="list-card"
                 >
-                    <SkewCardY :img="item.img" :path="item.path" />
+                    <SkewCardY :img="item.images.thumb" :path="item.path" />
                     <div class="desc">
                         <p class="work">{{ item.tags.work }}</p>
-                        <Nuxt-link 
+                        <NuxtLink 
                             class="title mouse-hover1"
                             :to=item.path>
-                            <TextShifting :text="item.name" :key="item.path"></TextShifting>
-                        </Nuxt-link>
+                            <TextShifting :text="item.title" :key="item.path" />
+                        </NuxtLink>
                         <div class="tags">
                             <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
                                 #{{ value }}
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import projectData from '@/assets/data/project.js';
+import projectData from '@/assets/data/projects.js';
 import CursorCustom from '@/components/CursorCustom.vue';
 import Footer from '@/layouts/Footer.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
@@ -104,12 +104,11 @@ export default {
         return {
             title: 'projects',
             activeTab: 'all',
-            lists: projectData,
             openedGroup: null,
             groupLabels: {
                 work: '업무영역',
                 env: '작업환경',
-                team: '기여도',
+                scope: '기여도',
                 platform: '플랫폼',
             },
             tagLabels: {
@@ -120,34 +119,38 @@ export default {
                 teamwork: '팀워크',
                 web: '웹',
                 app: '앱',
-            }
+            },
+            lists: projectData.map(p => ({
+                ...p,
+                path: `/projects/${p.slug}`,
+            })),
         }
     },
     computed: {
         tabs() {
             const workSet = new Set();
             const envSet = new Set();
-            const teamSet = new Set();
+            const scopeSet = new Set();
             const platformSet = new Set();
 
             this.lists.forEach(item => {
                 if (item.tags.work) workSet.add(item.tags.work);
                 if (item.tags.env) envSet.add(item.tags.env);
-                if (item.tags.team) teamSet.add(item.tags.team);
+                if (item.tags.scope) scopeSet.add(item.tags.scope);
                 if (item.tags.platform) platformSet.add(item.tags.platform);
             });
 
             return {
                 work: [...workSet],
                 env: [...envSet],
-                team: [...teamSet],
+                scope: [...scopeSet],
                 platform: [...platformSet],
             };
         },
         filteredLists() {
             if (this.activeTab === 'all') return this.lists;
 
-            if (['work','env','team','platform'].includes(this.activeTab)) {
+            if (['work','env','scope','platform'].includes(this.activeTab)) {
                 return this.lists.filter(item => item.tags[this.activeTab]);
             }
 
@@ -163,8 +166,10 @@ export default {
         titleScroll() {
             var title = document.querySelector('.title');
             var button = document.querySelector('#button-scrolldown');
+            if (!title || !button) return;
+
             var winH = window.innerWidth;
-            var titleTop = title.offsetTop - winH * 3 / 100;
+            var titleTop = title.offsetTop - winH * 0.03;
 
             window.addEventListener('scroll', function () {
                 var scrolled = window.scrollY;
