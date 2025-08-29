@@ -114,7 +114,7 @@
                     <ChangeCursor />
                 </div>
                 <div class="desc">
-                    <p>2025 &copy;witselblue</p>
+                    <p>&copy; 2025 witselblue</p>
                 </div>
             </div>
         </div>
