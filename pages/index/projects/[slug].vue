@@ -3,18 +3,13 @@
         <CursorCustom />
         <PageTransition :title="project.title" />
         <div class="contents">
+
             <section class="main">
                 <div class="inner">
-                    <div
-                        class="mainvisual"
-                        data-aos="fade-up"
-                    >
+                    <div class="mainvisual" data-aos="fade-up">
                         <ParallaxImg :src="project.images.mainvisual" />
                     </div>
-                    <div
-                        class="title"
-                        data-aos="fade-up"
-                    >
+                    <div class="title" data-aos="fade-up">
                         <p>{{ project.tags.work }}</p>
                         <a
                             v-if="project.link"
@@ -27,11 +22,8 @@
                     </div>
                 </div>
             </section>
-            <section
-                class="device-bg"
-                data-aos="fade-up"
-                v-if="project.images.pc"
-            >
+
+            <section class="device-bg" data-aos="fade-up" v-if="project.images.gif">
                 <div class="inner">
                     <div
                         class="device_pc"
@@ -43,18 +35,34 @@
                         >
                         <div class="img-wrap">
                             <img
-                                :src="project.images.pc"
+                                :src="project.images.gif"
                                 class="img"
                             >
                         </div>
                     </div>
                 </div>
             </section>
-            <section
-                class="device-bg"
-                data-aos="fade-up"
-                v-if="project.images.mb1"
-            >
+
+            <section class="img-pc" v-if="project.images.pc1">
+                <div class="inner">
+                    <img
+                        :src="project.images.pc1"
+                        data-aos="fade-up"
+                    >
+                    <img
+                        v-if="project.images.pc2"
+                        :src="project.images.pc2"
+                        data-aos="fade-up"
+                    >
+                    <img
+                        v-if="project.images.pc3"
+                        :src="project.images.pc3"
+                        data-aos="fade-up"
+                    >
+                </div>
+            </section>
+
+            <section class="device-bg" data-aos="fade-up" v-if="project.images.mb1">
                 <div class="inner">
                     <ul class="device_mb">
                         <li data-aos="fade-up">
@@ -90,7 +98,8 @@
                     </ul>
                 </div>
             </section>
-            <section>
+
+            <section v-if="project.desc">
                 <div class="inner">
                     <ul class="desc">
                         <li v-if="project.desc.agency || project.desc.client">
@@ -111,15 +120,16 @@
                                 </dd>
                             </dl>
                         </li>
-                        <li v-if="project.tags.platform || project.tags.env">
+                        <li v-if="project.desc.stack">
                             <dl data-aos="fade-up">
-                                <dt>형식</dt>
-                                <dd>{{ project.tags.platform }} {{ project.tags.env }}</dd>
+                                <dt>주요 기술 스택</dt>
+                                <dd>{{ project.desc.stack }}</dd>
                             </dl>
                         </li>
                     </ul>
                 </div>
             </section>
+
             <section>
                 <div class="inner">
                     <p
@@ -136,6 +146,7 @@
                     />
                 </div>
             </section>
+            
         </div>
         <!-- <Pagination 
             :pagination="pagination"
