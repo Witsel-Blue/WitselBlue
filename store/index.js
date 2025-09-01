@@ -1,9 +1,13 @@
 export const state = () => ({
-  isDetailPage: false, // 기본 Footer
+  isDetailPage: false,
+  isNoUIPage: false,
 });
 
 export const mutations = {
   setDetailPage(state, value) {
     state.isDetailPage = value;
   },
+  setNoUIPage(state, value) {
+    state.isNoUIPage = value;
+  }
 };

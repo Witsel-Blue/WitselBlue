@@ -9,6 +9,17 @@
     </div>
 </template>
 
+<script>
+export default {
+    async asyncData({ store }) {
+        store.commit('setNoUIPage', true);
+    },
+    beforeDestroy() {
+        this.$store.commit('setNoUIPage', false);
+    }
+}
+</script>
+
 <style lang="scss" scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     

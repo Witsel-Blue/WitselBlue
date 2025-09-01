@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <GNB />
+    <GNB v-if="!$store.state.isNoUIPage" />
     <Nuxt />
-    <Footer v-if="!$store.state.isDetailPage" />
-    <DetailFooter v-else />
+    <Footer v-if="!$store.state.isDetailPage && !$store.state.isNoUIPage" />
+    <DetailFooter v-else-if="$store.state.isDetailPage" />
   </div>
 </template>
 
