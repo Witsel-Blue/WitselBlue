@@ -146,20 +146,24 @@ export default {
         }
     },
     mounted() {
-        setTimeout(() => {
-            this.bgScroll();
-        }, 1000);
+        this.$nextTick(() => {
+            setTimeout(() => {
+                this.bgScroll();
+            }, 500);
+        });
     },
     methods: {
         bgScroll() {
-            var footerBg = this.$refs.bg;
-            var winH = window.innerHeight;
-            var scrollStart = footerBg.offsetTop - winH*2/3;
-            var footerTop = footerBg.offsetTop;
+            const footerBg = this.$refs.bg;
+            const title = this.$refs.title;
 
-            var title = this.$refs.title;
+            if (!footerBg || !title) return;
 
-            window.addEventListener('scroll', function() {
+            const winH = window.innerHeight;
+            const scrollStart = footerBg.offsetTop - (winH * 2 / 3);
+            const footerTop = footerBg.offsetTop;
+
+            window.addEventListener('scroll', () => {
                 var scrollY = window.scrollY;
 
                 if ( scrollStart < scrollY ) {

@@ -1,11 +1,11 @@
 <template>
-    <div id="page-transition">
+    <div id="page-transition" ref="pageTransition">
         <div class="bg">
             <TextMask 
                 :text="title"
             />
         </div>
-        <div class="bg2" />
+        <div class="bg2"></div>
     </div>
 </template>
 
@@ -18,24 +18,29 @@ export default {
     },
     props: {
         title: String,
+        defautl: '',
     },
     data() {
         return {
         }
     },
     mounted() {
-        this.pageTransition();
-        window.scrollTo({
-            top: 0,
+        this.$nextTick(() => {
+            this.pageTransition();
+            window.scrollTo({ top: 0 });
         });
     },
     methods: {
         pageTransition() {
-            setTimeout(function(){
-                document.getElementById('page-transition').classList.add('active');
+            const el = this.$refs.pageTransition;
+            if (!el) return;
+
+            setTimeout(() => {
+                el.classList.add('active');
             }, 1200);
-            setTimeout(function(){
-                document.getElementById('page-transition').classList.add('active2');
+
+            setTimeout(() => {
+                el.classList.add('active2');
             }, 2000);
         },
     }
