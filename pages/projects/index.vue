@@ -53,7 +53,7 @@
                     :key="i"
                     class="list-card"
                 >
-                    <SkewCardY :img="item.images.thumb" :path="item.slug" />
+                    <SkewCardY :img="item.images.thumb" :path="item.path" />
                     <div class="desc">
                         <p class="work">{{ item.tags.work }}</p>
                         <NuxtLink 
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import projectData from '@/assets/data/projects.js';
+import projectsData from '@/assets/data/projects.js';
 import CursorCustom from '@/components/CursorCustom.vue';
 import Footer from '@/layouts/Footer.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
@@ -120,7 +120,7 @@ export default {
                 web: '웹',
                 app: '앱',
             },
-            lists: projectData.map(p => ({
+            lists: projectsData.map(p => ({
                 ...p,
                 path: `/projects/${p.slug}`,
             })),

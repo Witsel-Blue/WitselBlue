@@ -48,12 +48,12 @@
                     :key="i"
                     class="list-card"
                 >
-                    <SkewCardY :img="item.images.thumb" :path="item.slug" />
+                    <SkewCardY :img="item.images.thumb" :path="item.path" />
                     <div class="desc">
                         <p class="work">{{ item.tags.work }}</p>
                         <Nuxt-link 
                             class="title mouse-hover1"
-                            :to='`/archive/${activeMain}/${item.slug}`'>
+                            :to="item.path">
                             <TextShifting :text="item.title" :key="item.slug" />
                         </Nuxt-link>
                         <div class="tags">
@@ -115,7 +115,7 @@ export default {
                 music: '음악',
                 producing: '프로듀싱',
                 dj: '믹스셋'
-            }
+            },
         }
     },
     computed: {
@@ -134,12 +134,11 @@ export default {
                 )
             }
 
-            return list.map(item => {
-                if (!item.name && item.artist) {
-                    return { ...item, name: item.artist }
-                }
-                return item
-            })
+            return list.map(item => ({
+                ...item,
+                title: item.title || item.name || item.artist,
+                path: `/archive/${this.activeMain}/${item.slug}`,
+            }));
         }
     },
     mounted() {

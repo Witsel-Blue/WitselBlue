@@ -1,19 +1,12 @@
 <template>
-    <div id="app">
-        <GNB />
-        <Page />
-    </div>
+    <Home />
 </template>
 
 <script>
-import Page from '@/layouts/page.vue';
-import GNB from '@/layouts/gnb.vue';
-
+import Home from '@/layouts/Home.vue';
 export default {
-    name: 'Home',
-    components: {
-        Page,
-        GNB,
-    }
+    components: { 
+        Home, 
+    },
 }
 </script>

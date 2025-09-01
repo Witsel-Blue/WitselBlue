@@ -179,7 +179,7 @@ if (process.client) {
 }
 
 export default {
-    name: 'Index',
+    name: 'Home',
     components: {
         CursorCustom,
         Mainvisual,
@@ -200,7 +200,7 @@ export default {
             selected: [
                 {
                     name: 'Monimo',
-                    path: '/project/monimo',
+                    path: '/projects/monimo',
                     link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
                     img: require('@/assets/img/project01_main.png'),
                     work: 'development',
@@ -208,7 +208,7 @@ export default {
                 },
                 {
                     name: '4·16 Online Memorial',
-                    path: '/project/OnlineMemorial',
+                    path: '/projects/OnlineMemorial',
                     link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
                     img: require('@/assets/img/project02_main.png'),
                     work: 'publishing',
@@ -216,7 +216,7 @@ export default {
                 },
                 {
                     name: 'DCAMP',
-                    path: '/project/DCAMP',
+                    path: '/projects/DCAMP',
                     link: 'https://dcamp.kr/',
                     img: require('@/assets/img/project03_main.png'),
                     work: 'frontend',

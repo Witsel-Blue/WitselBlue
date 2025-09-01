@@ -1,11 +1,5 @@
 @use '@/assets/scss/base/variables.scss' as *;
 
-#default {
-    background-color: $white2;
-    color: $black1;
-    overflow: hidden;
-}
-
 .inner {
     width: 80%;
     max-width: $width-m;

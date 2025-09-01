@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import projects from '@/assets/data/projects.js';
+import projectsData from '@/assets/data/projects.js';
 import CursorCustom from '@/components/CursorCustom.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
@@ -178,7 +178,7 @@ export default {
         DetailFooter,
     },
     async asyncData({ params }) {
-        const project = projects.find(p => p.slug === params.slug);
+        const project = projectsData.find(p => p.slug === params.slug);
         return { project };
     },
     mounted() {

@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import archiveDevData from '@/assets/data/archive_dev.js';
 import CursorCustom from '@/components/CursorCustom.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
@@ -58,9 +59,6 @@ import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import Pagination from '@/components/Pagination.vue';
 import DetailFooter from '@/layouts/DetailFooter.vue';
-
-// archive/dev 데이터만 import
-import archiveDev from '@/assets/data/archive_dev.js';
 
 export default {
     components: {
@@ -72,37 +70,16 @@ export default {
         Pagination,
         DetailFooter,
     },
+    async asyncData({ params }) {
+        const archive = archiveDevData.find(item => item.slug === params.slug);
+        return { archive: archive || null };
+    },
     data() {
         return {
-            archive: null,
-            pagination: {
-                href: '/archive/dev',
-                text: 'view all archive',
-                prevLink: null,
-                prevText: null,
-                nextLink: null,
-                nextText: null,
-            }
         }
     },
     mounted() {
-        const { slug } = this.$route.params;
-        const list = Array.isArray(archiveDev) ? archiveDev : [archiveDev];
-        const index = list.findIndex(item => item.slug === slug);
 
-        if (index !== -1) {
-            this.archive = list[index];
-
-            // 이전/다음 아카이브 처리
-            if (list[index - 1]) {
-                this.pagination.prevLink = `/archive/dev/${list[index - 1].slug}`;
-                this.pagination.prevText = list[index - 1].title;
-            }
-            if (list[index + 1]) {
-                this.pagination.nextLink = `/archive/dev/${list[index + 1].slug}`;
-                this.pagination.nextText = list[index + 1].title;
-            }
-        }
     },
 }
 </script>

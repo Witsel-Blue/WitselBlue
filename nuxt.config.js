@@ -19,26 +19,6 @@ export default {
         '@/assets/scss/main.scss'
     ],
 
-    router: {
-        extendRoutes(routes, resolve) {
-            routes.push({
-                name: 'project-slug',
-                path: '/projects/:slug',
-                component: resolve(__dirname, 'pages/index/projects/[slug].vue'),
-            });
-            routes.push({
-                name: 'archive-dev-slug',
-                path: '/archive/dev/:slug',
-                component: resolve(__dirname, 'pages/index/archive/dev/[slug].vue'),
-            });
-            routes.push({
-                name: 'archive-music-slug',
-                path: '/archive/music/:slug',
-                component: resolve(__dirname, 'pages/index/archive/music/[slug].vue'),
-            });
-        }
-    },
-
     plugins: [
         { src: '@/plugins/aos.client.js', ssr: false },
         { src: '@/plugins/p5.speech.js', ssr: false },
