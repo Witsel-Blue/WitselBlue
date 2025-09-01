@@ -5,7 +5,7 @@
             <p data-aos="fade-up">
                 next project
             </p>
-            <div class="hover-flip">
+            <!-- <div class="hover-flip">
                 <div class="front">
                     <div class="res-box-wrap">
                         <div class="res-box">
@@ -22,7 +22,7 @@
                         <h3 class="ft-diphylleia">{{ pagination.nextText }}</h3>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <!-- <ButtonRound :link="pagination" /> -->
         </div>
     </div>

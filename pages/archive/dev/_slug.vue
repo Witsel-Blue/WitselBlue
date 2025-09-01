@@ -42,7 +42,6 @@
         </div>
 
         <!-- <Pagination :pagination="pagination" /> -->
-        <!-- <DetailFooter :pagination="pagination" /> -->
     </div>
 
     <div v-else>
@@ -58,7 +57,6 @@ import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import Pagination from '@/components/Pagination.vue';
-import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
     components: {
@@ -68,15 +66,22 @@ export default {
         ButtonRound,
         TextShifting,
         Pagination,
-        DetailFooter,
     },
-    async asyncData({ params }) {
+    async asyncData({ params, store }) {
         const archive = archiveDevData.find(item => item.slug === params.slug);
-        return { archive: archive || null };
+
+        store.commit('setDetailPage', true);
+
+        return { 
+            archive: archive || null 
+        };
     },
     data() {
         return {
         }
+    },
+    beforeDestroy() {
+        this.$store.commit('setDetailPage', false);
     },
     mounted() {
 

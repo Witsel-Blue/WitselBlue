@@ -65,8 +65,6 @@
                 </div>
             </div>
         </div>
-
-        <Footer />
     </div>
 </template>
 
@@ -74,7 +72,6 @@
 import archiveDevData from '@/assets/data/archive_dev.js';
 import archiveMusicData from '@/assets/data/archive_music.js';
 import CursorCustom from '@/components/CursorCustom.vue';
-import Footer from '@/layouts/Footer.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -90,7 +87,6 @@ if (process.client) {
 export default {
     components: {
         CursorCustom,
-        Footer,
         PageTransition,
         TextShifting,
         ButtonScrollDown,

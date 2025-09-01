@@ -8,9 +8,17 @@
 import archiveMusicData from '@/assets/data/archive_music.js'
 
 export default {
-  async asyncData({ params }) {
-    const music = archiveMusicData.find(p => p.slug === params.slug)
-    return { music }
-  }
+  async asyncData({ params, store }) {
+    const music = archiveMusicData.find(p => p.slug === params.slug);
+
+    store.commit('setDetailPage', true);
+
+    return { 
+      music
+    }
+  },
+  beforeDestroy() {
+    this.$store.commit('setDetailPage', false);
+  },
 }
 </script>

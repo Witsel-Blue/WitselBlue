@@ -156,7 +156,6 @@
                     </div>
                 </div>
             </section>
-            <Footer />
         </div>
     </div>
 </template>
@@ -167,7 +166,6 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import CursorCustom from '@/components/CursorCustom.vue';
 import Mainvisual from '@/layouts/Mainvisual.vue';
 import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
-import Footer from '@/layouts/Footer.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
@@ -184,7 +182,6 @@ export default {
         CursorCustom,
         Mainvisual,
         ButtonScrollDown,
-        Footer,
         TextScroll,
         ParallaxImg,
         SkewCardX,

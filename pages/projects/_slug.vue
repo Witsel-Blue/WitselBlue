@@ -150,9 +150,6 @@
         </div>
         <!-- <Pagination 
             :pagination="pagination"
-        />
-        <DetailFooter 
-            :pagination="pagination"
         /> -->
     </div>
 </template>
@@ -165,7 +162,6 @@ import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import Pagination from '@/components/Pagination.vue';
-import DetailFooter from '@/layouts/DetailFooter.vue';
     
 export default {
     components: {
@@ -175,10 +171,12 @@ export default {
         ButtonRound,
         TextShifting,
         Pagination,
-        DetailFooter,
     },
-    async asyncData({ params }) {
+    async asyncData({ params, store }) {
         const project = projectsData.find(p => p.slug === params.slug);
+
+        store.commit('setDetailPage', true);
+
         return { project };
     },
     mounted() {
@@ -189,6 +187,7 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.getMbHeight);
+        this.$store.commit('setDetailPage', false);
     },
     methods: {
         getMbHeight() {
