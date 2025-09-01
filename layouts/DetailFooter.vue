@@ -1,9 +1,6 @@
 <template>
     <div id="detail_footer">
-        <div
-            ref="bg"
-            class="footer-bg"
-        />
+        <div ref="bg" class="footer-bg"></div>
         <div class="footer">
             <p data-aos="fade-up">
                 next project
@@ -26,7 +23,7 @@
                     </a>
                 </div>
             </div>
-            <ButtonRound :link="pagination" />
+            <!-- <ButtonRound :link="pagination" /> -->
         </div>
     </div>
 </template>

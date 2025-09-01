@@ -24,8 +24,18 @@ export default {
             routes.push({
                 name: 'project-slug',
                 path: '/projects/:slug',
-                component: resolve(__dirname, 'pages/index/projects/[slug].vue')
-            })
+                component: resolve(__dirname, 'pages/index/projects/[slug].vue'),
+            });
+            routes.push({
+                name: 'archive-dev-slug',
+                path: '/archive/dev/:slug',
+                component: resolve(__dirname, 'pages/index/archive/dev/[slug].vue'),
+            });
+            routes.push({
+                name: 'archive-music-slug',
+                path: '/archive/music/:slug',
+                component: resolve(__dirname, 'pages/index/archive/music/[slug].vue'),
+            });
         }
     },
 

@@ -48,13 +48,13 @@
                     :key="i"
                     class="list-card"
                 >
-                    <SkewCardY :img="item.img" :path="item.path" />
+                    <SkewCardY :img="item.images.thumb" :path="item.slug" />
                     <div class="desc">
                         <p class="work">{{ item.tags.work }}</p>
                         <Nuxt-link 
                             class="title mouse-hover1"
-                            :to=item.path>
-                            <TextShifting :text="item.name" :key="item.path"></TextShifting>
+                            :to='`/archive/${activeMain}/${item.slug}`'>
+                            <TextShifting :text="item.title" :key="item.slug" />
                         </Nuxt-link>
                         <div class="tags">
                             <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
@@ -98,7 +98,7 @@ export default {
     },
     data() {
         return {
-            title: 'Archive',
+            title: 'archive',
             mainTabs: ['dev', 'music'],
             activeMain: 'dev',
             subTabs: {
@@ -129,7 +129,9 @@ export default {
             }
 
             if (this.activeSub !== 'all') {
-                list = list.filter(item => (item.tags?.work || item.work) === this.activeSub)
+                list = list.filter(
+                    item => (item.tags?.work || item.work) === this.activeSub
+                )
             }
 
             return list.map(item => {
@@ -140,16 +142,14 @@ export default {
             })
         }
     },
-    watch: {
-        selectMain(tab) {
-            this.activeMain = tab;
-            this.activeSub = 'all';
-        }
-    },
     mounted() {
         this.titleScroll();
     },
     methods: {
+        selectMain(tab) {
+            this.activeMain = tab;
+            this.activeSub = 'all';
+        },
         titleScroll() {
             var title = document.querySelector('.title');
             var button = document.querySelector('#button-scrolldown');
@@ -171,10 +171,6 @@ export default {
 
             });
         },
-        selectMain(tab) {
-            this.activeMain = tab;
-            this.activeSub = 'all';
-        }
     },
 }
 </script>

@@ -53,13 +53,13 @@
                     :key="i"
                     class="list-card"
                 >
-                    <SkewCardY :img="item.images.thumb" :path="item.path" />
+                    <SkewCardY :img="item.images.thumb" :path="item.slug" />
                     <div class="desc">
                         <p class="work">{{ item.tags.work }}</p>
                         <NuxtLink 
                             class="title mouse-hover1"
                             :to=item.path>
-                            <TextShifting :text="item.title" :key="item.path" />
+                            <TextShifting :text="item.title" :key="item.slug" />
                         </NuxtLink>
                         <div class="tags">
                             <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
