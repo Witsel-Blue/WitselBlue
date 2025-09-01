@@ -1,119 +1,59 @@
 <template>
-    <div
-        id="footer"
-        ref="footer"
-    >
-        <div
-            ref="bg"
-            class="footer-bg"
-        />
-        <div class="footer">
-            <div class="top">
-                <h1
-                    ref="title"
-                    data-aos="fade-up"
-                >
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:1"
-                    >w</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:2"
-                    >o</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:3"
-                    >r</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:4"
-                    >k</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:5"
-                    />
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:6"
-                    >w</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:7"
-                    >i</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:8"
-                    >t</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:9"
-                    >h</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:10"
-                    />
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:11"
-                    >m</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:12"
-                    >e</span>
-                    <span
-                        class="ft-tanpearl"
-                        style="--i:13"
-                    >!</span>
+    <div id='footer' ref='footer'>
+        <div ref='bg' class='footer-bg'></div>
+        <div class='footer'>
+            <div class='top'>
+                <h1 ref='title' data-aos='fade-up'>
+                    <span class='ft-tanpearl' style='--i:1'>w</span>
+                    <span class='ft-tanpearl' style='--i:2'>o</span>
+                    <span class='ft-tanpearl' style='--i:3'>r</span>
+                    <span class='ft-tanpearl' style='--i:4'>k</span>
+                    <span class='ft-tanpearl' style='--i:5'></span>
+                    <span class='ft-tanpearl' style='--i:6'>w</span>
+                    <span class='ft-tanpearl' style='--i:7'>i</span>
+                    <span class='ft-tanpearl' style='--i:8'>t</span>
+                    <span class='ft-tanpearl' style='--i:9'>h</span>
+                    <span class='ft-tanpearl' style='--i:10'></span>
+                    <span class='ft-tanpearl' style='--i:11'>m</span>
+                    <span class='ft-tanpearl' style='--i:12'>e</span>
+                    <span class='ft-tanpearl' style='--i:13'>!</span>
                 </h1>
                 <div>
-                    <ul class="lists">
-                        <li data-aos="fade-up">
-                            <ButtonRound :link="link" />
+                    <ul class='lists'>
+                        <li data-aos='fade-up'>
+                            <ButtonRound :link='link' />
                         </li>
-                        <li data-aos="fade-up">
-                            <ButtonRound :link="link2" />
+                        <li data-aos='fade-up'>
+                            <ButtonRound :link='link2' />
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <ul class="sub-lists">
-                        <li data-aos="fade-up">
-                            <a
-                                href="https://github.com/Witsel-Blue"
-                                target="_blank"
-                                class="mouse-hover3"
-                            >
+                    <ul class='sub-lists'>
+                        <li data-aos='fade-up'>
+                            <a href='https://github.com/Witsel-Blue' target='_blank' class='mouse-hover3'>
                                 github
                             </a>
                         </li>
-                        <li data-aos="fade-up">
-                            <a
-                                href="www.linkedin.com/in/witselblue"
-                                target="_blank"
-                                class="mouse-hover3"
-                            >
+                        <li data-aos='fade-up'>
+                            <a href='www.linkedin.com/in/witselblue' target='_blank' class='mouse-hover3'>
                                 linkedin
                             </a>
                         </li>
-                        <li data-aos="fade-up">
-                            <a
-                                href="https://witselblue.slack.com/team/U0830TL3ZDW"
-                                target="_blank"
-                                class="mouse-hover3"
-                            >
+                        <li data-aos='fade-up'>
+                            <a href='https://witselblue.slack.com/team/U0830TL3ZDW' target='_blank' class='mouse-hover3'>
                                 slack
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="bottom">
-                <div class="convenience">
+            <div class='bottom'>
+                <!-- <div class='convenience'>
                     <ChangeLang />
                     <ChangeCursor />
-                </div>
-                <div class="desc">
+                </div> -->
+                <div class='desc'>
                     <p>&copy; 2025 witselblue</p>
                 </div>
             </div>
@@ -182,7 +122,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
     #footer {

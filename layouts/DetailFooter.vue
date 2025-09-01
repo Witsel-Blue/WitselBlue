@@ -1,29 +1,18 @@
 <template>
-    <div id="detail_footer">
-        <div ref="bg" class="footer-bg"></div>
-        <div class="footer">
-            <p data-aos="fade-up">
-                next project
-            </p>
-            <!-- <div class="hover-flip">
-                <div class="front">
-                    <div class="res-box-wrap">
-                        <div class="res-box">
-                            <img :src="pagination.nextImg">
-                        </div>
-                    </div>
-                </div>
-                <div class="back">
-                    <a
-                        :href="pagination.nextLink"
-                        class="mouse-hover1"
-                    >
-                        <p>{{ pagination.nextWork }}</p>
-                        <h3 class="ft-diphylleia">{{ pagination.nextText }}</h3>
-                    </a>
-                </div>
-            </div> -->
-            <!-- <ButtonRound :link="pagination" /> -->
+    <div id='detail_footer'>
+        <div ref='bg' class='footer-bg'></div>
+        <div class='footer'>
+            <div class='top'>
+                <h1 ref='title' data-aos='fade-up'>
+                    <span class='ft-tanpearl' style='--i:1'>N</span>
+                    <span class='ft-tanpearl' style='--i:2'>e</span>
+                    <span class='ft-tanpearl' style='--i:3'>x</span>
+                    <span class='ft-tanpearl' style='--i:4'>t</span>
+                </h1>
+            </div>
+            <div class='bottom'>
+                bottom
+            </div>
         </div>
     </div>
 </template>
@@ -35,22 +24,25 @@ export default {
     components: {
         ButtonRound,
     },
-    props: {
-        pagination: Object,
-    },
     mounted() {
-        setTimeout(() => {
-            this.bgScroll();
-        }, 1000);
+        this.$nextTick(() => {
+            setTimeout(() => {
+                this.bgScroll();
+            }, 500);
+        });
     },
     methods: {
         bgScroll() {
-            var footerBg = this.$refs.bg;
-            var winH = window.innerHeight;
-            var scrollStart = footerBg.offsetTop - winH*2/3;
-            var footerTop = footerBg.offsetTop;
+            const footerBg = this.$refs.bg;
+            const title = this.$refs.title;
 
-            window.addEventListener('scroll', function() {
+            if (!footerBg || !title) return;
+
+            const winH = window.innerHeight;
+            const scrollStart = footerBg.offsetTop - (winH * 2 / 3);
+            const footerTop = footerBg.offsetTop;
+
+            window.addEventListener('scroll', () => {
                 var scrollY = window.scrollY;
 
                 if ( scrollStart < scrollY ) {
@@ -58,6 +50,9 @@ export default {
                     var x = (footerTop - scrollStart);
                     var r = h/x*100;
                     footerBg.style.borderRadius = '0 0 ' + r + '% ' + r + '%';
+                    title.classList.add('active');
+                } else {
+                    title.classList.remove('active');
                 }
 
             });
@@ -66,7 +61,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
     #detail_footer {
@@ -95,6 +90,31 @@ export default {
         justify-content: center;
         flex-direction: column;
         gap: 40px;
+
+        .top {
+            h1 {
+                font-size: 2rem;
+                font-weight: normal;
+                display: inline-flex;
+
+                span {
+                    position: relative;
+                    display: inline-block;
+                    min-width: 16px;
+                }
+
+                &.active span {
+                    animation: flip 0.8s;
+                    animation-delay: calc(0.04s * var(--i));
+                }
+            }
+
+            @keyframes flip {
+                0%, 50% {
+                    transform: rotateY(360deg);
+                }
+            }
+        }
     }
 
     .hover-flip {
