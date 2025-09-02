@@ -1,9 +1,10 @@
 <template>
-    <div id="pager">
-        <div class="wrapper mouse-hover1">
+    <div id='pager'>
+        <div class='wrapper mouse-hover1'>
             <img
-                src="@/assets/img/pager.svg"
-                @click="scrollToTop"
+                :src="require('@/assets/img/pager.svg')"
+                @click='scrollToTop'
+                alt='pager'
             >
         </div>
     </div>
@@ -18,36 +19,57 @@ if (process.client) {
 }
     
 export default {
+    name: 'Pager',
     mounted() {
-        this.rotationAnim();
+        if (process.client) {
+            this.initGsap();
+        }
+    },
+    beforeDestroy() {
+        if (this.scrollTween) {
+            this.scrollTween.kill();
+            this.scrollTween = null;
+        }
+        if (this.scrollTrigger) {
+            this.scrollTrigger.kill();
+            this.scrollTrigger = null;
+        }
     },
     methods: {
-        rotationAnim() {
-            const gsap = this.$gsap;
-            const ScrollTrigger = this.$ScrollTrigger;
+        async initGsap() {
+            const gsap = (await import('gsap')).default;
+            const { ScrollTrigger } = await import('gsap/dist/ScrollTrigger.js');
 
-            gsap.to("#pager", {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const triggerEl = document.getElementById('app') || document.body;
+
+            this.scrollTween = gsap.to('#pager', {
+                rotation: 360*3,
+                ease: 'none',
                 scrollTrigger: {
-                    trigger: "#app",
-                    duration: '100%',
-                    // markers: true,
-                    scrub: 1,
+                trigger: triggerEl,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: true,
                 },
-                rotation: 360,
-                repeat: 1,
             });
+
+            this.scrollTrigger = this.scrollTween.scrollTrigger;
         },
         scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
+            if (process.client) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                });
+            }
         }
     },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
     #pager {
