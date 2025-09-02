@@ -172,26 +172,53 @@ export default {
         TextShifting,
         Pagination,
     },
-    async asyncData({ params, store }) {
+    data() {
+        return {
+            project: null,
+        }
+    },
+    async  asyncData({ params, store }) {
         const project = projectsData.find(p => p.slug === params.slug);
-        const index = projectsData.findIndex(p => p.slug === params.slug);
-        const nextProject = projectsData[(index + 1) % projectsData.length];
-
-        store.commit('setDetailPage', true);
-        store.commit('setNextProject', nextProject);
-
         return { project };
+    },
+    beforeRouteEnter(to, from, next) {
+        const project = projectsData.find(p => p.slug === to.params.slug);
+        const index = projectsData.findIndex(p => p.slug === to.params.slug);
+        const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
+
+        next(vm => {
+            vm.project = project;
+
+            // 상태를 nextTick으로 적용
+            vm.$nextTick(() => {
+            vm.$store.commit('setDetailPage', true);
+            vm.$store.commit('setNextProject', nextProject);
+            });
+        });
+    },
+    beforeRouteUpdate(to, from, next) {
+        const project = projectsData.find(p => p.slug === to.params.slug);
+        const index = projectsData.findIndex(p => p.slug === to.params.slug);
+        const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
+
+        this.project = project;
+
+        this.$nextTick(() => {
+            this.$store.commit('setDetailPage', true);
+            this.$store.commit('setNextProject', nextProject);
+        });
+
+        next();
+    },
+    beforeDestroy() {
+        this.$store.commit('setDetailPage', false);
+        this.$store.commit('clearNextProject');
     },
     mounted() {
         setTimeout(() => {
             this.getMbHeight();
         }, 1000);
         window.addEventListener('resize', this.getMbHeight);
-    },
-    beforeDestroy() {
-        window.removeEventListener('resize', this.getMbHeight);
-        this.$store.commit('setDetailPage', false);
-        this.$store.commit('clearNextProject');
     },
     methods: {
         getMbHeight() {

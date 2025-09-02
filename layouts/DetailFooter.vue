@@ -11,25 +11,21 @@
                 </h1>
             </div>
             <div class='bottom'>
-                <div v-if="$store.state.nextProject">
-                    {{ $store.state.nextProject.title }}
-                </div>
-                <div v-if="$store.state.nextArchiveDev">
-                    {{ $store.state.nextArchiveDev.title }}
-                </div>
-                <div v-if="$store.state.nextArchiveMusic">
-                    {{ $store.state.nextArchiveMusic.title }}
-                </div>
+                <CardFlip v-if="nextProject" :item="nextProject"/>
+                <CardFlip v-if="nextArchiveDev" :item="nextArchiveDev" />
+                <CardFlip v-if="nextArchiveMusic" :item="nextArchiveMusic" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import CardFlip from '@/components/CardFlip.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 
 export default {
     components: {
+        CardFlip,
         ButtonRound,
     },
     props: {
@@ -40,7 +36,11 @@ export default {
         nextArchiveDev: {
             type: Object,
             default: null,
-        }
+        },
+        nextArchiveMusic: {
+            type: Object,
+            default: null,
+        },
     },
     mounted() {
         this.$nextTick(() => {

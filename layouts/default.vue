@@ -1,9 +1,14 @@
 <template>
   <div id="app">
-    <GNB v-if="!$store.state.isNoUIPage" />
-    <Nuxt />
-    <Footer v-if="!$store.state.isDetailPage && !$store.state.isNoUIPage" />
-    <DetailFooter v-else-if="$store.state.isDetailPage" :next-project="$store.state.nextProject" />
+    <GNB v-if="!isNoUIPage" />
+    <Nuxt :key="$route.fullPath" />
+    <Footer v-if="showFooter" />
+    <DetailFooter
+      v-if="showDetailFooter"
+      :next-project="nextProject"
+      :next-archive-dev="nextArchiveDev"
+      :next-archive-music="nextArchiveMusic"
+    />
   </div>
 </template>
 
@@ -13,11 +18,33 @@ import Footer from '@/layouts/Footer.vue';
 import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
-    components: { 
-        GNB,
-        Footer,
-        DetailFooter,
-     },
+  components: { 
+    GNB,
+    Footer,
+    DetailFooter,
+  },
+  computed: {
+    isNoUIPage() {
+      return this.$store.state.isNoUIPage;
+    },
+    showFooter() {
+      const s = this.$store.state;
+      return !s.isDetailPage && !s.isNoUIPage;
+    },
+    showDetailFooter() {
+      const s = this.$store.state;
+      return s.isDetailPage && (s.nextProject || s.nextArchiveDev || s.nextArchiveMusic) && !s.isNoUIPage;
+    },
+    nextProject() {
+      return this.$store.state.nextProject;
+    },
+    nextArchiveDev() {
+      return this.$store.state.nextArchiveDev;
+    },
+    nextArchiveMusic() {
+      return this.$store.state.nextArchiveMusic;
+    },
+  },
 };
 </script>
 

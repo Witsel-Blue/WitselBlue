@@ -1,17 +1,17 @@
 export const state = () => ({
-  isDetailPage: false,
   isNoUIPage: false,
+  isDetailPage: false,
   nextProject: null,
   nextArchiveDev: null,
   nextArchiveMusic: null,
 });
 
 export const mutations = {
-  setDetailPage(state, value) {
-    state.isDetailPage = value;
-  },
   setNoUIPage(state, value) {
     state.isNoUIPage = value;
+  },
+  setDetailPage(state, value) {
+    state.isDetailPage = value;
   },
   setNextProject(state, project) {
     state.nextProject = project;

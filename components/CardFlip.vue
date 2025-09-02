@@ -1,16 +1,20 @@
-<!-- <template>
-  <div id="card-flip" v-if="item">
+<template>
+  <div id="card-flip">
     <div class="front">
-      <img :src="item.images.thumb" :alt="item.title" />
+      <img :src="item.images.thumb" />
     </div>
     <div class="back">
-      <nuxt-link :to="`${
-        item.category === 'projects' ? '/projects' :
-        item.category === 'archive_dev' ? '/archive/dev' :
-        '/archive/music'
-        }/${item.slug}`">
-        {{ item.title }}
-      </nuxt-link>
+      link
+      <span v-if="item">
+        <Nuxt-link
+          :to="item.category === 'projects' ? `/projects/${item.slug}` :
+              item.category === 'archive_dev' ? `/archive/dev/${item.slug}` :
+              item.category === 'archive_music' ? `/archive/music/${item.slug}` :
+              '/'"
+        >
+          {{ item.title }}
+        </Nuxt-link>
+      </span>
     </div>
   </div>
 </template>
@@ -20,8 +24,8 @@ export default {
   props: {
     item: {
       type: Object,
-      default: null
+      default: null,
     }
-  }
+  },
 }
-</script> -->
+</script>
