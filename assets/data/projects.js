@@ -1,5 +1,3 @@
-import { plane } from 'three/examples/jsm/Addons.js';
-
 export default [
     {
         slug: 'damgon',

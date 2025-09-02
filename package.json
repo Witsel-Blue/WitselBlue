@@ -21,6 +21,7 @@
     "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@types/p5": "^1.7.6",
     "nuxt-gsap-module": "^2.0.0",
     "sass": "^1.90.0",

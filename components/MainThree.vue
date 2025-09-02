@@ -1,5 +1,5 @@
 <template>
-    <div id="MainThree" />
+    <div id='MainThree'></div>
 </template>
   
 <script>
@@ -105,5 +105,5 @@ export default {
   
 </script>
   
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 </style>

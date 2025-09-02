@@ -9,6 +9,7 @@
     font-size: 2.4rem;
     line-height: 1;
     margin-bottom: 1.6rem;
+    width: 100%;
   }
 
   #main {
@@ -39,7 +40,7 @@
       #text-scroll::v-deep {
         bottom: calc(16vh + 6rem);
         span {
-          font-family: "Bagel";
+          font-family: 'Bagel';
         }
       }
       #button-scrolldown {
@@ -116,7 +117,7 @@
             font-weight: bold;
             display: block;
             span {
-              font-family: "Diphylleia";
+              font-family: 'Diphylleia';
               // mix-blend-mode: hard-light;
             }
           }
@@ -156,7 +157,7 @@
       margin-top: 5vh;
       line-height: 2;
       span {
-        font-family: "Diphylleia";
+        font-family: 'Diphylleia';
         font-size: 1.6rem;
         line-height: 1;
       }

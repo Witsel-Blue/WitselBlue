@@ -39,12 +39,21 @@ export default {
             'three',
             'gsap'
         ],
+        babel: {
+            plugins: ['@babel/plugin-proposal-export-namespace-from']
+        },
         loaders: {
             scss: {
                 implementation: require('sass'),
             },
             sass: {
                 implementation: require('sass'),
+            }
+        },
+        extend(config, { isServer }) {
+            if (isServer) {
+                global.TextEncoder = require('util').TextEncoder;
+                global.TextDecoder = require('util').TextDecoder;
             }
         }
     }
