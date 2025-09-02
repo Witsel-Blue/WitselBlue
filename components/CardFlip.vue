@@ -1,7 +1,11 @@
 <template>
   <div id="card-flip">
     <div class="front">
-      <img :src="item.images.thumb" />
+      <div class="res-box-wrap">
+        <div class="res-box">
+          <img :src="item.images.thumb" />
+        </div>
+      </div>
     </div>
     <div class="back">
       link

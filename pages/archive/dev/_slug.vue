@@ -1,23 +1,23 @@
 <template>
-    <div id="archive_detail" v-if="archive">
+    <div id="archive_detail" v-if="dev">
         <CursorCustom />
-        <PageTransition :title="archive.title" />
+        <PageTransition :title="dev.title" />
 
         <div class="contents">
             <section class="main">
                 <div class="inner">
                     <div class="mainvisual" data-aos="fade-up">
-                        <ParallaxImg :src="archive.images.mainvisual" />
+                        <ParallaxImg :src="dev.images.mainvisual" />
                     </div>
 
                     <div class="title" data-aos="fade-up">
-                        <p>{{ archive.tags.work }}</p>
+                        <p>{{ dev.tags.work }}</p>
                         <a
                             class="mouse-hover1"
-                            :target="archive.link.target"
-                            :href="archive.link.href"
+                            :target="dev.link.target"
+                            :href="dev.link.href"
                         >
-                            <TextShifting :text="archive.title" />
+                            <TextShifting :text="dev.title" />
                         </a>
                     </div>
                 </div>
@@ -26,16 +26,16 @@
             <section>
                 <div class="inner">
                     <p
-                        v-if="archive.content.about"
+                        v-if="dev.content.about"
                         data-aos="fade-up"
                         class="txt-c" 
-                        v-html="archive.content.about"
+                        v-html="dev.content.about"
                     />
                     <ButtonRound
-                        v-if="archive.link.href"
+                        v-if="dev.link.href"
                         data-aos="fade-up"
                         class="mt-32 txt-c"
-                        :link="archive.link"
+                        :link="dev.link"
                     />
                 </div>
             </section>
@@ -67,21 +67,43 @@ export default {
         TextShifting,
         Pagination,
     },
-    async asyncData({ params, store }) {
-        const archive = archiveDevData.find(item => item.slug === params.slug);
-        const index = archiveDevData.findIndex(a => a.slug === params.slug);
-        const nextArchiveDev = archiveDevData[(index + 1) % archiveDevData.length];
-
-        store.commit('setDetailPage', true);
-        store.commit('setNextArchiveDev', nextArchiveDev);
-
-        return { 
-            archive: archive || null 
-        };
-    },
     data() {
         return {
+            dev: null,
         }
+    },
+    async asyncData({ params, store }) {
+        const dev = archiveDevData.find(item => item.slug === params.slug);
+        return { dev: dev };
+    },
+    beforeRouteEnter(to, from, next) {
+        const dev = archiveDevData.find(p => p.slug === to.params.slug);
+        const index = archiveDevData.findIndex(p => p.slug === to.params.slug);
+        const nextArchiveDev = { ...archiveDevData[(index + 1) % archiveDevData.length], category: 'archive_dev' };
+
+        next(vm => {
+            vm.dev = dev;
+
+            // 상태를 nextTick으로 적용
+            vm.$nextTick(() => {
+            vm.$store.commit('setDetailPage', true);
+            vm.$store.commit('setNextArchiveDev', nextArchiveDev);
+            });
+        });
+    },
+    beforeRouteUpdate(to, from, next) {
+        const dev = archiveDevData.find(p => p.slug === to.params.slug);
+        const index = archiveDevData.findIndex(p => p.slug === to.params.slug);
+        const nextArchiveDev = { ...archiveDevData[(index + 1) % archiveDevData.length], category: 'archive_dev' };
+
+        this.dev = dev;
+
+        this.$nextTick(() => {
+            this.$store.commit('setDetailPage', true);
+            this.$store.commit('setNextArchiveDev', nextArchiveDev);
+        });
+
+        next();
     },
     beforeDestroy() {
         this.$store.commit('setDetailPage', false);
