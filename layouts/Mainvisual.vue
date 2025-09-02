@@ -1,5 +1,5 @@
 <template>
-    <div id="mainvisual">
+    <div id='mainvisual'>
         <!-- <MainThree /> -->
         <MainP5 />
         <StarBg />
@@ -7,9 +7,9 @@
 </template>
   
 <script>
-// import MainThree from "@/components/MainThree.vue";
-import MainP5 from "@/components/MainP5.vue";
-import StarBg from "@/components/StarBg.vue";
+// import MainThree from '@/components/MainThree.vue';
+import MainP5 from '@/components/MainP5.vue';
+import StarBg from '@/components/StarBg.vue';
 
 export default {
     name: 'Mainvisual',
@@ -21,7 +21,7 @@ export default {
 }
 </script>
   
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     #star-bg {
         position: absolute;
         top: 0;

@@ -1,8 +1,5 @@
 <template>
-    <div
-        ref="p5Container"
-        class="p5-wrapper"
-    />
+    <div ref='p5Container' class='p5-wrapper'></div>
 </template>
 
 <script>
@@ -24,23 +21,6 @@ export default {
             const p5 = (await import('p5')).default;
 
             const sketch = (s) => {
-                // s.butterfly = function () {
-                //     s.strokeWeight(3);
-                //     s.push();
-                //     s.translate(s.mouseX, s.mouseY);
-                //     s.fill("rgb(243,224,118)");
-                //     s.ellipse(-12, 10, 20, 20);
-                //     s.ellipse(-15, -10, 28, 28);
-                //     s.ellipse(12, 10, 20, 20);
-                //     s.ellipse(15, -10, 28, 28);
-                //     s.strokeWeight(10);
-                //     s.line(0, -15, 0, 15);
-                //     s.strokeWeight(3);
-                //     s.noFill();
-                //     s.arc(0, -25, 15, 15, -45, 180);
-                //     s.pop();
-                // };
-
                 s.face = function (x, y) {
                     s.push();
                     s.translate(x, y);
@@ -74,16 +54,16 @@ export default {
                     // ears
                     s.push();
                     s.translate(earMove.x, earMove.y);
-                    s.fill("rgb(53,64,94)");
+                    s.fill('rgb(53,64,94)');
                     s.ellipse(-80, -90, 80, 140);
                     s.ellipse(80, -90, 80, 140);
-                    s.fill("#442F68");
+                    s.fill('#442F68');
                     s.ellipse(-80, -90, 50, 110);
                     s.ellipse(80, -90, 50, 110);
                     s.pop();
 
                     // face
-                    s.fill("rgb(53,64,94)");
+                    s.fill('rgb(53,64,94)');
                     s.ellipse(0, 20, 300, 240);
 
                     // eyes
@@ -100,13 +80,13 @@ export default {
                         s.line(30, 30, 70, 10);
                     } else {
                         // eyes
-                        s.fill("white");
+                        s.fill('white');
                         s.ellipse(-60, 20, 100, 100);
                         s.ellipse(60, 20, 100, 100);
                         // pupil
                         s.push();
                         s.translate(pupilMove.x, pupilMove.y);
-                        s.fill("rgb(0,0,0)");
+                        s.fill('rgb(0,0,0)');
                         s.ellipse(60, 20, 40, 60);
                         s.ellipse(-60, 20, 40, 60);
                         s.pop();
@@ -125,7 +105,7 @@ export default {
                     // mouth
                     s.push();
                     s.translate(mouthMove.x, noseMove.y);
-                    s.fill("rgb(187,75,95)");
+                    s.fill('rgb(187,75,95)');
                     s.ellipse(0, 100, 40, 30);
                     s.pop();
 
@@ -145,18 +125,21 @@ export default {
                 };
 
                 s.setup = function () {
-                    s.createCanvas(s.windowWidth, s.windowHeight);
+                    const container = s.select('.p5-wrapper');
+                    const { width, height } = container.elt.getBoundingClientRect();
+                    s.createCanvas(width, height);
                     s.noCursor();
                 };
 
                 s.draw = function () {
-                    s.background("#f7f7f7");
+                    s.background('#f7f7f7');
                     s.face(s.width / 2, s.height * 2 / 5);
-                    // s.butterfly();
                 };
 
                 s.windowResized = function () {
-                    s.resizeCanvas(s.windowWidth, s.windowHeight);
+                    const container = s.select('.p5-wrapper');
+                    const { width, height } = container.elt.getBoundingClientRect();
+                    s.resizeCanvas(width, height);
                 };
             };
 
@@ -168,7 +151,7 @@ export default {
 
 <style scoped>
 .p5-wrapper {
-  width: 100%;
-  height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 </style>
