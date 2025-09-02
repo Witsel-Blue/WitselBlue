@@ -20,26 +20,14 @@
                     <div data-aos="fade-up">
                         <ParallaxImg :src="profile.img" />
                     </div>
-                    <ul class="txt-c" ref="profileTextTrigger">
-                        <li>
-                            <p>안녕하세요,<br class="mb"> <span class="mouse-hover1">서울</span>에서 활동 중인 개발자<br class="mb"> <span class="mouse-hover1">비첼블루</span>입니다.<br><br class="mb"></p>
-                        </li>
-                        <li>
-                            <p>WebGl, GSAP, Lottie, SVG 등을 활용해</p>
-                        </li>
-                        <li>
-                            <p>직관적이고 <span class="mouse-hover1">인터렉티브</span>한<br class="mb"> 사이트를 구현하고자 하고,</p>
-                        </li>
-                        <li>
-                            <p>효율적이고 확장성을 고려한<br class="mb"> <span class="mouse-hover1">클린코딩</span>을 지향합니다.<br class="mb"></p>
-                        </li>
-                        <li>
-                            <p>웹사이트를 방문하는 사용자가<br class="mb"> 단순히 정보를 얻는 것을 넘어</p>
-                        </li>
-                        <li>
-                            <p>새로운 경험을 할 수 있도록 돕는<br class="mb"> <span class="mouse-hover1">프론트엔드 개발자</span>가 되고 싶습니다.</p>
-                        </li>
-                    </ul>
+                    <TextStagger :paragraphs="[
+                        '안녕하세요,<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>서울</span>에서 활동 중인 개발자<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>비첼블루</span>입니다.<br><br class=&quot;mb&quot;>',
+                        'WebGl, GSAP, Lottie, SVG 등을 활용해',
+                        '직관적이고 <span class=&quot;mouse-hover1&quot;>인터렉티브</span>한<br class=&quot;mb&quot;> 사이트를 구현하고자 하고,',
+                        '효율적이고 확장성을 고려한<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>클린코딩</span>을 지향합니다.<br class=&quot;mb&quot;>',
+                        '웹사이트를 방문하는 사용자가<br class=&quot;mb&quot;> 단순히 정보를 얻는 것을 넘어',
+                        '새로운 경험을 할 수 있도록 돕는<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>프론트엔드 개발자</span>가 되고 싶습니다.'
+                    ]"/>
                 </div>
             </section>
             <section class="selected" ref="selected">
@@ -171,6 +159,7 @@ import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
 import SkewCardX from '@/components/SkewCardX.vue';
 import TextShifting from '@/components/TextShifting.vue';
+import TextStagger from '@/components/TextStagger.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -185,6 +174,8 @@ export default {
         TextScroll,
         ParallaxImg,
         SkewCardX,
+        TextShifting,
+        TextStagger,
     },
     data() {
         return {
@@ -342,7 +333,6 @@ export default {
         window.scrollTo({
             top: 0,
         });
-        this.profileText();
         this.scrollVertical();
         this.titleScroll();
     },
@@ -354,70 +344,6 @@ export default {
         onMouseLeaveMain() {
             this.cursorClass = '';
             this.showLottie = false;
-        },
-        profileText() {
-            const paragraphs = gsap.utils.toArray(".profile li p");
-            const profile = this.$refs.profile;
-
-            gsap.set(paragraphs, { 
-                yPercent: 100, 
-                rotation: i => i % 2 === 0 ? -4 : 4,
-                autoAlpha: 0 
-            });
-
-            let staggerTween = null;
-            let animated = false;
-
-            const checkPosition = () => {
-                const rect = profile.getBoundingClientRect();
-                const viewportHeight = window.innerHeight;
-                const profileCenter = rect.top + rect.height / 2;
-                const profileBottom = rect.bottom;
-
-                // 스크롤 다운
-                if (!animated && profileCenter >= viewportHeight / 2 - 10 && profileCenter <= viewportHeight / 2 + 10) {
-                    if (staggerTween) staggerTween.kill();
-                    staggerTween = gsap.to(paragraphs, {
-                        yPercent: 0,
-                        rotation: 0,
-                        autoAlpha: 1,
-                        duration: 0.8,
-                        stagger: 0.2,
-                        ease: "power2.out"
-                    });
-                    animated = true;
-                }
-
-                // 스크롤 업 재진입
-                if (!animated && profileBottom <= viewportHeight && profileBottom >= viewportHeight * 0.2) {
-                    if (staggerTween) staggerTween.kill();
-                    staggerTween = gsap.to(paragraphs, {
-                        yPercent: 0,
-                        rotation: 0,
-                        autoAlpha: 1,
-                        duration: 0.8,
-                        stagger: 0.2,
-                        ease: "power2.out"
-                    });
-                    animated = true;
-                }
-
-                // 초기화
-                if (rect.bottom < 0 || rect.top > viewportHeight) {
-                    if (staggerTween) staggerTween.kill();
-                    gsap.set(paragraphs, {
-                        yPercent: 100,
-                        rotation: i => i % 2 === 0 ? -4 : 4,
-                        autoAlpha: 0
-                    });
-                    staggerTween = null;
-                    animated = false;
-                }
-            };
-
-            checkPosition();
-            window.addEventListener("scroll", checkPosition);
-            window.addEventListener("resize", checkPosition);
         },
         scrollVertical() {
             var winW = window.innerWidth;
