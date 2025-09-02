@@ -3,7 +3,7 @@
         <div ref='bg' class='footer-bg'></div>
         <div class='footer'>
             <div class='top'>
-                <h1 ref='title' data-aos='fade-up'>
+                <h1 ref='title'>
                     <span class='ft-tanpearl' style='--i:1'>N</span>
                     <span class='ft-tanpearl' style='--i:2'>e</span>
                     <span class='ft-tanpearl' style='--i:3'>x</span>
@@ -11,9 +11,9 @@
                 </h1>
             </div>
             <div class='bottom'>
-                <CardFlip v-if="nextProject" :item="nextProject"/>
-                <CardFlip v-if="nextArchiveDev" :item="nextArchiveDev" />
-                <CardFlip v-if="nextArchiveMusic" :item="nextArchiveMusic" />
+                <CardFlip v-if='nextProject' :item='nextProject'/>
+                <CardFlip v-if='nextArchiveDev' :item='nextArchiveDev' />
+                <CardFlip v-if='nextArchiveMusic' :item='nextArchiveMusic' />
             </div>
         </div>
     </div>

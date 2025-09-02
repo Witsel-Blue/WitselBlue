@@ -1,127 +1,127 @@
 <template>
-    <div id="project_detail">
+    <div id='project_detail'>
         <CursorCustom />
-        <PageTransition :title="project.title" />
-        <div class="contents">
+        <PageTransition :title='project.title' />
+        <div class='contents'>
 
-            <section class="main">
-                <div class="inner">
-                    <div class="mainvisual" data-aos="fade-up">
-                        <ParallaxImg :src="project.images.mainvisual" />
+            <section class='main'>
+                <div class='inner'>
+                    <div class='mainvisual' data-aos='fade-up'>
+                        <ParallaxImg :src='project.images.mainvisual' />
                     </div>
-                    <div class="title" data-aos="fade-up">
+                    <div class='title' data-aos='fade-up'>
                         <p>{{ project.tags.work }}</p>
                         <a
-                            v-if="project.link"
-                            class="mouse-hover1"
-                            target="_blank"
-                            :href="project.link.href"
+                            v-if='project.link'
+                            class='mouse-hover1'
+                            target='_blank'
+                            :href='project.link.href'
                         >
-                            <TextShifting :text="project.title" />
+                            <TextShifting :text='project.title' />
                         </a>
                     </div>
                 </div>
             </section>
 
-            <section class="device-bg" data-aos="fade-up" v-if="project.images.gif">
-                <div class="inner">
+            <section class='device-bg' data-aos='fade-up' v-if='project.images.gif'>
+                <div class='inner'>
                     <div
-                        class="device_pc"
-                        data-aos="fade-up"
+                        class='device_pc'
+                        data-aos='fade-up'
                     >
                         <img
-                            src="@/assets/img/device-laptop.png"
-                            class="device"
+                            src='@/assets/img/device-laptop.png'
+                            class='device'
                         >
-                        <div class="img-wrap">
+                        <div class='img-wrap'>
                             <img
-                                :src="project.images.gif"
-                                class="img"
+                                :src='project.images.gif'
+                                class='img'
                             >
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section class="img-pc" v-if="project.images.pc1">
-                <div class="inner">
+            <section class='img-pc' v-if='project.images.pc1'>
+                <div class='inner'>
                     <img
-                        :src="project.images.pc1"
-                        data-aos="fade-up"
+                        :src='project.images.pc1'
+                        data-aos='fade-up'
                     >
                     <img
-                        v-if="project.images.pc2"
-                        :src="project.images.pc2"
-                        data-aos="fade-up"
+                        v-if='project.images.pc2'
+                        :src='project.images.pc2'
+                        data-aos='fade-up'
                     >
                     <img
-                        v-if="project.images.pc3"
-                        :src="project.images.pc3"
-                        data-aos="fade-up"
+                        v-if='project.images.pc3'
+                        :src='project.images.pc3'
+                        data-aos='fade-up'
                     >
                 </div>
             </section>
 
-            <section class="device-bg" data-aos="fade-up" v-if="project.images.mb1">
-                <div class="inner">
-                    <ul class="device_mb">
-                        <li data-aos="fade-up">
+            <section class='device-bg' data-aos='fade-up' v-if='project.images.mb1'>
+                <div class='inner'>
+                    <ul class='device_mb'>
+                        <li data-aos='fade-up'>
                             <img
-                                src="@/assets/img/device-iphone15.png"
-                                class="device"
+                                src='@/assets/img/device-iphone15.png'
+                                class='device'
                             >
                             <img
-                                :src="project.images.mb1"
-                                class="img"
-                            >
-                        </li>
-                        <li data-aos="fade-up">
-                            <img
-                                src="@/assets/img/device-iphone15.png"
-                                class="device"
-                            >
-                            <img
-                                :src="project.images.mb2"
-                                class="img"
+                                :src='project.images.mb1'
+                                class='img'
                             >
                         </li>
-                        <li data-aos="fade-up">
+                        <li data-aos='fade-up'>
                             <img
-                                src="@/assets/img/device-iphone15.png"
-                                class="device"
+                                src='@/assets/img/device-iphone15.png'
+                                class='device'
                             >
                             <img
-                                :src="project.images.mb3"
-                                class="img"
+                                :src='project.images.mb2'
+                                class='img'
+                            >
+                        </li>
+                        <li data-aos='fade-up'>
+                            <img
+                                src='@/assets/img/device-iphone15.png'
+                                class='device'
+                            >
+                            <img
+                                :src='project.images.mb3'
+                                class='img'
                             >
                         </li>
                     </ul>
                 </div>
             </section>
 
-            <section v-if="project.desc">
-                <div class="inner">
-                    <ul class="desc">
-                        <li v-if="project.desc.agency || project.desc.client">
-                            <dl data-aos="fade-up">
-                                <dt>팀<span v-if="project.desc.client"> / 클라이언트</span></dt>
+            <section v-if='project.desc'>
+                <div class='inner'>
+                    <ul class='desc'>
+                        <li v-if='project.desc.agency || project.desc.client'>
+                            <dl data-aos='fade-up'>
+                                <dt>팀<span v-if='project.desc.client'> / 클라이언트</span></dt>
                                 <dd>
                                     {{ project.desc.agency }}
-                                    <span v-if="project.desc.client"> / {{ project.desc.client }}</span>
+                                    <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
                                 </dd>
                             </dl>
                         </li>
-                        <li v-if="project.desc.duration">
-                            <dl data-aos="fade-up">
+                        <li v-if='project.desc.duration'>
+                            <dl data-aos='fade-up'>
                                 <dt>작업기간</dt>
                                 <dd>
                                     {{ project.desc.duration.start }}
-                                    <span v-if="project.desc.duration.end"> - {{ project.desc.duration.end }}</span>
+                                    <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
                                 </dd>
                             </dl>
                         </li>
-                        <li v-if="project.desc.stack">
-                            <dl data-aos="fade-up">
+                        <li v-if='project.desc.stack'>
+                            <dl data-aos='fade-up'>
                                 <dt>주요 기술 스택</dt>
                                 <dd>{{ project.desc.stack }}</dd>
                             </dl>
@@ -131,25 +131,25 @@
             </section>
 
             <section>
-                <div class="inner">
+                <div class='inner'>
                     <p
-                        v-if="project.content.about"
-                        data-aos="fade-up"
-                        class="txt-c" 
-                        v-html="project.content.about"
+                        v-if='project.content.about'
+                        data-aos='fade-up'
+                        class='txt-c' 
+                        v-html='project.content.about'
                     />
                     <ButtonRound
-                        v-if="project.link && project.link.href"
-                        data-aos="fade-up"
-                        class="mt-32 txt-c"
-                        :link="project.link"
+                        v-if='project.link && project.link.href'
+                        data-aos='fade-up'
+                        class='mt-32 txt-c'
+                        :link='project.link'
                     />
                 </div>
             </section>
             
         </div>
         <!-- <Pagination 
-            :pagination="pagination"
+            :pagination='pagination'
         /> -->
     </div>
 </template>
@@ -223,18 +223,18 @@ export default {
     methods: {
         getMbHeight() {
             var mb = document.querySelector('.device_mb .device');
+            if (!mb) return;
             var mbH = mb.clientHeight;
             var mbImg = document.querySelectorAll('.device_mb .img');
                 
-            for (var i = 0; i < mbImg.length; i++) {
-                var c = mbImg[i];
-                c.style.height = mbH + 'px';
-            }
+            mbImg.forEach(img => {
+                img.style.height = mbH + 'px';
+            });
         },
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @import '@/assets/scss/layout/page_detail.scss';
 </style>
