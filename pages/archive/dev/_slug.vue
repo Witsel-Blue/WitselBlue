@@ -69,8 +69,11 @@ export default {
     },
     async asyncData({ params, store }) {
         const archive = archiveDevData.find(item => item.slug === params.slug);
+        const index = archiveDevData.findIndex(a => a.slug === params.slug);
+        const nextArchiveDev = archiveDevData[(index + 1) % archiveDevData.length];
 
         store.commit('setDetailPage', true);
+        store.commit('setNextArchiveDev', nextArchiveDev);
 
         return { 
             archive: archive || null 
@@ -82,6 +85,7 @@ export default {
     },
     beforeDestroy() {
         this.$store.commit('setDetailPage', false);
+        this.$store.commit('clearNextArchiveDev');
     },
     mounted() {
 

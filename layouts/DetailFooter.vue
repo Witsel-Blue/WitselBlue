@@ -1,7 +1,7 @@
 <template>
     <div id='detail_footer'>
         <div ref='bg' class='footer-bg'></div>
-        <div class='footer' v-if="nextProject">
+        <div class='footer'>
             <div class='top'>
                 <h1 ref='title' data-aos='fade-up'>
                     <span class='ft-tanpearl' style='--i:1'>N</span>
@@ -11,7 +11,15 @@
                 </h1>
             </div>
             <div class='bottom'>
-                {{ nextProject.title }}
+                <div v-if="$store.state.nextProject">
+                    {{ $store.state.nextProject.title }}
+                </div>
+                <div v-if="$store.state.nextArchiveDev">
+                    {{ $store.state.nextArchiveDev.title }}
+                </div>
+                <div v-if="$store.state.nextArchiveMusic">
+                    {{ $store.state.nextArchiveMusic.title }}
+                </div>
             </div>
         </div>
     </div>
@@ -26,6 +34,10 @@ export default {
     },
     props: {
         nextProject: {
+            type: Object,
+            default: null,
+        },
+        nextArchiveDev: {
             type: Object,
             default: null,
         }
