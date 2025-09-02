@@ -1,6 +1,7 @@
 export const state = () => ({
   isDetailPage: false,
   isNoUIPage: false,
+  nextProject: null,
 });
 
 export const mutations = {
@@ -9,5 +10,11 @@ export const mutations = {
   },
   setNoUIPage(state, value) {
     state.isNoUIPage = value;
-  }
+  },
+  setNextProject(state, item) {
+    state.nextProject = item;
+  },
+  clearNextProject(state) {
+    state.nextProject = null;
+  },
 };

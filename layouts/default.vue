@@ -3,7 +3,7 @@
     <GNB v-if="!$store.state.isNoUIPage" />
     <Nuxt />
     <Footer v-if="!$store.state.isDetailPage && !$store.state.isNoUIPage" />
-    <DetailFooter v-else-if="$store.state.isDetailPage" />
+    <DetailFooter v-else-if="$store.state.isDetailPage" :next-project="$store.state.nextProject" />
   </div>
 </template>
 

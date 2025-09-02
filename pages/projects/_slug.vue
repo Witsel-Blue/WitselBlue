@@ -174,8 +174,11 @@ export default {
     },
     async asyncData({ params, store }) {
         const project = projectsData.find(p => p.slug === params.slug);
+        const index = projectsData.findIndex(p => p.slug === params.slug);
+        const nextProject = projectsData[(index + 1) % projectsData.length];
 
         store.commit('setDetailPage', true);
+        store.commit('setNextProject', nextProject);
 
         return { project };
     },
@@ -188,6 +191,7 @@ export default {
     beforeDestroy() {
         window.removeEventListener('resize', this.getMbHeight);
         this.$store.commit('setDetailPage', false);
+        this.$store.commit('clearNextProject');
     },
     methods: {
         getMbHeight() {

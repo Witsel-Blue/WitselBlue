@@ -1,7 +1,7 @@
 <template>
     <div id='detail_footer'>
         <div ref='bg' class='footer-bg'></div>
-        <div class='footer'>
+        <div class='footer' v-if="nextProject">
             <div class='top'>
                 <h1 ref='title' data-aos='fade-up'>
                     <span class='ft-tanpearl' style='--i:1'>N</span>
@@ -11,7 +11,7 @@
                 </h1>
             </div>
             <div class='bottom'>
-                bottom
+                {{ nextProject.title }}
             </div>
         </div>
     </div>
@@ -23,6 +23,12 @@ import ButtonRound from '@/components/ButtonRound.vue';
 export default {
     components: {
         ButtonRound,
+    },
+    props: {
+        nextProject: {
+            type: Object,
+            default: null,
+        }
     },
     mounted() {
         this.$nextTick(() => {
