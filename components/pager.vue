@@ -7,6 +7,7 @@
                     'go top'
                 ]"
                 triggerMode='bottom'
+                speedMod='fast'
             />
             <img
                 :src="require('@/assets/img/pager.svg')"

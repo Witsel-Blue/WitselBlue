@@ -30,6 +30,7 @@
                             '새로운 경험을 할 수 있도록 돕는<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>프론트엔드 개발자</span>가 되고 싶습니다.'
                         ]"
                         triggerMode='middle'
+                        speedMode='slow'
                     />
                 </div>
             </section>

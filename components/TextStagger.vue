@@ -26,7 +26,11 @@ export default {
         triggerMode: {
             type: String,
             default: 'middle',
-        }
+        },
+        speedMode: {
+            type: String,
+            default: 'fast',
+        },
     },
     data() {
         return {
@@ -66,12 +70,19 @@ export default {
         },
         runAnimation(paragraphs) {
             if (this.staggerTween) this.staggerTween.kill();
+
+            // speed 모드
+            const settings = {
+                fast: { stagger: 0.1, duration: 0.2 },
+                slow: { stagger: 0.6, duration: 0.6 },
+            }
+            const { stagger, duration } = settings[this.speedMode] || settings.fast;
+
             this.staggerTween = gsap.to(paragraphs, {
                 yPercent: 0,
                 rotation: 0,
-                duration: 0.6,
-                stagger: 0.4,
-                // ease: 'power2.out',
+                duration,
+                stagger,
             })
             this.animated = true;
         },
