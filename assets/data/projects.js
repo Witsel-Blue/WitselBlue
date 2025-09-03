@@ -51,7 +51,7 @@ export default [
         images: {
             // thumb: require('@/assets/img/projects/myportfolio_thumb.png'),
             // mainvisual: require('@/assets/img/projects/project09_main.png'),
-            gif: require('@/assets/img/projects/myportfolio_gif.gif'),
+            // gif: require('@/assets/img/projects/myportfolio_gif.gif'),
             pc1: require('@/assets/img/projects/myportfolio_pc1.png'),
             pc2: require('@/assets/img/projects/myportfolio_pc2.png'),
             mb1: require('@/assets/img/projects/myportfolio_mb1.png'),
@@ -118,7 +118,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/416_thumb.png'),
             // mainvisual: require('@/assets/img/projects/project02_main.png'),
-            gif: require('@/assets/img/projects/416_gif.gif'),
+            // gif: require('@/assets/img/projects/416_gif.gif'),
             pc1: require('@/assets/img/projects/416_pc1.png'),
             pc2: require('@/assets/img/projects/416_pc2.png'),
             pc3: require('@/assets/img/projects/416_pc3.png'),
@@ -152,7 +152,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/dcamp_thumb.png'),
             // mainvisual: require('@/assets/img/projects/project03_main.png'),
-            gif: require('@/assets/img/projects/dcamp_gif.gif'),
+            // gif: require('@/assets/img/projects/dcamp_gif.gif'),
             pc1: require('@/assets/img/projects/dcamp_pc1.png'),
             pc2: require('@/assets/img/projects/dcamp_pc2.png'),
             pc3: require('@/assets/img/projects/dcamp_pc3.png'),
@@ -189,7 +189,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/dcdc_thumb.png'),
             // mainvisual: require('@/assets/img/projects/project05_main.png'),
-            gif: require('@/assets/img/projects/dcdc_gif.gif'),
+            // gif: require('@/assets/img/projects/dcdc_gif.gif'),
             pc1: require('@/assets/img/projects/dcdc_pc1.png'),
             pc2: require('@/assets/img/projects/dcdc_pc2.png'),
             pc3: require('@/assets/img/projects/dcdc_pc3.png'),
@@ -225,7 +225,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/kace_thumb.png'),
             // mainvisual: require('@/assets/img/projects/project07_pc.png'),
-            gif: require('@/assets/img/projects/kace_gif.gif'),
+            // gif: require('@/assets/img/projects/kace_gif.gif'),
             pc1: require('@/assets/img/projects/kace_pc1.png'),
             pc2: require('@/assets/img/projects/kace_pc2.png'),
             pc3: require('@/assets/img/projects/kace_pc3.png'),
@@ -295,7 +295,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/oxfam_thumb.png'),
             // mainvisual: require('@/assets/img/projects/project04_main.png'),
-            gif: require('@/assets/img/projects/oxfam_gif.gif'),
+            // gif: require('@/assets/img/projects/oxfam_gif.gif'),
             pc1: require('@/assets/img/projects/oxfam_pc1.png'),
             pc2: require('@/assets/img/projects/oxfam_pc2.png'),
             pc3: require('@/assets/img/projects/oxfam_pc3.png'),
