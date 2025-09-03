@@ -8,6 +8,7 @@
                 ]"
                 triggerMode='bottom'
                 speedMod='fast'
+                :rewindAnimation='true'
             />
             <img
                 :src="require('@/assets/img/pager.svg')"

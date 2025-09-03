@@ -31,26 +31,25 @@ export default {
             type: String,
             default: 'fast',
         },
+        rewindAnimation: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
             staggerTween: null,
             animated: false,
+            bottomTriggered: false,
         };
     },
     mounted() {
         if (process.client) {
             this.$nextTick(() => {
                 this.initAnimation();
-                if (this.triggerMode === 'bottom') {
-                    this.runAnimation(this.$refs.textStagger.querySelectorAll('li p'));
-                    this.animated = true;
-                } else {
-                    this.checkPosition();
-                }
+                window.addEventListener("scroll", this.checkPosition);
+                window.addEventListener("resize", this.checkPosition);
             });
-            window.addEventListener('scroll', this.checkPosition);
-            window.addEventListener('resize', this.checkPosition);
         }
     },
     beforeDestroy() {
@@ -96,39 +95,59 @@ export default {
             this.staggerTween = null;
             this.animated = false;
         },
+        rewindAnimationFunc(paragraphs) {
+            if (this.staggerTween) this.staggerTween.kill();
+            const settings = {
+                fast: { stagger: 0.1, duration: 0.2 },
+                slow: { stagger: 0.6, duration: 0.6 },
+            };
+            const { stagger, duration } = settings[this.speedMode] || settings.fast;
+
+            this.staggerTween = gsap.fromTo(
+                paragraphs,
+                { yPercent: 0, rotation: 0 },
+                { yPercent: 150, rotation: (i) => (i % 2 === 0 ? -4 : 4), duration, stagger }
+            );
+
+            this.animated = false;
+            this.bottomTriggered = false; 
+        },
         checkPosition() {
-            // middle 모드 : 화면 중앙에서 트리거
             const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
             const rect = this.$refs.textStagger.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const rectCenter = rect.top + rect.height / 2;
             const rectBottom = rect.bottom;
 
-            if (!this.animated && 
-                ((rectCenter >= viewportHeight / 2 - 10 && rectCenter <= viewportHeight / 2 + 10) ||
-                (rectBottom <= viewportHeight && rectBottom >= viewportHeight * 0.2))
-            ) {
-                this.runAnimation(paragraphs);
-            }
-
-            if (rect.bottom < 0 || rect.top > viewportHeight) {
-                this.resetAnimation(paragraphs);
-            }
-
-            // bottom 모드
-            if (this.triggerMode === 'bottom') {
-                const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
-                const scrollPosition = window.scrollY + window.innerHeight;
-                const docHeight = document.documentElement.scrollHeight;
-
-                const isBottom = scrollPosition >= docHeight - 1;
-
-                if (isBottom && !this.animated) {
+            // middle 모드 : 화면 중앙에서 트리거
+            if (this.triggerMode === 'middle') {
+                if (!this.animated && 
+                    ((rectCenter >= viewportHeight / 2 - 10 && rectCenter <= viewportHeight / 2 + 10) ||
+                    (rectBottom <= viewportHeight && rectBottom >= viewportHeight * 0.2))
+                ) {
                     this.runAnimation(paragraphs);
-                } else if (!isBottom && this.animated) {
+                }
+
+                if (rect.bottom < 0 || rect.top > viewportHeight) {
                     this.resetAnimation(paragraphs);
                 }
-                return;
+            }
+
+            // bottom 모드 : 화면 최하단 도달 시 트리거
+            if (this.triggerMode === 'bottom') {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const isBottom = scrollPosition >= docHeight - 1;
+
+                if (isBottom && !this.bottomTriggered) {
+                    this.runAnimation(paragraphs);
+                    this.bottomTriggered = true;
+                } else if (!isBottom && this.bottomTriggered && this.rewindAnimation) {
+                    // rewindAnimation 모드
+                    this.rewindAnimationFunc(paragraphs);
+                } else if (!isBottom && !this.rewindAnimation) {
+                    this.resetAnimation(paragraphs);
+                }
             }
             
         },
