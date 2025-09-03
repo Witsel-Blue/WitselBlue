@@ -1,9 +1,13 @@
 <template>
     <div id='pager'>
         <div class='wrapper mouse-hover1'>
-            <p v-show='showGoTop' class='gotop'>
-                click to<br>go top
-            </p>
+            <TextStagger
+                :paragraphs="[
+                    'click to', 
+                    'go top'
+                ]"
+                triggerMode='bottom'
+            />
             <img
                 :src="require('@/assets/img/pager.svg')"
                 @click='scrollToTop'
@@ -15,6 +19,7 @@
 </template>
 
 <script>
+import TextStagger from '@/components/TextStagger.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
@@ -24,9 +29,11 @@ if (process.client) {
     
 export default {
     name: 'Pager',
+    components: {
+        TextStagger,
+    },
     data() {
         return {
-            showGoTop: false,
             scrollTween: null,
             scrollTrigger: null,
         }
@@ -34,19 +41,15 @@ export default {
     mounted() {
         if (process.client) {
             this.initGsap();
-            window.addEventListener('scroll', this.checkScrollBottom);
-
             this.$watch('$route', () => {
                 this.$nextTick(() => {
                     this.resetGsap();
                     this.initGsap();
                 });
             });
-
         }
     },
     beforeDestroy() {
-        this.resetGsap();
         window.removeEventListener('scroll', this.checkScrollBottom);
     },
     methods: {
@@ -83,10 +86,6 @@ export default {
             }
             gsap.set('.pager', { rotation: 0 });
         },
-        checkScrollBottom() {
-            const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1;
-            this.showGoTop = bottom;
-        },
         scrollToTop() {
             if (process.client) {
                 window.scrollTo({
@@ -114,7 +113,7 @@ export default {
             max-height: 120px;
             min-width: 80px;
             min-height: 80px;
-            .gotop {
+            #text-stagger {
                 position: absolute;
                 top: 0;
                 left: 50%;

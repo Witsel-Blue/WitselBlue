@@ -22,6 +22,10 @@ export default {
         paragraphs: {
             type: Array,
             required: true,
+        },
+        triggerMode: {
+            type: String,
+            default: 'middle',
         }
     },
     data() {
@@ -31,66 +35,97 @@ export default {
         };
     },
     mounted() {
-        this.initAnimation();
-        window.addEventListener("scroll", this.checkPosition);
-        window.addEventListener("resize", this.checkPosition);
+        if (process.client) {
+            this.$nextTick(() => {
+                this.initAnimation();
+                if (this.triggerMode === 'bottom') {
+                    this.runAnimation(this.$refs.textStagger.querySelectorAll('li p'));
+                    this.animated = true;
+                } else {
+                    this.checkPosition();
+                }
+            });
+            window.addEventListener('scroll', this.checkPosition);
+            window.addEventListener('resize', this.checkPosition);
+        }
     },
     beforeDestroy() {
-        window.removeEventListener("scroll", this.checkPosition);
-        window.removeEventListener("resize", this.checkPosition);
+        window.removeEventListener('scroll', this.checkPosition);
+        window.removeEventListener('resize', this.checkPosition);
         if (this.staggerTween) this.staggerTween.kill();
     },
     methods: {
         initAnimation() {
-            const paragraphs = this.$refs.textStagger.querySelectorAll("li p");
+            const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
             gsap.set(paragraphs, {
-                yPercent: 100,
+                yPercent: 150,
                 rotation: (i) => (i % 2 === 0 ? -4 : 4),
-                autoAlpha: 0,
-            });
+                opacity: 1,
+            })
             this.checkPosition();
         },
-        checkPosition() {
-            const paragraphs = this.$refs.textStagger.querySelectorAll("li p");
-            const rect = this.$refs.textStagger.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            const profileCenter = rect.top + rect.height / 2;
-            const profileBottom = rect.bottom;
-
-            if (
-                !this.animated &&
-                ((profileCenter >= viewportHeight / 2 - 10 &&
-                profileCenter <= viewportHeight / 2 + 10) ||
-                (profileBottom <= viewportHeight && profileBottom >= viewportHeight * 0.2))
-            ) {
-                if (this.staggerTween) this.staggerTween.kill();
-                this.staggerTween = gsap.to(paragraphs, {
+        runAnimation(paragraphs) {
+            if (this.staggerTween) this.staggerTween.kill();
+            this.staggerTween = gsap.to(paragraphs, {
                 yPercent: 0,
                 rotation: 0,
-                autoAlpha: 1,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power2.out",
-                });
-                this.animated = true;
+                duration: 0.6,
+                stagger: 0.4,
+                // ease: 'power2.out',
+            })
+            this.animated = true;
+        },
+        resetAnimation(paragraphs) {
+            if (this.staggerTween) this.staggerTween.kill();
+            gsap.set(paragraphs, {
+                yPercent: 150,
+                rotation: (i) => (i % 2 === 0 ? -4 : 4),
+                opacity: 1,
+            })
+            this.staggerTween = null;
+            this.animated = false;
+        },
+        checkPosition() {
+            // middle 모드 : 화면 중앙에서 트리거
+            const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
+            const rect = this.$refs.textStagger.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const rectCenter = rect.top + rect.height / 2;
+            const rectBottom = rect.bottom;
+
+            if (!this.animated && 
+                ((rectCenter >= viewportHeight / 2 - 10 && rectCenter <= viewportHeight / 2 + 10) ||
+                (rectBottom <= viewportHeight && rectBottom >= viewportHeight * 0.2))
+            ) {
+                this.runAnimation(paragraphs);
             }
 
             if (rect.bottom < 0 || rect.top > viewportHeight) {
-                if (this.staggerTween) this.staggerTween.kill();
-                gsap.set(paragraphs, {
-                yPercent: 100,
-                rotation: (i) => (i % 2 === 0 ? -4 : 4),
-                autoAlpha: 0,
-                });
-                this.staggerTween = null;
-                this.animated = false;
+                this.resetAnimation(paragraphs);
             }
+
+            // bottom 모드
+            if (this.triggerMode === 'bottom') {
+                const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+
+                const isBottom = scrollPosition >= docHeight - 1;
+
+                if (isBottom && !this.animated) {
+                    this.runAnimation(paragraphs);
+                } else if (!isBottom && this.animated) {
+                    this.resetAnimation(paragraphs);
+                }
+                return;
+            }
+            
         },
     },
-}
+    }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 #text-stagger {
     li {
         overflow: hidden;

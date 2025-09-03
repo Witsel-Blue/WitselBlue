@@ -20,14 +20,17 @@
                     <div data-aos="fade-up">
                         <ParallaxImg :src="profile.img" />
                     </div>
-                    <TextStagger :paragraphs="[
-                        '안녕하세요,<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>서울</span>에서 활동 중인 개발자<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>비첼블루</span>입니다.<br><br class=&quot;mb&quot;>',
-                        'WebGl, GSAP, Lottie, SVG 등을 활용해',
-                        '직관적이고 <span class=&quot;mouse-hover1&quot;>인터렉티브</span>한<br class=&quot;mb&quot;> 사이트를 구현하고자 하고,',
-                        '효율적이고 확장성을 고려한<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>클린코딩</span>을 지향합니다.<br class=&quot;mb&quot;>',
-                        '웹사이트를 방문하는 사용자가<br class=&quot;mb&quot;> 단순히 정보를 얻는 것을 넘어',
-                        '새로운 경험을 할 수 있도록 돕는<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>프론트엔드 개발자</span>가 되고 싶습니다.'
-                    ]"/>
+                    <TextStagger 
+                        :paragraphs="[
+                            '안녕하세요,<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>서울</span>에서 활동 중인 개발자<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>비첼블루</span>입니다.<br><br class=&quot;mb&quot;>',
+                            'WebGl, GSAP, Lottie, SVG 등을 활용해',
+                            '직관적이고 <span class=&quot;mouse-hover1&quot;>인터렉티브</span>한<br class=&quot;mb&quot;> 사이트를 구현하고자 하고,',
+                            '효율적이고 확장성을 고려한<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>클린코딩</span>을 지향합니다.<br class=&quot;mb&quot;>',
+                            '웹사이트를 방문하는 사용자가<br class=&quot;mb&quot;> 단순히 정보를 얻는 것을 넘어',
+                            '새로운 경험을 할 수 있도록 돕는<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>프론트엔드 개발자</span>가 되고 싶습니다.'
+                        ]"
+                        triggerMode='middle'
+                    />
                 </div>
             </section>
             <section class="selected" ref="selected">
