@@ -43,6 +43,54 @@
                 </div>
             </section>
 
+            <section v-if='project.desc'>
+                <div class='inner'>
+                    <ul class='desc'>
+                        <li v-if='project.desc.agency || project.desc.client'>
+                            <dl data-aos='fade-up'>
+                                <dt>팀<span v-if='project.desc.client'> / 클라이언트</span></dt>
+                                <dd>
+                                    {{ project.desc.agency }}
+                                    <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li v-if='project.desc.duration'>
+                            <dl data-aos='fade-up'>
+                                <dt>작업기간</dt>
+                                <dd>
+                                    {{ project.desc.duration.start }}
+                                    <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li v-if='project.desc.stack'>
+                            <dl data-aos='fade-up'>
+                                <dt>주요 기술 스택</dt>
+                                <dd>{{ project.desc.stack }}</dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <div class='inner'>
+                    <p
+                        v-if='project.content.about'
+                        data-aos='fade-up'
+                        class='txt-c' 
+                        v-html='project.content.about'
+                    />
+                    <ButtonRound
+                        v-if='project.link && project.link.href'
+                        data-aos='fade-up'
+                        class='mt-32 txt-c'
+                        :link='project.link'
+                    />
+                </div>
+            </section>
+
             <section class='img-pc' v-if='project.images.pc1'>
                 <div class='inner'>
                     <img
@@ -96,54 +144,6 @@
                             >
                         </li>
                     </ul>
-                </div>
-            </section>
-
-            <section v-if='project.desc'>
-                <div class='inner'>
-                    <ul class='desc'>
-                        <li v-if='project.desc.agency || project.desc.client'>
-                            <dl data-aos='fade-up'>
-                                <dt>팀<span v-if='project.desc.client'> / 클라이언트</span></dt>
-                                <dd>
-                                    {{ project.desc.agency }}
-                                    <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li v-if='project.desc.duration'>
-                            <dl data-aos='fade-up'>
-                                <dt>작업기간</dt>
-                                <dd>
-                                    {{ project.desc.duration.start }}
-                                    <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li v-if='project.desc.stack'>
-                            <dl data-aos='fade-up'>
-                                <dt>주요 기술 스택</dt>
-                                <dd>{{ project.desc.stack }}</dd>
-                            </dl>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <div class='inner'>
-                    <p
-                        v-if='project.content.about'
-                        data-aos='fade-up'
-                        class='txt-c' 
-                        v-html='project.content.about'
-                    />
-                    <ButtonRound
-                        v-if='project.link && project.link.href'
-                        data-aos='fade-up'
-                        class='mt-32 txt-c'
-                        :link='project.link'
-                    />
                 </div>
             </section>
             

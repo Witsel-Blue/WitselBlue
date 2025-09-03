@@ -20,11 +20,11 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: '',
-            mainvisual: '',
-            gif: '',
-            pc1: '',
-            mb1: '',
+            // thumb: '',
+            // mainvisual: '',
+            // gif: '',
+            // pc1: '',
+            // mb1: '',
         },
         content: {
             about: '',
@@ -49,14 +49,14 @@ export default [
             text: 'visit site',
         },
         images: {
-            thumb: require('@/assets/img/project09_main.png'),
-            mainvisual: require('@/assets/img/project09_main.png'),
-            gif: require('@/assets/img/project09_gif.gif'),
-            pc1: require('@/assets/img/project09_img1.png'),
-            pc2: require('@/assets/img/project09_img2.png'),
-            mb1: require('@/assets/img/project09_mb01.png'),
-            mb2: require('@/assets/img/project09_mb02.png'),
-            mb3: require('@/assets/img/project09_mb03.png'),
+            // thumb: require('@/assets/img/projects/myportfolio_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project09_main.png'),
+            gif: require('@/assets/img/projects/myportfolio_gif.gif'),
+            pc1: require('@/assets/img/projects/myportfolio_pc1.png'),
+            pc2: require('@/assets/img/projects/myportfolio_pc2.png'),
+            mb1: require('@/assets/img/projects/myportfolio_mb1.png'),
+            // mb2: require('@/assets/img/projects/project09_mb02.png'),
+            // mb3: require('@/assets/img/projects/project09_mb03.png'),
         },
         content: {
             about: 'vue와 nuxt로 구축한 2024년 버전 포트폴리오 사이트입니다.<br> GSAP, AOS 등의 라이브러리를 이용하였고, <br> 메인비주얼은 three.js를 사용했습니다. <br> GitHub에 전체 코드를 올려두었으니 확인해 보세요!',
@@ -83,11 +83,11 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project01_main.png'),
-            mainvisual: require('@/assets/img/project01_main.png'),
-            mb1: require('@/assets/img/project01_mb01.png'),
-            mb2: require('@/assets/img/project01_mb02.png'),
-            mb3: require('@/assets/img/project01_mb03.png'),
+            thumb: require('@/assets/img/projects/monimo_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/monimo_main.png'),
+            mb1: require('@/assets/img/projects/monimo_mb1.png'),
+            mb2: require('@/assets/img/projects/monimo_mb2.png'),
+            mb3: require('@/assets/img/projects/monimo_mb3.png'),
         },
         content: {
             // locales: projects.monimo.about
@@ -116,12 +116,14 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project02_img1.png'),
-            mainvisual: require('@/assets/img/project02_main.png'),
-            pc1: require('@/assets/img/project02_pc.png'),
-            mb1: require('@/assets/img/project02_mb01.png'),
-            mb2: require('@/assets/img/project02_mb02.png'),
-            mb3: require('@/assets/img/project02_mb03.png'),
+            thumb: require('@/assets/img/projects/416_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project02_main.png'),
+            gif: require('@/assets/img/projects/416_gif.gif'),
+            pc1: require('@/assets/img/projects/416_pc1.png'),
+            pc2: require('@/assets/img/projects/416_pc2.png'),
+            pc3: require('@/assets/img/projects/416_pc3.png'),
+            mb1: require('@/assets/img/projects/416_mb1.png'),
+            mb2: require('@/assets/img/projects/416_mb2.png'),
         },
         content: {
             about: '세월호참사 10주기를 기념하여<br class="mb"> 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의<br class="mb"> 라이브러리를 이용하여 메인비주얼 구현',
@@ -148,12 +150,15 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project03_main.png'),
-            mainvisual: require('@/assets/img/project03_main.png'),
-            pc1: require('@/assets/img/project03_pc.png'),
-            mb1: require('@/assets/img/project03_mb01.png'),
-            mb2: require('@/assets/img/project03_mb02.png'),
-            mb3: require('@/assets/img/project03_mb03.png'),
+            thumb: require('@/assets/img/projects/dcamp_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project03_main.png'),
+            gif: require('@/assets/img/projects/dcamp_gif.gif'),
+            pc1: require('@/assets/img/projects/dcamp_pc1.png'),
+            pc2: require('@/assets/img/projects/dcamp_pc2.png'),
+            pc3: require('@/assets/img/projects/dcamp_pc3.png'),
+            mb1: require('@/assets/img/projects/dcamp_mb1.png'),
+            mb2: require('@/assets/img/projects/dcamp_mb2.png'),
+            mb3: require('@/assets/img/projects/dcamp_mb3.png'),
         },
         content: {
             about: '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
@@ -182,13 +187,15 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project05_main.png'),
-            mainvisual: require('@/assets/img/project05_main.png'),
-            pc1: require('@/assets/img/project05_img1.png'),
-            pc2: require('@/assets/img/project05_img2.png'),
-            mb1: require('@/assets/img/project05_mb01.png'),
-            mb2: require('@/assets/img/project05_mb02.png'),
-            mb3: require('@/assets/img/project05_mb03.png'),
+            thumb: require('@/assets/img/projects/dcdc_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project05_main.png'),
+            gif: require('@/assets/img/projects/dcdc_gif.gif'),
+            pc1: require('@/assets/img/projects/dcdc_pc1.png'),
+            pc2: require('@/assets/img/projects/dcdc_pc2.png'),
+            pc3: require('@/assets/img/projects/dcdc_pc3.png'),
+            mb1: require('@/assets/img/projects/dcdc_mb1.png'),
+            mb2: require('@/assets/img/projects/dcdc_mb2.png'),
+            mb3: require('@/assets/img/projects/dcdc_mb3.png'),
         },
         content: {
             about: '',
@@ -216,10 +223,15 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project07_pc.png'),
-            mainvisual: require('@/assets/img/project07_pc.png'),
-            pc1: '',
-            mb1: '',
+            thumb: require('@/assets/img/projects/kace_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project07_pc.png'),
+            gif: require('@/assets/img/projects/kace_gif.gif'),
+            pc1: require('@/assets/img/projects/kace_pc1.png'),
+            pc2: require('@/assets/img/projects/kace_pc2.png'),
+            pc3: require('@/assets/img/projects/kace_pc3.png'),
+            mb1: require('@/assets/img/projects/kace_mb1.png'),
+            mb2: require('@/assets/img/projects/kace_mb2.png'),
+            mb3: require('@/assets/img/projects/kace_mb3.png'),
         },
         content: {
             about: '지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을<br class="mb"> 신청할 수 있는 서비스 제공',
@@ -248,10 +260,12 @@ export default [
             text: 'google play', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project08_main.png'),
-            mainvisual: require('@/assets/img/project08_main.png'),
+            thumb: require('@/assets/img/projects/rnjob_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project08_main.png'),
             pc1: '',
-            mb1: '',
+            mb1: require('@/assets/img/projects/rnjob_mb1.png'),
+            mb2: require('@/assets/img/projects/rnjob_mb2.png'),
+            mb3: require('@/assets/img/projects/rnjob_mb3.png'),
         },
         content: {
             about: '',
@@ -279,13 +293,15 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project04_main.png'),
-            mainvisual: require('@/assets/img/project04_main.png'),
-            pc1: require('@/assets/img/project04_img1.png'),
-            pc2: require('@/assets/img/project04_img2.png'),
-            mb1: require('@/assets/img/project04_mb01.png'),
-            mb2: require('@/assets/img/project04_mb02.png'),
-            mb3: require('@/assets/img/project04_mb03.png'),
+            thumb: require('@/assets/img/projects/oxfam_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project04_main.png'),
+            gif: require('@/assets/img/projects/oxfam_gif.gif'),
+            pc1: require('@/assets/img/projects/oxfam_pc1.png'),
+            pc2: require('@/assets/img/projects/oxfam_pc2.png'),
+            pc3: require('@/assets/img/projects/oxfam_pc3.png'),
+            mb1: require('@/assets/img/projects/oxfam_mb1.png'),
+            mb2: require('@/assets/img/projects/oxfam_mb2.png'),
+            mb3: require('@/assets/img/projects/oxfam_mb3.png'),
         },
         content: {
             about: '옥스팜코리아에서 주최한 걷기 기부<br class="mb"> 소개 및 참가신청 사이트<br> 스크롤에 따라 SVG 라인이 그려지는<br class="mb"> 애니메이션 구현',
@@ -295,9 +311,10 @@ export default [
         slug: 'cabinnet',
         title: 'Cabin.net',
         desc: {
-            duration: { start: '', end: '', },
+            duration: { start: '2021.05', end: '2021.07', },
             client: 'Seoul Social Economy Center',
             agency: 'SKNK',
+            stack: 'drupal9 / css / jQuery',
         },
         tags: {
             work: 'frontend',
@@ -311,8 +328,8 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            thumb: require('@/assets/img/project06_main.png'),
-            mainvisual: require('@/assets/img/project06_main.png'),
+            thumb: require('@/assets/img/projects/cabinnet_thumb.png'),
+            // mainvisual: require('@/assets/img/projects/project06_main.png'),
             pc1: '',
             mb1: '',
         },

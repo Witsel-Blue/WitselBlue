@@ -194,7 +194,7 @@ export default {
                     name: 'Monimo',
                     path: '/projects/monimo',
                     link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
-                    img: require('@/assets/img/project01_main.png'),
+                    img: require('@/assets/img/projects/monimo_thumb.png'),
                     work: 'development',
                     duration: '2024.07-2024.10',
                 },
@@ -202,7 +202,7 @@ export default {
                     name: '4·16 Online Memorial',
                     path: '/projects/OnlineMemorial',
                     link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
-                    img: require('@/assets/img/project02_main.png'),
+                    img: require('@/assets/img/projects/416_thumb.png'),
                     work: 'publishing',
                     duration: '2022.04',
                 },
@@ -210,7 +210,7 @@ export default {
                     name: 'DCAMP',
                     path: '/projects/DCAMP',
                     link: 'https://dcamp.kr/',
-                    img: require('@/assets/img/project03_main.png'),
+                    img: require('@/assets/img/projects/dcamp_thumb.png'),
                     work: 'frontend',
                     duration: '2022.01-2022.03',
                 },
@@ -218,109 +218,109 @@ export default {
             language: [
                 {
                     name: 'html',
-                    img: require('@/assets/img/skills-language1.png'),
+                    img: require('@/assets/img/skills/skills-language1.png'),
                 },
                 {
                     name: 'css',
-                    img: require('@/assets/img/skills-language2.png'),
+                    img: require('@/assets/img/skills/skills-language2.png'),
                 },
                 {
                     name: 'javascript',
-                    img: require('@/assets/img/skills-language4.png'),
+                    img: require('@/assets/img/skills/skills-language4.png'),
                 },
                 {
                     name: 'scss',
-                    img: require('@/assets/img/skills-language3.png'),
+                    img: require('@/assets/img/skills/skills-language3.png'),
                 },
                 {
                     name: 'jquery',
-                    img: require('@/assets/img/skills-language5.png'),
+                    img: require('@/assets/img/skills/skills-language5.png'),
                 },
             ],
             framework: [
                 {
                     name: 'vue.js',
-                    img: require('@/assets/img/skills-framework1.png'),
+                    img: require('@/assets/img/skills/skills-framework1.png'),
                 },
                 {
                     name: 'nuxt.js',
-                    img: require('@/assets/img/skills-framework2.png'),
+                    img: require('@/assets/img/skills/skills-framework2.png'),
                 },
                 {
                     name: 'react',
-                    img: require('@/assets/img/skills-framework9.png'),
+                    img: require('@/assets/img/skills/skills-framework9.png'),
                 },
                 {
                     name: 'next.js',
-                    img: require('@/assets/img/skills-framework10.png'),
+                    img: require('@/assets/img/skills/skills-framework10.png'),
                 },
                 {
                     name: 'GSAP',
-                    img: require('@/assets/img/skills-framework3.png'),
+                    img: require('@/assets/img/skills/skills-framework3.png'),
                 },
                 {
                     name: 'p5.js',
-                    img: require('@/assets/img/skills-framework4.png'),
+                    img: require('@/assets/img/skills/skills-framework4.png'),
                 },
                 {
                     name: 'three.js',
-                    img: require('@/assets/img/skills-framework5.png'),
+                    img: require('@/assets/img/skills/skills-framework5.png'),
                 },
                 {
                     name: 'pixi.js',
-                    img: require('@/assets/img/skills-framework12.png'),
+                    img: require('@/assets/img/skills/skills-framework12.png'),
                 },
                 {
                     name: 'drupal',
-                    img: require('@/assets/img/skills-framework6.png'),
+                    img: require('@/assets/img/skills/skills-framework6.png'),
                 },
                 {
                     name: 'wordpress',
-                    img: require('@/assets/img/skills-framework7.png'),
+                    img: require('@/assets/img/skills/skills-framework7.png'),
                 },
                 {
                     name: 'tailwind',
-                    img: require('@/assets/img/skills-framework8.png'),
+                    img: require('@/assets/img/skills/skills-framework8.png'),
                 },
                 {
                     name: 'python',
-                    img: require('@/assets/img/skills-framework11.png'),
+                    img: require('@/assets/img/skills/skills-framework11.png'),
                 },
             ],
             etc: [
                 {
                     name: 'GitHub',
-                    img: require('@/assets/img/skills-etc1.png'),
+                    img: require('@/assets/img/skills/skills-etc1.png'),
                 },
                 {
                     name: 'docker',
-                    img: require('@/assets/img/skills-etc2.png'),
+                    img: require('@/assets/img/skills/skills-etc2.png'),
                 },
                 {
                     name: 'storybook',
-                    img: require('@/assets/img/skills-etc3.png'),
+                    img: require('@/assets/img/skills/skills-etc3.png'),
                 },
                 {
                     name: 'gabia',
-                    img: require('@/assets/img/skills-etc4.png'),
+                    img: require('@/assets/img/skills/skills-etc4.png'),
                 },
                 {
                     name: 'cyberduck',
-                    img: require('@/assets/img/skills-etc5.png'),
+                    img: require('@/assets/img/skills/skills-etc5.png'),
                 },
             ],
             design: [
                 {
                     name: 'figma',
-                    img: require('@/assets/img/skills-design1.png'),
+                    img: require('@/assets/img/skills/skills-design1.png'),
                 },
                 {
                     name: 'photoshop',
-                    img: require('@/assets/img/skills-design2.png'),
+                    img: require('@/assets/img/skills/skills-design2.png'),
                 },
                 {
                     name: 'illlustrator',
-                    img: require('@/assets/img/skills-design3.png'),
+                    img: require('@/assets/img/skills/skills-design3.png'),
                 },
             ],
             link: {

@@ -1,8 +1,8 @@
 <template>
-    <div id="cursor-custom">
-        <div ref="circle" class="cursor-circle" :class="cursorClasses">
-            <span ref="cursorText" class="cursor-text"></span>
-            <Lottie v-if="showLottie" :animationData="animationData" />
+    <div id='cursor-custom'>
+        <div ref='circle' class='cursor-circle' :class='cursorClasses'>
+            <span ref='cursorText' class='cursor-text'></span>
+            <Lottie v-if='showLottie' :animationData='animationData' />
         </div>
     </div>
 </template>
@@ -52,12 +52,12 @@ export default {
                 const gsap = this.$gsap;
                 var circle = this.$refs.circle;
 
-                gsap.set(".cursor-circle", {xPercent: -50, yPercent: -50});
+                gsap.set('.cursor-circle', {xPercent: -50, yPercent: -50});
 
-                let xTo = gsap.quickTo(".cursor-circle", "x", {duration: 0.4, ease: "power3"}),
-                    yTo = gsap.quickTo(".cursor-circle", "y", {duration: 0.4, ease: "power3"});
+                let xTo = gsap.quickTo('.cursor-circle', 'x', {duration: 0.4, ease: 'power3'}),
+                    yTo = gsap.quickTo('.cursor-circle', 'y', {duration: 0.4, ease: 'power3'});
 
-                window.addEventListener("mousemove", e => {
+                window.addEventListener('mousemove', e => {
                     xTo(e.clientX);
                     yTo(e.clientY);
                 });
@@ -74,10 +74,10 @@ export default {
                 for (var i = 0; i < hoverElems.length; i++) {
                     var x = hoverElems[i];
 
-                    x.addEventListener("mouseenter", e => {
+                    x.addEventListener('mouseenter', e => {
                         circle.classList.add('hover1');
                     });
-                    x.addEventListener("mouseleave", e => {
+                    x.addEventListener('mouseleave', e => {
                         circle.classList.remove('hover1');
                     });
                 }
@@ -86,10 +86,10 @@ export default {
                 for (var i = 0; i < hoverElems2.length; i++) {
                     var x2 = hoverElems2[i];
 
-                    x2.addEventListener("mouseenter", e => {
+                    x2.addEventListener('mouseenter', e => {
                         circle.classList.add('hover2');
                     });
-                    x2.addEventListener("mouseleave", e => {
+                    x2.addEventListener('mouseleave', e => {
                         circle.classList.remove('hover2');
                     });
                 }
@@ -98,10 +98,10 @@ export default {
                 for (var i = 0; i < hoverElems2.length; i++) {
                     var x2 = hoverElems2[i];
 
-                    x2.addEventListener("mouseenter", e => {
+                    x2.addEventListener('mouseenter', e => {
                         circle.classList.add('hover3');
                     });
-                    x2.addEventListener("mouseleave", e => {
+                    x2.addEventListener('mouseleave', e => {
                         circle.classList.remove('hover3');
                     });
                 }
@@ -110,10 +110,10 @@ export default {
                 for (var i = 0; i < noHoverElems.length; i++) {
                     var x2 = noHoverElems[i];
 
-                    x2.addEventListener("mouseenter", e => {
+                    x2.addEventListener('mouseenter', e => {
                         circle.classList.add('no-cursor');
                     });
-                    x2.addEventListener("mouseleave", e => {
+                    x2.addEventListener('mouseleave', e => {
                         circle.classList.remove('no-cursor');
                     });
                 }
@@ -125,12 +125,12 @@ export default {
                     const li = skillElems[i];
                     const skillName = li.querySelector('img')?.getAttribute('alt') || li.getAttribute('data-name') || '';
 
-                    li.addEventListener("mouseenter", () => {
+                    li.addEventListener('mouseenter', () => {
                         cursorText.textContent = skillName;
                         circle.classList.add('hover-skill');
                     });
 
-                    li.addEventListener("mouseleave", () => {
+                    li.addEventListener('mouseleave', () => {
                         cursorText.textContent = '';
                         circle.classList.remove('hover-skill');
                     });
@@ -142,11 +142,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang='scss'>
     @use '@/assets/scss/base/variables.scss' as *;
 
     html, a, button {
-        cursor: none;
+        cursor: none !important;
     }
 
     .mouse-hover1,

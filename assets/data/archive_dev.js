@@ -11,8 +11,8 @@ export default [
             text: 'view code',
         },
         images: {
-            thumb: require('@/assets/img/archive02_main.png'),
-            mainvisual: require('@/assets/img/archive02_main.png'),
+            thumb: require('@/assets/img/archive/archive02_main.png'),
+            mainvisual: require('@/assets/img/archive/archive02_main.png'),
         },
         content: {
             about: '마녀배달부 키키가 키우는 고양이 지지는<br> 움직이는 나비를 따라 시선을 고정합니다.',
@@ -30,8 +30,8 @@ export default [
             text: 'veiw code',
         },
         images: {
-            thumb: require('@/assets/img/archive01_main.png'),
-            mainvisual: require('@/assets/img/archive01_main.png'),
+            thumb: require('@/assets/img/archive/archive01_main.png'),
+            mainvisual: require('@/assets/img/archive/archive01_main.png'),
         },
         content: {
             about: '',
@@ -49,8 +49,8 @@ export default [
             text: 'view code',
         },
         images: {
-            thumb: require('@/assets/img/archive03_main.png'),
-            mainvisual: require('@/assets/img/archive03_main.png'),
+            thumb: require('@/assets/img/archive/archive03_main.png'),
+            mainvisual: require('@/assets/img/archive/archive03_main.png'),
         },
         content: {
             about: '',
@@ -68,8 +68,8 @@ export default [
             text: 'view code',
         },
         images: {
-            thumb: require('@/assets/img/archive04_main.png'),
-            mainvisual: require('@/assets/img/archive04_main.png'),
+            thumb: require('@/assets/img/archive/archive04_main.png'),
+            mainvisual: require('@/assets/img/archive/archive04_main.png'),
         },
         content: {
             about: '',

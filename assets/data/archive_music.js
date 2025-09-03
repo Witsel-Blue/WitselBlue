@@ -13,7 +13,7 @@ export default [
             text: 'listen on SoundCloud',
         },
         images: {
-            thumb: require('@/assets/img/archive_music_email.jpg'),
+            thumb: require('@/assets/img/archive/archive_music_email.jpg'),
         },
         content: {
             about: 'test',
@@ -33,7 +33,7 @@ export default [
             text: 'listen on SoundCloud',
         },
         images: {
-            thumb: require('@/assets/img/archive_music_email.jpg'),
+            thumb: require('@/assets/img/archive/archive_music_email.jpg'),
         },
         content: {
             about: 'test',
