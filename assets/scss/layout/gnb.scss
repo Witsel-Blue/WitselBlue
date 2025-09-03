@@ -41,6 +41,11 @@
                 transition: all 0.4s;
             }
         }
+        .nuxt-link-exact-active:not(a[href='/']) {
+            p span { 
+                font-stretch: 200%;
+            }
+        }
     }
 }
 
@@ -115,12 +120,12 @@
                     font-size: 2rem;
                     line-height: 1;
                     p {
-                        font-family: "Bagel";
+                        font-family: 'Bagel';
                         text-align: right;
                         // transform: translateY(100%);
                         // transition: all 0.4s ease;
                         span {
-                            font-family: "Bagel";
+                            font-family: 'Bagel';
                         }
                     }
                 }

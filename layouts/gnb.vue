@@ -7,10 +7,7 @@
                     :key='nav.name'
                     class='mouse-hover1'
                 >
-                    <Nuxt-link 
-                        :to='nav.path' 
-                        v-html='nav.name'
-                    />
+                    <Nuxt-link :to='nav.path' v-html='nav.name' />
                 </li>
                 <li>
                     <Pager />
@@ -45,10 +42,7 @@
             <div class='desc'>
                 <p>&copy; 2025 witselblue</p>
             </div>
-            <div
-                class='shadow'
-                @click='shadowClick'
-            />
+            <div class='shadow'@click='shadowClick'></div>
             <Pager />
         </div>
     </div>
