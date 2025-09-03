@@ -1,16 +1,13 @@
 <template>
-    <div id="button-round">
+    <div id='button-round'>
         <a 
-            class="button mouse-none"
-            data-block="button"
-            :href="link.href"
-            :target="link.target"
+            class='button mouse-none' 
+            data-block='button'
+            :href='link.href'
+            :target='link.target || null'
         >
-            <span
-                ref="circle"
-                class="circle"
-            />
-            <span class="title">{{ link.text }}</span>
+            <span ref='circle' class='circle'></span>
+            <span class='title'>{{ link.text }}</span>
         </a>
     </div>
 </template>
@@ -41,11 +38,11 @@ export default {
 
                     this.DOM = {
                         button: this.block,
-                        flair: el(".circle")
+                        flair: el('.circle')
                     };
 
-                    this.xSet = gsap.quickSetter(this.DOM.flair, "xPercent");
-                    this.ySet = gsap.quickSetter(this.DOM.flair, "yPercent");
+                    this.xSet = gsap.quickSetter(this.DOM.flair, 'xPercent');
+                    this.ySet = gsap.quickSetter(this.DOM.flair, 'yPercent');
                 }
 
                 getXY(e) {
@@ -73,7 +70,7 @@ export default {
                 }
 
                 initEvents() {
-                    this.DOM.button.addEventListener("mouseenter", (e) => {
+                    this.DOM.button.addEventListener('mouseenter', (e) => {
                         const { x, y } = this.getXY(e);
 
                         this.xSet(x);
@@ -82,11 +79,11 @@ export default {
                         gsap.to(this.DOM.flair, {
                             scale: 1,
                             duration: 0.4,
-                            ease: "power2.out"
+                            ease: 'power2.out'
                         });
                     });
 
-                    this.DOM.button.addEventListener("mouseleave", (e) => {
+                    this.DOM.button.addEventListener('mouseleave', (e) => {
                         const { x, y } = this.getXY(e);
 
                         gsap.killTweensOf(this.DOM.flair);
@@ -96,24 +93,24 @@ export default {
                             yPercent: y > 90 ? y + 20 : y < 10 ? y - 20 : y,
                             scale: 0,
                             duration: 0.3,
-                            ease: "power2.out"
+                            ease: 'power2.out'
                         });
                     });
 
-                    this.DOM.button.addEventListener("mousemove", (e) => {
+                    this.DOM.button.addEventListener('mousemove', (e) => {
                         const { x, y } = this.getXY(e);
 
                         gsap.to(this.DOM.flair, {
                             xPercent: x,
                             yPercent: y,
                             duration: 0.4,
-                            ease: "power2"
+                            ease: 'power2'
                         });
                     });
                 }
             }
 
-            const buttonElements = document.querySelectorAll('[data-block="button"]');
+            const buttonElements = document.querySelectorAll("[data-block='button']");
 
             buttonElements.forEach((buttonElement) => {
                 new Button(buttonElement);
@@ -124,7 +121,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
     #button-round .button {

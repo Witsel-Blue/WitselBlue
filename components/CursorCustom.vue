@@ -146,7 +146,7 @@ export default {
     @use '@/assets/scss/base/variables.scss' as *;
 
     html, a, button {
-        cursor: none !important;
+        cursor: none;
     }
 
     .mouse-hover1,
