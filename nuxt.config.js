@@ -19,6 +19,23 @@ export default {
         '@/assets/scss/main.scss'
     ],
 
+    router: {
+        scrollBehavior(to, from, savedPosition) {
+            if (savedPosition) {
+                return savedPosition;
+            }
+            if (to.hash) {
+                return {
+                    selector: to.hash
+                }
+            }
+            return {
+                x: 0,
+                y: 0,
+            }
+        }
+    },
+
     plugins: [
         { src: '@/plugins/aos.client.js', ssr: false },
         { src: '@/plugins/p5.speech.js', ssr: false },
