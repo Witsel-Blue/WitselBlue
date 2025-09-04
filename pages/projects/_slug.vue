@@ -1,25 +1,60 @@
 <template>
     <div id='project_detail'>
         <CursorCustom />
-        <PageTransition :title='project.title' />
+        <!-- <PageTransition :title='project.title' /> -->
         <div class='contents'>
 
             <section class='main'>
+                <div class='mainvisual' data-aos='fade-up'>
+                    <ParallaxImg :src='project.images.mainvisual' />
+                </div>
+                <div class='title' data-aos='fade-up'>
+                    <p>{{ project.tags.work }}</p>
+                    <a
+                        v-if='project.link'
+                        class='mouse-hover1'
+                        target='_blank'
+                        :href='project.link.href'
+                    >
+                        <TextShifting :text='project.title' />
+                    </a>
+                </div>
+            </section>
+
+            <section class='desc' v-if='project.desc'>
                 <div class='inner'>
-                    <div class='mainvisual' data-aos='fade-up'>
-                        <ParallaxImg :src='project.images.mainvisual' />
-                    </div>
-                    <div class='title' data-aos='fade-up'>
-                        <p>{{ project.tags.work }}</p>
-                        <a
-                            v-if='project.link'
-                            class='mouse-hover1'
-                            target='_blank'
-                            :href='project.link.href'
-                        >
-                            <TextShifting :text='project.title' />
-                        </a>
-                    </div>
+                    <ul>
+                        <li v-if='project.desc.agency || project.desc.client'>
+                            <dl data-aos='fade-up'>
+                                <dt>팀<span v-if='project.desc.client'> / 클라이언트</span></dt>
+                                <dd>
+                                    {{ project.desc.agency }}
+                                    <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li v-if='project.desc.duration'>
+                            <dl data-aos='fade-up'>
+                                <dt>Work Period</dt>
+                                <dd>
+                                    {{ project.desc.duration.start }}
+                                    <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li v-if='project.desc.stack'>
+                            <dl data-aos='fade-up'>
+                                <dt>Main Stack</dt>
+                                <dd>{{ project.desc.stack }}</dd>
+                            </dl>
+                        </li>
+                    </ul>
+                    <p
+                        v-if='project.content.about'
+                        data-aos='fade-up'
+                        class='txt-c' 
+                        v-html='project.content.about'
+                    ></p>
                 </div>
             </section>
 
@@ -40,54 +75,6 @@
                             >
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section v-if='project.desc'>
-                <div class='inner'>
-                    <ul class='desc'>
-                        <li v-if='project.desc.agency || project.desc.client'>
-                            <dl data-aos='fade-up'>
-                                <dt>팀<span v-if='project.desc.client'> / 클라이언트</span></dt>
-                                <dd>
-                                    {{ project.desc.agency }}
-                                    <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li v-if='project.desc.duration'>
-                            <dl data-aos='fade-up'>
-                                <dt>작업기간</dt>
-                                <dd>
-                                    {{ project.desc.duration.start }}
-                                    <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li v-if='project.desc.stack'>
-                            <dl data-aos='fade-up'>
-                                <dt>주요 기술 스택</dt>
-                                <dd>{{ project.desc.stack }}</dd>
-                            </dl>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <div class='inner'>
-                    <p
-                        v-if='project.content.about'
-                        data-aos='fade-up'
-                        class='txt-c' 
-                        v-html='project.content.about'
-                    />
-                    <ButtonRound
-                        v-if='project.link && project.link.href'
-                        data-aos='fade-up'
-                        class='mt-32 txt-c'
-                        :link='project.link'
-                    />
                 </div>
             </section>
 
@@ -144,6 +131,24 @@
                             >
                         </li>
                     </ul>
+                </div>
+            </section>
+
+            <section class='detail'>
+                <div class='inner'>
+                    <p 
+                        v-if='project.content.detail' 
+                        v-for='(item, index) in project.content.detail' :key='index'
+                        data-aos='fade-up'
+                    >
+                        {{ item }}
+                    </p>
+                    <ButtonRound
+                        v-if='project.link && project.link.href'
+                        data-aos='fade-up'
+                        class='txt-c'
+                        :link='project.link'
+                    />
                 </div>
             </section>
             

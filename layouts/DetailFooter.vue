@@ -116,7 +116,7 @@ export default {
 
         .top {
             h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
                 font-weight: normal;
                 display: inline-flex;
 

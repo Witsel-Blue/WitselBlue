@@ -37,7 +37,7 @@ export default {
             gsap.to(img, {
                 scrollTrigger: {
                     trigger: section,
-                    scrub: 1.6,
+                    scrub: 1.5,
                     invalidateOnRefresh: true
                 },
                 y: section.offsetHeight - img.offsetHeight,

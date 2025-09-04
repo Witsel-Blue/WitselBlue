@@ -11,7 +11,6 @@
                 {{ title }}
             </h1>
             <StarBg />
-            <ButtonScrollDown />
         </div>
 
         <div class="tab-wrap">
@@ -75,7 +74,6 @@ import CursorCustom from '@/components/CursorCustom.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
 import StarBg from '@/components/StarBg.vue';
 import SkewCardY from '@/components/SkewCardY.vue';
 import TextShifting from '@/components/TextShifting.vue';
@@ -89,7 +87,6 @@ export default {
         CursorCustom,
         PageTransition,
         TextShifting,
-        ButtonScrollDown,
         StarBg,
     },
     data() {

@@ -8,7 +8,6 @@
       </div>
     </div>
     <div class='back'>
-      link
       <span v-if='item'>
         <Nuxt-link
           :to="item.category === 'projects' ? `/projects/${item.slug}` :
@@ -33,3 +32,11 @@ export default {
   },
 }
 </script>
+
+<style lang='scss' scoped>
+.back {
+  a {
+    font-family: "Diphylleia";
+  }
+}
+</style>

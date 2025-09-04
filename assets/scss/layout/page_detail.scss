@@ -7,47 +7,61 @@
 
 .contents {
     section {
-        // .inner {
-        //     width: 80%;
-        //     max-width: $width-m;
-        //     margin: auto;
-        // }
         &:not(.main) {
-            padding: 5vh 0;
-            // .inner {
-            //     max-width: $width-s;
-            // }
+            padding: 10vh 0;
         }
-        &:last-child {
+        &:last-of-type {
             padding-bottom: 0;
         }
         &.device-bg {
             background-color: $gray1;
-            margin: 5vh 0;
-            padding: 10vh 0;
         }
     }
 
     .main {
         width: 100%;
         height: 100vh;
-        padding: 15vh 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-       
-        .inner {
-            position: relative;
-        }
+        position: relative;
 
         .mainvisual {
-            width: 80%;
+            width: 100%;
+            height: 80vh;
+            &::after {
+                content: '';
+                width: 100%;
+                height: 40px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                pointer-events: none;
+                background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+            }
+            #parallax-img::v-deep {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                .parallax-wrap {
+                    width: 100%;
+                    height: 100%;
+                    .parallax-cont {
+                        width: 100%;
+                        height: 100%;
+                        img {
+                            max-width: 100%;
+                        }
+                    }
+                }
+            }
         }
+
         .title {
             position: absolute;
-            bottom: 5%;
-            right: 0;
-            max-width: 44%;
+            bottom: 15vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;
+            max-width: $width-l;
+            text-align: center;
             a {
                 display: inline-block;
             }
@@ -60,18 +74,48 @@
     }
 
     .desc {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 32px;
-        dl {
-            display: block;
-            dt {
-                font-size: 0.8rem;
+        ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+            gap: 32px;
+            dl {
+                display: block;
+                dt {
+                    font-size: 0.8rem;
+                }
+                dd {
+                    border-top: 1px solid #9A9797;
+                    margin-top: 4px;
+                    padding-top: 8px;
+                }
             }
-            dd {
-                border-top: 1px solid #9A9797;
-                margin-top: 4px;
-                padding-top: 8px;
+        }
+        p {
+            margin-top: 10vh;
+        }
+    }
+
+    .device_pc {
+        max-width: $width-m;
+        margin: auto;
+        position: relative;
+
+        .device {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+        .img-wrap {
+            position: absolute;
+            top: 5%;
+            left: 10%;
+            border-radius: 5% 5% 0 0;
+            width: 80%;
+            height: auto;
+            object-fit: contain; 
+            overflow: hidden;
+            img {
+                width: 100%;
             }
         }
     }
@@ -104,49 +148,17 @@
         }
     }
 
-    .device_pc {
-        max-width: $width-m;
-        margin: auto;
-        position: relative;
-
-        .device {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-        }
-        .img-wrap {
-            position: absolute;
-            top: 5%;
-            left: 10%;
-            border-radius: 5% 5% 0 0;
-            width: 80%;
-            height: auto;
-            object-fit: contain; 
-            overflow: hidden;
-            img {
-                width: 100%;
-            }
-        }
-    }
-
     .img-pc {
         img:not(:first-child) {
             margin-top: 5vh;
         }
     }
 
-    .img-mb {
-        .inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 32px;
+    .detail {
+        text-align: center;
+        #button-round {
+            margin-top: 10vh;
         }
-    }
-
-    iframe {
-        width: 100%;
-        min-height: 60vh;
-        border: none;
     }
 
 }
