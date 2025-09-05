@@ -115,13 +115,16 @@ export default {
             max-height: 120px;
             min-width: 80px;
             min-height: 80px;
-            #text-stagger {
+            #text-stagger::v-deep {
                 position: absolute;
-                top: 0;
+                top: -8px;
                 left: 50%;
                 transform: translate(-50%, -100%);
                 text-align: center;
                 width: 100%;
+                li p {
+                    font-size: 0.8rem;
+                }
             }
             img {
                 width: 100%;
