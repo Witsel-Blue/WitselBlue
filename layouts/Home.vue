@@ -1,24 +1,24 @@
 <template>
-    <div id="home">
+    <div id='home'>
         <CursorCustom 
-            :extra-class="cursorClass" 
-            :showLottie="showLottie" 
-            :animationData="animationData"
+            :extra-class='cursorClass' 
+            :showLottie='showLottie' 
+            :animationData='animationData'
         />
-        <section id="main" ref="main" @mouseenter="onMouseEnterMain" @mouseleave="onMouseLeaveMain">
+        <section id='main' ref='main' @mouseenter='onMouseEnterMain' @mouseleave='onMouseLeaveMain'>
             <Mainvisual />
-            <div class="inner">
-                <p class="subtext">
+            <div class='inner'>
+                <p class='subtext'>
                     frontend developer
                 </p>
                 <TextScroll :text="'WitselBlue'" />
             </div>
         </section>
-        <div @mouseleave="onMouseLeaveMain">
-            <section class="profile" ref="profile">
-                <div class="inner">
-                    <div data-aos="fade-up">
-                        <ParallaxImg :src="profile.img" />
+        <div @mouseleave='onMouseLeaveMain'>
+            <section class='profile' ref='profile'>
+                <div class='inner'>
+                    <div data-aos='fade-up'>
+                        <ParallaxImg :src='profile.img' />
                     </div>
                     <TextStagger 
                         :paragraphs="[
@@ -37,41 +37,41 @@
             <section>
                 <RandomSkillCard />
             </section>
-            <section class="selected" ref="selected">
-                <div class="inner">
-                    <h1 class="subtitle ft-bagel txt-c" ref="fixedTitle">
+            <section class='selected' ref='selected'>
+                <div class='inner'>
+                    <h1 class='subtitle ft-bagel txt-c' ref='fixedTitle'>
                         Selected Works
                     </h1>
                 </div>
-                <ul class="container" ref="comp">
-                    <li class="panel"></li>
+                <ul class='container' ref='comp'>
+                    <li class='panel'></li>
                     <li
-                        class="panel"
-                        v-for="list in selected"
-                        :key="list.name">
-                        <div class="wrap">
-                            <SkewCardX :img="list.img" :path="list.path" />
-                            <div class="desc">
-                                <p class="work">{{ list.work }}</p>
+                        class='panel'
+                        v-for='list in selected'
+                        :key='list.name'>
+                        <div class='wrap'>
+                            <SkewCardX :img='list.img' :path='list.path' />
+                            <div class='desc'>
+                                <p class='work'>{{ list.work }}</p>
                                 <Nuxt-link 
-                                    class="title mouse-hover1"
+                                    class='title mouse-hover1'
                                     :to=list.path>
-                                    <TextShifting :text="list.name"></TextShifting>
+                                    <TextShifting :text='list.name'></TextShifting>
                                 </Nuxt-link>
                             </div>
                         </div>
                     </li>
                 </ul>
             </section>
-            <section class="about" ref="about">
-                <div class="inner">
-                    <h1 class="subtitle ft-bagel txt-c">
+            <section class='about' ref='about'>
+                <div class='inner'>
+                    <h1 class='subtitle ft-bagel txt-c'>
                         About
                     </h1>
-                    <ul class="txt-c" data-aos="fade-up">
+                    <ul class='txt-c' data-aos='fade-up'>
                         <li>
                             <h4>Skills & Strengths</h4>
-                            <ul class="dot">
+                            <ul class='dot'>
                                 <li>
                                     Vue, React, Drupal, pure HTML
                                 </li>
@@ -85,7 +85,7 @@
                         </li>
                         <li>
                             <h4>Values</h4>
-                            <ul class="dot">
+                            <ul class='dot'>
                                 <li>
                                     확장성과 유지보수성을 고려한 코드
                                 </li>
@@ -99,7 +99,7 @@
                         </li>
                         <li>
                             <h4>Beyond Code</h4>
-                            <ul class="dot">
+                            <ul class='dot'>
                                 <li>
                                     키아누 리브스를 좋아합니다
                                 </li>
@@ -112,43 +112,6 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
-            </section>
-            <section class="skills" ref="skills">
-                <div class="inner">
-                    <h1 class="subtitle ft-bagel txt-c">
-                        Skills
-                    </h1>
-                    <div class="wrap">
-                        <div>
-                            <ul class="mt-32">
-                                <li v-for="list in language" :key="list.name" :data-name="list.name">
-                                    <img :src="list.img">
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul class="mt-32">
-                                <li v-for="list in framework" :key="list.name" :data-name="list.name">
-                                    <img :src="list.img">
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul class="mt-32">
-                                <li v-for="list in etc" :key="list.name" :data-name="list.name">
-                                    <img :src="list.img">
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul class="mt-32">
-                                <li v-for="list in design" :key="list.name" :data-name="list.name">
-                                    <img :src="list.img">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </section>
         </div>
@@ -220,114 +183,6 @@ export default {
                     duration: '2022.01-2022.03',
                 },
             ],
-            language: [
-                {
-                    name: 'html',
-                    img: require('@/assets/img/skills/skills-language1.png'),
-                },
-                {
-                    name: 'css',
-                    img: require('@/assets/img/skills/skills-language2.png'),
-                },
-                {
-                    name: 'javascript',
-                    img: require('@/assets/img/skills/skills-language4.png'),
-                },
-                {
-                    name: 'scss',
-                    img: require('@/assets/img/skills/skills-language3.png'),
-                },
-                {
-                    name: 'jquery',
-                    img: require('@/assets/img/skills/skills-language5.png'),
-                },
-            ],
-            framework: [
-                {
-                    name: 'vue.js',
-                    img: require('@/assets/img/skills/skills-framework1.png'),
-                },
-                {
-                    name: 'nuxt.js',
-                    img: require('@/assets/img/skills/skills-framework2.png'),
-                },
-                {
-                    name: 'react',
-                    img: require('@/assets/img/skills/skills-framework9.png'),
-                },
-                {
-                    name: 'next.js',
-                    img: require('@/assets/img/skills/skills-framework10.png'),
-                },
-                {
-                    name: 'GSAP',
-                    img: require('@/assets/img/skills/skills-framework3.png'),
-                },
-                {
-                    name: 'p5.js',
-                    img: require('@/assets/img/skills/skills-framework4.png'),
-                },
-                {
-                    name: 'three.js',
-                    img: require('@/assets/img/skills/skills-framework5.png'),
-                },
-                {
-                    name: 'pixi.js',
-                    img: require('@/assets/img/skills/skills-framework12.png'),
-                },
-                {
-                    name: 'drupal',
-                    img: require('@/assets/img/skills/skills-framework6.png'),
-                },
-                {
-                    name: 'wordpress',
-                    img: require('@/assets/img/skills/skills-framework7.png'),
-                },
-                {
-                    name: 'tailwind',
-                    img: require('@/assets/img/skills/skills-framework8.png'),
-                },
-                {
-                    name: 'python',
-                    img: require('@/assets/img/skills/skills-framework11.png'),
-                },
-            ],
-            etc: [
-                {
-                    name: 'GitHub',
-                    img: require('@/assets/img/skills/skills-etc1.png'),
-                },
-                {
-                    name: 'docker',
-                    img: require('@/assets/img/skills/skills-etc2.png'),
-                },
-                {
-                    name: 'storybook',
-                    img: require('@/assets/img/skills/skills-etc3.png'),
-                },
-                {
-                    name: 'gabia',
-                    img: require('@/assets/img/skills/skills-etc4.png'),
-                },
-                {
-                    name: 'cyberduck',
-                    img: require('@/assets/img/skills/skills-etc5.png'),
-                },
-            ],
-            design: [
-                {
-                    name: 'figma',
-                    img: require('@/assets/img/skills/skills-design1.png'),
-                },
-                {
-                    name: 'photoshop',
-                    img: require('@/assets/img/skills/skills-design2.png'),
-                },
-                {
-                    name: 'illlustrator',
-                    img: require('@/assets/img/skills/skills-design3.png'),
-                },
-            ],
             link: {
                 href: '/project',
                 text: 'project',
@@ -361,19 +216,19 @@ export default {
                 const gsap = this.$gsap;
                 const ScrollTrigger = this.$ScrollTrigger;
                     
-                let horizontalSections = gsap.utils.toArray(".selected .container");
+                let horizontalSections = gsap.utils.toArray('.selected .container');
 
                 horizontalSections.forEach((container) => {
-                    let sections = container.querySelectorAll(".selected .panel");
+                    let sections = container.querySelectorAll('.selected .panel');
 
                     gsap.to(sections, {
                         xPercent: -100 * (sections.length - 1),
-                        ease: "none",
+                        ease: 'none',
                         scrollTrigger: {
                             trigger: container,
                             pin: true,
                             scrub: 1.4,
-                            end: () => "+=" + container.offsetWidth * (sections.length - 1) * 1.4,
+                            end: () => '+=' + container.offsetWidth * (sections.length - 1) * 1.4,
                         }
                     });
                 })
@@ -400,6 +255,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @import '@/assets/scss/layout/home.scss';
 </style>

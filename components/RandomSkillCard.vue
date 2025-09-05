@@ -1,13 +1,13 @@
 <template>
-  <div id="RandomSkillCard">
+  <div id='RandomSkillCard'>
 
     <!-- tabs -->
-    <div class="tabs">
+    <div class='tabs'>
       <button
-        v-for="cat in categories"
-        :key="cat"
-        :class="{ active: activeCategory === cat }"
-        @click="switchCategory(cat)"
+        v-for='cat in categories'
+        :key='cat'
+        :class='{ active: activeCategory === cat }'
+        @click='switchCategory(cat)'
       >
         {{ cat }}
       </button>
@@ -15,20 +15,24 @@
 
     <!-- card wrapper -->
     <div
-      class="skill-cards-wrapper"
-      ref="wrapper"
-      @mousemove="handleMouseMove"
+      class='skill-cards-wrapper'
+      ref='wrapper'
+      @mousemove='handleMouseMove'
     >
       <div
-        v-for="(skill, index) in filteredSkills"
-        :key="skill.name"
-        class="skill-card"
-        @mouseenter="hoverCard(index)"
-        @mouseleave="leaveCard(index)"
+        v-for='(skill, index) in filteredSkills'
+        :key='skill.name'
+        class='skill-card'
+        @mouseenter='hoverCard(index)'
+        @mouseleave='leaveCard(index)'
       >
-        <div class="card-inner" :class="{ flipped: skill.flipped }">
-          <div class="card-front">{{ skill.name }}</div>
-          <div class="card-back">{{ skill.category }}</div>
+        <div class='card-inner' :class='{ flipped: skill.flipped }'>
+            <div class='card-front'>
+                <img :src='skill.logo' />
+            </div>
+            <div class='card-back'>
+                {{ skill.title }}
+            </div>
         </div>
       </div>
     </div>
@@ -36,22 +40,147 @@
 </template>
 
 <script>
-import gsap from "gsap";
+import gsap from 'gsap';
 
 export default {
-    name: "RandomSkillCard",
+    name: 'RandomSkillCard',
     data() {
         return {
-        categories: ["Framework", "Library", "Tool"],
-        activeCategory: "Framework",
+        categories: ['Framework', 'Library', 'Environment', 'Tool'],
+        activeCategory: 'Framework',
         skills: [
-            { name: "Vue.js", category: "Framework", flipped: false },
-            { name: "React.js", category: "Framework", flipped: false },
-            { name: "GSAP", category: "Library", flipped: false },
-            { name: "p5.js", category: "Library", flipped: false },
-            { name: "Three.js", category: "Library", flipped: false },
-            { name: "Tailwind", category: "Tool", flipped: false },
-            { name: "Figma", category: "Tool", flipped: false },
+            {
+                title: 'jQuery',
+                category: 'Library',
+                logo: require('@/assets/img/skills/jquery.png'),
+                flipped: false,
+            },
+            {
+                title: 'GSAP',
+                category: 'Library',
+                logo: require('@/assets/img/skills/gsap.png'),
+                flipped: false,
+            },
+            {
+                title: 'P5.js',
+                category: 'Library',
+                logo: require('@/assets/img/skills/p5js.png'),
+                flipped: false,
+            },
+            {
+                title: 'Three.js',
+                category: 'Library',
+                logo: require('@/assets/img/skills/threejs.png'),
+                flipped: false,
+            },
+            {
+                title: 'Pixi.js',
+                category: 'Library',
+                logo: require('@/assets/img/skills/pixijs.png'),
+                flipped: false,
+            },
+            {
+                title: 'Vue.js',
+                category: 'Framework',
+                logo: require('@/assets/img/skills/vue.png'),
+                flipped: false,
+            },
+            {
+                title: 'Nuxt.js',
+                category: 'Framework',
+                logo: require('@/assets/img/skills/nuxt.png'),
+                flipped: false,
+            },
+            {
+                title: 'React.js',
+                category: 'Framework',
+                logo: require('@/assets/img/skills/react.png'),
+                flipped: false,
+            },
+            {
+                title: 'Next.js',
+                category: 'Framework',
+                logo: require('@/assets/img/skills/next.png'),
+                flipped: false,
+            },
+            {
+                title: 'Drupal',
+                category: 'Framework',
+                logo: require('@/assets/img/skills/drupal.png'),
+                flipped: false,
+            },
+            {
+                title: 'WordPress',
+                category: 'Framework',
+                logo: require('@/assets/img/skills/wordpress.png'),
+                flipped: false,
+            },
+            {
+                title: 'HTML',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/html.png'),
+                flipped: false,
+            },
+            {
+                title: 'CSS',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/css.png'),
+                flipped: false,
+            },
+            {
+                title: 'SCSS',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/scss.png'),
+                flipped: false,
+            },
+            {
+                title: 'JavaScript',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/javascript.png'),
+                flipped: false,
+            },
+            {
+                title: 'Python',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/python.png'),
+                flipped: false,
+            },
+            {
+                title: 'Storybook',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/storybook.png'),
+                flipped: false,
+            },
+            {
+                title: 'Tailwind',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/tailwind.png'),
+                flipped: false,
+            },
+            {
+                title: 'Docker',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/docker.png'),
+                flipped: false,
+            },
+            {
+                title: 'Figma',
+                category: 'Tool',
+                logo: require('@/assets/img/skills/figma.png'),
+                flipped: false,
+            },
+            {
+                title: 'Illlustrator',
+                category: 'Tool',
+                logo: require('@/assets/img/skills/illustrator.png'),
+                flipped: false,
+            },
+            {
+                title: 'Photoshop',
+                category: 'Tool',
+                logo: require('@/assets/img/skills/photoshop.png'),
+                flipped: false,
+            },
         ],
         basePositions: [],
         mouse: { x: 0, y: 0 },
@@ -68,10 +197,10 @@ export default {
         this.$nextTick(() => {
             this.scatterCards();
         });
-        window.addEventListener("resize", this.scatterCards);
+        window.addEventListener('resize', this.scatterCards);
     },
     beforeDestroy() {
-        window.removeEventListener("resize", this.centerCards);
+        window.removeEventListener('resize', this.centerCards);
     },
     methods: {
         switchCategory(cat) {
@@ -110,7 +239,7 @@ export default {
                         y,
                         rotation,
                         duration: 0.6,
-                        ease: "power2.out",
+                        ease: 'power2.out',
                     });
                 });
             });
@@ -125,7 +254,7 @@ export default {
             const centerX = wrapperRect.width / 2 - cardWidth / 2;
             const centerY = wrapperRect.height / 2 - cardHeight / 2;
 
-            const minDistance = 160;
+            const minDistance = 500;
             const positions = [];
 
             Array.from(cards).forEach((card, i) => {
@@ -163,7 +292,7 @@ export default {
                 scale: 1.2,
                 rotation: 0,
                 duration: 0.3,
-                ease: "power2.out",
+                ease: 'power2.out',
             });
         },
         leaveCard(index) {
@@ -176,7 +305,7 @@ export default {
                 x: base.x,
                 y: base.y,
                 duration: 0.3,
-                ease: "power2.out",
+                ease: 'power2.out',
             });
         },
         handleMouseMove(e) {
@@ -195,7 +324,7 @@ export default {
                     y: base.y + offsetY,
                     rotation: base.rotation + this.mouse.x * 15,
                     duration: 0.3,
-                    ease: "power2.out",
+                    ease: 'power2.out',
                 });
             });
         },
@@ -241,13 +370,13 @@ export default {
     height: 200px;
     transform-style: preserve-3d;
     transform-origin: center center;
-    cursor: pointer;
 
     .card-inner {
         width: 100%;
         height: 100%;
         transform-style: preserve-3d;
         transition: transform 0.6s;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 
         &.flipped {
             transform: rotateY(180deg);
@@ -257,16 +386,14 @@ export default {
             position: absolute;
             width: 100%;
             height: 100%;
-            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
             backface-visibility: hidden;
             font-weight: bold;
-            color: #fff;
         }
         .card-front {
-            background-color: #4f46e5;
+            background-color: #fff;
         }
         .card-back {
             background-color: #10b981;
