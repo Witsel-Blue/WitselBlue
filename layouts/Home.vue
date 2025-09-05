@@ -34,6 +34,9 @@
                     />
                 </div>
             </section>
+            <section>
+                <RandomSkillCard />
+            </section>
             <section class="selected" ref="selected">
                 <div class="inner">
                     <h1 class="subtitle ft-bagel txt-c" ref="fixedTitle">
@@ -164,6 +167,7 @@ import Butterfly from '@/assets/lottie/butterfly.json';
 import SkewCardX from '@/components/SkewCardX.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import TextStagger from '@/components/TextStagger.vue';
+import RandomSkillCard from '@/components/RandomSkillCard.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -180,6 +184,7 @@ export default {
         SkewCardX,
         TextShifting,
         TextStagger,
+        RandomSkillCard,
     },
     data() {
         return {
