@@ -19,42 +19,52 @@
                         <TextShifting :text='project.title' />
                     </a>
                 </div>
+                <div class='desc' v-if='project.desc'>
+                    <div class='inner'>
+                         <ul>
+                            <li v-if='project.desc.agency || project.desc.client'>
+                                <dl data-aos='fade-up'>
+                                    <dt>Team<span v-if='project.desc.client'> / Client</span></dt>
+                                    <dd>
+                                        {{ project.desc.agency }}
+                                        <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li v-if='project.desc.duration'>
+                                <dl data-aos='fade-up'>
+                                    <dt>Work Period</dt>
+                                    <dd>
+                                        {{ project.desc.duration.start }}
+                                        <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li v-if='project.desc.stack'>
+                                <dl data-aos='fade-up'>
+                                    <dt>Main Stack</dt>
+                                    <dd>{{ project.desc.stack }}</dd>
+                                </dl>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <section class='desc' v-if='project.desc'>
+            <section class='about'>
                 <div class='inner'>
-                    <ul>
-                        <li v-if='project.desc.agency || project.desc.client'>
-                            <dl data-aos='fade-up'>
-                                <dt>팀<span v-if='project.desc.client'> / 클라이언트</span></dt>
-                                <dd>
-                                    {{ project.desc.agency }}
-                                    <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li v-if='project.desc.duration'>
-                            <dl data-aos='fade-up'>
-                                <dt>Work Period</dt>
-                                <dd>
-                                    {{ project.desc.duration.start }}
-                                    <span v-if='project.desc.duration.end'> - {{ project.desc.duration.end }}</span>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li v-if='project.desc.stack'>
-                            <dl data-aos='fade-up'>
-                                <dt>Main Stack</dt>
-                                <dd>{{ project.desc.stack }}</dd>
-                            </dl>
-                        </li>
-                    </ul>
                     <p
                         v-if='project.content.about'
                         data-aos='fade-up'
                         class='txt-c' 
                         v-html='project.content.about'
                     ></p>
+                    <ButtonRound
+                        v-if='project.link && project.link.href'
+                        data-aos='fade-up'
+                        class='txt-c'
+                        :link='project.link'
+                    />
                 </div>
             </section>
 
@@ -134,21 +144,14 @@
                 </div>
             </section>
 
-            <section class='detail'>
+            <section class='detail' v-if='project.content.detail' >
                 <div class='inner'>
                     <p 
-                        v-if='project.content.detail' 
                         v-for='(item, index) in project.content.detail' :key='index'
+                        v-html='item'
                         data-aos='fade-up'
                     >
-                        {{ item }}
                     </p>
-                    <ButtonRound
-                        v-if='project.link && project.link.href'
-                        data-aos='fade-up'
-                        class='txt-c'
-                        :link='project.link'
-                    />
                 </div>
             </section>
             
