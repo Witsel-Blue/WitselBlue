@@ -132,7 +132,7 @@ export default {
                 };
 
                 s.draw = function () {
-                    s.background('#f7f7f7');
+                    s.clear();
                     s.face(s.width / 2, s.height * 2 / 5);
                 };
 
@@ -153,5 +153,8 @@ export default {
 .p5-wrapper {
     width: 100vw;
     height: 100vh;
+}
+canvas {
+    background: transparent !important;
 }
 </style>
