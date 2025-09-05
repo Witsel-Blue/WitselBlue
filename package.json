@@ -15,8 +15,10 @@
     "lottie-web": "^5.13.0",
     "nuxt": "^2.15.8",
     "p5": "^1.9.4",
+    "swiper": "^5.4.5",
     "three": "^0.166.1",
     "vue": "^2.7.10",
+    "vue-awesome-swiper": "^4.1.1",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"
   },
