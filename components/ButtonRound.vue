@@ -3,11 +3,13 @@
         <a 
             class='button mouse-none' 
             data-block='button'
-            :href='link.href'
+            :href='link.href || null'
             :target='link.target || null'
+            :is='link.href ? "a" : "button"'
+            @click='$emit("click")'
         >
             <span ref='circle' class='circle'></span>
-            <span class='title'>{{ link.text }}</span>
+            <span class='title'>{{ link.text || text }}</span>
         </a>
     </div>
 </template>
@@ -17,7 +19,11 @@ import gsap from 'gsap';
 
 export default {
     props: {
-        link: Object,
+        link: {
+            type: Object,
+            default: () => ({}),
+        },
+        text: String,
     },
     mounted() {
         this.circleMove();

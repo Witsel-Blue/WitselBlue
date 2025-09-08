@@ -3,14 +3,13 @@
 
     <!-- tabs -->
     <div class='tabs'>
-      <button
-        v-for='cat in categories'
-        :key='cat'
-        :class='{ active: activeCategory === cat }'
-        @click='switchCategory(cat)'
-      >
-        {{ cat }}
-      </button>
+        <ButtonRound
+            v-for='cat in categories'
+            :key='cat'
+            :text='cat'
+            :class='{active: activeCategory === cat}'
+            @click='switchCategory(cat)'
+        />
     </div>
 
     <!-- card wrapper -->
@@ -31,7 +30,17 @@
                 <img :src='skill.logo' />
             </div>
             <div class='card-back'>
-                {{ skill.title }}
+                <h3>{{ skill.title }}</h3>
+                <div class='stars'>
+                    <span 
+                        v-for='n in 5'
+                        :key='n'
+                        :class='{ filled: n <= skill.rate, animate: skill.flipped }'
+                        :style='{ "--i": n}'
+                    >
+                        ★
+                    </span>
+                </div>
             </div>
         </div>
       </div>
@@ -40,6 +49,7 @@
 </template>
 
 <script>
+import ButtonRound from '@/components/ButtonRound.vue';
 import gsap from 'gsap';
 
 export default {
@@ -53,132 +63,154 @@ export default {
                 title: 'jQuery',
                 category: 'Library',
                 logo: require('@/assets/img/skills/jquery.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'GSAP',
                 category: 'Library',
                 logo: require('@/assets/img/skills/gsap.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'P5.js',
                 category: 'Library',
                 logo: require('@/assets/img/skills/p5js.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'Three.js',
                 category: 'Library',
                 logo: require('@/assets/img/skills/threejs.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'Pixi.js',
                 category: 'Library',
                 logo: require('@/assets/img/skills/pixijs.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'Vue.js',
                 category: 'Framework',
                 logo: require('@/assets/img/skills/vue.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'Nuxt.js',
                 category: 'Framework',
                 logo: require('@/assets/img/skills/nuxt.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'React.js',
                 category: 'Framework',
                 logo: require('@/assets/img/skills/react.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'Next.js',
                 category: 'Framework',
                 logo: require('@/assets/img/skills/next.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'Drupal',
                 category: 'Framework',
                 logo: require('@/assets/img/skills/drupal.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'WordPress',
                 category: 'Framework',
                 logo: require('@/assets/img/skills/wordpress.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'HTML',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/html.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'CSS',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/css.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'SCSS',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/scss.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'JavaScript',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/javascript.png'),
+                rate: 5,
                 flipped: false,
             },
             {
                 title: 'Python',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/python.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'Storybook',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/storybook.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'Tailwind',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/tailwind.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'Docker',
                 category: 'Environment',
                 logo: require('@/assets/img/skills/docker.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'Figma',
                 category: 'Tool',
                 logo: require('@/assets/img/skills/figma.png'),
+                rate: 4,
                 flipped: false,
             },
             {
                 title: 'Illlustrator',
                 category: 'Tool',
                 logo: require('@/assets/img/skills/illustrator.png'),
+                rate: 3,
                 flipped: false,
             },
             {
                 title: 'Photoshop',
                 category: 'Tool',
                 logo: require('@/assets/img/skills/photoshop.png'),
+                rate: 3,
                 flipped: false,
             },
         ],
@@ -210,11 +242,16 @@ export default {
             this.$nextTick(() => {
                 const cards = this.$refs.wrapper.children;
                 const wrapperRect = this.$refs.wrapper.getBoundingClientRect();
-                const cardWidth = 150;
-                const cardHeight = 200;
+                const cardWidth = 104;
+                const cardHeight = 144;
 
                 const centerX = wrapperRect.width / 2 - cardWidth / 2;
                 const centerY = wrapperRect.height / 2 - cardHeight / 2;
+
+                // 카드 겹치기 최소화
+                const cardDiagonal = Math.sqrt(cardWidth * cardWidth + cardHeight * cardHeight);
+                const minDistance = cardDiagonal * 1.2;
+                const positions = [];
 
                 // 중앙으로 모으기
                 Array.from(cards).forEach((card) => {
@@ -223,11 +260,27 @@ export default {
 
                 // 중앙 기준 랜덤 흩뿌리기
                 Array.from(cards).forEach((card, i) => {
-                    const maxOffsetX = wrapperRect.width / 2 - cardWidth / 2;
-                    const maxOffsetY = wrapperRect.height / 2 - cardHeight / 2;
+                    let x, y;
+                    let tries = 0;
+                    const maxTries = 50;
 
-                    const x = centerX + (Math.random() - 0.5) * maxOffsetX * 2;
-                    const y = centerY + (Math.random() - 0.5) * maxOffsetY * 2;
+                    do {
+                        const maxOffsetX = wrapperRect.width / 2 - cardWidth / 2;
+                        const maxOffsetY = wrapperRect.height / 2 - cardHeight / 2;
+
+                        x = centerX + (Math.random() - 0.5) * maxOffsetX * 2;
+                        y = centerY + (Math.random() - 0.5) * maxOffsetY * 2;
+
+                        tries ++;
+                    } while (
+                        positions.some(pos => {
+                            const dx = pos.x - x;
+                            const dy = pos.y - y;
+                            return Math.sqrt(dx * dx + dy * dy) < minDistance;
+                        }) && tries < maxTries
+                    );
+
+                    positions.push({x, y});
                     const rotation = (Math.random() - 0.5) * 30;
 
                     // basePositions 업데이트
@@ -248,19 +301,20 @@ export default {
             if (!this.$refs.wrapper) return;
             const cards = this.$refs.wrapper.children;
             const wrapperRect = this.$refs.wrapper.getBoundingClientRect();
-            const cardWidth = 150;
-            const cardHeight = 200;
+            const cardWidth = 104;
+            const cardHeight = 144;
 
             const centerX = wrapperRect.width / 2 - cardWidth / 2;
             const centerY = wrapperRect.height / 2 - cardHeight / 2;
 
-            const minDistance = 500;
+            const cardDiagonal = Math.sqrt(cardWidth * cardWidth + cardHeight * cardHeight);
+            const minDistance = cardDiagonal * 1.2;
             const positions = [];
 
             Array.from(cards).forEach((card, i) => {
                 let x, y;
                 let tries = 0;
-                const maxTries = 50;
+                const maxTries = 100;
 
                 do {
                     const maxOffsetX = wrapperRect.width / 2 - cardWidth / 2;
@@ -333,41 +387,38 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@use '@/assets/scss/base/variables.scss' as *;
+
 .tabs {
     display: flex;
     justify-content: center;
-    margin-bottom: 16px;
+    gap: 8px;
 
-    button {
-        padding: 8px 20px;
-        margin: 0 8px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-        background-color: #374151;
-        color: white;
-        transition: background-color 0.3s;
-
-        &.active {
-            background-color: #4f46e5;
+    #button-round::v-deep {
+        &.active .button {
+            background-color:#3E3C3C;
+            .title {
+                color: #fff;
+            }
+        }
+        .button .circle::before {
+            background-color: #56779F;
         }
     }
 }
 
 .skill-cards-wrapper {
     position: relative;
-    width: 100%;
-    height: 80vh;
-    perspective: 1000px;
-    background: linear-gradient(135deg, #1e293b, #111827);
-    overflow: hidden;
+    width: 80vw;
+    max-width: $width-l;
+    height: 60vh;
+    margin: auto;
 }
 
 .skill-card {
     position: absolute;
-    width: 150px;
-    height: 200px;
+    width: 104px;
+    height: 144px;
     transform-style: preserve-3d;
     transform-origin: center center;
 
@@ -376,7 +427,6 @@ export default {
         height: 100%;
         transform-style: preserve-3d;
         transition: transform 0.6s;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 
         &.flipped {
             transform: rotateY(180deg);
@@ -391,14 +441,46 @@ export default {
             align-items: center;
             backface-visibility: hidden;
             font-weight: bold;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .card-front {
             background-color: #fff;
         }
         .card-back {
-            background-color: #10b981;
+            background-color: #56779F;
             transform: rotateY(180deg);
+            color: #fff;
+            flex-direction: column;
+            gap: 8px;
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            .stars {
+                display: flex;
+
+                span {
+                    color: #A2B4CA;
+                    font-size: 0.8rem;
+
+                    &.filled.animate {
+                        animation: fillStar 0.4s forwards;
+                        animation-delay: calc(var(--i) * 0.2s); 
+                    }
+                }
+            }
         }
+    }
+}
+
+@keyframes fillStar {
+    0% {
+        color: $gray0;
+    }
+    100% {
+        color: #ffcb72;
     }
 }
 </style>
