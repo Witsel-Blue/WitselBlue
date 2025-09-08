@@ -396,13 +396,14 @@ export default {
 
     #button-round::v-deep {
         &.active .button {
-            background-color:#3E3C3C;
+            background-color: #3E3C3C;
             .title {
                 color: #fff;
             }
         }
         .button .circle::before {
-            background-color: #56779F;
+            background-color: #3E3C3C;
+            opacity: 0.8;
         }
     }
 }
