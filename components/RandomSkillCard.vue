@@ -251,24 +251,30 @@ export default {
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin-top: 32px;
 
     #button-round::v-deep {
         &.active .button {
             background-color: #3E3C3C;
+
             .title {
                 color: #fff;
             }
         }
-        .button .circle::before {
-            background-color: #3E3C3C;
-            opacity: 0.8;
+
+        .button {
+            padding: 8px 12px;
+            border-radius: 16px;
+            
+            .circle::before {
+                background-color: #3E3C3C;
+                opacity: 0.8;
+            }
         }
     }
 }
 
 .def {
-    margin: 16px auto;
+    margin: 16px auto 0;
     ul {
         display: flex;
         align-items: center;
@@ -282,8 +288,8 @@ export default {
     position: relative;
     width: 80vw;
     max-width: $width-l;
-    height: 60vh;
-    margin: auto;
+    height: 40vh;
+    margin: 2.5vh auto 5vh;
 }
 
 .skill-card {

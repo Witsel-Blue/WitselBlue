@@ -68,8 +68,8 @@ export default [
                 // '스크롤 시 카드 속도에 따라 기울기 구현',
                 // '텍스트 쉬프팅 애니메이션 구현',
                 // '텍스트 스크롤에 따라 올라가는 애니메이션 구현',
-                'Reusable code with over 20 components',
-                'Responsible with every viewport',
+                // 'Reusable code with over 20 components',
+                // 'Responsible with every viewport',
             ]
         }
     },
@@ -103,12 +103,12 @@ export default [
         content: {
             // locales: projects.monimo.about
             // about: '삼성생명, 삼성화재, 삼성카드,<br class="mb"> 삼성증권에서 만든 금융 서비스 앱<br> 여러 팀과 협력하여<br class="mb"> 보안 시스템 아래에서 개발<br> 컴포넌트와 1400여개 페이지 관리,<br class="mb"> 카드 메인 페이지 담당',
-            about: 'Financial Services app<br>developed by Samsung Life Insurance, Fire Insurance and Samsung Card.<br> Developed under security system in collaboration with multiple teams.<br> Managed components and over 1,400 pages, including the card main page.',
+            about: 'Financial Services app<br>planned by Samsung Life Insurance, Fire Insurance and Samsung Card.<br> Developed under security system in collaboration with multiple teams.<br> Managed components and over 1,400 pages, including the card main page.',
             detail: [
                 // 'vue2에서 vue3 마이그레이션',
                 // '보안 시스템으로 인터넷 사용 없이 개발',
-                'Migration from Vue2 to Vue3',
-                'Developed without internet connect under security system'
+                // 'Migration from Vue2 to Vue3',
+                // 'Developed without internet connect under security system'
             ]
         }
     },
@@ -144,7 +144,7 @@ export default [
         },
         content: {
             // about: '세월호참사 10주기를 기념하여<br class="mb"> 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의<br class="mb"> 라이브러리를 이용하여 메인비주얼 구현',
-            about: 'A online space which can leave messages<br> commemorating the 10th anniversary of the Sewol Ferry Disaster.<br> Main visuals implemented using libraries like Scrollmagic and Tweenmax.'
+            about: 'An online space which can leave messages<br> commemorating the 10th anniversary of the Sewol Ferry Disaster.<br> Main visuals implemented using libraries like Scrollmagic and Tweenmax.'
         },
     },
     {
@@ -180,7 +180,7 @@ export default [
         },
         content: {
             // about: '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당',
-            about: 'Banks Foundation for Young Entrepreneurs, DCAMP site renewal.<br>Responsible for the entire front-end of the site.<br>You can search and apply for programs DCAMP provides.<br>English site and personal membership window exists.',
+            about: 'Banks Foundation for Young Entrepreneurs, DCAMP site renewal.<br>Responsible for the entire frontend of the site.<br>You can search and apply for programs DCAMP provides.<br>English site and personal membership window exists.',
             // detail: [
             //     '영문 사이트, 로그인 개인 페이지 포함',
             //     '다양한 스크롤 이벤트 포함한 프로모션 메인페이지 제작',
