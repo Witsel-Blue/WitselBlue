@@ -34,7 +34,12 @@
                     />
                 </div>
             </section>
-            <section>
+            <section class='skills'>
+                <div class='inner'>
+                    <h1 class='subtitle ft-bagel txt-c'>
+                        Skills
+                    </h1>
+                </div>
                 <RandomSkillCard />
             </section>
             <section class='selected' ref='selected'>

@@ -1,15 +1,14 @@
 <template>
   <div id='RandomSkillCard'>
 
-    <!-- tabs -->
-    <div class='tabs'>
-        <ButtonRound
-            v-for='cat in categories'
-            :key='cat'
-            :text='cat'
-            :class='{active: activeCategory === cat}'
-            @click='switchCategory(cat)'
-        />
+    <div class='def'>
+       <div class='inner'>
+            <ul>
+                <li>★★★: I can manage</li>
+                <li>★★★★: I'm solid</li>
+                <li>★★★★★: Mastered</li>
+            </ul>
+       </div>
     </div>
 
     <!-- card wrapper -->
@@ -45,10 +44,23 @@
         </div>
       </div>
     </div>
+
+        <!-- tabs -->
+    <div class='tabs'>
+        <ButtonRound
+            v-for='cat in categories'
+            :key='cat'
+            :text='cat'
+            :class='{active: activeCategory === cat}'
+            @click='switchCategory(cat)'
+        />
+    </div>
+
   </div>
 </template>
 
 <script>
+import SkillsData from '@/assets/data/skills.js';
 import ButtonRound from '@/components/ButtonRound.vue';
 import gsap from 'gsap';
 
@@ -56,164 +68,9 @@ export default {
     name: 'RandomSkillCard',
     data() {
         return {
-        categories: ['Framework', 'Library', 'Environment', 'Tool'],
+        categories: ['Framework', 'Library', 'Language', 'UI / Design', 'Environment'],
         activeCategory: 'Framework',
-        skills: [
-            {
-                title: 'jQuery',
-                category: 'Library',
-                logo: require('@/assets/img/skills/jquery.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'GSAP',
-                category: 'Library',
-                logo: require('@/assets/img/skills/gsap.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'P5.js',
-                category: 'Library',
-                logo: require('@/assets/img/skills/p5js.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'Three.js',
-                category: 'Library',
-                logo: require('@/assets/img/skills/threejs.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'Pixi.js',
-                category: 'Library',
-                logo: require('@/assets/img/skills/pixijs.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'Vue.js',
-                category: 'Framework',
-                logo: require('@/assets/img/skills/vue.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'Nuxt.js',
-                category: 'Framework',
-                logo: require('@/assets/img/skills/nuxt.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'React.js',
-                category: 'Framework',
-                logo: require('@/assets/img/skills/react.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'Next.js',
-                category: 'Framework',
-                logo: require('@/assets/img/skills/next.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'Drupal',
-                category: 'Framework',
-                logo: require('@/assets/img/skills/drupal.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'WordPress',
-                category: 'Framework',
-                logo: require('@/assets/img/skills/wordpress.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'HTML',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/html.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'CSS',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/css.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'SCSS',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/scss.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'JavaScript',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/javascript.png'),
-                rate: 5,
-                flipped: false,
-            },
-            {
-                title: 'Python',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/python.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'Storybook',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/storybook.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'Tailwind',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/tailwind.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'Docker',
-                category: 'Environment',
-                logo: require('@/assets/img/skills/docker.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'Figma',
-                category: 'Tool',
-                logo: require('@/assets/img/skills/figma.png'),
-                rate: 4,
-                flipped: false,
-            },
-            {
-                title: 'Illlustrator',
-                category: 'Tool',
-                logo: require('@/assets/img/skills/illustrator.png'),
-                rate: 3,
-                flipped: false,
-            },
-            {
-                title: 'Photoshop',
-                category: 'Tool',
-                logo: require('@/assets/img/skills/photoshop.png'),
-                rate: 3,
-                flipped: false,
-            },
-        ],
+        skills: SkillsData,
         basePositions: [],
         mouse: { x: 0, y: 0 },
         };
@@ -388,11 +245,13 @@ export default {
 
 <style lang='scss' scoped>
 @use '@/assets/scss/base/variables.scss' as *;
+@import '@/assets/scss/layout/page.scss';
 
 .tabs {
     display: flex;
     justify-content: center;
     gap: 8px;
+    margin-top: 32px;
 
     #button-round::v-deep {
         &.active .button {
@@ -405,6 +264,17 @@ export default {
             background-color: #3E3C3C;
             opacity: 0.8;
         }
+    }
+}
+
+.def {
+    margin: 16px auto;
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        font-size: 0.8rem;
     }
 }
 
@@ -446,7 +316,7 @@ export default {
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .card-front {
-            background-color: #fff;
+            background-color: #f3f3f3;
         }
         .card-back {
             background-color: #56779F;
