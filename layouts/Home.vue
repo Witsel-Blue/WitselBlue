@@ -38,6 +38,13 @@
                             <Lottie :animationData='Arrow' />
                         </div>
                     </div>
+                    <div v-for="(img, idx) in profileHoverImgs" 
+                        :key="idx" 
+                        class="profile-hover-img"
+                        v-show="activeHoverImgs[idx]"
+                        :style="{ top: img.y, left: img.x }">
+                        <img :src="img.src" alt="preview" />
+                    </div>
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
@@ -167,6 +174,14 @@ export default {
             profile : {
                 img: require('@/assets/img/profile.png'),
             },
+            activeHoverImgs: [false, false, false, false, false],
+            profileHoverImgs: [
+                { src: require('@/assets/img/profile_img1.png'), x: '80%', y: '30%' },
+                { src: require('@/assets/img/profile_img2.png'), x: '20%', y: '20%' },
+                { src: require('@/assets/img/profile_img3.png'), x: '80%', y: '25%' },
+                { src: require('@/assets/img/profile_img4.png'), x: '80%', y: '40%' },
+                { src: require('@/assets/img/profile_img5.png'), x: '20%', y: '30%' },
+            ],
             selected: [
                 {
                     name: 'Monimo',
@@ -201,7 +216,7 @@ export default {
         });
         this.initSectionScroll();
         this.scrollVertical();
-        // this.titleScroll();
+        this.initProfileImgHover();
     },
     methods: {
         onMouseEnterMain() {
@@ -319,23 +334,17 @@ export default {
                 });
             });
         },
-        titleScroll() {
-            const title = this.$refs.fixedTitle;
-            const winH = window.innerHeight;
-            const titleTop = title.offsetTop - winH*10/100;
-            const content = document.querySelector('.selected');
-            const contTop = content.offsetTop;
-            const contEnd = contTop + content.offsetHeight;
-
-            window.addEventListener('scroll', function() {
-                const scrolled = window.scrollY;
-                if ( titleTop < scrolled && scrolled < contEnd - winH ) {
-                    title.classList.add('active');
-                } else {
-                    title.classList.remove('active');
-                }
+        initProfileImgHover() {
+            const spans = this.$el.querySelectorAll('.profile .mouse-hover1');
+            spans.forEach((span, index) => {
+                span.addEventListener('mouseenter', () => {
+                    this.$set(this.activeHoverImgs, index, true);
+                });
+                span.addEventListener('mouseleave', () => {
+                    this.$set(this.activeHoverImgs, index, false);
+                });
             });
-        },
+        }
     }
 }
 </script>

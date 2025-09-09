@@ -120,6 +120,13 @@
         }
       }
     }
+    .profile-hover-img {
+      width: 300px;
+      height: auto;
+      position: absolute;
+      z-index: -1;
+      transform: translateX(-50%);
+    }
   }
 
   .skills {
