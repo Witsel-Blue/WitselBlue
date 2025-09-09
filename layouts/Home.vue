@@ -35,22 +35,8 @@
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
-            <section class='skills'>
-                <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c'>
-                        Skills
-                    </h1>
-                </div>
-                <RandomSkillCard />
-            </section>
-            <section class='selected' ref='selected'>
-                <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c' ref='fixedTitle'>
-                        Selected Works
-                    </h1>
-                </div>
+            <section class='selected' ref='selected' id='selected'>
                 <ul class='container' ref='comp'>
-                    <li class='panel'></li>
                     <li
                         class='panel'
                         v-for='list in selected'
@@ -68,6 +54,14 @@
                         </div>
                     </li>
                 </ul>
+            </section>
+            <section class='skills' ref='skills'>
+                <div class='inner'>
+                    <h1 class='subtitle ft-bagel txt-c'>
+                        Skills
+                    </h1>
+                    <RandomSkillCard />
+                </div>
             </section>
             <section class='about' ref='about'>
                 <div class='inner'>
@@ -191,22 +185,15 @@ export default {
                     duration: '2022.01-2022.03',
                 },
             ],
-            link: {
-                href: '/project',
-                text: 'project',
-            },
-            link2: {
-                href: '/archive',
-                text: 'archive',
-            },
         }
     },
     mounted() {
         window.scrollTo({
             top: 0,
         });
+        this.initSectionScroll();
         this.scrollVertical();
-        this.titleScroll();
+        // this.titleScroll();
     },
     methods: {
         onMouseEnterMain() {
@@ -217,30 +204,112 @@ export default {
             this.cursorClass = '';
             this.showLottie = false;
         },
+        initSectionScroll() {
+            const sections = [
+                this.$refs.main,
+                this.$refs.profile,
+                this.$refs.selected,
+                this.$refs.skills,
+                this.$refs.about
+            ];
+
+            let isScrolling = false;
+
+            window.addEventListener('wheel', (e) => {
+                if (isScrolling) return;
+                const deltaY = e.deltaY;
+                const scrollY = window.scrollY;
+
+                let currentIndex = sections.findIndex((sec) => {
+                    const top = sec.offsetTop;
+                    const bottom = top + sec.offsetHeight;
+                    return scrollY >= top && scrollY < bottom;
+                });
+
+                if (currentIndex === -1) return;
+
+                const currentSection = sections[currentIndex];
+
+                // selected 구간 처리
+                if (currentSection === this.$refs.selected) {
+                    const st = ScrollTrigger.getById('selected');
+                    if (!st) return;
+
+                    if (deltaY > 0 && st.progress >= 0.95) {
+                        e.preventDefault();
+                        isScrolling = true;
+                        const targetY = window.scrollY + this.$refs.skills.getBoundingClientRect().top;
+                        this.smoothScrollTo(targetY, 1200, () => {
+                            isScrolling = false;
+                        });
+                    }
+                    else if (deltaY < 0 && st.progress <= 0.05) {
+                        e.preventDefault();
+                        isScrolling = true;
+                        const targetY = window.scrollY + this.$refs.profile.getBoundingClientRect().top;
+                        this.smoothScrollTo(targetY, 1200, () => {
+                            isScrolling = false;
+                        });
+                    }
+                    return;
+                }
+
+                // 일반 섹션 vertical scroll
+                let targetIndex = currentIndex;
+                if (deltaY > 0 && currentIndex < sections.length - 1) targetIndex++;
+                else if (deltaY < 0 && currentIndex > 0) targetIndex--;
+                else return;
+
+                const targetY = sections[targetIndex].offsetTop;
+                e.preventDefault();
+                isScrolling = true;
+                this.smoothScrollTo(targetY, 1200, () => {
+                    isScrolling = false;
+                });
+            }, { passive: false });
+        },
+        smoothScrollTo(targetY, duration = 800, callback) {
+            const startY = window.scrollY;
+            const distance = targetY - startY;
+            let startTime = null;
+
+            const animate = (currentTime) => {
+                if (!startTime) startTime = currentTime;
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 0.5 - Math.cos(progress * Math.PI) / 2;
+
+                window.scrollTo(0, startY + distance * ease);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else if (callback) {
+                    callback();
+                }
+            };
+
+            requestAnimationFrame(animate);
+        },
         scrollVertical() {
-            var winW = window.innerWidth;
+            if (window.innerWidth <= 425) return;
 
-            if (winW > 425) {
-                const gsap = this.$gsap;
-                const ScrollTrigger = this.$ScrollTrigger;
-                    
-                let horizontalSections = gsap.utils.toArray('.selected .container');
+            let horizontalSections = gsap.utils.toArray('.selected .container');
 
-                horizontalSections.forEach((container) => {
-                    let sections = container.querySelectorAll('.selected .panel');
+            horizontalSections.forEach((container) => {
+                let panels = container.querySelectorAll('.selected .panel');
 
-                    gsap.to(sections, {
-                        xPercent: -100 * (sections.length - 1),
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: container,
-                            pin: true,
-                            scrub: 1.4,
-                            end: () => '+=' + container.offsetWidth * (sections.length - 1) * 1.4,
-                        }
-                    });
-                })
-            }
+                gsap.to(panels, {
+                    xPercent: -100 * (panels.length - 1),
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: container,
+                        pin: true,
+                        scrub: 1.4,
+                        end: () => '+=' + container.offsetWidth * (panels.length - 1) * 1.4,
+                        id: 'selected',
+                    }
+                });
+            });
         },
         titleScroll() {
             const title = this.$refs.fixedTitle;

@@ -35,14 +35,18 @@
     }
     .list-wrap {
         padding-top: 10vh;
+        padding-bottom: 5vh;
         .inner {
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-gap: 64px 32px;
             .skew-section {
                 width: 80%;
-                ::v-deep .res-box-wrap {
-                    padding-bottom: 120%;
+                ::v-deep .hover-img {
+                    border-radius: 16px;
+                    .res-box-wrap {
+                        padding-bottom: 128%;
+                    }
                 }
             }
             .desc {

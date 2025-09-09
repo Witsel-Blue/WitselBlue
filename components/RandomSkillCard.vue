@@ -281,6 +281,7 @@ export default {
         justify-content: center;
         gap: 16px;
         font-size: 0.8rem;
+        color: $gray2;
     }
 }
 
@@ -289,7 +290,7 @@ export default {
     width: 80vw;
     max-width: $width-l;
     height: 40vh;
-    margin: 2.5vh auto 5vh;
+    margin: 10vh auto;
 }
 
 .skill-card {

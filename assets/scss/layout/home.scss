@@ -50,6 +50,65 @@
     }
   }
 
+    .profile {
+    margin-top: 50vh;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .inner {
+      margin: 5vh auto;
+    }
+    #parallax-img::v-deep {
+      width: 32%;
+      border-radius: 60px;
+      overflow: hidden;
+      margin: auto;  
+      .parallax-cont {
+        padding-top: 100%;
+        .img {
+          height: 150%;
+        }
+      }
+    }
+    #text-stagger::v-deep {
+      ul {
+        margin-top: 5vh;
+        line-height: 2;
+        text-align: center;
+        span {
+          font-family: 'Diphylleia';
+          font-size: 1.6rem;
+          line-height: 1;
+        }
+      }
+    }
+  }
+
+  .skills {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .inner {
+      margin: 0 auto;
+    }
+    .wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw 10vw;
+      ul {
+        display: grid;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        li {
+          word-break: break-all;
+          text-align: center;
+        }
+      }
+    }
+  }
+
   .about {
     h4 {
       font-weight: bold;
@@ -65,22 +124,14 @@
     }
   }
 
-    .selected {
-    padding-bottom: 0 !important;
-    .subtitle {
-      &.active {
-        position: fixed;
-        top: 10vh;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
+  .selected {
+    padding: 0 !important;
     .container {
       overscroll-behavior: none;
       height: 100vh;
       display: flex;
       .panel {
-        flex: 0 0 80vw;
+        flex: 0 0 64vw;
         height: 100%;
         display: flex;
         align-items: center;
@@ -92,6 +143,7 @@
         ::v-deep .hover-img {
           width: 80%;
           max-width: $width-m;
+          border-radius: 16px;
           .res-box-wrap {
             padding-bottom: 72%;
           }
@@ -129,58 +181,6 @@
             display: flex;
             gap: 16px;
           }
-        }
-      }
-    }
-  }
-
-  .profile {
-    margin-top: 50vh;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    .inner {
-      margin: 5vh auto;
-    }
-    #parallax-img::v-deep {
-      width: 32%;
-      border-radius: 60px;
-      overflow: hidden;
-      margin: auto;  
-      .parallax-cont {
-        padding-top: 100%;
-        .img {
-          height: 150%;
-        }
-      }
-    }
-    #text-stagger::v-deep {
-      ul {
-        margin-top: 5vh;
-        line-height: 2;
-        text-align: center;
-        span {
-          font-family: 'Diphylleia';
-          font-size: 1.6rem;
-          line-height: 1;
-        }
-      }
-    }
-  }
-
-  .skills {
-    .wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5vw 10vw;
-      ul {
-        display: grid;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        li {
-          word-break: break-all;
-          text-align: center;
         }
       }
     }
