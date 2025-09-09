@@ -139,8 +139,10 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    .inner {
+      margin: 5vh auto;
+    }
     #parallax-img::v-deep {
       width: 32%;
       border-radius: 60px;
