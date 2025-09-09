@@ -57,7 +57,7 @@
     display: flex;
     flex-direction: column;
     .inner {
-      margin: 4vh auto 8vh;
+      margin: 2vh auto 8vh;
     }
     #parallax-img::v-deep {
       width: 28%;
@@ -86,16 +86,14 @@
       #text-stagger::v-deep {
         ul {
           margin-top: 5vh;
-          line-height: 2;
+          line-height: 2.4;
           text-align: center;
           span {
-            font-family: 'Diphylleia';
+            font-family: 'Pacifico';
             font-size: 1.8rem;
-            line-height: 1.4;
+            line-height: 1.6;
             &:first-child {
-              font-family: 'Bagel';
-              font-size: 2rem;
-              line-height: 1;
+              font-family: 'Knewave';
             }
           }
         }

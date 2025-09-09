@@ -45,6 +45,22 @@
     unicode-range: U+0020-007F;
 }
 
+@font-face {
+    font-family: "Pacifico";
+    font-style: normal;
+    font-weight: 400;
+    src: url("@/static/fonts/Pacifico-Regular.ttf");
+    unicode-range: U+0020-007F;
+}
+
+@font-face {
+    font-family: "Knewave";
+    font-style: normal;
+    font-weight: 400;
+    src: url("@/static/fonts/Knewave-Regular.ttf");
+    unicode-range: U+0020-007F;
+}
+
 .ft-diphylleia {
     font-family: "Diphylleia";
 }
@@ -53,6 +69,12 @@
 }
 .ft-tanpearl {
     font-family: "TanPearl";
+}
+.ft-pacifico {
+    font-family: "Pacifico";
+}
+.ft-knewave {
+    font-family: "Knewave";
 }
 
 /* ----- FONT SIZE ----- */
