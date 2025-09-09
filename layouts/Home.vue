@@ -33,6 +33,7 @@
                         speedMode='slow'
                     />
                 </div>
+                <TextMarquee text='witselblue' />
             </section>
             <section class='skills'>
                 <div class='inner'>
@@ -134,6 +135,7 @@ import ParallaxImg from '@/components/ParallaxImg.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
 import SkewCardX from '@/components/SkewCardX.vue';
 import TextShifting from '@/components/TextShifting.vue';
+import TextMarquee from '@/components/TextMarquee.vue';
 import TextStagger from '@/components/TextStagger.vue';
 import RandomSkillCard from '@/components/RandomSkillCard.vue';
 
@@ -151,6 +153,7 @@ export default {
         ParallaxImg,
         SkewCardX,
         TextShifting,
+        TextMarquee,
         TextStagger,
         RandomSkillCard,
     },
