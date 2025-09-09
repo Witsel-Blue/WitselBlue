@@ -38,13 +38,14 @@
                             <Lottie :animationData='Arrow' />
                         </div>
                     </div>
-                    <div v-for="(img, idx) in profileHoverImgs" 
-                        :key="idx" 
-                        class="profile-hover-img"
-                        v-show="activeHoverImgs[idx]"
-                        :style="{ top: img.y, left: img.x }">
-                        <img :src="img.src" alt="preview" />
-                    </div>
+                    <ul class='profile-hover-img'>
+                        <li v-for='(img, idx) in profileHoverImgs'
+                            :key='idx'
+                            :class='{ active: activeHoverImgs[idx] }'
+                            :style='{ top: img.y, left: img.x }'>
+                            <img :src='img.src' alt='preview' />
+                        </li>
+                    </ul>
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
@@ -176,11 +177,11 @@ export default {
             },
             activeHoverImgs: [false, false, false, false, false],
             profileHoverImgs: [
-                { src: require('@/assets/img/profile_img1.png'), x: '80%', y: '30%' },
-                { src: require('@/assets/img/profile_img2.png'), x: '20%', y: '20%' },
-                { src: require('@/assets/img/profile_img3.png'), x: '80%', y: '25%' },
-                { src: require('@/assets/img/profile_img4.png'), x: '80%', y: '40%' },
-                { src: require('@/assets/img/profile_img5.png'), x: '20%', y: '30%' },
+                { src: require('@/assets/img/profile_img4.png'), x: '82%', y: '54%' },
+                { src: require('@/assets/img/profile_img2.png'), x: '23%', y: '42%' },
+                { src: require('@/assets/img/profile_img1.png'), x: '82%', y: '34%' },
+                { src: require('@/assets/img/profile_img5.png'), x: '24%', y: '64%' },
+                { src: require('@/assets/img/profile_img3.png'), x: '80%', y: '46%' },
             ],
             selected: [
                 {

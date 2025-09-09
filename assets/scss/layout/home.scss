@@ -121,11 +121,32 @@
       }
     }
     .profile-hover-img {
-      width: 300px;
-      height: auto;
-      position: absolute;
-      z-index: -1;
-      transform: translateX(-50%);
+      li {
+        width: 300px;
+        height: auto;
+        position: absolute;
+        z-index: -1;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.5s ease-in, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+
+        &:nth-child(1) {
+          width: 500px;
+        }
+        &:nth-child(3) {
+          width: 340px;
+        }
+        &:nth-child(4) {
+          width: 500px;
+        }
+        &:nth-child(5) {
+          width: 240px;
+        }
+        &.active {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
     }
   }
 
