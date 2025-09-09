@@ -50,36 +50,69 @@
     }
   }
 
-    .profile {
+  .profile {
     margin-top: 50vh;
     width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
     .inner {
-      margin: 5vh auto;
+      margin: 4vh auto 8vh;
     }
     #parallax-img::v-deep {
-      width: 32%;
-      border-radius: 60px;
+      width: 28%;
+      border-radius: 50%;
       overflow: hidden;
       margin: auto;  
       .parallax-cont {
         padding-top: 100%;
         .img {
-          height: 150%;
+          height: 168%;
         }
       }
+      .parallax-wrap::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        background: radial-gradient(circle, transparent 0%, transparent 60%, rgba(0, 0, 0, 0.4) 100%);    
+      }
     }
-    #text-stagger::v-deep {
-      ul {
-        margin-top: 5vh;
-        line-height: 2;
-        text-align: center;
+    .text {
+      position: relative;
+      #text-stagger::v-deep {
+        ul {
+          margin-top: 5vh;
+          line-height: 2;
+          text-align: center;
+          span {
+            font-family: 'Diphylleia';
+            font-size: 1.8rem;
+            line-height: 1.4;
+            &:first-child {
+              font-family: 'Bagel';
+              font-size: 2rem;
+              line-height: 1;
+            }
+          }
+        }
+      }
+      .arrow {
+        position: absolute;
+        top: calc((40px + 0.8rem + 16px) * -1);
+        left: 24%;
         span {
+          font-size: 0.8rem;
+          display: block;
+          transform: rotate(10deg);
           font-family: 'Diphylleia';
-          font-size: 1.6rem;
-          line-height: 1;
+        }
+        #lottie {
+          height: 40px;
+          transform: rotate(180deg);
         }
       }
     }

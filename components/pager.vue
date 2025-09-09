@@ -124,6 +124,8 @@ export default {
                 width: 100%;
                 li p {
                     font-size: 0.8rem;
+                    line-height: 1.2;
+                    font-family: 'Diphylleia';
                 }
             }
             img {

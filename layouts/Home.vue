@@ -20,18 +20,24 @@
                     <div data-aos='fade-up'>
                         <ParallaxImg :src='profile.img' />
                     </div>
-                    <TextStagger 
-                        :paragraphs="[
-                            '안녕하세요,<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>서울</span>에서 활동 중인 개발자<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>비첼블루</span>입니다.<br><br class=&quot;mb&quot;>',
-                            'WebGl, GSAP, Lottie, SVG 등을 활용해',
-                            '직관적이고 <span class=&quot;mouse-hover1&quot;>인터렉티브</span>한<br class=&quot;mb&quot;> 사이트를 구현하고자 하고,',
-                            '효율적이고 확장성을 고려한<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>클린코딩</span>을 지향합니다.<br class=&quot;mb&quot;>',
-                            '웹사이트를 방문하는 사용자가<br class=&quot;mb&quot;> 단순히 정보를 얻는 것을 넘어',
-                            '새로운 경험을 할 수 있도록 돕는<br class=&quot;mb&quot;> <span class=&quot;mouse-hover1&quot;>프론트엔드 개발자</span>가 되고 싶습니다.'
-                        ]"
-                        triggerMode='middle'
-                        speedMode='slow'
-                    />
+                    <div class='text'>
+                        <TextStagger 
+                            :paragraphs="[
+                                'Hi,<br class=&quot;mb&quot;> this is <span class=&quot;mouse-hover1&quot;>WitselBlue</span> from Seoul.',
+                                'I try to make <span class=&quot;mouse-hover1&quot;>interactive</span> websites',
+                                'and <span class=&quot;mouse-hover1&quot;>scalable</span> clean codes.',
+                                'My aim is to be <br class=&quot;mb&quot;>a <span class=&quot;mouse-hover1&quot;>frontend developer</span>',
+                                'who can <span class=&quot;mouse-hover1&quot;>create</span> new experiences',
+                                'beyond just obtaining information.'
+                            ]"
+                            triggerMode='middle'
+                            speedMode='slow'
+                        />
+                        <div class='arrow' data-aos='fade-up'>
+                            <span>hover mouse!</span>
+                            <Lottie :animationData='Arrow' />
+                        </div>
+                    </div>
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
@@ -122,11 +128,12 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import CursorCustom from '@/components/CursorCustom.vue';
+import Lottie from '@/components/Lottie.vue';
+import Butterfly from '@/assets/lottie/butterfly.json';
+import Arrow from '@/assets/lottie/arrow.json';
 import Mainvisual from '@/layouts/Mainvisual.vue';
-import ButtonScrollDown from '@/components/ButtonScrollDown.vue';
 import TextScroll from '@/components/TextScroll.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
-import Butterfly from '@/assets/lottie/butterfly.json';
 import SkewCardX from '@/components/SkewCardX.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import TextMarquee from '@/components/TextMarquee.vue';
@@ -141,8 +148,8 @@ export default {
     name: 'Home',
     components: {
         CursorCustom,
+        Lottie,
         Mainvisual,
-        ButtonScrollDown,
         TextScroll,
         ParallaxImg,
         SkewCardX,
@@ -156,8 +163,9 @@ export default {
             cursorClass: 'cursor-main',
             showLottie: true,
             animationData: Butterfly,
+            Arrow,
             profile : {
-                img: require('@/assets/img/profile.jpg'),
+                img: require('@/assets/img/profile.png'),
             },
             selected: [
                 {

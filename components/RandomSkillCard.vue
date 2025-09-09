@@ -280,8 +280,11 @@ export default {
         align-items: center;
         justify-content: center;
         gap: 16px;
-        font-size: 0.8rem;
-        color: $gray2;
+        li {
+            font-size: 0.8rem;
+            color: $black1;
+            font-family: 'Diphylleia';
+        }
     }
 }
 

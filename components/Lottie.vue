@@ -1,9 +1,9 @@
 <template>
-    <div ref="lottieContainer" class="lottie-wrapper"></div>
+    <div id='lottie' ref='lottieContainer'></div>
 </template>
 
 <script>
-import lottie from 'lottie-web'
+import lottie from 'lottie-web';
 
 export default {
     props: {
