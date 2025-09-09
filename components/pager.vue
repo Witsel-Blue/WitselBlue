@@ -125,7 +125,7 @@ export default {
                 li {
                     p {
                         font-size: 0.8rem;
-                        line-height: 0.8;
+                        line-height: 0.9;
                         font-family: 'Diphylleia';
                     }
                     &:last-child p {

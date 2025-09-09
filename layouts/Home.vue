@@ -34,7 +34,7 @@
                             speedMode='slow'
                         />
                         <div class='arrow' data-aos='fade-up'>
-                            <span>hover mouse!</span>
+                            <span>hover texts!</span>
                             <Lottie :animationData='Arrow' />
                         </div>
                     </div>
