@@ -122,10 +122,15 @@ export default {
                 transform: translate(-50%, -100%);
                 text-align: center;
                 width: 100%;
-                li p {
-                    font-size: 0.8rem;
-                    line-height: 1.2;
-                    font-family: 'Diphylleia';
+                li {
+                    p {
+                        font-size: 0.8rem;
+                        line-height: 0.8;
+                        font-family: 'Diphylleia';
+                    }
+                    &:last-child p {
+                        line-height: 1.4;
+                    }
                 }
             }
             img {

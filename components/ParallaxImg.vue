@@ -1,10 +1,12 @@
 <template>
-    <div id="parallax-img">
-        <div class="parallax-wrap">
-            <div class="parallax-cont">
+    <div id='parallax-img'>
+        <div class='parallax-wrap'>
+            <div class='parallax-cont'>
                 <img
-                    :src="src"
-                    class="img"
+                    :src='src'
+                    class='img'
+                    oncontextmenu='return false;'
+                    ondragstart='return false;'
                 >
             </div>
         </div>
@@ -41,14 +43,14 @@ export default {
                     invalidateOnRefresh: true
                 },
                 y: section.offsetHeight - img.offsetHeight,
-                ease: "none"
+                ease: 'none'
             });
         }
     },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
     #parallax-img {

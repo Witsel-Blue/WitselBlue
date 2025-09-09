@@ -1,18 +1,22 @@
 <template>
-  <div class="skew-section" ref="section">
+  <div class='skew-section' ref='section'>
     <Nuxt-link 
-        v-if="path"
+        v-if='path'
         :to=path
-        class="hover-img">
-        <div class="img">
-            <div class="res-box-wrap">
-                <div class="res-box">
-                    <img :src="img" />
+        class='hover-img'>
+        <div class='img'>
+            <div class='res-box-wrap'>
+                <div class='res-box'>
+                    <img 
+                      :src='img' 
+                      oncontextmenu='return false;'
+                      ondragstart='return false;'
+                    />
                 </div>
             </div>
         </div>
     </Nuxt-link>
-    <img :src="img" v-else-if="img" />
+    <img :src='img' v-else-if='img' />
   </div>
 </template>
 
