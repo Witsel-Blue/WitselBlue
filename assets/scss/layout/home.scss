@@ -56,8 +56,14 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
     .inner {
-      margin: 2vh auto 8vh;
+      margin: auto;
+      z-index: 1;
+    }
+    #text_marquee::v-deep {
+      position: absolute;
+      top: 24%;
     }
     #parallax-img::v-deep {
       width: 28%;
