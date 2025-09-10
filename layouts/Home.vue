@@ -69,7 +69,7 @@
                         </div>
                     </li>
                 </ul>
-                <TextRotating text='Selected Works' fontSize='3rem' />
+                <TextRotating text='selected' fontSize='4rem' />
             </section>
             <section class='skills' ref='skills'>
                 <div class='inner'>

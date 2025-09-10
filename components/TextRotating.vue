@@ -31,7 +31,7 @@ export default {
     name: 'TextRotating',
     props: {
         text: { type: String, required: true },
-        size: { type: Number, default: 300 },
+        size: { type: Number, default: 400 },
         fontSize: { type: String, default: '1rem' },
         duration: { type: Number, default: 12 },
         direction: { type: String, default: 'normal' }
@@ -51,18 +51,21 @@ export default {
             }
             return 16;
         },
+        radius() {
+            return this.size / 2 - this.fontPx;
+        },
         circlePath() {
-            const r = this.size / 2 - this.fontPx;
+            const r = this.radius;
             const c = this.size / 2;
             return `M ${c},${c} m -${r},0 a ${r},${r} 0 1,1 ${r * 2},0 a ${r},${r} 0 1,1 -${r * 2},0`;
         },
         repeatedText() {
-            const r = this.size / 2 - this.fontPx;
+            const r = this.radius;
             const circumference = 2 * Math.PI * r;
             const approxCharWidth = this.fontPx * 0.6;
-            const charsNeeded = Math.ceil(circumference / approxCharWidth);
-            const repeatTimes = Math.ceil(charsNeeded / this.text.length);
-            return (this.text + ' ').repeat(repeatTimes);
+            const unitText = `· ${this.text} `;
+            const repeatTimes = Math.ceil(circumference / (unitText.length * approxCharWidth));
+            return unitText.repeat(repeatTimes);
         }
     }
 };
