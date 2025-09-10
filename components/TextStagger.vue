@@ -73,7 +73,7 @@ export default {
             // speed 모드
             const settings = {
                 fast: { stagger: 0.1, duration: 0.2 },
-                slow: { stagger: 0.6, duration: 0.6 },
+                slow: { stagger: 0.4, duration: 0.6 },
             }
             const { stagger, duration } = settings[this.speedMode] || settings.fast;
 

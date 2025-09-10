@@ -182,11 +182,11 @@ export default {
             },
             activeHoverImgs: [false, false, false, false, false],
             profileHoverImgs: [
-                { src: require('@/assets/img/profile_img4.png'), x: '82%', y: '54%' },
-                { src: require('@/assets/img/profile_img2.png'), x: '23%', y: '42%' },
-                { src: require('@/assets/img/profile_img1.png'), x: '82%', y: '34%' },
-                { src: require('@/assets/img/profile_img5.png'), x: '24%', y: '64%' },
-                { src: require('@/assets/img/profile_img3.png'), x: '80%', y: '46%' },
+                { src: require('@/assets/img/profile_img4.png'), x: '110%', y: '50%' },
+                { src: require('@/assets/img/profile_img2.png'), x: '0%', y: '42%' },
+                { src: require('@/assets/img/profile_img1.png'), x: '102%', y: '38%' },
+                { src: require('@/assets/img/profile_img5.png'), x: '-10%', y: '64%' },
+                { src: require('@/assets/img/profile_img3.png'), x: '100%', y: '56%' },
             ],
             selected: [
                 projectsData[2],
@@ -206,8 +206,10 @@ export default {
         window.scrollTo({ top: 0 });
         this.initProfileImgHover();
         this.initSectionObserver();
-        this.scrollVertical();
-        this.initSectionScroll();
+        this.$nextTick(() => {
+            this.scrollVertical();
+            this.initSectionScroll();
+        });
     },
     beforeDestroy() {
         if (this.gsapContext) this.gsapContext.revert();
@@ -221,7 +223,7 @@ export default {
         }
         if (this.wheelHandler) {
             try { window.removeEventListener('wheel', this.wheelHandler, { passive: false }); } catch (e) {
-            try { window.removeEventListener('wheel', this.wheelHandler); } catch (e2) {}
+                try { window.removeEventListener('wheel', this.wheelHandler); } catch (e2) {}
             }
             this.wheelHandler = null;
         }
@@ -283,30 +285,32 @@ export default {
             if (window.innerWidth <= 425) return;
 
             const ctx = gsap.context(() => {
-            const section = this.$refs.selected;
-            if (!section) return;
-            const container = section.querySelector('.container');
-            const panels = container.querySelectorAll(':scope > .panel');
+                const section = this.$refs.selected;
+                if (!section) return;
+                const container = section.querySelector('.container');
+                if (!container) return;
+                const panels = container.querySelectorAll(':scope > .panel');
+                if (!panels.length) return;
 
-            container.style.display = 'flex';
-            container.style.willChange = 'transform';
+                container.style.display = 'flex';
+                container.style.willChange = 'transform';
 
-            const tween = gsap.to(panels, {
-                xPercent: -100 * (panels.length - 1),
-                ease: 'none',
-                scrollTrigger: {
-                id: 'selected',
-                trigger: section,
-                start: 'top top',
-                pin: true,
-                scrub: 1.5,
-                end: () => `+=${container.scrollWidth}`,
+                const tween = gsap.to(panels, {
+                    xPercent: -100 * (panels.length - 1),
+                    ease: 'none',
+                    scrollTrigger: {
+                    id: 'selected',
+                    trigger: section,
+                    start: 'top top',
+                    pin: true,
+                    scrub: 0.5,
+                    end: () => `+=${container.scrollWidth}`,
+                    }
+                });
+
+                if (tween && tween.scrollTrigger) {
+                    this.selectedST = tween.scrollTrigger;
                 }
-            });
-
-            if (tween && tween.scrollTrigger) {
-                this.selectedST = tween.scrollTrigger;
-            }
             }, this.$refs.selected);
 
             this.gsapContext = ctx;
@@ -318,83 +322,78 @@ export default {
             const getTop = (el) => (el.getBoundingClientRect().top + window.scrollY);
 
             this.wheelHandler = (e) => {
-            if (this.isScrolling) return;
+                if (this.isScrolling) return;
 
-            const delta = e.deltaY;
-            if (!delta) return;
-            // 트랙패드/마우스 노이즈 방지용 임계값 (환경에 따라 조정)
-            if (Math.abs(delta) < 6) return;
+                const delta = e.deltaY;
+                if (!delta) return;
+                // 트랙패드/마우스 노이즈 방지용 임계값 (환경에 따라 조정)
+                if (Math.abs(delta) < 6) return;
 
-            // 가능한 경우 observer가 설정한 인덱스 사용
-            let currentIndex = (typeof this.currentSectionIndex === 'number') ? this.currentSectionIndex : -1;
+                let currentIndex = (typeof this.currentSectionIndex === 'number') ? this.currentSectionIndex : -1;
 
-            // fallback: 중앙 기준으로 계산
-            if (currentIndex === -1) {
-                const centerY = window.innerHeight / 2;
-                currentIndex = sections.findIndex(sec => {
-                if (!sec) return false;
-                const r = sec.getBoundingClientRect();
-                return r.top <= centerY && r.bottom > centerY;
-                });
-            }
-
-            if (currentIndex === -1) return;
-
-            const currentSection = sections[currentIndex];
-            // console.log('[wheel] idx', currentIndex, 'delta', delta); // 디버그 켜려면 사용
-
-            // skills -> selected 로 진입 (명시적 처리)
-            if (currentSection === this.$refs.skills && delta > 0) {
-                e.preventDefault();
-                this.isScrolling = true;
-                const targetY = getTop(this.$refs.selected);
-                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
-                return;
-            }
-
-            // selected 내부 처리 (가로 진행도에 따라 위/아래 제어)
-            if (currentSection === this.$refs.selected) {
-                let progress = 0;
-                const st = this.selectedST || (ScrollTrigger.getById ? ScrollTrigger.getById('selected') : null);
-
-                if (st && typeof st.progress === 'number') {
-                progress = st.progress;
-                } else {
-                // fallback 근사치: (정확하지 않지만 안전망)
-                const container = this.$refs.selected.querySelector('.container');
-                const rect = this.$refs.selected.getBoundingClientRect();
-                const startScrollY = window.scrollY - rect.top;
-                const containerWidth = container ? container.scrollWidth : window.innerWidth;
-                progress = containerWidth ? Math.min(Math.max((window.scrollY - startScrollY) / containerWidth, 0), 1) : 0;
+                if (currentIndex === -1) {
+                    const centerY = window.innerHeight / 2;
+                    currentIndex = sections.findIndex(sec => {
+                    if (!sec) return false;
+                    const r = sec.getBoundingClientRect();
+                    return r.top <= centerY && r.bottom > centerY;
+                    });
                 }
 
-                if (delta > 0 && progress >= 0.95) {
-                e.preventDefault();
-                this.isScrolling = true;
-                const targetY = getTop(this.$refs.about);
-                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
-                } else if (delta < 0 && progress <= 0.05) {
-                e.preventDefault();
-                this.isScrolling = true;
-                const targetY = getTop(this.$refs.skills);
-                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                if (currentIndex === -1) return;
+
+                const currentSection = sections[currentIndex];
+
+                // skills -> selected
+                if (currentSection === this.$refs.skills && delta > 0) {
+                    e.preventDefault();
+                    this.isScrolling = true;
+                    const targetY = getTop(this.$refs.selected);
+                    this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                    return;
                 }
-                return;
-            }
 
-            // 일반 섹션 스냅
-            let targetIndex = currentIndex;
-            if (delta > 0 && currentIndex < sections.length - 1) targetIndex++;
-            else if (delta < 0 && currentIndex > 0) targetIndex--;
-            else return;
+                // selected 내부
+                if (currentSection === this.$refs.selected) {
+                    let progress = 0;
+                    const st = this.selectedST || (ScrollTrigger.getById ? ScrollTrigger.getById('selected') : null);
 
-            e.preventDefault();
-            this.isScrolling = true;
-            const targetY = getTop(sections[targetIndex]);
-            this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                    if (st && typeof st.progress === 'number') {
+                    progress = st.progress;
+                    } else {
+                    const container = this.$refs.selected.querySelector('.container');
+                    const rect = this.$refs.selected.getBoundingClientRect();
+                    const startScrollY = window.scrollY - rect.top;
+                    const containerWidth = container ? container.scrollWidth : window.innerWidth;
+                    progress = containerWidth ? Math.min(Math.max((window.scrollY - startScrollY) / containerWidth, 0), 1) : 0;
+                    }
+
+                    if (delta > 0 && progress >= 0.95) {
+                        e.preventDefault();
+                        this.isScrolling = true;
+                        const targetY = getTop(this.$refs.about);
+                        this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                    } else if (delta < 0 && progress <= 0.05) {
+                        e.preventDefault();
+                        this.isScrolling = true;
+                        const targetY = getTop(this.$refs.skills);
+                        this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                    }
+                    return;
+                }
+
+                // 일반 섹션 스냅
+                let targetIndex = currentIndex;
+                if (delta > 0 && currentIndex < sections.length - 1) targetIndex++;
+                else if (delta < 0 && currentIndex > 0) targetIndex--;
+                else return;
+
+                e.preventDefault();
+                this.isScrolling = true;
+                const targetY = getTop(sections[targetIndex]);
+                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
             };
 
-            // passive: false 로 등록 (preventDefault 사용)
             window.addEventListener('wheel', this.wheelHandler, { passive: false });
         },
         smoothScrollTo(targetY, duration = 800, callback) {

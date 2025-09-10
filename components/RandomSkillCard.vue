@@ -1,16 +1,6 @@
 <template>
   <div id='RandomSkillCard'>
 
-    <div class='def'>
-       <div class='inner'>
-            <ul>
-                <li>★★★: I can manage</li>
-                <li>★★★★: I'm solid</li>
-                <li>★★★★★: Mastered</li>
-            </ul>
-       </div>
-    </div>
-
     <!-- card wrapper -->
     <div
       class='skill-cards-wrapper'
@@ -45,7 +35,7 @@
       </div>
     </div>
 
-        <!-- tabs -->
+    <!-- tabs -->
     <div class='tabs'>
         <ButtonRound
             v-for='cat in categories'
@@ -54,6 +44,16 @@
             :class='{active: activeCategory === cat}'
             @click='switchCategory(cat)'
         />
+    </div>
+
+    <div class='def'>
+       <div class='inner'>
+            <ul>
+                <li>★★★: I can manage</li>
+                <li>★★★★: I'm solid</li>
+                <li>★★★★★: Mastered!</li>
+            </ul>
+       </div>
     </div>
 
   </div>
@@ -293,7 +293,7 @@ export default {
     width: 80vw;
     max-width: $width-l;
     height: 40vh;
-    margin: 10vh auto;
+    margin: 5vh auto 10vh;
 }
 
 .skill-card {
