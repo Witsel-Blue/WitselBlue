@@ -243,7 +243,7 @@ export default {
                     if (deltaY > 0 && st.progress >= 0.95) {
                         e.preventDefault();
                         isScrolling = true;
-                        const targetY = window.scrollY + this.$refs.skills.getBoundingClientRect().top;
+                        const targetY = this.$refs.skills.offsetTop;
                         this.smoothScrollTo(targetY, 1200, () => {
                             isScrolling = false;
                         });
