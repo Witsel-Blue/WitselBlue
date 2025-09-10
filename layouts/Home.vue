@@ -69,6 +69,7 @@
                         </div>
                     </li>
                 </ul>
+                <TextRotating text='Selected Works' fontSize='3rem' />
             </section>
             <section class='skills' ref='skills'>
                 <div class='inner'>
@@ -147,6 +148,7 @@ import ParallaxImg from '@/components/ParallaxImg.vue';
 import SkewCardX from '@/components/SkewCardX.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import TextMarquee from '@/components/TextMarquee.vue';
+import TextRotating from '@/components/TextRotating.vue';
 import TextStagger from '@/components/TextStagger.vue';
 import RandomSkillCard from '@/components/RandomSkillCard.vue';
 
@@ -165,6 +167,7 @@ export default {
         SkewCardX,
         TextShifting,
         TextMarquee,
+        TextRotating,
         TextStagger,
         RandomSkillCard,
     },
