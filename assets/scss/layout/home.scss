@@ -151,6 +151,30 @@
     }
   }
 
+  .skills {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .inner {
+      margin: 0 auto;
+    }
+    .wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw 10vw;
+      ul {
+        display: grid;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        li {
+          word-break: break-all;
+          text-align: center;
+        }
+      }
+    }
+  }
+
   .selected {
     padding: 0 !important;
     position: relative;
@@ -229,33 +253,9 @@
     }
   }
 
-  .skills {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .inner {
-      margin: 0 auto;
-    }
-    .wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5vw 10vw;
-      ul {
-        display: grid;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        li {
-          word-break: break-all;
-          text-align: center;
-        }
-      }
-    }
-  }
-
   .about {
     height: 100vh;
-    
+
     h4 {
       font-weight: bold;
       margin-bottom: 8px;

@@ -49,6 +49,14 @@
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
+            <section class='skills' ref='skills'>
+                <div class='inner'>
+                    <h1 class='subtitle ft-bagel txt-c'>
+                        Skills
+                    </h1>
+                    <RandomSkillCard />
+                </div>
+            </section>
             <section class='selected' ref='selected' id='selected'>
                 <ul class='container' ref='comp'>
                     <li
@@ -70,14 +78,6 @@
                     </li>
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
-            </section>
-            <section class='skills' ref='skills'>
-                <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c'>
-                        Skills
-                    </h1>
-                    <RandomSkillCard />
-                </div>
             </section>
             <section class='about' ref='about'>
                 <div class='inner'>
@@ -302,17 +302,21 @@ export default {
             if (window.innerWidth <= 425) return;
 
             const ctx = gsap.context(() => {
-                const container = this.$refs.selected.querySelector('.container');
+                const section = this.$refs.selected;
+                const container = section.querySelector('.container');
                 const panels = container.querySelectorAll(':scope > .panel');
+
+                container.style.display = 'flex';
 
                 gsap.to(panels, {
                     xPercent: -100 * (panels.length - 1),
                     ease: 'none',
                     scrollTrigger: {
-                        trigger: container,
+                        trigger: section,
+                        start: 'top top',
                         pin: true,
-                        scrub: 2,
-                        end: () => container.scrollWidth * 1.5,
+                        scrub: 1.5,
+                        end: () => `+=${container.scrollWidth}`,
                     }
                 });
             }, this.$refs.selected);
