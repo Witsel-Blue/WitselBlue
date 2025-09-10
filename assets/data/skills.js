@@ -207,5 +207,12 @@ export default [
                 rate: 4,
                 flipped: false,
             },
+            {
+                title: 'ChatGPT',
+                category: 'Environment',
+                logo: require('@/assets/img/skills/chatgpt.png'),
+                rate: 4,
+                flipped: false,
+            },
 
 ]
