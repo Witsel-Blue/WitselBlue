@@ -199,7 +199,7 @@ export default {
         window.scrollTo({
             top: 0,
         });
-        this.initSectionScroll();
+        // this.initSectionScroll();
         this.scrollVertical();
         this.initProfileImgHover();
     },
@@ -301,10 +301,9 @@ export default {
         scrollVertical() {
             if (window.innerWidth <= 425) return;
 
-            let horizontalSections = gsap.utils.toArray('.selected .container');
-
-            horizontalSections.forEach((container) => {
-                let panels = container.querySelectorAll('.selected .panel');
+            const ctx = gsap.context(() => {
+                const container = this.$refs.selected.querySelector('.container');
+                const panels = container.querySelectorAll(':scope > .panel');
 
                 gsap.to(panels, {
                     xPercent: -100 * (panels.length - 1),
@@ -312,12 +311,13 @@ export default {
                     scrollTrigger: {
                         trigger: container,
                         pin: true,
-                        scrub: 1,
-                        end: () => '+=' + container.offsetWidth * (panels.length - 1) * 1.4,
-                        id: 'selected',
+                        scrub: 2,
+                        end: () => container.scrollWidth * 1.5,
                     }
                 });
-            });
+            }, this.$refs.selected);
+
+            this.gsapContext = ctx;
         },
         initProfileImgHover() {
             const spans = this.$el.querySelectorAll('.profile .mouse-hover1');
@@ -329,6 +329,9 @@ export default {
                     this.$set(this.activeHoverImgs, index, false);
                 });
             });
+        },
+        beforeDestroy() {
+            if (this.gsapContext) this.gsapContext.revert();
         }
     }
 }
