@@ -54,15 +54,16 @@
                     <li
                         class='panel'
                         v-for='list in selected'
-                        :key='list.name'>
+                        :key='list.slug'>
                         <div class='wrap'>
-                            <SkewCardX :img='list.img' :path='list.path' />
+                            <SkewCardX :img='list.images.thumb' :path='`/projects/${list.slug}`' />
                             <div class='desc'>
-                                <p class='work'>{{ list.work }}</p>
+                                <p class='work'>{{ list.tags.work }}</p>
                                 <Nuxt-link 
                                     class='title mouse-hover1'
-                                    :to=list.path>
-                                    <TextShifting :text='list.name'></TextShifting>
+                                    :to='`/projects/${list.slug}`'
+                                >
+                                    <TextShifting :text='list.title' :key='list.slug'></TextShifting>
                                 </Nuxt-link>
                             </div>
                         </div>
@@ -133,6 +134,7 @@
 </template>
 
 <script>
+import projectsData from '@/assets/data/projects.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import CursorCustom from '@/components/CursorCustom.vue';
@@ -184,30 +186,9 @@ export default {
                 { src: require('@/assets/img/profile_img3.png'), x: '80%', y: '46%' },
             ],
             selected: [
-                {
-                    name: 'Monimo',
-                    path: '/projects/monimo',
-                    link: 'https://www.monimo.com/w/main/WPFMHP0101M0',
-                    img: require('@/assets/img/projects/monimo_thumb.png'),
-                    work: 'development',
-                    duration: '2024.07-2024.10',
-                },
-                {
-                    name: '4·16 Online Memorial',
-                    path: '/projects/OnlineMemorial',
-                    link: 'https://416foundation.org/%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B8%B0%EC%96%B5-%EA%B3%B5%EA%B0%84/',
-                    img: require('@/assets/img/projects/416_thumb.png'),
-                    work: 'publishing',
-                    duration: '2022.04',
-                },
-                {
-                    name: 'DCAMP',
-                    path: '/projects/DCAMP',
-                    link: 'https://dcamp.kr/',
-                    img: require('@/assets/img/projects/dcamp_thumb.png'),
-                    work: 'frontend',
-                    duration: '2022.01-2022.03',
-                },
+                projectsData[2],
+                projectsData[3],
+                projectsData[4],
             ],
         }
     },
@@ -328,7 +309,7 @@ export default {
                     scrollTrigger: {
                         trigger: container,
                         pin: true,
-                        scrub: 1.4,
+                        scrub: 1,
                         end: () => '+=' + container.offsetWidth * (panels.length - 1) * 1.4,
                         id: 'selected',
                     }
