@@ -193,15 +193,38 @@ export default {
                 projectsData[3],
                 projectsData[4],
             ],
+            selectedST: null,
+            gsapContext: null,
+            sectionEls: [],
+            observer: null,
+            wheelHandler: null,
+            isScrolling: false,
+            currentSectionIndex: 0, 
         }
     },
     mounted() {
-        window.scrollTo({
-            top: 0,
-        });
-        // this.initSectionScroll();
-        this.scrollVertical();
+        window.scrollTo({ top: 0 });
         this.initProfileImgHover();
+        this.initSectionObserver();
+        this.scrollVertical();
+        this.initSectionScroll();
+    },
+    beforeDestroy() {
+        if (this.gsapContext) this.gsapContext.revert();
+        if (this.selectedST && typeof this.selectedST.kill === 'function') {
+            try { this.selectedST.kill(true); } catch (err) {}
+            this.selectedST = null;
+        }
+        if (this.observer) {
+            try { this.observer.disconnect(); } catch (e) {}
+            this.observer = null;
+        }
+        if (this.wheelHandler) {
+            try { window.removeEventListener('wheel', this.wheelHandler, { passive: false }); } catch (e) {
+            try { window.removeEventListener('wheel', this.wheelHandler); } catch (e2) {}
+            }
+            this.wheelHandler = null;
+        }
     },
     methods: {
         onMouseEnterMain() {
@@ -212,69 +235,167 @@ export default {
             this.cursorClass = '';
             this.showLottie = false;
         },
-        initSectionScroll() {
-            const sections = [
+        initProfileImgHover() {
+            const spans = this.$el.querySelectorAll('.profile .mouse-hover1');
+            spans.forEach((span, index) => {
+                span.addEventListener('mouseenter', () => {
+                    this.$set(this.activeHoverImgs, index, true);
+                });
+                span.addEventListener('mouseleave', () => {
+                    this.$set(this.activeHoverImgs, index, false);
+                });
+            });
+        },
+        initSectionObserver() {
+            // refs 모음
+            const secs = [
                 this.$refs.main,
                 this.$refs.profile,
-                this.$refs.selected,
                 this.$refs.skills,
+                this.$refs.selected,
                 this.$refs.about
-            ];
+            ].filter(Boolean);
 
-            let isScrolling = false;
+            this.sectionEls = secs;
 
-            window.addEventListener('wheel', (e) => {
-                if (isScrolling) return;
-                const deltaY = e.deltaY;
-                const scrollY = window.scrollY;
+            // 여러 threshold로 더 정확한 ratio 측정
+            const options = { root: null, rootMargin: '0px', threshold: [0.25, 0.5, 0.75] };
 
-                let currentIndex = sections.findIndex((sec) => {
-                    const top = sec.offsetTop;
-                    const bottom = top + sec.offsetHeight;
-                    return scrollY >= top && scrollY < bottom;
+            this.observer = new IntersectionObserver((entries) => {
+            // intersect 중인 것들 중 가장 큰 intersectionRatio를 가진 걸 현재 섹션으로 삼음
+            const visible = entries.filter(en => en.isIntersecting);
+            if (visible.length === 0) return;
+
+            visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+            const topEntry = visible[0];
+            const idx = this.sectionEls.indexOf(topEntry.target);
+            if (idx !== -1) {
+                this.currentSectionIndex = idx;
+                // console.log('[observer] currentSectionIndex', idx); // 디버그용
+            }
+            }, options);
+
+            secs.forEach(sec => {
+                try { this.observer.observe(sec); } catch (e) { /* ignore */ }
+            });
+        },
+        scrollVertical() {
+            if (window.innerWidth <= 425) return;
+
+            const ctx = gsap.context(() => {
+            const section = this.$refs.selected;
+            if (!section) return;
+            const container = section.querySelector('.container');
+            const panels = container.querySelectorAll(':scope > .panel');
+
+            container.style.display = 'flex';
+            container.style.willChange = 'transform';
+
+            const tween = gsap.to(panels, {
+                xPercent: -100 * (panels.length - 1),
+                ease: 'none',
+                scrollTrigger: {
+                id: 'selected',
+                trigger: section,
+                start: 'top top',
+                pin: true,
+                scrub: 1.5,
+                end: () => `+=${container.scrollWidth}`,
+                }
+            });
+
+            if (tween && tween.scrollTrigger) {
+                this.selectedST = tween.scrollTrigger;
+            }
+            }, this.$refs.selected);
+
+            this.gsapContext = ctx;
+        },
+        initSectionScroll() {
+            const sections = this.sectionEls;
+            if (!sections || sections.length === 0) return;
+
+            const getTop = (el) => (el.getBoundingClientRect().top + window.scrollY);
+
+            this.wheelHandler = (e) => {
+            if (this.isScrolling) return;
+
+            const delta = e.deltaY;
+            if (!delta) return;
+            // 트랙패드/마우스 노이즈 방지용 임계값 (환경에 따라 조정)
+            if (Math.abs(delta) < 6) return;
+
+            // 가능한 경우 observer가 설정한 인덱스 사용
+            let currentIndex = (typeof this.currentSectionIndex === 'number') ? this.currentSectionIndex : -1;
+
+            // fallback: 중앙 기준으로 계산
+            if (currentIndex === -1) {
+                const centerY = window.innerHeight / 2;
+                currentIndex = sections.findIndex(sec => {
+                if (!sec) return false;
+                const r = sec.getBoundingClientRect();
+                return r.top <= centerY && r.bottom > centerY;
                 });
+            }
 
-                if (currentIndex === -1) return;
+            if (currentIndex === -1) return;
 
-                const currentSection = sections[currentIndex];
+            const currentSection = sections[currentIndex];
+            // console.log('[wheel] idx', currentIndex, 'delta', delta); // 디버그 켜려면 사용
 
-                // selected 구간 처리
-                if (currentSection === this.$refs.selected) {
-                    const st = ScrollTrigger.getById('selected');
-                    if (!st) return;
+            // skills -> selected 로 진입 (명시적 처리)
+            if (currentSection === this.$refs.skills && delta > 0) {
+                e.preventDefault();
+                this.isScrolling = true;
+                const targetY = getTop(this.$refs.selected);
+                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                return;
+            }
 
-                    if (deltaY > 0 && st.progress >= 0.95) {
-                        e.preventDefault();
-                        isScrolling = true;
-                        const targetY = this.$refs.skills.offsetTop;
-                        this.smoothScrollTo(targetY, 1200, () => {
-                            isScrolling = false;
-                        });
-                    }
-                    else if (deltaY < 0 && st.progress <= 0.05) {
-                        e.preventDefault();
-                        isScrolling = true;
-                        const targetY = window.scrollY + this.$refs.profile.getBoundingClientRect().top;
-                        this.smoothScrollTo(targetY, 1200, () => {
-                            isScrolling = false;
-                        });
-                    }
-                    return;
+            // selected 내부 처리 (가로 진행도에 따라 위/아래 제어)
+            if (currentSection === this.$refs.selected) {
+                let progress = 0;
+                const st = this.selectedST || (ScrollTrigger.getById ? ScrollTrigger.getById('selected') : null);
+
+                if (st && typeof st.progress === 'number') {
+                progress = st.progress;
+                } else {
+                // fallback 근사치: (정확하지 않지만 안전망)
+                const container = this.$refs.selected.querySelector('.container');
+                const rect = this.$refs.selected.getBoundingClientRect();
+                const startScrollY = window.scrollY - rect.top;
+                const containerWidth = container ? container.scrollWidth : window.innerWidth;
+                progress = containerWidth ? Math.min(Math.max((window.scrollY - startScrollY) / containerWidth, 0), 1) : 0;
                 }
 
-                // 일반 섹션 vertical scroll
-                let targetIndex = currentIndex;
-                if (deltaY > 0 && currentIndex < sections.length - 1) targetIndex++;
-                else if (deltaY < 0 && currentIndex > 0) targetIndex--;
-                else return;
-
-                const targetY = sections[targetIndex].offsetTop;
+                if (delta > 0 && progress >= 0.95) {
                 e.preventDefault();
-                isScrolling = true;
-                this.smoothScrollTo(targetY, 1200, () => {
-                    isScrolling = false;
-                });
-            }, { passive: false });
+                this.isScrolling = true;
+                const targetY = getTop(this.$refs.about);
+                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                } else if (delta < 0 && progress <= 0.05) {
+                e.preventDefault();
+                this.isScrolling = true;
+                const targetY = getTop(this.$refs.skills);
+                this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+                }
+                return;
+            }
+
+            // 일반 섹션 스냅
+            let targetIndex = currentIndex;
+            if (delta > 0 && currentIndex < sections.length - 1) targetIndex++;
+            else if (delta < 0 && currentIndex > 0) targetIndex--;
+            else return;
+
+            e.preventDefault();
+            this.isScrolling = true;
+            const targetY = getTop(sections[targetIndex]);
+            this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
+            };
+
+            // passive: false 로 등록 (preventDefault 사용)
+            window.addEventListener('wheel', this.wheelHandler, { passive: false });
         },
         smoothScrollTo(targetY, duration = 800, callback) {
             const startY = window.scrollY;
@@ -298,45 +419,7 @@ export default {
 
             requestAnimationFrame(animate);
         },
-        scrollVertical() {
-            if (window.innerWidth <= 425) return;
-
-            const ctx = gsap.context(() => {
-                const section = this.$refs.selected;
-                const container = section.querySelector('.container');
-                const panels = container.querySelectorAll(':scope > .panel');
-
-                container.style.display = 'flex';
-
-                gsap.to(panels, {
-                    xPercent: -100 * (panels.length - 1),
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top top',
-                        pin: true,
-                        scrub: 1.5,
-                        end: () => `+=${container.scrollWidth}`,
-                    }
-                });
-            }, this.$refs.selected);
-
-            this.gsapContext = ctx;
-        },
-        initProfileImgHover() {
-            const spans = this.$el.querySelectorAll('.profile .mouse-hover1');
-            spans.forEach((span, index) => {
-                span.addEventListener('mouseenter', () => {
-                    this.$set(this.activeHoverImgs, index, true);
-                });
-                span.addEventListener('mouseleave', () => {
-                    this.$set(this.activeHoverImgs, index, false);
-                });
-            });
-        },
-        beforeDestroy() {
-            if (this.gsapContext) this.gsapContext.revert();
-        }
+    
     }
 }
 </script>
