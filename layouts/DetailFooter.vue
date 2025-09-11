@@ -14,6 +14,14 @@
                 <CardFlip v-if='nextProject' :item='nextProject'/>
                 <CardFlip v-if='nextArchiveDev' :item='nextArchiveDev' />
                 <CardFlip v-if='nextArchiveMusic' :item='nextArchiveMusic' />
+                <div class='view-all'>
+                    <ButtonRound
+                        :link="{
+                            href: isProjectPage ? '/projects' : isArchivePage ? '/archive' : null
+                        }"
+                        :text="isProjectPage ? 'view all projects' : isArchivePage ? 'view all archive' : ''"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -41,6 +49,14 @@ export default {
             type: Object,
             default: null,
         },
+    },
+    computed: {
+        isProjectPage() {
+            return !!this.nextProject;
+        },
+        isArchivePage() {
+            return !!this.nextArchiveDev || !!this.nextArchiveMusic;
+        }
     },
     mounted() {
         this.$nextTick(() => {
