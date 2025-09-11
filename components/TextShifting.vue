@@ -1,11 +1,12 @@
 <template>
-    <div class="text-shifting">
+    <div class='text-shifting'>
         <span
-            v-for="(text, idx) in textArray"
-            :key="text.id"
+            v-for='(text, idx) in textArray'
+            :key='text.id'
             :style="'--i:'+idx"
+            :class='{ space: text.isSpace }'
         >
-            {{ text[0] }}
+            {{ text.char }}
         </span>
     </div>
 </template>
@@ -13,11 +14,14 @@
 <script>
 export default {
     props: {
-        text: String,
+        text: {
+            type: String,
+            required: true
+        }
     },
     data() {
         return {
-            textArray: [],
+            textArray: []
         }
     },
     mounted() {
@@ -25,16 +29,19 @@ export default {
     },
     methods: {
         splitTexts() {
-            var str = this.text;
-            var arr = str.split('');
-            arr = arr.map((item, index) => ({ ...item, id: index + 1 }));
-            this.textArray = arr;
-        },
-    },
+            const str = this.text;
+            this.textArray = str.split('').map((ch, index) => ({
+                char: ch === ' ' ? '\u00A0' : ch,
+                id: index + 1,
+                isSpace: ch === ' '
+            }));
+        }
+    }
 }
 </script>
 
-<style lang="scss" scoped>
+
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
 
     .text-shifting {
@@ -48,6 +55,10 @@ export default {
         &:hover span {
             animation: flip 0.8s;
             animation-delay: calc(0.04s * var(--i));
+        }
+        .space {
+            height: 0;
+            display: block;
         }
     }
     @keyframes flip {
