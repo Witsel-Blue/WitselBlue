@@ -21,6 +21,9 @@ export default {
 
     router: {
         scrollBehavior(to, from, savedPosition) {
+            if (to.path === '/') {
+                return { x: 0, y: 0 };
+            }
             if (savedPosition) {
                 return savedPosition;
             }

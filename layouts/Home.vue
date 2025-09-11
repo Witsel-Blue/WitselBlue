@@ -205,7 +205,7 @@ export default {
         }
     },
     mounted() {
-        window.scrollTo({ top: 0 });
+        this.setCursorInitialState();
         this.initProfileImgHover();
         this.initSectionObserver();
         this.$nextTick(() => {
@@ -239,6 +239,19 @@ export default {
             this.cursorClass = '';
             this.showLottie = false;
         },
+        setCursorInitialState() {
+            const mainRect = this.$refs.main?.getBoundingClientRect();
+            if (!mainRect) return;
+
+            const centerY = window.innerHeight / 2;
+            if (mainRect.top <= centerY && mainRect.bottom > centerY) {
+                this.cursorClass = 'cursor-main';
+                this.showLottie = true;
+            } else {
+                this.cursorClass = '';
+                this.showLottie = false;
+            }
+        },
         initProfileImgHover() {
             const spans = this.$el.querySelectorAll('.profile .mouse-hover1');
             spans.forEach((span, index) => {
@@ -251,7 +264,6 @@ export default {
             });
         },
         initSectionObserver() {
-            // refs 모음
             const secs = [
                 this.$refs.main,
                 this.$refs.profile,
@@ -262,25 +274,22 @@ export default {
 
             this.sectionEls = secs;
 
-            // 여러 threshold로 더 정확한 ratio 측정
             const options = { root: null, rootMargin: '0px', threshold: [0.25, 0.5, 0.75] };
 
             this.observer = new IntersectionObserver((entries) => {
-            // intersect 중인 것들 중 가장 큰 intersectionRatio를 가진 걸 현재 섹션으로 삼음
-            const visible = entries.filter(en => en.isIntersecting);
-            if (visible.length === 0) return;
+                const visible = entries.filter(en => en.isIntersecting);
+                if (visible.length === 0) return;
 
-            visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-            const topEntry = visible[0];
-            const idx = this.sectionEls.indexOf(topEntry.target);
-            if (idx !== -1) {
-                this.currentSectionIndex = idx;
-                // console.log('[observer] currentSectionIndex', idx); // 디버그용
-            }
+                visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+                const topEntry = visible[0];
+                const idx = this.sectionEls.indexOf(topEntry.target);
+                if (idx !== -1) {
+                    this.currentSectionIndex = idx;
+                }
             }, options);
 
             secs.forEach(sec => {
-                try { this.observer.observe(sec); } catch (e) { /* ignore */ }
+                try { this.observer.observe(sec); } catch (e) {}
             });
         },
         scrollVertical() {
@@ -328,7 +337,6 @@ export default {
 
                 const delta = e.deltaY;
                 if (!delta) return;
-                // 트랙패드/마우스 노이즈 방지용 임계값 (환경에 따라 조정)
                 if (Math.abs(delta) < 6) return;
 
                 let currentIndex = (typeof this.currentSectionIndex === 'number') ? this.currentSectionIndex : -1;

@@ -37,17 +37,15 @@
         text-align: center;
         font-size: 1.6rem;
         position: absolute;
-        bottom: calc(16vh + 3rem + 1.6rem + 2vh);
+        bottom: calc(16vh + 5rem + 2vh);
       }
       #text-scroll::v-deep {
-        bottom: calc(16vh + 6rem);
+        position: absolute;
+        bottom: calc(16vh);
         span {
           font-family: 'Bagel';
+          font-size: 5rem;
         }
-      }
-      #button-scrolldown {
-        position: absolute;
-        top: calc(40vh + 5rem + 10vh);
       }
     }
   }

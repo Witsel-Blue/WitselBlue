@@ -2,12 +2,12 @@
     <div id="text-scroll">
         <div class="text-wrapper">
             <span
-                v-for="(text, idx) in textArray"
-                :key="text.id"
+                v-for="(char, idx) in textArray"
+                :key="idx"
                 class="text"
-                :style="'--i:'+idx"
+                :data-speed="speeds[idx]"
             >
-                {{ text[0] }}
+                {{ char }}
             </span>
         </div>
     </div>
@@ -16,116 +16,55 @@
 <script>
 export default {
     props: {
-        text: String,
+        text: {
+            type: String,
+            required: true,
+        },
     },
     data() {
         return {
             textArray: [],
-        }
+            speeds: [],
+        };
     },
     mounted() {
         this.splitTexts();
-        setTimeout(() => {
-            this.parallaxScroll();
-        }, 100);
+        this.setSpeeds();
+        this.parallaxScroll();
     },
     methods: {
         splitTexts() {
-            var str = this.text;
-            var arr = str.split('');
-            arr = arr.map((item, index) => ({ ...item, id: index + 1 }));
-            this.textArray = arr;
+            this.textArray = this.text.split('');
+        },
+        setSpeeds() {
+            this.speeds = this.textArray.map(() => 0.3 + Math.random() * 0.4);
         },
         parallaxScroll() {
-            window.addEventListener('scroll', function() {
-                var scrolled = window.scrollY;
-                var texts = this.document.getElementsByClassName('text');
-                var winH = window.innerHeight;
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                const winH = window.innerHeight;
+                const texts = this.$el.getElementsByClassName('text');
 
-                if ( texts[0] ) {
-                    texts[0].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
-                    texts[0].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[1] ) {
-                    texts[1].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                    texts[1].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[2] ) {
-                    texts[2].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
-                    texts[2].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[3] ) {
-                    texts[3].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
-                    texts[3].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[4] ) {
-                    texts[4].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
-                    texts[4].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[5] ) {
-                    texts[5].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                    texts[5].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[6] ) {
-                    texts[6].style.transform = 'translate3d(0,' + scrolled * -0.5 + 'px, 0)';
-                    texts[6].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[7] ) {
-                    texts[7].style.transform = 'translate3d(0,' + scrolled * -0.7 + 'px, 0)';
-                    texts[7].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[8] ) {
-                    texts[8].style.transform = 'translate3d(0,' + scrolled * -0.4 + 'px, 0)';
-                    texts[8].style.opacity = (winH - scrolled)*0.005;
-                }
-                if ( texts[9] ) {
-                    texts[9].style.transform = 'translate3d(0,' + scrolled * -0.6 + 'px, 0)';
-                    texts[9].style.opacity = (winH - scrolled)*0.005;
-                }
-                    
+                Array.from(texts).forEach((el, idx) => {
+                    const speed = parseFloat(el.dataset.speed);
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                    el.style.opacity = Math.max(1 - scrolled / (winH * 0.8), 0);
+                });
             });
         },
-    }
-}
+    },
+};
 </script>
 
-<style lang="scss" scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
-    
-    #text-scroll {
-        position: fixed;
-        .text-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0;
-            font-family: sans-serif;
-            white-space: nowrap;
-            height: 0;
-            span {
-                position: relative;
-                display: inline-block;
-                font-size: 5rem;
-                animation: flip 0.8s;
-                animation-delay: calc(0.08s * var(--i));
-            }
+<style scoped lang="scss">
+#text-scroll {
+    .text-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        span.text {
+            display: inline-block;
+            will-change: transform, opacity;
         }
     }
-    @keyframes flip {
-        0%, 50% {
-            transform: rotateY(360deg) 
-        }
-    }
-
-    // mobile
-    @media all and (max-width: $mobile) {
-        #text-scroll {
-            .text-wrapper {
-                span {
-                    font-size: 3rem;
-                }
-            }
-        }
-    }
+}
 </style>
