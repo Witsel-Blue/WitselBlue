@@ -1,38 +1,38 @@
 <template>
     <div
-        id="archive"
-        class="page"
+        id='archive'
+        class='page'
     >
         <CursorCustom />
-        <PageTransition :title="title" />
+        <PageTransition :title='title' />
 
-        <div class="main">
-            <h1 class="title ft-bagel">
+        <div class='main'>
+            <h1 class='title ft-bagel'>
                 {{ title }}
             </h1>
             <StarBg />
         </div>
 
-        <div class="tab-wrap">
-            <div class="inner">
-                <div class="tab-main">
+        <div class='tab-wrap'>
+            <div class='inner'>
+                <div class='tab-main'>
                     <button
-                        v-for="tab in mainTabs"
-                        :key="tab"
-                        class="mouse-hover2"
-                        :class="{ active: activeMain === tab }"
-                        @click="selectMain(tab)"
+                        v-for='tab in mainTabs'
+                        :key='tab'
+                        class='mouse-hover2'
+                        :class='{ active: activeMain === tab }'
+                        @click='toggleMenu(tab)'
                     >
                         {{ tabLabels[tab] || tab }}
                     </button>
                 </div>
-                <div v-if="activeMain !== 'all'" class="tab-sub">
+                <div v-if='activeMain !== "all"' class='tab-sub'>
                     <button
-                        v-for="tab in subTabs[activeMain]"
-                        :key="tab"
-                        class="mouse-hover2"
-                        :class="{ active: activeSub === tab }"
-                        @click="activeSub = tab"
+                        v-for='tab in subTabs[activeMain]'
+                        :key='tab'
+                        class='mouse-hover2'
+                        :class='{ active: activeSub === tab }'
+                        @click='toggleSubmenu(tab)'
                     >
                         {{ tabLabels[tab] || tab }}
                     </button>
@@ -40,23 +40,24 @@
             </div>
         </div>
 
-        <div class="list-wrap">
-            <div class="inner">
+        <div class='list-wrap'>
+            <div class='inner'>
                 <div
-                    v-for="(item, i) in filteredLists"
-                    :key="i"
-                    class="list-card"
+                    v-for='(item, i) in filteredLists'
+                    :key='i'
+                    class='list-card'
+                    ref='listCards'
                 >
-                    <SkewCardY :img="item.images.thumb" :path="item.path" />
-                    <div class="desc">
-                        <p class="work">{{ item.tags.work }}</p>
+                    <SkewCardY :img='item.images.thumb' :path='item.path' />
+                    <div class='desc'>
+                        <p class='work'>{{ item.tags.work }}</p>
                         <Nuxt-link 
-                            class="title mouse-hover1"
-                            :to="item.path">
-                            <TextShifting :text="item.title" :key="item.slug" />
+                            class='title mouse-hover1'
+                            :to='item.path'>
+                            <TextShifting :text='item.title' :key='item.slug || i' />
                         </Nuxt-link>
-                        <div class="tags">
-                            <p v-for="(value, key) in item.tags" :key="key" v-if="key !== 'work'">
+                        <div class='tags'>
+                            <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
                                 #{{ value }}
                             </p>
                         </div>
@@ -70,10 +71,10 @@
 <script>
 import archiveDevData from '@/assets/data/archive_dev.js';
 import archiveMusicData from '@/assets/data/archive_music.js';
-import CursorCustom from '@/components/CursorCustom.vue';
-import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import CursorCustom from '@/components/CursorCustom.vue';
+import PageTransition from '@/layouts/PageTransition.vue';
 import StarBg from '@/components/StarBg.vue';
 import SkewCardY from '@/components/SkewCardY.vue';
 import TextShifting from '@/components/TextShifting.vue';
@@ -86,8 +87,9 @@ export default {
     components: {
         CursorCustom,
         PageTransition,
-        TextShifting,
         StarBg,
+        SkewCardY,
+        TextShifting,
     },
     data() {
         return {
@@ -135,32 +137,36 @@ export default {
         }
     },
     mounted() {
-        this.titleScroll();
+        this.$nextTick(() => this.animateListCards());
     },
     methods: {
-        selectMain(tab) {
+        toggleMenu(tab) {
             this.activeMain = tab;
             this.activeSub = 'all';
+            this.$nextTick(() => this.animateListCards());
         },
-        titleScroll() {
-            var title = document.querySelector('.title');
-            var button = document.querySelector('#button-scrolldown');
-            var winH = window.innerWidth;
-            var titleTop = title.offsetTop - winH*3/100;
+        toggleSubmenu(tab) {
+            this.activeSub = tab;
+            this.$nextTick(() => this.animateListCards());
+        },
+        animateListCards() {
+            const cards = this.$refs.listCards;
+            if (!cards) return;
 
-            window.addEventListener('scroll', function() {
-                var scrolled = window.scrollY;
+            const cardArray = Array.isArray(cards) ? cards : [cards];
 
-                if ( titleTop < scrolled ) {
-                    // title.classList.add('active');
-                } else {
-                    var x = 1 - scrolled * 0.008;
-                    var x2 = 1 - scrolled * 0.04;
-                    // title.style.transform = 'scale(' + x + ')';
-                    button.style.opacity = x2;
-                    // title.classList.remove('active');
-                }
+            gsap.killTweensOf(cardArray);
+            
+            gsap.set(cards, { 
+                opacity: 0, y: 100 
+            });
 
+            gsap.to(cards, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power2.out'
             });
         },
     },
@@ -168,6 +174,6 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @import '@/assets/scss/layout/page.scss';
 </style>

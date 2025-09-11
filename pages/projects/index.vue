@@ -91,8 +91,9 @@ export default {
     components: {
         CursorCustom,
         PageTransition,
-        TextShifting,
         StarBg,
+        SkewCardY,
+        TextShifting,
     },
     data() {
         return {
@@ -153,6 +154,9 @@ export default {
             );
         }
     },
+    mounted() {
+        this.$nextTick(() => this.animateListCards());
+    },
     methods: {
         selectAll() {
             this.activeTab = 'all';
@@ -173,6 +177,8 @@ export default {
 
             const cardArray = Array.isArray(cards) ? cards : [cards];
 
+            gsap.killTweensOf(cardArray);
+            
             gsap.set(cards, { 
                 opacity: 0, y: 100 
             });
