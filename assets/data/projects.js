@@ -20,7 +20,7 @@ export default [
             text: 'visit site', // loacales: common.visit
         },
         images: {
-            // thumb: '',
+            thumb: require('@/assets/img/projects/damgon_thumb.png'),
             // mainvisual: '',
             // gif: '',
             // pc1: '',
@@ -49,8 +49,8 @@ export default [
             text: 'view code',
         },
         images: {
-            // thumb: require('@/assets/img/projects/myportfolio_thumb.png'),
-            mainvisual: require('@/assets/img/projects/myportfolio_pc1.png'),
+            thumb: require('@/assets/img/projects/myportfolio_thumb.png'),
+            mainvisual: require('@/assets/img/projects/myportfolio_thumb.png'),
             gif: require('@/assets/img/projects/myportfolio_gif.gif'),
             pc1: require('@/assets/img/projects/myportfolio_pc1.png'),
             pc2: require('@/assets/img/projects/myportfolio_pc2.png'),
