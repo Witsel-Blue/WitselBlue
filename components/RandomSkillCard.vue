@@ -10,7 +10,7 @@
       <div
         v-for='(skill, index) in filteredSkills'
         :key='skill.name'
-        class='skill-card'
+        class='skill-card mouse-hover2'
         @mouseenter='hoverCard(index)'
         @mouseleave='leaveCard(index)'
       >
@@ -327,7 +327,7 @@ export default {
             background-color: #f3f3f3;
         }
         .card-back {
-            background-color: #56779F;
+            background-color: $blue1;
             transform: rotateY(180deg);
             color: #fff;
             flex-direction: column;
