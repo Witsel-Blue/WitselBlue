@@ -163,20 +163,27 @@
     align-items: center;
     justify-content: center;
     .inner {
-      margin: 0 auto;
+      position:relative;
     }
-    .wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5vw 10vw;
-      ul {
-        display: grid;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        li {
-          word-break: break-all;
-          text-align: center;
-        }
+    .tablecloth {
+      position:absolute;
+      transform: rotate(-2deg);
+      width: 100%;
+      height: auto;
+      margin-top: 4vh;
+      // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .candle {
+      position: absolute;
+      width: 240px;
+      top: 10%;
+    }
+    #RandomSkillCard::v-deep {
+      .skill-cards-wrapper {
+        margin: 10vh auto;
+      }
+      .tabs {
+        z-index: 1;
       }
     }
   }

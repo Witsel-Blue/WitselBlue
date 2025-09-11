@@ -54,6 +54,8 @@
                     <h1 class='subtitle ft-bagel txt-c'>
                         Skills
                     </h1>
+                    <img src='@/assets/img/tablecloth.jpg' class='tablecloth' />
+                    <img src='@/assets/img/candle.png' class='candle' />
                     <RandomSkillCard />
                 </div>
             </section>

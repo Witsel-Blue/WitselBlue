@@ -290,10 +290,8 @@ export default {
 
 .skill-cards-wrapper {
     position: relative;
-    width: 80vw;
-    max-width: $width-l;
+    width: 100%;
     height: 40vh;
-    margin: 5vh auto 10vh;
 }
 
 .skill-card {
@@ -322,7 +320,7 @@ export default {
             align-items: center;
             backface-visibility: hidden;
             font-weight: bold;
-            border-radius: 16px;
+            border-radius: 8px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .card-front {
