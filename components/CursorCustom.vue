@@ -42,6 +42,7 @@ export default {
         this.mouseMove();
         this.$nextTick(() => {
             this.mouseHover();
+            this.observeDynamicElements();
         });
     },
     methods: {
@@ -118,26 +119,44 @@ export default {
                     });
                 }
 
-                // index > skills
-                var skillElems = document.querySelectorAll('#home .skills li');
-                var cursorText = this.$refs.cursorText;
-                for (let i = 0; i < skillElems.length; i++) {
-                    const li = skillElems[i];
-                    const skillName = li.querySelector('img')?.getAttribute('alt') || li.getAttribute('data-name') || '';
-
-                    li.addEventListener('mouseenter', () => {
-                        cursorText.textContent = skillName;
-                        circle.classList.add('hover-skill');
-                    });
-
-                    li.addEventListener('mouseleave', () => {
-                        cursorText.textContent = '';
-                        circle.classList.remove('hover-skill');
-                    });
-                }
-
             }
+        },
+        observeDynamicElements() {
+            const circle = this.$refs.circle;
+            if (!circle) return;
+
+            const observer = new MutationObserver((mutationsList) => {
+                for (const mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.nodeType !== 1) return;
+
+                            if (node.classList.contains('mouse-none')) {
+                                node.addEventListener('mouseenter', () => {
+                                    circle.classList.add('no-cursor');
+                                });
+                                node.addEventListener('mouseleave', () => {
+                                    circle.classList.remove('no-cursor');
+                                });
+                            }
+
+                            const nested = node.querySelectorAll?.('.mouse-none') || [];
+                            nested.forEach(el => {
+                                el.addEventListener('mouseenter', () => {
+                                    circle.classList.add('no-cursor');
+                                });
+                                el.addEventListener('mouseleave', () => {
+                                    circle.classList.remove('no-cursor');
+                                });
+                            });
+                        });
+                    }
+                }
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
         }
+
     }
 }
 </script>
@@ -192,21 +211,6 @@ export default {
 
         &.no-cursor {
             display: none;
-        }
-
-        &.hover-skill {
-            width: 80px;
-            height: 80px;
-            border: none;
-            background: rgba(62, 60, 60, 0.8);
-            transition: width 0.2s, height 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            padding: 8px;
-            word-break: break-all;
-            text-align: center;
         }
 
         &.cursor-main {
