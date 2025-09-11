@@ -1,33 +1,35 @@
 <template>
     <div
-        id="resume"
-        oncontextmenu="return false"
-        ondragstart="return false"
-        onselectstart="return false"
+        id='resume'
+        oncontextmenu='return false'
+        ondragstart='return false'
+        onselectstart='return false'
     >
         <CursorCustom />
         <client-only>
-            <swiper :options="swiperOptions">
+            <swiper :options='swiperOptions'>
                 <swiper-slide>
-                    <img src="@/static/resume.png">
+                    <img src='@/static/resume.png'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src="@/static/CareerDescription1.png">
+                    <img src='@/static/CareerDescription1.png'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src="@/static/CareerDescription2.png">
+                    <img src='@/static/CareerDescription2.png'>
                 </swiper-slide>
             </swiper>
-            <div class="navigation prev mouse-hover1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="104" viewBox="0 0 45 104" fill="none">
-                    <line x1="34.665" y1="95.615" x2="7.61501" y2="52.335" stroke="#3E3C3C" stroke-width="15" stroke-linecap="round"/>
-                    <line x1="7.5" y1="-7.5" x2="58.5379" y2="-7.5" transform="matrix(-0.529999 0.847998 0.847998 0.529999 45 6)" stroke="#3E3C3C" stroke-width="15" stroke-linecap="round"/>
+            <div class='navigation prev mouse-hover1'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='57' height='56' viewBox='0 0 57 56' fill='none'>
+                    <path d='M1.5 28.5C19 32 28.6354 39.2134 34.5 54.5' stroke='#3E3C3C' stroke-width='7'/>
+                    <path d='M1.5 27.5C19 24 28.6354 16.7866 34.5 1.5' stroke='#3E3C3C' stroke-width='7'/>
+                    <path d='M-1.43051e-06 28L57 28' stroke='#3E3C3C' stroke-width='8'/>
                 </svg>
             </div>
-            <div class="navigation next mouse-hover1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="104" viewBox="0 0 45 104" fill="none">
-                    <line x1="10.335" y1="8.385" x2="37.385" y2="51.665" stroke="#3E3C3C" stroke-width="15" stroke-linecap="round"/>
-                    <line x1="7.5" y1="-7.5" x2="58.5379" y2="-7.5" transform="matrix(0.529999 -0.847998 -0.847998 -0.529999 0 98)" stroke="#3E3C3C" stroke-width="15" stroke-linecap="round"/>
+            <div class='navigation next mouse-hover1'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='57' height='56' viewBox='0 0 57 56' fill='none'>
+                    <path d='M55.5 27.5C38 24 28.3646 16.7866 22.5 1.5' stroke='#3E3C3C' stroke-width='7'/>
+                    <path d='M55.5 28.5C38 32 28.3646 39.2134 22.5 54.5' stroke='#3E3C3C' stroke-width='7'/>
+                    <path d='M57 28L0 28' stroke='#3E3C3C' stroke-width='8'/>
                 </svg>
             </div>
         </client-only>
@@ -62,7 +64,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
     @use '@/assets/scss/base/variables.scss' as *;
     
     #resume {
@@ -75,26 +77,35 @@ export default {
     }
 
     .navigation {
-        width: 20px;
         position: fixed;
         top: 50%;
         transform: translateY(-50%);
         z-index: 100;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        transition: background 0.6s;
     }
     .prev {
         left: 2.5vw;
-        transition: stroke 0.4s;
-    }
-    .prev:hover svg line {
-        stroke: #56779F;
         transition: stroke 0.4s;
     }
     .next {
         right: 2.5vw;
         transition: stroke 0.4s;
     }
-    .next:hover svg line {
-        stroke: #56779F;
+    .prev:hover,
+    .next:hover {
+        background-color: $black1;
+        transition: background 0.6s;
+    }
+    .prev:hover svg path,
+    .next:hover svg path {
+        stroke: #fff;
         transition: stroke 0.4s;
     }
 
