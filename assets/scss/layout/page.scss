@@ -86,25 +86,44 @@
     .tab-wrap {
         height: calc(1rem + 4px + 4px + 1rem + 4px + 4px + 8px);
         .inner {
-            display: flex;
+            display: grid;
+            grid-template-columns: auto auto;
+            text-align: center;
             align-items: baseline;
             justify-content: center;
-            gap: 8px;
+            gap: 4px 24px;
             position: relative;
+            .all {
+                grid-row: 2/3;
+            }
+            p {
+                grid-column: 2/3;
+            }
+            .tab-sub-wrap {
+                grid-column: 2/3;
+                display: flex;
+            }
             .tab-sub {
                 margin-top: 8px;
+                margin-left: 24px;
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
                 display: flex;
                 align-items: baseline;
                 gap: 8px;
+                z-index: 1;
             }
             button {
                 padding: 4px;
             }
             button.active {
                 font-weight: bold;
+            }
+            .drop-lottie {
+                width: 24px;
+                height: 24px;
+                position: absolute;
             }
         }
     }

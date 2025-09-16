@@ -15,31 +15,40 @@
 
         <div class='tab-wrap'>
             <div class='inner'>
+                <div class='drop-lottie' v-if='showDrop'
+                    :style='{top: `${dropPos.y}px`, left: `${dropPos.x}px`}'>
+                    <Lottie :animationData='Drop' :loop='false' :autoplay='true' :key='dropKey' />
+                </div>
                 <button
-                    class='mouse-hover2'
+                    class='all mouse-hover2'
                     :class="{ active: activeTab === 'all' }"
-                    @click='selectAll'
+                    @click='selectAll($event)'
                 >
                     All
                 </button>
-                <div class='tab-group' v-for='(tagsArr, group) in tabs' :key='group'>
-                    <button 
-                        class='mouse-hover2'
-                        :class='{ active: openedGroup === group }'
-                        @click='toggleMenu(group)'
-                    >
-                        {{ groupLabels[group] || group }}
-                    </button>
-                    <div v-if='openedGroup === group' class='tab-sub'>
-                        <button
-                            v-for='tag in tagsArr'
-                            :key='tag'
+                <p>
+                    sort by:
+                </p>
+                <div class='tab-sub-wrap'>
+                    <div class='tab-group' v-for='(tagsArr, group) in tabs' :key='group'>
+                        <button 
                             class='mouse-hover2'
-                            :class='{ active: activeTab === tag }'
-                            @click='toggleSubmenu(tag)'
+                            :class='{ active: openedGroup === group }'
+                            @click='toggleMenu($event, group)'
                         >
-                            {{ tagLabels[tag] || tag }}
+                            {{ groupLabels[group] || group }}
                         </button>
+                        <div v-if='openedGroup === group' class='tab-sub'>
+                            <button
+                                v-for='tag in tagsArr'
+                                :key='tag'
+                                class='mouse-hover2'
+                                :class='{ active: activeTab === tag }'
+                                @click='toggleSubmenu($event, tag)'
+                            >
+                                {{ tagLabels[tag] || tag }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,6 +91,8 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import StarBg from '@/components/StarBg.vue';
 import SkewCardY from '@/components/SkewCardY.vue';
 import TextShifting from '@/components/TextShifting.vue';
+import Lottie from '@/components/Lottie.vue';
+import Drop from '@/assets/lottie/drop.json';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -94,6 +105,7 @@ export default {
         StarBg,
         SkewCardY,
         TextShifting,
+        Lottie,
     },
     data() {
         return {
@@ -119,6 +131,10 @@ export default {
                 ...p,
                 path: `/projects/${p.slug}`,
             })),
+            Drop,
+            showDrop: false,
+            dropPos: { x: 0, y: 0 },
+            dropKey: 0,
         }
     },
     computed: {
@@ -155,19 +171,43 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() => this.animateListCards());
+        this.$nextTick(() =>{
+            const allBtn = this.$el.querySelector('.all');
+            if (allBtn) {
+                this.triggerDropLottie({ currentTarget: allBtn });
+            }
+
+            this.animateListCards();
+        });
     },
     methods: {
-        selectAll() {
+        triggerDropLottie(event) {
+            const parentRect = event.currentTarget.offsetParent.getBoundingClientRect();
+            const btnRect = event.currentTarget.getBoundingClientRect();
+
+            this.dropPos = {
+                x: btnRect.left - parentRect.left + btnRect.width / 2 - 12,
+                y: btnRect.top - parentRect.top - 12,
+            };
+
+            this.showDrop = false;
+            this.$nextTick(() => {
+                this.showDrop = true;
+                this.dropKey ++;
+            });
+        },
+        selectAll(event) {
+            this.triggerDropLottie(event);
             this.activeTab = 'all';
             this.openedGroup = null;
             this.$nextTick(() => this.animateListCards());
         },
-        toggleMenu(group) {
+        toggleMenu(event, group) {
+            this.triggerDropLottie(event);
             this.activeTab = group;
             this.openedGroup = this.openedGroup === group ? null : group;
         },
-        toggleSubmenu(tag) {
+        toggleSubmenu(event, tag) {
             this.activeTab = tag;
             this.$nextTick(() => this.animateListCards());
         },
