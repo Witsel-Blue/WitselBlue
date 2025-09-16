@@ -4,8 +4,11 @@
             <ul class='nav'>
                 <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1'>
                     <Lottie v-if='nav.path === activeTab'
-                        :animationData='Drop' :loop='false' :autoplay='true' />
-                    <Nuxt-link :to='nav.path' v-html='nav.name' />
+                        :animationData='Drop' :loop='false' :autoplay='true'
+                    />
+                    <Nuxt-link :to='nav.path' v-html='nav.name' 
+                        @click.native.prevet='linkClick(nav.path)'
+                    />
                 </li>
                 <li>
                     <Pager />
@@ -105,6 +108,12 @@ export default {
                 }
             });
         },
+        linkClick(path) {
+            this.open = false;
+            if (this.$route.path === path) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
     }
 }
 </script>

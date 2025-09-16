@@ -3,7 +3,7 @@
         <div ref='bg' class='footer-bg'></div>
         <div class='footer'>
             <div class='top'>
-                <h1 ref='title' data-aos='fade-up'>
+                <h1 ref='title'>
                     <span class='ft-tanpearl' style='--i:1'>w</span>
                     <span class='ft-tanpearl' style='--i:2'>o</span>
                     <span class='ft-tanpearl' style='--i:3'>r</span>
@@ -20,27 +20,27 @@
                 </h1>
                 <div>
                     <ul class='lists'>
-                        <li data-aos='fade-up'>
+                        <li>
                             <ButtonRound :link='link' />
                         </li>
-                        <li data-aos='fade-up'>
+                        <li>
                             <ButtonRound :link='link2' />
                         </li>
                     </ul>
                 </div>
                 <div>
                     <ul class='sub-lists'>
-                        <li data-aos='fade-up'>
+                        <li>
                             <a href='https://github.com/Witsel-Blue' target='_blank' class='mouse-hover3'>
                                 github
                             </a>
                         </li>
-                        <li data-aos='fade-up'>
+                        <li>
                             <a href='www.linkedin.com/in/witselblue' target='_blank' class='mouse-hover3'>
                                 linkedin
                             </a>
                         </li>
-                        <li data-aos='fade-up'>
+                        <li>
                             <a href='https://witselblue.slack.com/team/U0830TL3ZDW' target='_blank' class='mouse-hover3'>
                                 slack
                             </a>
