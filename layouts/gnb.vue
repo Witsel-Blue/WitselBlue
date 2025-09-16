@@ -2,11 +2,9 @@
     <div id='gnb' ref='gnb'>
         <nav class='pc'>
             <ul class='nav'>
-                <li
-                    v-for='nav in navigation'
-                    :key='nav.name'
-                    class='mouse-hover1'
-                >
+                <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1'>
+                    <Lottie v-if='nav.path === activeTab'
+                        :animationData='Drop' :loop='false' :autoplay='true' />
                     <Nuxt-link :to='nav.path' v-html='nav.name' />
                 </li>
                 <li>
@@ -15,9 +13,7 @@
             </ul>
         </nav>
 
-        <div 
-            ref='mb'
-            class='mb'
+        <div ref='mb' class='mb'
             :class="[
                 { 'active' : open === true },
                 { 'shadow' : headerShadow === true }
@@ -50,10 +46,13 @@
 
 <script>
 import Pager from '@/components/pager.vue';
+import Lottie from '@/components/Lottie.vue';
+import Drop from '@/assets/lottie/drop.json';
     
 export default {
     components: {
         Pager,
+        Lottie,
     },
     data() {
         return {
@@ -73,6 +72,12 @@ export default {
             ],
             open: false,
             headerShadow: false,
+            Drop,
+        }
+    },
+    computed: {
+        activeTab() {
+            return this.$route.path;
         }
     },
     mounted() {
