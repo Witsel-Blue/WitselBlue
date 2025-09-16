@@ -15,6 +15,8 @@
                         class='mouse-hover1'
                         target='_blank'
                         :href='project.link.href'
+                        @mouseenter='setCursorText("click to view site")'
+                        @mouseleave='setCursorText("")'
                     >
                         <TextShifting :text='project.title' />
                     </a>
@@ -183,9 +185,10 @@ export default {
     data() {
         return {
             project: null,
+            cursorText: '',
         }
     },
-    async  asyncData({ params, store }) {
+    async asyncData({ params, store }) {
         const project = projectsData.find(p => p.slug === params.slug);
         return { project };
     },
@@ -229,6 +232,9 @@ export default {
         window.addEventListener('resize', this.getMbHeight);
     },
     methods: {
+        setCursorText(text) {
+            window.dispatchEvent(new CustomEvent('cursor-set-text', { detail: {text }}));
+        },
         getMbHeight() {
             var mb = document.querySelector('.device_mb .device');
             if (!mb) return;

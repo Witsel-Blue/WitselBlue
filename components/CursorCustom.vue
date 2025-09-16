@@ -1,7 +1,7 @@
 <template>
     <div id='cursor-custom'>
         <div ref='circle' class='cursor-circle' :class='cursorClasses'>
-            <span ref='cursorText' class='cursor-text'></span>
+            <span ref='cursorText' class='cursor-text'>{{ internalText }}</span>
             <Lottie v-if='showLottie' :animationData='animationData' />
         </div>
     </div>
@@ -26,11 +26,16 @@ export default {
         animationData: {
             type: Object,
             required: false,
+        },
+        text: {
+            type: String,
+            default: '',
         }
     },
     data() {
         return {
             activeClasses: [],
+            internalText: '',
         }
     },
     computed: {
@@ -43,6 +48,9 @@ export default {
         this.$nextTick(() => {
             this.mouseHover();
             this.observeDynamicElements();
+        });
+        window.addEventListener('cursor-set-text', (e) => {
+            this.internalText = e.detail.text || '';
         });
     },
     methods: {
