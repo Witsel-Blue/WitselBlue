@@ -61,6 +61,14 @@
     unicode-range: U+0020-007F;
 }
 
+@font-face {
+    font-family: "BigShoulders";
+    font-style: normal;
+    font-weight: 400;
+    src: url("@/static/fonts/BigShouldersInline-Light.ttf");
+    unicode-range: U+0020-007F;
+}
+
 .ft-diphylleia {
     font-family: "Diphylleia";
 }
@@ -75,6 +83,9 @@
 }
 .ft-knewave {
     font-family: "Knewave";
+}
+.ft-bigshoulders {
+    font-family: "BigShoulders";
 }
 
 /* ----- FONT SIZE ----- */

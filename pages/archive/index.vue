@@ -15,13 +15,17 @@
 
         <div class='tab-wrap'>
             <div class='inner'>
+                <div class='drop-lottie' v-if='showDrop'
+                    :style='{top: `${dropPos.y}px`, left: `${dropPos.x}px`}'>
+                    <Lottie :animationData='Drop' :loop='false' :autoplay='true' :key='dropKey' />
+                </div>
                 <div class='tab-main'>
                     <button
                         v-for='tab in mainTabs'
                         :key='tab'
                         class='mouse-hover2'
                         :class='{ active: activeMain === tab }'
-                        @click='toggleMenu(tab)'
+                        @click='toggleMenu($event, tab)'
                     >
                         {{ tabLabels[tab] || tab }}
                     </button>
@@ -32,7 +36,7 @@
                         :key='tab'
                         class='mouse-hover2'
                         :class='{ active: activeSub === tab }'
-                        @click='toggleSubmenu(tab)'
+                        @click='toggleSubmenu($event, tab)'
                     >
                         {{ tabLabels[tab] || tab }}
                     </button>
@@ -78,6 +82,8 @@ import PageTransition from '@/layouts/PageTransition.vue';
 import StarBg from '@/components/StarBg.vue';
 import SkewCardY from '@/components/SkewCardY.vue';
 import TextShifting from '@/components/TextShifting.vue';
+import Lottie from '@/components/Lottie.vue';
+import Drop from '@/assets/lottie/drop.json';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -90,6 +96,7 @@ export default {
         StarBg,
         SkewCardY,
         TextShifting,
+        Lottie,
     },
     data() {
         return {
@@ -106,11 +113,15 @@ export default {
                 music: archiveMusicData,
             },
             tabLabels: {
-                dev: '개발',
-                music: '음악',
-                producing: '프로듀싱',
-                dj: '믹스셋'
+                dev: 'Development',
+                music: 'Music',
+                producing: 'Producing',
+                dj: 'Mixset'
             },
+            Drop,
+            showDrop: false,
+            dropPos: { x: 0, y: 0 },
+            dropKey: 0,
         }
     },
     computed: {
@@ -137,15 +148,41 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() => this.animateListCards());
+        this.$nextTick(() =>{
+            const devBtn = this.$el.querySelector('.tab-main button');
+            if (devBtn) {
+                this.activeMain = 'dev';
+                this.activeSub = 'all';
+                this.triggerDropLottie({ currentTarget: devBtn });
+            }
+
+            this.animateListCards();
+        });
     },
     methods: {
-        toggleMenu(tab) {
+        triggerDropLottie(event) {
+            const parentRect = event.currentTarget.offsetParent.getBoundingClientRect();
+            const btnRect = event.currentTarget.getBoundingClientRect();
+
+            this.dropPos = {
+                x: btnRect.left - parentRect.left + btnRect.width / 2 - 16,
+                y: btnRect.top - parentRect.top - 16,
+            };
+
+            this.showDrop = false;
+            this.$nextTick(() => {
+                this.showDrop = true;
+                this.dropKey ++;
+            });
+        },
+        toggleMenu(event, tab) {
+            this.triggerDropLottie(event);
             this.activeMain = tab;
             this.activeSub = 'all';
             this.$nextTick(() => this.animateListCards());
         },
-        toggleSubmenu(tab) {
+        toggleSubmenu(event, tab) {
+            this.triggerDropLottie(event);
             this.activeSub = tab;
             this.$nextTick(() => this.animateListCards());
         },

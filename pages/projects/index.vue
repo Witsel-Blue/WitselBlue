@@ -186,8 +186,8 @@ export default {
             const btnRect = event.currentTarget.getBoundingClientRect();
 
             this.dropPos = {
-                x: btnRect.left - parentRect.left + btnRect.width / 2 - 12,
-                y: btnRect.top - parentRect.top - 12,
+                x: btnRect.left - parentRect.left + btnRect.width / 2 - 16,
+                y: btnRect.top - parentRect.top - 16,
             };
 
             this.showDrop = false;
@@ -212,7 +212,7 @@ export default {
 
             if (!isOpen) {
                 this.$nextTick(() => {
-                    this.animateTabSub(group);
+                    // this.animateTabSub(group);
                 });
             }
         },
@@ -246,7 +246,7 @@ export default {
 
             gsap.fromTo(tabSub, 
                 { opacity: 0.5, y: 8 }, 
-                { opacity: 1, y: 0, duration: 0.4, }
+                { opacity: 1, y: 0, duration: 0.2, }
             );
         },
     },

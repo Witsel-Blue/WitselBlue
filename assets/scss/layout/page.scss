@@ -84,7 +84,7 @@
 
 #projects {
     .tab-wrap {
-        height: calc(1rem + 4px + 4px + 1rem + 4px + 4px + 8px);
+        height: calc(0.8rem + 12px + 46.5px + 8px + 46.5px + 4px);
         .inner {
             display: grid;
             grid-template-columns: auto auto;
@@ -99,7 +99,7 @@
             p {
                 grid-column: 2/3;
                 font-size: 0.8rem;
-                font-family: "Diphylleia"
+                // font-family: "Diphylleia"
             }
             .tab-sub-wrap {
                 grid-column: 2/3;
@@ -119,13 +119,17 @@
             }
             button {
                 padding: 4px;
+                font-family: "BigShoulders";
+                font-size: 2rem;
+                color: $black0;
             }
             button.active {
                 font-weight: bold;
+                color: $black1;
             }
             .drop-lottie {
-                width: 24px;
-                height: 24px;
+                width: 32px;
+                height: 32px;
                 position: absolute;
             }
         }
@@ -133,11 +137,12 @@
 }
 #archive {
     .tab-wrap {
-        height: calc(1rem + 4px + 4px + 1rem + 4px + 4px + 8px);
+        height: calc(46.5px + 8px + 46.5px);
         .inner {
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
             .tab-main {
                 display: flex;
                 align-items: baseline;
@@ -151,9 +156,18 @@
             }
             button {
                 padding: 4px;
+                font-family: "BigShoulders";
+                font-size: 2rem;
+                color: $black0;
             }
             button.active {
                 font-weight: bold;
+                color: $black1;
+            }
+            .drop-lottie {
+                width: 32px;
+                height: 32px;
+                position: absolute;
             }
         }
     }
