@@ -91,17 +91,20 @@
             text-align: center;
             align-items: baseline;
             justify-content: center;
-            gap: 4px 24px;
+            gap: 12px 24px;
             position: relative;
             .all {
                 grid-row: 2/3;
             }
             p {
                 grid-column: 2/3;
+                font-size: 0.8rem;
+                font-family: "Diphylleia"
             }
             .tab-sub-wrap {
                 grid-column: 2/3;
                 display: flex;
+                gap: 4px;
             }
             .tab-sub {
                 margin-top: 8px;
@@ -111,7 +114,7 @@
                 transform: translateX(-50%);
                 display: flex;
                 align-items: baseline;
-                gap: 8px;
+                gap: 4px;
                 z-index: 1;
             }
             button {

@@ -204,8 +204,17 @@ export default {
         },
         toggleMenu(event, group) {
             this.triggerDropLottie(event);
+
+            const isOpen = this.openedGroup === group;
+
             this.activeTab = group;
             this.openedGroup = this.openedGroup === group ? null : group;
+
+            if (!isOpen) {
+                this.$nextTick(() => {
+                    this.animateTabSub(group);
+                });
+            }
         },
         toggleSubmenu(event, tag) {
             this.activeTab = tag;
@@ -230,6 +239,15 @@ export default {
                 stagger: 0.1,
                 ease: 'power2.out'
             });
+        },
+        animateTabSub(group) {
+            const tabSub = this.$el.querySelector(`.tab-group:nth-child(${Object.keys(this.tabs).indexOf(group) + 1}) .tab-sub`);
+            if (!tabSub) return;
+
+            gsap.fromTo(tabSub, 
+                { opacity: 0.5, y: 8 }, 
+                { opacity: 1, y: 0, duration: 0.4, }
+            );
         },
     },
 }
