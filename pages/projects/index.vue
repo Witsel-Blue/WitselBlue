@@ -119,7 +119,7 @@ export default {
                 platform: 'platform',
             },
             tagLabels: {
-                development: 'development',
+                development: 'full-stack',
                 frontend: 'frontend',
                 publishing: 'publishing',
                 individual: 'individual',
