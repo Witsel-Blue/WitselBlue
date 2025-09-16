@@ -2,6 +2,7 @@
     <div id='cursor-custom'>
         <div ref='circle' class='cursor-circle' :class='cursorClasses'>
             <span ref='cursorText' class='cursor-text'>{{ internalText }}</span>
+            <img v-if='showText' src='@/assets/img/visitsite.png' class='visitsite' />
             <Lottie v-if='showLottie' :animationData='animationData' />
         </div>
     </div>
@@ -36,6 +37,7 @@ export default {
         return {
             activeClasses: [],
             internalText: '',
+            showText: false,
         }
     },
     computed: {
@@ -51,6 +53,9 @@ export default {
         });
         window.addEventListener('cursor-set-text', (e) => {
             this.internalText = e.detail.text || '';
+        });
+        window.addEventListener('cursor-show-image', (e) => {
+            this.showText = e.detail.show;
         });
     },
     methods: {
@@ -192,6 +197,23 @@ export default {
         z-index: 101;
         border: 2px solid $black1;
         transition: width 0.2s, height 0.2s;
+
+        .visitsite {
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            top: -20px;
+            left: -20px;
+        }
+        .cursor-text {
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            width: 100%;
+            text-align: center;
+            color: #c1c3c3;
+        }
 
         &.hover1 {
             width: 80px;

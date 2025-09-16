@@ -15,8 +15,8 @@
                         class='mouse-hover1'
                         target='_blank'
                         :href='project.link.href'
-                        @mouseenter='setCursorText("click to view site")'
-                        @mouseleave='setCursorText("")'
+                        @mouseenter='showCursorImage(true)'
+                        @mouseleave='showCursorImage(false)'
                     >
                         <TextShifting :text='project.title' />
                     </a>
@@ -72,19 +72,10 @@
 
             <section class='device-bg' data-aos='fade-up' v-if='project.images.gif'>
                 <div class='inner'>
-                    <div
-                        class='device_pc'
-                        data-aos='fade-up'
-                    >
-                        <img
-                            src='@/assets/img/device-laptop.png'
-                            class='device'
-                        >
+                    <div class='device_pc'data-aos='fade-up'>
+                        <img src='@/assets/img/device-laptop.png' class='device'>
                         <div class='img-wrap'>
-                            <img
-                                :src='project.images.gif'
-                                class='img'
-                            >
+                            <img :src='project.images.gif' class='img'>
                         </div>
                     </div>
                 </div>
@@ -92,20 +83,9 @@
 
             <section class='img-pc' v-if='project.images.pc1'>
                 <div class='inner'>
-                    <img
-                        :src='project.images.pc1'
-                        data-aos='fade-up'
-                    >
-                    <img
-                        v-if='project.images.pc2'
-                        :src='project.images.pc2'
-                        data-aos='fade-up'
-                    >
-                    <img
-                        v-if='project.images.pc3'
-                        :src='project.images.pc3'
-                        data-aos='fade-up'
-                    >
+                    <img :src='project.images.pc1' data-aos='fade-up'>
+                    <img v-if='project.images.pc2' :src='project.images.pc2' data-aos='fade-up'>
+                    <img v-if='project.images.pc3' :src='project.images.pc3' data-aos='fade-up'>
                 </div>
             </section>
 
@@ -113,34 +93,16 @@
                 <div class='inner'>
                     <ul class='device_mb'>
                         <li data-aos='fade-up'>
-                            <img
-                                src='@/assets/img/device-iphone15.png'
-                                class='device'
-                            >
-                            <img
-                                :src='project.images.mb1'
-                                class='img'
-                            >
+                            <img src='@/assets/img/device-iphone15.png' class='device'>
+                            <img :src='project.images.mb1' class='img'>
                         </li>
                         <li data-aos='fade-up'>
-                            <img
-                                src='@/assets/img/device-iphone15.png'
-                                class='device'
-                            >
-                            <img
-                                :src='project.images.mb2'
-                                class='img'
-                            >
+                            <img src='@/assets/img/device-iphone15.png' class='device'>
+                            <img :src='project.images.mb2' class='img'>
                         </li>
                         <li data-aos='fade-up'>
-                            <img
-                                src='@/assets/img/device-iphone15.png'
-                                class='device'
-                            >
-                            <img
-                                :src='project.images.mb3'
-                                class='img'
-                            >
+                            <img src='@/assets/img/device-iphone15.png' class='device'>
+                            <img :src='project.images.mb3' class='img'>
                         </li>
                     </ul>
                 </div>
@@ -232,8 +194,8 @@ export default {
         window.addEventListener('resize', this.getMbHeight);
     },
     methods: {
-        setCursorText(text) {
-            window.dispatchEvent(new CustomEvent('cursor-set-text', { detail: {text }}));
+        showCursorImage(show) {
+            window.dispatchEvent(new CustomEvent('cursor-show-image', { detail: { show } }));
         },
         getMbHeight() {
             var mb = document.querySelector('.device_mb .device');
