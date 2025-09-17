@@ -154,6 +154,13 @@ export default {
                 }
             }
         }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
     }
 
     .hover-flip {

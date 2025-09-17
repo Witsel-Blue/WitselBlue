@@ -341,7 +341,7 @@ export default {
                 display: flex;
 
                 span {
-                    color: #A2B4CA;
+                    color: $blue0;
                     font-size: 0.8rem;
 
                     &.filled.animate {
