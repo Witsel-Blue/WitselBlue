@@ -2,11 +2,6 @@
 @import '@/assets/scss/layout/layout.scss';
 
 #home {
-  section:not(#main) {
-    .inner {
-      padding: 10vh 0;
-    }
-  }
   .subtitle {
     font-size: 3rem;
     line-height: 1;
@@ -266,7 +261,7 @@
   }
 
   .about {
-    height: 100vh;
+    // height: 100vh;
 
     h4 {
       font-weight: bold;

@@ -82,7 +82,7 @@
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
             <section class='about' ref='about'>
-                <div class='inner'>
+                <!-- <div class='inner'>
                     <h1 class='subtitle ft-bagel txt-c'>
                         About
                     </h1>
@@ -130,7 +130,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </section>
         </div>
     </div>
