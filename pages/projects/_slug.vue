@@ -70,12 +70,14 @@
                 </div>
             </section>
 
-            <section class='device-bg' data-aos='fade-up' v-if='project.images.gif'>
+            <section class='img-gif bg' data-aos='fade-up' v-if='project.images.gif'>
                 <div class='inner'>
                     <div class='device_pc'data-aos='fade-up'>
                         <img src='@/assets/img/device-laptop.png' class='device'>
-                        <div class='img-wrap'>
-                            <img :src='project.images.gif' class='img'>
+                        <div class='res-box-wrap'>
+                            <div class='res-box'>
+                                <img :src='project.images.gif' class='img' />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,19 +91,16 @@
                 </div>
             </section>
 
-            <section class='device-bg' data-aos='fade-up' v-if='project.images.mb1'>
+            <section class='img-mb bg' data-aos='fade-up' v-if='project.images.mb1'>
                 <div class='inner'>
                     <ul class='device_mb'>
                         <li data-aos='fade-up'>
-                            <img src='@/assets/img/device-iphone15.png' class='device'>
                             <img :src='project.images.mb1' class='img'>
                         </li>
                         <li data-aos='fade-up'>
-                            <img src='@/assets/img/device-iphone15.png' class='device'>
                             <img :src='project.images.mb2' class='img'>
                         </li>
                         <li data-aos='fade-up'>
-                            <img src='@/assets/img/device-iphone15.png' class='device'>
                             <img :src='project.images.mb3' class='img'>
                         </li>
                     </ul>

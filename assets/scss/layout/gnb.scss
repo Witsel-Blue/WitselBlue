@@ -49,11 +49,11 @@
                 transition: all 0.4s;
             }
         }
-        .nuxt-link-exact-active:not(a[href='/']) {
-            p span { 
-                font-stretch: 200%;
-            }
-        }
+        // .nuxt-link-exact-active:not(a[href='/']) {
+        //     p span { 
+        //         font-stretch: 200%;
+        //     }
+        // }
     }
 }
 

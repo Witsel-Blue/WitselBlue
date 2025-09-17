@@ -53,9 +53,9 @@
                     <ChangeLang />
                     <ChangeCursor />
                 </div> -->
-                <div class='desc'>
+                <!-- <div class='desc'>
                     <p>&copy; 2025 witselblue</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
