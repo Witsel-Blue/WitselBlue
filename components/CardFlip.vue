@@ -14,7 +14,7 @@
                             item.category === 'archive_music' ? `/archive/music/${item.slug}` :
                             '/'"
                     >
-                        {{ item.title }}
+                        <TextShifting :text='item.title' :key='item.slug' />
                     </Nuxt-link>
                 </span>
                 <div class='tags'>
@@ -28,7 +28,12 @@
 </template>
 
 <script>
+import TextShifting from '@/components/TextShifting.vue';
+
 export default {
+    components: {
+        TextShifting,
+    },
     props: {
         item: {
             type: Object,
@@ -95,14 +100,12 @@ export default {
             color: $blue0;
             margin-bottom: 24px;
         }
-        a {
+        .text-shifting::v-deep span {
             font-weight: bold;
             font-family: 'Diphylleia';
             font-size: 2rem;
             line-height: 1;
-            text-decoration: none;
             color: #fff;
-            text-align: center;
         }
         .tags {
             p {
