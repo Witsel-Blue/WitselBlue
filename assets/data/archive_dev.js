@@ -34,7 +34,7 @@ export default [
             mainvisual: require('@/assets/img/archive/archive01_main.png'),
         },
         content: {
-            about: '키키의 얼굴에 나비가 가까이 가면<br>표정이 변화합니다.',
+            about: 'If butterfly approaches<br>Kiki&#39;s expression changes.<br>Don&#39;t make her surprised too much!',
         },
     },
     {
