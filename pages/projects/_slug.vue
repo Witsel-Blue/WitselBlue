@@ -1,7 +1,8 @@
 <template>
-    <div id='project_detail'>
+    <div id='project_detail' class='page_detail'>
+
         <CursorCustom />
-        <!-- <PageTransition :title='project.title' /> -->
+
         <div class='contents'>
 
             <section class='main'>
@@ -119,9 +120,6 @@
             </section>
             
         </div>
-        <!-- <Pagination 
-            :pagination='pagination'
-        /> -->
     </div>
 </template>
 
@@ -132,7 +130,6 @@ import PageTransition from '@/layouts/PageTransition.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
-import Pagination from '@/components/Pagination.vue';
     
 export default {
     components: {
@@ -141,7 +138,6 @@ export default {
         ParallaxImg,
         ButtonRound,
         TextShifting,
-        Pagination,
     },
     data() {
         return {

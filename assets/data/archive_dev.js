@@ -15,7 +15,7 @@ export default [
             mainvisual: require('@/assets/img/archive/archive02_main.png'),
         },
         content: {
-            about: '마녀배달부 키키가 키우는 고양이 지지는<br> 움직이는 나비를 따라 시선을 고정합니다.',
+            about: '마녀배달부 키키가 키우는 고양이 지지는<br>움직이는 나비를 따라 시선을 고정합니다.',
         }
     },
     {
@@ -25,7 +25,7 @@ export default [
             work: 'p5.js',
         },
         link: {
-            href: '',
+            href: 'https://editor.p5js.org/witselblue/full/qY2ZOCn7V',
             target: '_blank',
             text: 'veiw code',
         },
@@ -34,7 +34,7 @@ export default [
             mainvisual: require('@/assets/img/archive/archive01_main.png'),
         },
         content: {
-            about: '',
+            about: '키키의 얼굴에 나비가 가까이 가면<br>표정이 변화합니다.',
         },
     },
     {
@@ -44,7 +44,7 @@ export default [
             work: 'p5.js',
         },
         link: {
-            href: '',
+            href: 'https://editor.p5js.org/witselblue/full/w-L-mWvpM',
             target: '_blank',
             text: 'view code',
         },
@@ -53,7 +53,7 @@ export default [
             mainvisual: require('@/assets/img/archive/archive03_main.png'),
         },
         content: {
-            about: '',
+            about: '키키의 솥에서<br>반짝거리는 연기의 길을 그릴 수 있습니다.',
         }
     },
     {
