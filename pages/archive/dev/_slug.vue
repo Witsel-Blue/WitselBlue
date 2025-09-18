@@ -31,12 +31,6 @@
                             class='txt-c' 
                             v-html='dev.content.about'
                         ></p>
-                        <ButtonRound
-                            v-if='dev.link'
-                            data-aos='fade-up'
-                            class='mt-32 txt-c'
-                            :link='dev.link'
-                        />
                     </div>
                 </div>
             </section>
@@ -51,6 +45,15 @@
                         height='80vh'
                     ></iframe>
                 </div>
+            </section>
+
+            <section class='viewcode'>
+                <ButtonRound
+                    v-if='dev.link'
+                    data-aos='fade-up'
+                    class='txt-c'
+                    :link='dev.link'
+                />
             </section>
 
         </div>

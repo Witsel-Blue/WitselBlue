@@ -15,7 +15,7 @@ export default [
             mainvisual: require('@/assets/img/archive/archive02_main.png'),
         },
         content: {
-            about: '마녀배달부 키키가 키우는 고양이 지지는<br>움직이는 나비를 따라 시선을 고정합니다.',
+            about: 'Eyes and face of Zizi from Kiki&#39;s Delivery Service<br>follow a moving butterfly (your mouse!).',
         }
     },
     {
