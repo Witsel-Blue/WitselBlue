@@ -11,8 +11,8 @@ export default [
             text: 'view code',
         },
         images: {
-            thumb: require('@/assets/img/archive/archive02_main.png'),
-            mainvisual: require('@/assets/img/archive/archive02_main.png'),
+            thumb: require('@/assets/img/archive/zizi_thumb.png'),
+            mainvisual: require('@/assets/img/archive/zizi_thumb.png'),
         },
         content: {
             about: 'Eyes and face of Zizi from Kiki&#39;s Delivery Service<br>follow a moving butterfly (your mouse!).',
@@ -30,8 +30,8 @@ export default [
             text: 'veiw code',
         },
         images: {
-            thumb: require('@/assets/img/archive/archive01_main.png'),
-            mainvisual: require('@/assets/img/archive/archive01_main.png'),
+            thumb: require('@/assets/img/archive/kiki_thumb.png'),
+            mainvisual: require('@/assets/img/archive/kiki_thumb.png'),
         },
         content: {
             about: 'If butterfly approaches<br>Kiki&#39;s expression changes.<br>Don&#39;t make her surprised too much!',
@@ -49,22 +49,22 @@ export default [
             text: 'view code',
         },
         images: {
-            thumb: require('@/assets/img/archive/archive03_main.png'),
-            mainvisual: require('@/assets/img/archive/archive03_main.png'),
+            thumb: require('@/assets/img/archive/witchpot_thumb.png'),
+            mainvisual: require('@/assets/img/archive/witchpot_thumb.png'),
         },
         content: {
-            about: '키키의 솥에서<br>반짝거리는 연기의 길을 그릴 수 있습니다.',
+            about: 'You can draw trails of sparkling fume<br> from Kiki&#39;s cauldron.',
         }
     },
     {
         slug: 'redlightgreenlight',
-        title: 'Red Light, Green Light',
+        title: 'RedLight, GreenLight',
         tags: {
             work: 'pixi.js',
         },
         images: {
-            thumb: require('@/assets/img/archive/archive04_main.png'),
-            mainvisual: require('@/assets/img/archive/archive04_main.png'),
+            thumb: require('@/assets/img/archive/redlightgreenlight.png'),
+            mainvisual: require('@/assets/img/archive/redlightgreenlight.png'),
         },
         content: {
             about: 'In 60 seconds, 5 cats have to get to the goal line.<br>When Kiki turns back and cats are still moving, you are eliminated.<br>(Cats can only move when Kiki is not seeing!)<br>Click on each cats for run or stop.<br>Check out how many cats can get to the goal line!',
