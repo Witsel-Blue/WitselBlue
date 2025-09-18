@@ -21,29 +21,35 @@
                     >
                         <TextShifting :text='dev.title' />
                     </a>
+                    <TextShifting v-else :text='dev.title' class='mouse-hover1' />
+                </div>
+                <div class='def'>
+                    <div class='inner'>
+                        <p
+                            v-if='dev.content.about'
+                            data-aos='fade-up'
+                            class='txt-c' 
+                            v-html='dev.content.about'
+                        ></p>
+                        <ButtonRound
+                            v-if='dev.link'
+                            data-aos='fade-up'
+                            class='mt-32 txt-c'
+                            :link='dev.link'
+                        />
+                    </div>
                 </div>
             </section>
 
-            <section>
+            <section class='showcase'>
                 <div class='inner'>
-                    <p
-                        v-if='dev.content.about'
-                        data-aos='fade-up'
-                        class='txt-c' 
-                        v-html='dev.content.about'
-                    ></p>
-                    <ButtonRound
-                        v-if='dev.link.href'
-                        data-aos='fade-up'
-                        class='mt-32 txt-c'
-                        :link='dev.link'
-                    />
-                </div>
-            </section>
-
-            <section>
-                <div class='inner'>
-                    codes
+                    <iframe class='iframe mouse-none'
+                        v-if='dev.slug'
+                        :src='`/showcase/dev/${dev.slug}/index.html`'
+                        frameborder='0'
+                        width='100%'
+                        height='80vh'
+                    ></iframe>
                 </div>
             </section>
 

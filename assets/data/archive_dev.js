@@ -62,17 +62,12 @@ export default [
         tags: {
             work: 'pixi.js',
         },
-        link: {
-            href: '',
-            target: '_blank',
-            text: 'view code',
-        },
         images: {
             thumb: require('@/assets/img/archive/archive04_main.png'),
             mainvisual: require('@/assets/img/archive/archive04_main.png'),
         },
         content: {
-            about: '',
+            about: 'In 60 seconds, 5 cats have to get to the goal line.<br>When Kiki turns back and cats are still moving, you are eliminated.<br>(Cats can only move when Kiki is not seeing!)<br>Click on each cats for run or stop.<br>Check out how many cats can get to the goal line!',
         }
     },
     {
