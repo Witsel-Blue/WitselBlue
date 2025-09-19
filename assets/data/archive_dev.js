@@ -56,25 +56,25 @@ export default [
             about: 'You can draw trails of sparkling fume<br> from Kiki&#39;s cauldron.',
         }
     },
-    {
-        slug: 'flowergrow',
-        title: 'FlowerGrow',
-        tags: {
-            work: 'p5.js',
-        },
-        link: {
-            href: 'https://editor.p5js.org/witselblue/sketches/s7kdb7UlA',
-            target: '_blank',
-            text: 'view code',
-        },
-        images: {
-            thumb: require('@/assets/img/archive/flowergrow_thumb.png'),
-            mainvisual: require('@/assets/img/archive/flowergrow_thumb.png'),
-        },
-        content: {
-            about: 'Click to grow a flower!',
-        }
-    },
+    // {
+    //     slug: 'flowergrow',
+    //     title: 'FlowerGrow',
+    //     tags: {
+    //         work: 'p5.js',
+    //     },
+    //     link: {
+    //         href: 'https://editor.p5js.org/witselblue/sketches/s7kdb7UlA',
+    //         target: '_blank',
+    //         text: 'view code',
+    //     },
+    //     images: {
+    //         thumb: require('@/assets/img/archive/flowergrow_thumb.png'),
+    //         mainvisual: require('@/assets/img/archive/flowergrow_thumb.png'),
+    //     },
+    //     content: {
+    //         about: 'Click to grow a flower!',
+    //     }
+    // },
     {
         slug: 'redlightgreenlight',
         title: 'RedLight, GreenLight',
