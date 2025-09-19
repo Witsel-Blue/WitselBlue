@@ -1,8 +1,5 @@
 <template>
-    <div
-        id='projects'
-        class='page'
-    >
+    <div id='projects' class='page'>
         <CursorCustom />
         <PageTransition :title='title' />
 

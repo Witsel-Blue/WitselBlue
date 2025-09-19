@@ -1,14 +1,14 @@
 <template>
-    <div id="pagination">
-        <ul class="pager">
-            <li class="mouse-hover1">
-                <Nuxt-link :to="pagination.prevLink">
-                    <TextShifting :text="pagination.prevText" />
+    <div id='pagination'>
+        <ul class='pager'>
+            <li class='mouse-hover1'>
+                <Nuxt-link :to='pagination.prevLink'>
+                    <TextShifting :text='pagination.prevText' />
                 </Nuxt-link>
             </li>
-            <li class="mouse-hover1">
-                <Nuxt-link :to="pagination.nextLink">
-                    <TextShifting :text="pagination.nextText" />
+            <li class='mouse-hover1'>
+                <Nuxt-link :to='pagination.nextLink'>
+                    <TextShifting :text='pagination.nextText' />
                 </Nuxt-link>
             </li>
         </ul>
@@ -42,28 +42,28 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+<style lang='scss' scoped>
+@use '@/assets/scss/base/variables.scss' as *;
     
-    .pager li {
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
-        writing-mode: vertical-lr;
-        text-align: center;
+.pager li {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-lr;
+    text-align: center;
 
-        &:first-child {
-            left: 5vw;
-        }
-        &:last-child {
-            right: 5vw;
-        }
+    &:first-child {
+        left: 5vw;
     }
+    &:last-child {
+        right: 5vw;
+    }
+}
 
-    // mobile
-    @media all and (max-width: $mobile) {
-        #pagination {
-            display: none;
-        }
+// mobile
+@media all and (max-width: $mobile) {
+    #pagination {
+        display: none;
     }
+}
 </style>

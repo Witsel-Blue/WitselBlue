@@ -51,27 +51,26 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #parallax-img {
-        .parallax-wrap {
-            background-color: $gray1;
-            position: relative;
-        }
-
-        .parallax-cont {
-            position: relative;
-            overflow: hidden;
-            padding-top: 72%;
-        }
-
-        .img {
-            position: absolute;
-            object-fit: cover;
-            top: 0;
-            width: 100%;
-            height: 120%;
-        }
-
+#parallax-img {
+    .parallax-wrap {
+        background-color: $gray1;
+        position: relative;
     }
+
+    .parallax-cont {
+        position: relative;
+        overflow: hidden;
+        padding-top: 72%;
+    }
+
+    .img {
+        position: absolute;
+        object-fit: cover;
+        top: 0;
+        width: 100%;
+        height: 120%;
+    }
+}
 </style>

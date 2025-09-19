@@ -1,91 +1,91 @@
 @font-face {
-    font-family: "basic_font";
+    font-family: 'basic_font';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/Montserrat-VariableFont_wght.ttf");
+    src: url('@/static/fonts/Montserrat-VariableFont_wght.ttf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: "basic_font";
+    font-family: 'basic_font';
     font-style: bold;
     font-weight: 700;
-    src: url("@/static/fonts/Montserrat-SemiBold.ttf");
+    src: url('@/static/fonts/Montserrat-SemiBold.ttf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: "basic_font";
+    font-family: 'basic_font';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/NotoSansKR-Light.ttf");
+    src: url('@/static/fonts/NotoSansKR-Light.ttf');
     unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
 }
 
 @font-face {
-    font-family: "Diphylleia";
+    font-family: 'Diphylleia';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/Diphylleia-Regular.ttf");
+    src: url('@/static/fonts/Diphylleia-Regular.ttf');
 }
 
 @font-face {
-    font-family: "Bagel";
+    font-family: 'Bagel';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/BagelFatOne-Regular.ttf");
+    src: url('@/static/fonts/BagelFatOne-Regular.ttf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: "TanPearl";
+    font-family: 'TanPearl';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/tan-pearl.otf");
+    src: url('@/static/fonts/tan-pearl.otf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: "Pacifico";
+    font-family: 'Pacifico';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/Pacifico-Regular.ttf");
+    src: url('@/static/fonts/Pacifico-Regular.ttf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: "Knewave";
+    font-family: 'Knewave';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/Knewave-Regular.ttf");
+    src: url('@/static/fonts/Knewave-Regular.ttf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: "BigShoulders";
+    font-family: 'BigShoulders';
     font-style: normal;
     font-weight: 400;
-    src: url("@/static/fonts/BigShouldersInline-Light.ttf");
+    src: url('@/static/fonts/BigShouldersInline-Light.ttf');
     unicode-range: U+0020-007F;
 }
 
 .ft-diphylleia {
-    font-family: "Diphylleia";
+    font-family: 'Diphylleia';
 }
 .ft-bagel {
-    font-family: "Bagel";
+    font-family: 'Bagel';
 }
 .ft-tanpearl {
-    font-family: "TanPearl";
+    font-family: 'TanPearl';
 }
 .ft-pacifico {
-    font-family: "Pacifico";
+    font-family: 'Pacifico';
 }
 .ft-knewave {
-    font-family: "Knewave";
+    font-family: 'Knewave';
 }
 .ft-bigshoulders {
-    font-family: "BigShoulders";
+    font-family: 'BigShoulders';
 }
 
 /* ----- FONT SIZE ----- */

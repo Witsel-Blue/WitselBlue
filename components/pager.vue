@@ -101,41 +101,41 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #pager {
-        position: fixed;
-        bottom: 2%;
-        right: 4vw;
-        z-index: 100;
-        .wrapper {
-            width: 10vw;
-            height: 10vw;
-            max-width: 120px;
-            max-height: 120px;
-            min-width: 80px;
-            min-height: 80px;
-            #text-stagger::v-deep {
-                position: absolute;
-                left: 50%;
-                transform: translate(-50%, -100%);
-                text-align: center;
-                width: 100%;
-                li {
-                    p {
-                        font-size: 0.8rem;
-                        line-height: 0.9;
-                        font-family: 'Diphylleia';
-                    }
-                    &:last-child p {
-                        line-height: 1.4;
-                    }
+#pager {
+    position: fixed;
+    bottom: 2%;
+    right: 4vw;
+    z-index: 100;
+    .wrapper {
+        width: 10vw;
+        height: 10vw;
+        max-width: 120px;
+        max-height: 120px;
+        min-width: 80px;
+        min-height: 80px;
+        #text-stagger::v-deep {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            text-align: center;
+            width: 100%;
+            li {
+                p {
+                    font-size: 0.8rem;
+                    line-height: 0.9;
+                    font-family: 'Diphylleia';
+                }
+                &:last-child p {
+                    line-height: 1.4;
                 }
             }
-            img {
-                width: 100%;
-                height: 100%;
-            }
+        }
+        img {
+            width: 100%;
+            height: 100%;
         }
     }
+}
 </style>

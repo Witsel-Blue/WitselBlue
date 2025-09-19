@@ -128,61 +128,61 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #button-round .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px;
+#button-round .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 32px;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         border-radius: 32px;
-        position: relative;
-        overflow: hidden;
+        border: 1px solid $black1;
+    }
 
-        &::after {
+    .circle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        transform: scale(0);
+        transform-origin: 0 0;
+        will-change: transform;
+        &::before {
             content: '';
+            display: block;
+            background-color: $black1;
+            border-radius: 50%;
             position: absolute;
             top: 0;
-            bottom: 0;
             left: 0;
-            right: 0;
-            border-radius: 32px;
-            border: 1px solid $black1;
-        }
-
-        .circle {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            transform: translate(-50%, -50%);
+            width: 170%;
             pointer-events: none;
-            transform: scale(0);
-            transform-origin: 0 0;
-            will-change: transform;
-            &::before {
-                content: '';
-                display: block;
-                background-color: $black1;
-                border-radius: 50%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                transform: translate(-50%, -50%);
-                width: 170%;
-                pointer-events: none;
-                aspect-ratio: 1/1;
-            }
-        }
-        .title {
-            color: $black1;
-            position: relative;
-        }
-
-        &:hover {
-            .title {
-                color: $white1;
-            }
+            aspect-ratio: 1/1;
         }
     }
+    .title {
+        color: $black1;
+        position: relative;
+    }
+
+    &:hover {
+        .title {
+            color: $white1;
+        }
+    }
+}
 </style>

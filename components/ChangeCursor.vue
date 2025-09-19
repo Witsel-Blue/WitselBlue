@@ -1,7 +1,7 @@
 <template>
-    <div id="change-cursor">
-        <button class="active mouse-hover2">인터렉티브 커서로</button>
-        <button class="mouse-hover2">기본 커서로</button>
+    <div id='change-cursor'>
+        <button class='active mouse-hover2'>인터렉티브 커서로</button>
+        <button class='mouse-hover2'>기본 커서로</button>
     </div>
 </template>
 
@@ -16,31 +16,31 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+<style lang='scss' scoped>
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #change-cursor {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
+#change-cursor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
         
-        button {
-            font-size: 0.8rem;
-            color: $black1;
+    button {
+        font-size: 0.8rem;
+        color: $black1;
 
-            &:not(:last-child)::after {
-                content: '';
-                display: inline-block;
-                width: 1px;
-                height: 0.6rem;
-                background-color: $black1;
-                margin: 0 8px;
-            }
+        &:not(:last-child)::after {
+            content: '';
+            display: inline-block;
+            width: 1px;
+            height: 0.6rem;
+            background-color: $black1;
+            margin: 0 8px;
+        }
 
-            &.active {
-                font-weight: bold;
-            }
+        &.active {
+            font-weight: bold;
         }
     }
+}
 </style>

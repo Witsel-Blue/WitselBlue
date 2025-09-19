@@ -1,15 +1,15 @@
 <template>
-  <div id="app">
-    <GNB v-if="!isNoUIPage" />
-    <Nuxt :key="$route.fullPath" />
-    <Footer v-if="showFooter" />
-    <DetailFooter
-      v-if="showDetailFooter"
-      :next-project="nextProject"
-      :next-archive-dev="nextArchiveDev"
-      :next-archive-music="nextArchiveMusic"
-    />
-  </div>
+    <div id='app'>
+        <GNB v-if='!isNoUIPage' />
+        <Nuxt :key='$route.fullPath' />
+        <Footer v-if='showFooter' />
+        <DetailFooter
+            v-if='showDetailFooter'
+            :next-project='nextProject'
+            :next-archive-dev='nextArchiveDev'
+            :next-archive-music='nextArchiveMusic'
+        />
+    </div>
 </template>
 
 <script>
@@ -18,42 +18,42 @@ import Footer from '@/layouts/Footer.vue';
 import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
-  components: { 
-    GNB,
-    Footer,
-    DetailFooter,
-  },
-  computed: {
-    isNoUIPage() {
-      return this.$store.state.isNoUIPage;
+    components: { 
+        GNB,
+        Footer,
+        DetailFooter,
     },
-    showFooter() {
-      const s = this.$store.state;
-      return !s.isDetailPage && !s.isNoUIPage;
+    computed: {
+        isNoUIPage() {
+            return this.$store.state.isNoUIPage;
+        },
+        showFooter() {
+            const s = this.$store.state;
+            return !s.isDetailPage && !s.isNoUIPage;
+        },
+        showDetailFooter() {
+            const s = this.$store.state;
+            return s.isDetailPage && (s.nextProject || s.nextArchiveDev || s.nextArchiveMusic) && !s.isNoUIPage;
+        },
+        nextProject() {
+            return this.$store.state.nextProject;
+        },
+        nextArchiveDev() {
+            return this.$store.state.nextArchiveDev;
+        },
+        nextArchiveMusic() {
+            return this.$store.state.nextArchiveMusic;
+        },
     },
-    showDetailFooter() {
-      const s = this.$store.state;
-      return s.isDetailPage && (s.nextProject || s.nextArchiveDev || s.nextArchiveMusic) && !s.isNoUIPage;
-    },
-    nextProject() {
-      return this.$store.state.nextProject;
-    },
-    nextArchiveDev() {
-      return this.$store.state.nextArchiveDev;
-    },
-    nextArchiveMusic() {
-      return this.$store.state.nextArchiveMusic;
-    },
-  },
 };
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 @use '@/assets/scss/base/variables.scss' as *;
 
-  #app {
-      background-color: $white2;
-      color: $black1;
-      overflow: hidden;
-  }
+#app {
+    background-color: $white2;
+    color: $black1;
+    overflow: hidden;
+}
 </style>

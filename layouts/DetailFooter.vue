@@ -16,9 +16,7 @@
                 <CardFlip v-if='nextArchiveMusic' :item='nextArchiveMusic' />
                 <div class='view-all'>
                     <ButtonRound
-                        :link="{
-                            href: isProjectPage ? '/projects' : isArchivePage ? '/archive' : null
-                        }"
+                        :link="{ href: isProjectPage ? '/projects' : isArchivePage ? '/archive' : null }"
                         :text="isProjectPage ? 'view all projects' : isArchivePage ? 'view all archive' : ''"
                     />
                 </div>
@@ -101,161 +99,161 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #detail_footer {
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        background: radial-gradient(circle, $blue1 0%, $white1 100%);
+#detail_footer {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: $grad-blue;
+}
+
+.footer-bg {
+    width: 120%;
+    margin-left: -10%;
+    height: 20%;
+    background-color: $white2;
+    border-radius: 0 0 100% 100%;
+    box-shadow: $shadow-large;
+}
+
+.footer {
+    color: $white1;
+    width: 100%;
+    height: 80%;
+    padding: 15vh 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+
+    .top {
+        h1 {
+            font-size: 1.6rem;
+            font-weight: normal;
+            display: inline-flex;
+
+            span {
+                position: relative;
+                display: inline-block;
+                min-width: 16px;
+            }
+
+            &.active span {
+                animation: flip 0.8s;
+                animation-delay: calc(0.04s * var(--i));
+            }
+        }
+
+        @keyframes flip {
+            0%, 50% {
+                transform: rotateY(360deg);
+            }
+        }
     }
 
-    .footer-bg {
-        width: 120%;
-        margin-left: -10%;
-        height: 20%;
-        background-color: $white2;
-        border-radius: 0 0 100% 100%;
-        box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1), 0 2px 24px rgba(0, 0, 0, 0.1);
+    .bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
     }
+}
 
-    .footer {
-        color: $white1;
+.hover-flip {
+    display: block;
+    width: 80%;
+    max-width: 300px;
+    -webkit-transform: translateZ(0);
+    transition: all 0.8s;
+    transform-style: preserve-3d;
+    position: relative;
+
+    .back {
+        transform: rotateY(180deg);
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.1s;
+        transition-delay: 0.1s;
+
         width: 100%;
-        height: 80%;
-        padding: 15vh 10vw;
+        height: 100%;
+        background-color: $white2;
+        padding: 24px;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;
-        gap: 40px;
 
-        .top {
-            h1 {
-                font-size: 1.6rem;
-                font-weight: normal;
-                display: inline-flex;
-
-                span {
-                    position: relative;
-                    display: inline-block;
-                    min-width: 16px;
-                }
-
-                &.active span {
-                    animation: flip 0.8s;
-                    animation-delay: calc(0.04s * var(--i));
-                }
+        a {
+            color: $black1;
+            text-align: center;
+            p {
+                font-size: 0.8rem;
             }
-
-            @keyframes flip {
-                0%, 50% {
-                    transform: rotateY(360deg);
-                }
+            h3 {
+                margin-top: 4px;
+                font-size: 1.8rem;
             }
-        }
-
-        .bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 32px;
         }
     }
 
-    .hover-flip {
-        display: block;
-        width: 80%;
-        max-width: 300px;
-        -webkit-transform: translateZ(0);
+    &:hover {
+        transform: rotateY(180deg);
         transition: all 0.8s;
-        transform-style: preserve-3d;
-        position: relative;
-
         .back {
-            transform: rotateY(180deg);
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 1;
+            visibility: visible;
             transition: all 0.1s;
             transition-delay: 0.1s;
-
-            width: 100%;
-            height: 100%;
-            background-color: $white2;
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            a {
-                color: $black1;
-                text-align: center;
-                p {
-                    font-size: 0.8rem;
-                }
-                h3 {
-                    margin-top: 4px;
-                    font-size: 1.8rem;
-                }
-            }
-        }
-
-        &:hover {
-            transform: rotateY(180deg);
-            transition: all 0.8s;
-            .back {
-                opacity: 1;
-                visibility: visible;
-                transition: all 0.1s;
-                transition-delay: 0.1s;
-            }
         }
     }
+}
 
-    #button-round::v-deep {
-        margin-top: 16px;
+#button-round::v-deep {
+    margin-top: 16px;
 
-        .button {
-            padding: 16px;
+    .button {
+        padding: 16px;
+        border-radius: 32px;
+        &::after {
+            border: 1px solid $white1 !important;
             border-radius: 32px;
-            &::after {
-                border: 1px solid $white1 !important;
-                border-radius: 32px;
-            }
         }
-        .circle::before {
-            background-color: $white1 !important;
-        }
+    }
+    .circle::before {
+        background-color: $white1 !important;
+    }
+    .title {
+        color: $white1 !important;
+    }
+
+    &:hover {
         .title {
-            color: $white1 !important;
+            color: $black1 !important;
         }
+    }
+}
 
-        &:hover {
-            .title {
-                color: $black1 !important;
+// mobile
+@media all and (max-width: $mobile) {
+    .footer-bg {
+        height: 15%;
+    }
+    .footer {
+        padding: 5vh 10vw 10vh;
+        gap: 24px;
+    }
+    .hover-flip {
+        .back {
+            a h3 {
+                margin-top: 4px;
+                font-size: 1.6rem;
             }
         }
     }
-
-    // mobile
-    @media all and (max-width: $mobile) {
-        .footer-bg {
-            height: 15%;
-        }
-        .footer {
-            padding: 5vh 10vw 10vh;
-            gap: 24px;
-        }
-        .hover-flip {
-            .back {
-                a h3 {
-                    margin-top: 4px;
-                    font-size: 1.6rem;
-                }
-            }
-        }
-    }
+}
 </style>

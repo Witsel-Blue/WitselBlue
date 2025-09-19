@@ -1,6 +1,5 @@
 <template>
-    <div
-        id='resume'
+    <div id='resume'
         oncontextmenu='return false'
         ondragstart='return false'
         onselectstart='return false'
@@ -65,52 +64,52 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #resume {
-        background-color: $white2;
-        -webkit-touch-callout: none;
-        user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -webkit-user-select: none;
-    }
+#resume {
+    background-color: $white2;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
 
-    .navigation {
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 100;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px;
-        transition: background 0.6s;
-    }
-    .prev {
-        left: 2.5vw;
-        transition: stroke 0.4s;
-    }
-    .next {
-        right: 2.5vw;
-        transition: stroke 0.4s;
-    }
-    .prev:hover,
-    .next:hover {
-        background-color: $black1;
-        transition: background 0.6s;
-    }
-    .prev:hover svg path,
-    .next:hover svg path {
-        stroke: #fff;
-        transition: stroke 0.4s;
-    }
+.navigation {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    transition: background 0.6s;
+}
+.prev {
+    left: 2.5vw;
+    transition: stroke 0.4s;
+}
+.next {
+    right: 2.5vw;
+    transition: stroke 0.4s;
+}
+.prev:hover,
+.next:hover {
+    background-color: $black1;
+    transition: background 0.6s;
+}
+.prev:hover svg path,
+.next:hover svg path {
+    stroke: $white1;
+    transition: stroke 0.4s;
+}
 
-    svg {
-        width: 100%;
-        height: auto;
-    }
+svg {
+    width: 100%;
+    height: auto;
+}
 </style>

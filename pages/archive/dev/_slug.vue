@@ -67,7 +67,6 @@
 <script>
 import archiveDevData from '@/assets/data/archive_dev.js';
 import CursorCustom from '@/components/CursorCustom.vue';
-import PageTransition from '@/layouts/PageTransition.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
@@ -75,7 +74,6 @@ import TextShifting from '@/components/TextShifting.vue';
 export default {
     components: {
         CursorCustom,
-        PageTransition,
         ParallaxImg,
         ButtonRound,
         TextShifting,

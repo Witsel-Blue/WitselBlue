@@ -73,7 +73,7 @@
 
             <section class='img-gif bg' data-aos='fade-up' v-if='project.images.gif'>
                 <div class='inner'>
-                    <div class='device_pc'data-aos='fade-up'>
+                    <div class='device_pc' data-aos='fade-up'>
                         <img src='@/assets/img/device-laptop.png' class='device'>
                         <div class='res-box-wrap'>
                             <div class='res-box'>
@@ -156,11 +156,9 @@ export default {
 
         next(vm => {
             vm.project = project;
-
-            // 상태를 nextTick으로 적용
             vm.$nextTick(() => {
-            vm.$store.commit('setDetailPage', true);
-            vm.$store.commit('setNextProject', nextProject);
+                vm.$store.commit('setDetailPage', true);
+                vm.$store.commit('setNextProject', nextProject);
             });
         });
     },

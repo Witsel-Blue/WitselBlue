@@ -1,34 +1,27 @@
 <template>
-    <div id="star-bg">
-        <div class="star-wrap">
-            <img
-                class="star1 y1"
-                src="@/assets/img/star1.png"
-            >
-            <img
-                class="star2"
-                src="@/assets/img/star1.png"
-            >
-            <img
-                class="star3 y1"
-                src="@/assets/img/star1.png"
-            >
-            <img
-                class="star4"
-                src="@/assets/img/star1.png"
-            >
-            <img
-                class="star5"
-                src="@/assets/img/star2.png"
-            >
-            <img
-                class="star6"
-                src="@/assets/img/star3.png"
-            >
-            <img
-                class="star7"
-                src="@/assets/img/star3.png"
-            >
+    <div id='star-bg'>
+        <div class='star-wrap'>
+            <img class='star1 y1'
+                src='@/assets/img/star1.png'
+            />
+            <img class='star2'
+                src='@/assets/img/star1.png'
+            />
+            <img class='star3 y1'
+                src='@/assets/img/star1.png'
+            />
+            <img class='star4'
+                src='@/assets/img/star1.png'
+            />
+            <img class='star5'
+                src='@/assets/img/star2.png'
+            />
+            <img class='star6'
+                src='@/assets/img/star3.png'
+            />
+            <img class='star7'
+                src='@/assets/img/star3.png'
+            />
         </div>
     </div>
 </template>
@@ -57,30 +50,30 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+<style lang='scss' scoped>
+@use '@/assets/scss/base/variables.scss' as *;
     
-    #star-bg {
-        width: 100%;
-        height: 100%;
+#star-bg {
+    width: 100%;
+    height: 100%;
+}
+.star-wrap {
+    width: 100%;
+    height: 100%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+
+    [class*='star'] {
+        position: absolute;
     }
-    .star-wrap {
-        width: 100%;
-        height: 100%;
-        max-width: 800px;
-        margin: auto;
-        position: relative;
 
-        [class*="star"] {
-            position: absolute;
-        }
-
-        .star1,
-        .star2, 
-        .star5 {
-            width: 36px;
-            height: 36px;
-        }
+    .star1,
+    .star2, 
+    .star5 {
+        width: 36px;
+        height: 36px;
+    }
 
         .star3,
         .star4 {

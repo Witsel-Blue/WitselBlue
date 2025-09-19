@@ -175,89 +175,89 @@ export default {
 </script>
 
 <style lang='scss'>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
 
-    html, a, button {
-        cursor: none !important;
+html, a, button {
+    cursor: none !important;
+}
+
+.mouse-hover1,
+.mouse-hover2,
+.mouse-hover3 {
+    z-index: 100;
+    position: relative;
+}
+
+.cursor-circle {
+    position: fixed;
+    pointer-events: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    z-index: 101;
+    border: 2px solid $black1;
+    transition: width 0.2s, height 0.2s;
+
+    .visitsite {
+        width: 120px;
+        height: 120px;
+        position: absolute;
+        top: -20px;
+        left: -20px;
+    }
+    .cursor-text {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        transform: translate(-50%, -100%);
+        width: 100%;
+        text-align: center;
+        color: #c1c3c3;
     }
 
-    .mouse-hover1,
-    .mouse-hover2,
-    .mouse-hover3 {
-        z-index: 100;
-        position: relative;
-    }
-
-    .cursor-circle {
-        position: fixed;
-        pointer-events: none;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        z-index: 101;
-        border: 2px solid $black1;
+    &.hover1 {
+        width: 80px;
+        height: 80px;
+        border: none;
+        background: rgb(202, 202, 202);
+        mix-blend-mode: difference;
         transition: width 0.2s, height 0.2s;
-
-        .visitsite {
-            width: 120px;
-            height: 120px;
-            position: absolute;
-            top: -20px;
-            left: -20px;
-        }
-        .cursor-text {
-            position: absolute;
-            top: -4px;
-            left: 50%;
-            transform: translate(-50%, -100%);
-            width: 100%;
-            text-align: center;
-            color: #c1c3c3;
-        }
-
-        &.hover1 {
-            width: 80px;
-            height: 80px;
-            border: none;
-            background: rgb(202, 202, 202);
-            mix-blend-mode: difference;
-            transition: width 0.2s, height 0.2s;
-        }
-
-        &.hover2 {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: rgb(202, 202, 202);
-            mix-blend-mode: difference;
-            transition: width 0.2s, height 0.2s;
-        }
-
-        &.hover3 {
-            width: 40px;
-            height: 40px;
-            transition: width 0.2s, height 0.2s;
-        }
-
-        &.no-cursor {
-            display: none;
-        }
-
-        &.cursor-main {
-            width: 100px;
-            height: 100px;
-            border: none;
-            transition: width 0.2s, height 0.2s;
-        }
     }
 
-    // mobile
-    @media all and (max-width: $mobile) {
-        html, a, button {
-            cursor: initial !important;
-        }
-        .cursor-circle {
-            display: none;
-        }
+    &.hover2 {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: rgb(202, 202, 202);
+        mix-blend-mode: difference;
+        transition: width 0.2s, height 0.2s;
     }
+
+    &.hover3 {
+        width: 40px;
+        height: 40px;
+        transition: width 0.2s, height 0.2s;
+    }
+
+    &.no-cursor {
+        display: none;
+    }
+
+    &.cursor-main {
+        width: 100px;
+        height: 100px;
+        border: none;
+        transition: width 0.2s, height 0.2s;
+    }
+}
+
+// mobile
+@media all and (max-width: $mobile) {
+    html, a, button {
+        cursor: initial !important;
+    }
+    .cursor-circle {
+        display: none;
+    }
+}
 </style>

@@ -3,24 +3,24 @@ module.exports = {
         browser: true,
         node: true
     },
-    parser: "vue-eslint-parser",
+    parser: 'vue-eslint-parser',
     parserOptions: {
-        parser: "@babel/eslint-parser",
+        parser: '@babel/eslint-parser',
         requireConfigFile: false,
         ecmaVersion: 2020,
-        sourceType: "module"
+        sourceType: 'module'
     },
-    plugins: ["vue"],
-    extends: ["eslint:recommended", "plugin:vue/recommended"],
+    plugins: ['vue'],
+    extends: ['eslint:recommended', 'plugin:vue/recommended'],
     rules: {
-        "indent": ["error", 4, { "SwitchCase": 1 }],
-        "no-tabs": "error"
+        'indent': ['error', 4, { 'SwitchCase': 1 }],
+        'no-tabs': 'error'
     },
     overrides: [
         {
-            files: ["*.vue"],
+            files: ['*.vue'],
             rules: {
-                "vue/html-indent": ["warn", 4]
+                'vue/html-indent': ['warn', 4]
             }
         }
     ]

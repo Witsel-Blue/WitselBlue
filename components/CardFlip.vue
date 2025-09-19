@@ -72,11 +72,11 @@ export default {
         align-items: center;
         backface-visibility: hidden;
         border-radius:16px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: $shadow-card;
     }
 
     .card-front {
-        background: #fff;
+        background: $white1;
         overflow: hidden;
         img {
             width: 100%;
@@ -87,7 +87,7 @@ export default {
 
     .card-back {
         background: $blue1;
-        color: #fff;
+        color: $white1;
         transform: rotateY(180deg);
         display: flex;
         justify-content: space-around;
@@ -105,7 +105,7 @@ export default {
             font-family: 'Diphylleia';
             font-size: 2rem;
             line-height: 1;
-            color: #fff;
+            color: $white1;
         }
         .tags {
             p {

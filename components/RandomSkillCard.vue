@@ -140,10 +140,8 @@ export default {
                     positions.push({x, y});
                     const rotation = (Math.random() - 0.5) * 30;
 
-                    // basePositions 업데이트
                     this.basePositions[i] = { x, y, rotation };
 
-                    // 애니메이션 적용
                     gsap.to(card, {
                         x,
                         y,
@@ -254,10 +252,10 @@ export default {
 
     #button-round::v-deep {
         &.active .button {
-            background-color: #3E3C3C;
+            background-color: $black1;
 
             .title {
-                color: #fff;
+                color: $white1;
             }
         }
 
@@ -266,7 +264,7 @@ export default {
             border-radius: 16px;
             
             .circle::before {
-                background-color: #3E3C3C;
+                background-color: $black1;
                 opacity: 0.8;
             }
         }
@@ -321,27 +319,28 @@ export default {
             backface-visibility: hidden;
             font-weight: bold;
             border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: $shadow-card;
         }
         .card-front {
-            background-color: #f3f3f3;
+            background: $grad-white;
         }
         .card-back {
-            background-color: $blue1;
+            background: $grad-black;
             transform: rotateY(180deg);
-            color: #fff;
+            color: $white1;
             flex-direction: column;
             gap: 8px;
 
             h3 {
-                font-size: 1rem;
+                font-size: 1.2rem;
+                font-family: 'Diphylleia';
             }
 
             .stars {
                 display: flex;
 
                 span {
-                    color: $blue0;
+                    color: $black1;
                     font-size: 0.8rem;
 
                     &.filled.animate {
@@ -356,10 +355,10 @@ export default {
 
 @keyframes fillStar {
     0% {
-        color: $gray0;
+        color: $black0;
     }
     100% {
-        color: #ffcb72;
+        color: $gray0;
     }
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
-    <div
-        id='archive'
-        class='page'
-    >
+    <div id='archive' class='page'>
         <CursorCustom />
         <PageTransition :title='title' />
 

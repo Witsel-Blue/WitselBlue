@@ -47,8 +47,8 @@ export default {
         if (process.client) {
             this.$nextTick(() => {
                 this.initAnimation();
-                window.addEventListener("scroll", this.checkPosition);
-                window.addEventListener("resize", this.checkPosition);
+                window.addEventListener('scroll', this.checkPosition);
+                window.addEventListener('resize', this.checkPosition);
             });
         }
     },

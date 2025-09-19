@@ -78,7 +78,7 @@ export default {
             // 스크롤 멈추면 방향 유지, 속도만 기본으로 복귀
             if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
             this.scrollTimeout = setTimeout(() => {
-                this.targetVelocity = this.baseSpeedPx * this.dir; // 방향 유지
+                this.targetVelocity = this.baseSpeedPx * this.dir;
             }, 200);
         },
         tick(ts) {

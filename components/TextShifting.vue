@@ -42,28 +42,29 @@ export default {
 
 
 <style lang='scss' scoped>
-    @use '@/assets/scss/base/variables.scss' as *;
+@use '@/assets/scss/base/variables.scss' as *;
 
-    .text-shifting {
+.text-shifting {
+    position: relative;
+    span {
         position: relative;
-        span {
-            position: relative;
-            display: inline-block;
-            color: $black1;
-            line-height: 1;
-        }
-        &:hover span {
-            animation: flip 0.8s;
-            animation-delay: calc(0.04s * var(--i));
-        }
-        .space {
-            height: 0;
-            display: block;
-        }
+        display: inline-block;
+        color: $black1;
+        line-height: 1;
     }
-    @keyframes flip {
-        0%, 50% {
-            transform: rotateY(360deg) 
-        }
+    &:hover span {
+        animation: flip 0.8s;
+        animation-delay: calc(0.04s * var(--i));
     }
+    .space {
+        height: 0;
+        display: block;
+    }
+}
+
+@keyframes flip {
+    0%, 50% {
+        transform: rotateY(360deg) 
+    }
+}
 </style>

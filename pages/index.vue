@@ -4,6 +4,7 @@
 
 <script>
 import Home from '@/layouts/Home.vue';
+
 export default {
     components: { 
         Home, 
