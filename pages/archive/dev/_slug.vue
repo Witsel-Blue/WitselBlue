@@ -1,5 +1,5 @@
 <template>
-    <div id='archive_detail' class='page_detail' v-if='dev'>
+    <div id='archive_dev_detail' class='page_detail' v-if='dev'>
 
         <CursorCustom />
 

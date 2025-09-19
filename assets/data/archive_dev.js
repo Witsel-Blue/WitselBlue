@@ -104,22 +104,17 @@ export default [
         }
     },
     {
-        slug: 'myisland',
-        title: 'My Island',
+        slug: 'beads',
+        title: 'Beads',
         tags: {
             work: 'three.js',
         },
-        link: {
-            href: '',
-            target: '_blank',
-            text: 'view code',
-        },
         images: {
-            thumb: '',
-            mainvisual: '',
+            thumb: require('@/assets/img/archive/beads_thumb.png'),
+            mainvisual: require('@/assets/img/archive/beads_thumb.png'),
         },
         content: {
-            about: '',
+            about: 'You can scatter rotating beads<br>by hovering mouse.',
         }
     }
 ]

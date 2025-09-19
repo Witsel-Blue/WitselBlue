@@ -1,5 +1,5 @@
 <template>
-    <div id='archive_detail' class='page_detail'>
+    <div id='archive_music_detail' class='page_detail'>
       
         <CursorCustom />
 
