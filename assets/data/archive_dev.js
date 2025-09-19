@@ -82,8 +82,8 @@ export default [
             work: 'pixi.js',
         },
         images: {
-            thumb: require('@/assets/img/archive/redlightgreenlight.png'),
-            mainvisual: require('@/assets/img/archive/redlightgreenlight.png'),
+            thumb: require('@/assets/img/archive/redlightgreenlight_thumb.png'),
+            mainvisual: require('@/assets/img/archive/redlightgreenlight_thumb.png'),
         },
         content: {
             about: 'In 60 seconds, 5 cats have to get to the goal line.<br>When Kiki turns back and cats are still moving, you are eliminated.<br>(Cats can only move when Kiki is not seeing!)<br>Click on each cats for run or stop.<br>Check out how many cats can get to the goal line!',
@@ -95,17 +95,12 @@ export default [
         tags: {
             work: 'three.js',
         },
-        link: {
-            href: '',
-            target: '_blank',
-            text: 'view code',
-        },
         images: {
-            thumb: '',
-            mainvisual: '',
+            thumb: require('@/assets/img/archive/3dgallery_thumb.png'),
+            mainvisual: require('@/assets/img/archive/3dgallery_thumb.png'),
         },
         content: {
-            about: '',
+            about: 'Click left and right corner to view more pictures!',
         }
     },
     {
