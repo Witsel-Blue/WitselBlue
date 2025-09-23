@@ -66,12 +66,12 @@
                         v-for='list in selected'
                         :key='list.slug'>
                         <div class='wrap'>
-                            <SkewCardX :img='list.images.thumb' :path='`/projects/${list.slug}`' />
+                            <SkewCardX :img='list.images.thumb' :path='getPath(list)' />
                             <div class='desc'>
-                                <p class='work'>{{ list.tags.work }}</p>
+                                <p class='work'>{{ list.category }}</p>
                                 <Nuxt-link 
                                     class='title mouse-hover1'
-                                    :to='`/projects/${list.slug}`'
+                                    :to='getPath(list)'
                                 >
                                     <TextShifting :text='list.title' :key='list.slug'></TextShifting>
                                 </Nuxt-link>
@@ -139,6 +139,7 @@
 <script>
 import projectsData from '@/assets/data/projects.js';
 import archiveDevData from '@/assets/data/archive_dev.js';
+import archiveMusicData from '@/assets/data/archive_music.js'
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import CursorCustom from '@/components/CursorCustom.vue';
@@ -192,9 +193,9 @@ export default {
                 { src: require('@/assets/img/home/profile_img3.png'), x: '100%', y: '56%' },
             ],
             selected: [
-                projectsData[2],
-                archiveDevData[5],
-                projectsData[4],
+                { ...projectsData[2], category: 'projects' },
+                { ...archiveDevData[0], category: 'development' },
+                { ...archiveMusicData[2], category: 'music' },
             ],
             selectedST: null,
             gsapContext: null,
@@ -429,7 +430,14 @@ export default {
 
             requestAnimationFrame(animate);
         },
-    
+        getPath(item) {
+            const mapping = {
+                projects: 'projects',
+                development: 'archive/dev',
+                music: 'archive/music',
+            }
+            return `/${mapping[item.category]}/${item.slug}`
+        }
     }
 }
 </script>
