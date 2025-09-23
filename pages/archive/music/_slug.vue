@@ -4,20 +4,75 @@
         <CursorCustom />
 
         <div class='contents'>
+
             <section class='main'>
-                <h1>{{ music?.title || 'Not Found' }}</h1>
+                <div class='mainvisual' data-aos='fade-up'>
+                    <ParallaxImg :src='music.images.thumb' />
+                </div>
+                <div class='title' data-aos='fade-up'>
+                    <p>{{ music.tags.work }}</p>
+                    <a
+                        v-if='music.link'
+                        class='mouse-hover1'
+                        target='_blank'
+                        :href='music.link.href'
+                        @mouseenter='showCursorImage(true)'
+                        @mouseleave='showCursorImage(false)'
+                    >
+                        <TextShifting :text='music.title' />
+                    </a>
+                    <TextShifting v-else :text='music.title' class='mouse-hover1' />
+                </div>
+                <div class='def'>
+                    <div class='inner'>
+                        <p>
+                            <span data-aos='fade-up' v-if='music.tags.genre'>
+                                #{{ music.tags.genre }}
+                            </span>
+                            <span data-aos='fade-up' v-if='music.tags.genre2'>
+                                #{{ music.tags.genre2 }}
+                            </span>
+                            <span data-aos='fade-up' v-if='music.tags.genre3'>
+                                #{{ music.tags.genre3 }}
+                            </span>
+                        </p>
+                         <ButtonRound
+                            v-if='music.link'
+                            data-aos='fade-up'
+                            class='txt-c'
+                            :link='music.link'
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <section class='player' v-if='music.player'>
+                <div class='inner'>
+                    <div v-for='(track, index) in music.player' :key='index' v-html='track' class='iframe mouse-none'></div>
+                </div>
+            </section>
+
+            <section class='setlist' v-if='music.setlist'>
+                <div class='inner txt-c'>
+                    <p v-for='set in music.setlist'>
+                        <span>{{ set }}</span>
+                    </p>
+                </div>
             </section>
         </div>
+
     </div>
 </template>
 
 <script>
 import archiveMusicData from '@/assets/data/archive_music.js'
 import CursorCustom from '@/components/CursorCustom.vue';
+import ButtonRound from '@/components/ButtonRound.vue';
 
 export default {
     components: {
         CursorCustom,
+        ButtonRound,
     },
     data() {
         return {
@@ -59,6 +114,11 @@ export default {
         this.$store.commit('setDetailPage', false);
         this.$store.commit('clearNextArchiveMusic');
     },
+    methods: {
+        showCursorImage(show) {
+            window.dispatchEvent(new CustomEvent('cursor-show-image', { detail: { show } }));
+        },
+    }
 }
 </script>
 

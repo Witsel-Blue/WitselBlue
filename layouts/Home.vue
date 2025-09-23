@@ -54,8 +54,8 @@
                     <h1 class='subtitle ft-bagel txt-c'>
                         Skills
                     </h1>
-                    <img src='@/assets/img/tablecloth.jpg' class='tablecloth' />
-                    <img src='@/assets/img/candle.png' class='candle' />
+                    <img src='@/assets/img/home/tablecloth.jpg' class='tablecloth' />
+                    <img src='@/assets/img/home/candle.png' class='candle' />
                     <RandomSkillCard />
                 </div>
             </section>
@@ -138,6 +138,7 @@
 
 <script>
 import projectsData from '@/assets/data/projects.js';
+import archiveDevData from '@/assets/data/archive_dev.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import CursorCustom from '@/components/CursorCustom.vue';
@@ -180,19 +181,19 @@ export default {
             animationData: Butterfly,
             Arrow,
             profile : {
-                img: require('@/assets/img/profile.png'),
+                img: require('@/assets/img/home/profile.png'),
             },
             activeHoverImgs: [false, false, false, false, false],
             profileHoverImgs: [
-                { src: require('@/assets/img/profile_img4.png'), x: '110%', y: '50%' },
-                { src: require('@/assets/img/profile_img2.png'), x: '0%', y: '42%' },
-                { src: require('@/assets/img/profile_img1.png'), x: '102%', y: '38%' },
-                { src: require('@/assets/img/profile_img5.png'), x: '-10%', y: '64%' },
-                { src: require('@/assets/img/profile_img3.png'), x: '100%', y: '56%' },
+                { src: require('@/assets/img/home/profile_img4.png'), x: '110%', y: '50%' },
+                { src: require('@/assets/img/home/profile_img2.png'), x: '0%', y: '42%' },
+                { src: require('@/assets/img/home/profile_img1.png'), x: '102%', y: '38%' },
+                { src: require('@/assets/img/home/profile_img5.png'), x: '-10%', y: '64%' },
+                { src: require('@/assets/img/home/profile_img3.png'), x: '100%', y: '56%' },
             ],
             selected: [
                 projectsData[2],
-                projectsData[3],
+                archiveDevData[5],
                 projectsData[4],
             ],
             selectedST: null,

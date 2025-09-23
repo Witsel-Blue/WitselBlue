@@ -8,13 +8,13 @@
         <client-only>
             <swiper :options='swiperOptions'>
                 <swiper-slide>
-                    <img src='@/static/resume.png'>
+                    <img src='@/assets/img/resume.png'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src='@/static/CareerDescription1.png'>
+                    <img src='@/assets/img/CareerDescription1.png'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src='@/static/CareerDescription2.png'>
+                    <img src='@/assets/img/CareerDescription2.png'>
                 </swiper-slide>
             </swiper>
             <div class='navigation prev mouse-hover1'>
