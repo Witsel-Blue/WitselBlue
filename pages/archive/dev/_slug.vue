@@ -47,6 +47,16 @@
                 </div>
             </section>
 
+            <section class='codeviewer' v-if='dev.content.snippet'>
+                <div class='inner'>
+                    <pre>
+                        <code ref='codeBlock'>
+                            {{ dev.content.snippet }}
+                        </code>
+                    </pre>
+                </div>
+            </section>
+
             <section class='viewcode'>
                 <ButtonRound
                     v-if='dev.link'
@@ -123,6 +133,13 @@ export default {
     },
     mounted() {
         window.addEventListener('resize', this.getMbHeight);
+        
+        // Highlight.js
+        this.$nextTick(() => {
+            if (this.$refs.codeBlock) {
+                this.$hljs.highlightElement(this.$refs.codeBlock);
+            }
+        });
     },
     methods: {
         showCursorImage(show) {
