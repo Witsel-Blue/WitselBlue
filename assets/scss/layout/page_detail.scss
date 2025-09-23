@@ -193,12 +193,48 @@
                 -ms-user-select: none;
                 &::-webkit-scrollbar {
                     width: 8px;
-                    height: 8px;
+                    height: 0;
                 }
                 &::-webkit-scrollbar-thumb {
                     background-color: $gray2;
                     border-radius: 4px;
                 }
+            }
+        }
+    }
+}
+
+#archive_music_detail {
+    .main {
+        .def {
+            height: 30vh;
+            padding: 8vh 0;
+            text-align: center;
+            .inner {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+            }
+            p span {
+                display: inline-block;
+                &:not(:first-child) {
+                    margin-left: 4px;
+                }
+            }
+        }
+    }
+    .player {
+        .iframe {
+            &:not(:first-child) {
+                margin-top: 32px;
+            }
+        }
+    }
+    .setlist {
+        padding-top: 0;
+        p {
+            &:not(:first-child) {
+                margin-top: 4px;
             }
         }
     }

@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import archiveMusicData from '@/assets/data/archive_music.js'
+import archiveMusicData from '@/assets/data/archive_music.js';
 import CursorCustom from '@/components/CursorCustom.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 
