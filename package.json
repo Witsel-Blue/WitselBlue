@@ -12,6 +12,7 @@
   "dependencies": {
     "aos": "^2.3.4",
     "core-js": "^3.37.1",
+    "highlight.js": "^11.11.1",
     "lottie-web": "^5.13.0",
     "nuxt": "^2.15.8",
     "p5": "^1.9.4",
