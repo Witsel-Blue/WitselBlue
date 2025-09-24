@@ -16,8 +16,8 @@
                 <CardFlip v-if='nextArchiveMusic' :item='nextArchiveMusic' />
                 <div class='view-all'>
                     <ButtonRound
-                        :link="{ href: isProjectPage ? '/projects' : isArchivePage ? '/archive' : null }"
-                        :text="isProjectPage ? 'view all projects' : isArchivePage ? 'view all archive' : ''"
+                        :link="{ href: isProjectPage ? '/projects' : isArchiveDevPage ? '/archive/dev' : isArchiveMusicPage ? '/archive/music' : null }"
+                        :text="isProjectPage ? 'view all projects' : isArchiveDevPage ? 'view all development' : isArchiveMusicPage ? 'view all music' : ''"
                     />
                 </div>
             </div>
@@ -52,9 +52,12 @@ export default {
         isProjectPage() {
             return !!this.nextProject;
         },
-        isArchivePage() {
-            return !!this.nextArchiveDev || !!this.nextArchiveMusic;
-        }
+        isArchiveDevPage() {
+            return !!this.nextArchiveDev;
+        },
+        isArchiveMusicPage() {
+            return !!this.nextArchiveMusic;
+        },
     },
     mounted() {
         this.$nextTick(() => {
@@ -73,7 +76,7 @@ export default {
 
             const winH = window.innerHeight;
             const scrollY = window.scrollY;
-            const footerTop = footerBg.offsetTop;
+            const footerTop = footerBg.offsevtTop;
             const scrollStart = footerTop - (winH * 2 / 3);
 
             let r = 0;
