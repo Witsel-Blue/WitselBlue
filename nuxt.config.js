@@ -54,6 +54,7 @@ export default {
     ],
 
     modules: [
+        'nuxt-i18n',
     ],
 
     build: {
@@ -78,5 +79,15 @@ export default {
                 global.TextDecoder = require('util').TextDecoder;
             }
         }
+    },
+
+    i18n: {
+        locales: [
+            { code: 'en', iso: 'en-US', name: 'English', file: 'en.js' },
+            { code: 'ko', iso: 'ko-KR', name: '한글', file: 'ko.js' },
+        ],
+        defaultLocale: 'en',
+        langDir: 'assets/locales/',
     }
+
 }
