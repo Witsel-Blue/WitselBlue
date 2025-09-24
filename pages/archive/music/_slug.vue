@@ -86,7 +86,7 @@ export default {
     beforeRouteEnter(to, from, next) {
         const music = archiveMusicData.find(p => p.slug === to.params.slug);
         const index = archiveMusicData.findIndex(p => p.slug === to.params.slug);
-        const nextArchiveMusic = { ...archiveMusicData[(index + 1) % archiveMusicData.length], category: 'projects' };
+        const nextArchiveMusic = { ...archiveMusicData[(index + 1) % archiveMusicData.length], category: 'archive_music' };
 
         next(vm => {
             vm.music = music;
@@ -99,9 +99,9 @@ export default {
     beforeRouteUpdate(to, from, next) {
         const music = archiveMusicData.find(p => p.slug === to.params.slug);
         const index = archiveMusicData.findIndex(p => p.slug === to.params.slug);
-        const nextArchiveMusic = { ...archiveMusicData[(index + 1) % archiveMusicData.length], category: 'projects' };
+        const nextArchiveMusic = { ...archiveMusicData[(index + 1) % archiveMusicData.length], category: 'archive_music' };
 
-        this.project = project;
+        this.music = music;
 
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);

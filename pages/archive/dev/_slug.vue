@@ -105,8 +105,6 @@ export default {
 
         next(vm => {
             vm.dev = dev;
-
-            // 상태를 nextTick으로 적용
             vm.$nextTick(() => {
             vm.$store.commit('setDetailPage', true);
             vm.$store.commit('setNextArchiveDev', nextArchiveDev);

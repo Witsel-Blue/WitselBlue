@@ -2,12 +2,12 @@
     <div id='card-flip' class='card'>
         <div class='card-inner'>
             <div class='card-front'>
-                <img :src='item.images.thumb' />
+                <img :src='item.images?.thumb' />
             </div>
             <div class='card-back'>
                 <span>
-                    <p class='work'>{{ item.tags.work }}</p>
-                    <Nuxt-link v-if='item'
+                    <p class='work'>{{ item.tags?.work }}</p>
+                    <nuxt-link v-if='item'
                         class='mouse-hover2'
                         :to="item.category === 'projects' ? `/projects/${item.slug}` :
                             item.category === 'archive_dev' ? `/archive/dev/${item.slug}` :
@@ -15,7 +15,7 @@
                             '/'"
                     >
                         <TextShifting :text='item.title' :key='item.slug' />
-                    </Nuxt-link>
+                    </nuxt-link>
                 </span>
                 <div class='tags'>
                     <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
@@ -37,7 +37,7 @@ export default {
     props: {
         item: {
             type: Object,
-            default: null,
+            default: () => ({ images: {}, tags: {} }),
         },
     },
 };
