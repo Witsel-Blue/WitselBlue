@@ -1,6 +1,9 @@
 <template>
     <div id='app'>
-        <CursorCustom v-if='showCursor' />
+        <CursorCustom 
+            :extra-class="$store.state.cursor.extraClass"
+            :showLottie="showCursorLottie"
+        />
         <GNB v-if='!isNoUIPage' />
         <Nuxt :key='$route.fullPath' />
         <Footer v-if='showFooter' />
@@ -47,8 +50,8 @@ export default {
         nextArchiveMusic() {
             return this.$store.state.nextArchiveMusic;
         },
-        showCursor() {
-            return this.$route && this.$route.path !== '/';
+        showCursorLottie() {
+            return this.$store.state.cursor.showLottie || false;
         }
     },
 };

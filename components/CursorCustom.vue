@@ -1,48 +1,53 @@
 <template>
     <div id='cursor-custom'>
         <div ref='circle' class='cursor-circle' :class='cursorClasses'>
-            <span ref='cursorText' class='cursor-text'>{{ internalText }}</span>
-            <img v-if='showText' src='@/assets/img/visitsite.png' class='visitsite' />
+            <span v-if='showText' ref='cursorText' class='cursor-text'>{{ text }}</span>
+            <img v-if='showImg' src='@/assets/img/visitsite.png' class='visitsite' />
             <Lottie v-if='showLottie' :animationData='animationData' />
         </div>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Lottie from '@/components/Lottie.vue';
 
 export default {
     components: {
         Lottie,
     },
-    props: {
-        extraClass: {
-            type: String,
-            default: '',
-        },
-        showLottie: {
-            type: Boolean,
-            default: false,
-        },
-        animationData: {
-            type: Object,
-            required: false,
-        },
-        text: {
-            type: String,
-            default: '',
-        }
-    },
     data() {
         return {
-            activeClasses: [],
-            internalText: '',
-            showText: false,
+            handleMove: null,
+            handleHover: null,
+            handleHoverOut: null,
+            handleSetText: null,
+            handleShowImage: null
         }
     },
     computed: {
+        ...mapState('cursor', [ 'extraClass', 'text', 'showImg', 'showLotte', 'animation' ]),
         cursorClasses() {
-            return [this.extraClass, ...this.activeClasses]
+            return [this.extraClass];
+        },
+        text: {
+            get() { return this.$store.state.cursor.text }, 
+            set(val) { this.$store.commit('cursor/setCursorText', val) }
+        },
+        showText() {
+            return !!this.text;
+        },
+        showImg: {
+            get() { return this.$store.state.cursor.showImg }, 
+            set(val) { this.$store.commit('cursor/setCursorImage', val) }
+        },
+        showLottie: {
+            get() { return this.$store.state.cursor.showLottie },
+            set(val) { this.$store.commit('cursor/setCursorLottie', val) }
+        },
+        animationData() {
+            const data = this.$store.state.cursor.animationData;
+            return data ? JSON.parse(JSON.stringify(data)) : null;
         }
     },
     mounted() {
@@ -64,6 +69,7 @@ export default {
 
             gsap.set(circle, { xPercent: -50, yPercent: -50 });
 
+            // move
             this.handleMove = (e) => {
                 gsap.to(circle, {
                 x: e.clientX,
@@ -99,12 +105,12 @@ export default {
             document.addEventListener('mouseover', this.handleHover);
             document.addEventListener('mouseout', this.handleHoverOut);
 
-            // 텍스트/이미지 제어
+            // text img
             this.handleSetText = (e) => {
-                this.internalText = e.detail.text || '';
+                this.$store.commit('cursor/setCursorText', e.detail.text || '');
             };
             this.handleShowImage = (e) => {
-                this.showText = e.detail.show;
+                this.$store.commit('cursor/setCursorImage', !!e.detail.show);
             };
 
             window.addEventListener('cursor-set-text', this.handleSetText);

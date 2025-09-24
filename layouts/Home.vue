@@ -1,11 +1,9 @@
 <template>
     <div id='home'>
-        <CursorCustom 
-            :extra-class='cursorClass' 
-            :showLottie='showLottie' 
-            :animationData='animationData'
-        />
-        <section id='main' ref='main' @mouseenter='onMouseEnterMain' @mouseleave='onMouseLeaveMain'>
+        <section id='main' ref='main' 
+            @mouseenter='onMouseEnterMain'
+            @mouseleave='onMouseLeaveMain'
+        >
             <Mainvisual />
             <div class='inner'>
                 <p class='subtext'>
@@ -82,55 +80,6 @@
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
             <section class='about' ref='about'>
-                <!-- <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c'>
-                        About
-                    </h1>
-                    <ul class='txt-c' data-aos='fade-up'>
-                        <li>
-                            <h4>Skills & Strengths</h4>
-                            <ul class='dot'>
-                                <li>
-                                    Vue, React, Drupal, pure HTML
-                                </li>
-                                <li>
-                                    모션·애니메이션 기반 인터렉션 구현
-                                </li>
-                                <li>
-                                    반응형 & 웹접근성 고려        
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h4>Values</h4>
-                            <ul class='dot'>
-                                <li>
-                                    확장성과 유지보수성을 고려한 코드
-                                </li>
-                                <li>
-                                    기획, 디자인, 백엔드 기초 지식 보유
-                                </li>
-                                <li>
-                                    1인 개발 경험, 여러 팀과 협력 경험 모두 보유
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h4>Beyond Code</h4>
-                            <ul class='dot'>
-                                <li>
-                                    키아누 리브스를 좋아합니다
-                                </li>
-                                <li>
-                                    테크노 음악을 좋아합니다 (SebastiAn을 꼭 들어주세요)
-                                </li>
-                                <li>
-                                    진과 싱글몰트 위스키를 좋아합니다
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div> -->
             </section>
         </div>
     </div>
@@ -142,7 +91,6 @@ import archiveDevData from '@/assets/data/archive_dev.js';
 import archiveMusicData from '@/assets/data/archive_music.js'
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import CursorCustom from '@/components/CursorCustom.vue';
 import Lottie from '@/components/Lottie.vue';
 import Butterfly from '@/assets/lottie/butterfly.json';
 import Arrow from '@/assets/lottie/arrow.json';
@@ -163,7 +111,6 @@ if (process.client) {
 export default {
     name: 'Home',
     components: {
-        CursorCustom,
         Lottie,
         Mainvisual,
         TextScroll,
@@ -177,9 +124,6 @@ export default {
     },
     data() {
         return {
-            cursorClass: 'cursor-main',
-            showLottie: true,
-            animationData: Butterfly,
             Arrow,
             profile : {
                 img: require('@/assets/img/home/profile.png'),
@@ -207,13 +151,20 @@ export default {
         }
     },
     mounted() {
-        this.setCursorInitialState();
         this.initProfileImgHover();
         this.initSectionObserver();
         this.$nextTick(() => {
             this.scrollVertical();
             this.initSectionScroll();
         });
+
+        const mainRect = this.$refs.main?.getBoundingClientRect();
+        const centerY = window.innerHeight / 2;
+        if (mainRect && mainRect.top <= centerY && mainRect.bottom > centerY) {
+            this.$store.commit('cursor/setCursorClass', 'cursor-main');
+            this.$store.commit('cursor/setCursorAnimation', Butterfly);
+            this.$store.commit('cursor/setCursorLottie', true);
+        }
     },
     beforeDestroy() {
         if (this.gsapContext) this.gsapContext.revert();
@@ -234,12 +185,14 @@ export default {
     },
     methods: {
         onMouseEnterMain() {
-            this.cursorClass = 'cursor-main';
-            this.showLottie = true;
+            this.$store.commit('cursor/setCursorClass', 'cursor-main');
+            this.$store.commit('cursor/setCursorAnimation', Butterfly);
+            this.$store.commit('cursor/setCursorLottie', true);
         },
         onMouseLeaveMain() {
-            this.cursorClass = '';
-            this.showLottie = false;
+            this.$store.commit('cursor/setCursorClass', '');
+            this.$store.commit('cursor/setCursorAnimation', null);
+            this.$store.commit('cursor/setCursorLottie', false);
         },
         setCursorInitialState() {
             const mainRect = this.$refs.main?.getBoundingClientRect();
