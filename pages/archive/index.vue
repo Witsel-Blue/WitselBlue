@@ -1,7 +1,7 @@
 <template>
     <div id='archive' class='page'>
         <CursorCustom />
-        <PageTransition :title='title' />
+        <PageTransition :title='title' v-if="$route.path === '/archive'" />
 
         <div class='main'>
             <h1 class='title ft-bagel'>
@@ -21,7 +21,7 @@
                         v-for='tab in mainTabs'
                         :key='tab'
                         class='mouse-hover2'
-                        :class='{ active: activeMain === tab }'
+                        :class='[tab, { active: activeMain === tab }]'
                         @click='toggleMenu($event, tab)'
                     >
                         {{ tabLabels[tab] || tab }}
@@ -99,7 +99,7 @@ export default {
         return {
             title: 'archive',
             mainTabs: ['dev', 'music'],
-            activeMain: 'dev',
+            activeMain: '',
             subTabs: {
                 dev: ['all', 'p5.js', 'pixi.js', 'three.js'],
                 music: ['all', 'producing', 'dj'],
@@ -145,16 +145,26 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() =>{
-            const devBtn = this.$el.querySelector('.tab-main button');
-            if (devBtn) {
-                this.activeMain = 'dev';
-                this.activeSub = 'all';
-                this.triggerDropLottie({ currentTarget: devBtn });
-            }
+        const currentPath = this.$route.path;
 
-            this.animateListCards();
+        if (currentPath === '/archive' || currentPath.includes('/archive/dev')) {
+            this.activeMain = 'dev';
+            this.activeSub = 'all';
+        } else if (currentPath.includes('/archive/music')) {
+            this.activeMain = 'music';
+            this.activeSub = 'all';
+        }
+
+        this.$nextTick(() => {
+            const mainBtn = this.$el.querySelector(`.tab-main button.${this.activeMain}`);
+            if (mainBtn) this.triggerDropLottie({ currentTarget: mainBtn });
+            setTimeout(() => {
+                const subBtn = this.$el.querySelector(`.tab-sub button.${this.activeSub}`);
+                if (subBtn) this.triggerDropLottie({ currentTarget: subBtn });
+            }, 0);
         });
+
+        this.animateListCards();
     },
     methods: {
         triggerDropLottie(event) {
@@ -166,17 +176,13 @@ export default {
                 y: btnRect.top - parentRect.top - 16,
             };
 
-            this.showDrop = false;
-            this.$nextTick(() => {
-                this.showDrop = true;
-                this.dropKey ++;
-            });
+            this.dropKey ++;
+            this.showDrop = true;
         },
         toggleMenu(event, tab) {
             this.triggerDropLottie(event);
-            this.activeMain = tab;
-            this.activeSub = 'all';
-            this.$nextTick(() => this.animateListCards());
+            if (tab === 'dev') this.$router.push('/archive/dev'); 
+            else if (tab === 'music') this.$router.push('/archive/music'); 
         },
         toggleSubmenu(event, tab) {
             this.triggerDropLottie(event);
