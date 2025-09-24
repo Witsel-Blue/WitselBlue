@@ -1,6 +1,6 @@
 <template>
     <div id='archive' class='page'>
-        <CursorCustom />
+
         <PageTransition :title='title' v-if="$route.path === '/archive'" />
 
         <div class='main'>
@@ -74,7 +74,6 @@ import archiveDevData from '@/assets/data/archive_dev.js';
 import archiveMusicData from '@/assets/data/archive_music.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import CursorCustom from '@/components/CursorCustom.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import StarBg from '@/components/StarBg.vue';
 import SkewCardY from '@/components/SkewCardY.vue';
@@ -88,7 +87,6 @@ if (process.client) {
     
 export default {
     components: {
-        CursorCustom,
         PageTransition,
         StarBg,
         SkewCardY,

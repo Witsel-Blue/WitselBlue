@@ -1,8 +1,6 @@
 <template>
     <div id='archive_dev_detail' class='page_detail' v-if='dev'>
 
-        <CursorCustom />
-
         <div class='contents'>
 
             <section class='main'>
@@ -76,14 +74,12 @@
 
 <script>
 import archiveDevData from '@/assets/data/archive_dev.js';
-import CursorCustom from '@/components/CursorCustom.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
 
 export default {
     components: {
-        CursorCustom,
         ParallaxImg,
         ButtonRound,
         TextShifting,

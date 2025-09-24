@@ -8,7 +8,7 @@
                 <span>
                     <p class='work'>{{ item.tags?.work }}</p>
                     <nuxt-link v-if='item'
-                        class='mouse-hover2'
+                        class='mouse-hover1'
                         :to="item.category === 'projects' ? `/projects/${item.slug}` :
                             item.category === 'archive_dev' ? `/archive/dev/${item.slug}` :
                             item.category === 'archive_music' ? `/archive/music/${item.slug}` :

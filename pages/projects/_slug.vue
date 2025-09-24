@@ -1,8 +1,6 @@
 <template>
     <div id='project_detail' class='page_detail'>
 
-        <CursorCustom />
-
         <div class='contents'>
 
             <section class='main'>
@@ -125,7 +123,6 @@
 
 <script>
 import projectsData from '@/assets/data/projects.js';
-import CursorCustom from '@/components/CursorCustom.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
@@ -133,7 +130,6 @@ import TextShifting from '@/components/TextShifting.vue';
     
 export default {
     components: {
-        CursorCustom,
         PageTransition,
         ParallaxImg,
         ButtonRound,

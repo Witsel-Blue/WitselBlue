@@ -1,5 +1,6 @@
 <template>
     <div id='app'>
+        <CursorCustom v-if='showCursor' />
         <GNB v-if='!isNoUIPage' />
         <Nuxt :key='$route.fullPath' />
         <Footer v-if='showFooter' />
@@ -13,12 +14,14 @@
 </template>
 
 <script>
+import CursorCustom from '@/components/CursorCustom.vue';
 import GNB from '@/layouts/gnb.vue';
 import Footer from '@/layouts/Footer.vue';
 import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
     components: { 
+        CursorCustom,
         GNB,
         Footer,
         DetailFooter,
@@ -44,6 +47,9 @@ export default {
         nextArchiveMusic() {
             return this.$store.state.nextArchiveMusic;
         },
+        showCursor() {
+            return this.$route && this.$route.path !== '/';
+        }
     },
 };
 </script>

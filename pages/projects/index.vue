@@ -1,6 +1,5 @@
 <template>
     <div id='projects' class='page'>
-        <CursorCustom />
         <PageTransition :title='title' />
 
         <div class='main'>
@@ -81,7 +80,6 @@
 
 <script>
 import projectsData from '@/assets/data/projects.js';
-import CursorCustom from '@/components/CursorCustom.vue';
 import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -97,7 +95,6 @@ if (process.client) {
 
 export default {
     components: {
-        CursorCustom,
         PageTransition,
         StarBg,
         SkewCardY,

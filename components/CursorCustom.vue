@@ -46,130 +46,70 @@ export default {
         }
     },
     mounted() {
-        this.mouseMove();
-        this.$nextTick(() => {
-            this.mouseHover();
-            this.observeDynamicElements();
-        });
-        window.addEventListener('cursor-set-text', (e) => {
-            this.internalText = e.detail.text || '';
-        });
-        window.addEventListener('cursor-show-image', (e) => {
-            this.showText = e.detail.show;
-        });
+        this.initCursor();
+    },
+    beforeDestroy() {
+        document.removeEventListener('mouseover', this.handleHover);
+        document.removeEventListener('mouseout', this.handleHoverOut);
+        window.removeEventListener('mousemove', this.handleMove);
+        window.removeEventListener('cursor-set-text', this.handleSetText);
+        window.removeEventListener('cursor-show-image', this.handleShowImage);
     },
     methods: {
-        mouseMove() {
-            var winW = window.innerWidth;
+        initCursor() {
+            if (window.innerWidth <= 425) return;
 
-            if (winW > 425) {
-                const gsap = this.$gsap;
-                var circle = this.$refs.circle;
-
-                gsap.set('.cursor-circle', {xPercent: -50, yPercent: -50});
-
-                let xTo = gsap.quickTo('.cursor-circle', 'x', {duration: 0.4, ease: 'power3'}),
-                    yTo = gsap.quickTo('.cursor-circle', 'y', {duration: 0.4, ease: 'power3'});
-
-                window.addEventListener('mousemove', e => {
-                    xTo(e.clientX);
-                    yTo(e.clientY);
-                });
-            }
-        },
-        mouseHover() {
-            var winW = window.innerWidth;
-
-            if (winW > 425) {
-                const gsap = this.$gsap;
-                var circle = this.$refs.circle;
-
-                var hoverElems = document.querySelectorAll('.mouse-hover1');
-                for (var i = 0; i < hoverElems.length; i++) {
-                    var x = hoverElems[i];
-
-                    x.addEventListener('mouseenter', e => {
-                        circle.classList.add('hover1');
-                    });
-                    x.addEventListener('mouseleave', e => {
-                        circle.classList.remove('hover1');
-                    });
-                }
-
-                var hoverElems2 = document.querySelectorAll('.mouse-hover2');
-                for (var i = 0; i < hoverElems2.length; i++) {
-                    var x2 = hoverElems2[i];
-
-                    x2.addEventListener('mouseenter', e => {
-                        circle.classList.add('hover2');
-                    });
-                    x2.addEventListener('mouseleave', e => {
-                        circle.classList.remove('hover2');
-                    });
-                }
-
-                var hoverElems2 = document.querySelectorAll('.mouse-hover3');
-                for (var i = 0; i < hoverElems2.length; i++) {
-                    var x2 = hoverElems2[i];
-
-                    x2.addEventListener('mouseenter', e => {
-                        circle.classList.add('hover3');
-                    });
-                    x2.addEventListener('mouseleave', e => {
-                        circle.classList.remove('hover3');
-                    });
-                }
-
-                var noHoverElems = document.querySelectorAll('.mouse-none');
-                for (var i = 0; i < noHoverElems.length; i++) {
-                    var x2 = noHoverElems[i];
-
-                    x2.addEventListener('mouseenter', e => {
-                        circle.classList.add('no-cursor');
-                    });
-                    x2.addEventListener('mouseleave', e => {
-                        circle.classList.remove('no-cursor');
-                    });
-                }
-
-            }
-        },
-        observeDynamicElements() {
+            const gsap = this.$gsap;
             const circle = this.$refs.circle;
-            if (!circle) return;
 
-            const observer = new MutationObserver((mutationsList) => {
-                for (const mutation of mutationsList) {
-                    if (mutation.type === 'childList') {
-                        mutation.addedNodes.forEach((node) => {
-                            if (node.nodeType !== 1) return;
+            gsap.set(circle, { xPercent: -50, yPercent: -50 });
 
-                            if (node.classList.contains('mouse-none')) {
-                                node.addEventListener('mouseenter', () => {
-                                    circle.classList.add('no-cursor');
-                                });
-                                node.addEventListener('mouseleave', () => {
-                                    circle.classList.remove('no-cursor');
-                                });
-                            }
+            this.handleMove = (e) => {
+                gsap.to(circle, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.4,
+                ease: 'power3',
+                });
+            };
 
-                            const nested = node.querySelectorAll?.('.mouse-none') || [];
-                            nested.forEach(el => {
-                                el.addEventListener('mouseenter', () => {
-                                    circle.classList.add('no-cursor');
-                                });
-                                el.addEventListener('mouseleave', () => {
-                                    circle.classList.remove('no-cursor');
-                                });
-                            });
-                        });
-                    }
-                }
-            });
+            window.addEventListener('mousemove', this.handleMove);
 
-            observer.observe(document.body, { childList: true, subtree: true });
-        }
+            // hover
+            this.handleHover = (e) => {
+                const el = e.target.closest('.mouse-hover1, .mouse-hover2, .mouse-hover3, .mouse-none');
+                if (!el) return;
 
+                if (el.classList.contains('mouse-hover1')) circle.classList.add('hover1');
+                if (el.classList.contains('mouse-hover2')) circle.classList.add('hover2');
+                if (el.classList.contains('mouse-hover3')) circle.classList.add('hover3');
+                if (el.classList.contains('mouse-none')) circle.classList.add('no-cursor');
+            };
+
+            this.handleHoverOut = (e) => {
+                const el = e.target.closest('.mouse-hover1, .mouse-hover2, .mouse-hover3, .mouse-none');
+                if (!el) return;
+
+                if (el.classList.contains('mouse-hover1')) circle.classList.remove('hover1');
+                if (el.classList.contains('mouse-hover2')) circle.classList.remove('hover2');
+                if (el.classList.contains('mouse-hover3')) circle.classList.remove('hover3');
+                if (el.classList.contains('mouse-none')) circle.classList.remove('no-cursor');
+            };
+
+            document.addEventListener('mouseover', this.handleHover);
+            document.addEventListener('mouseout', this.handleHoverOut);
+
+            // 텍스트/이미지 제어
+            this.handleSetText = (e) => {
+                this.internalText = e.detail.text || '';
+            };
+            this.handleShowImage = (e) => {
+                this.showText = e.detail.show;
+            };
+
+            window.addEventListener('cursor-set-text', this.handleSetText);
+            window.addEventListener('cursor-show-image', this.handleShowImage);
+        },
     }
 }
 </script>

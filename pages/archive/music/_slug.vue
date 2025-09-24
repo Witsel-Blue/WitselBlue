@@ -1,7 +1,5 @@
 <template>
     <div id='archive_music_detail' class='page_detail'>
-      
-        <CursorCustom />
 
         <div class='contents'>
 
@@ -66,12 +64,10 @@
 
 <script>
 import archiveMusicData from '@/assets/data/archive_music.js';
-import CursorCustom from '@/components/CursorCustom.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 
 export default {
     components: {
-        CursorCustom,
         ButtonRound,
     },
     data() {

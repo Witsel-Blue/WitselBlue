@@ -4,7 +4,6 @@
         ondragstart='return false'
         onselectstart='return false'
     >
-        <CursorCustom />
         <client-only>
             <swiper :options='swiperOptions'>
                 <swiper-slide>
@@ -36,12 +35,7 @@
 </template>
 
 <script>
-import CursorCustom from '@/components/CursorCustom.vue';
-
 export default {
-    components: {
-        CursorCustom,
-    },
     data() {
         return {
             swiperOptions: {
@@ -97,16 +91,16 @@ export default {
     right: 2.5vw;
     transition: stroke 0.4s;
 }
-.prev:hover,
-.next:hover {
-    background-color: $black1;
-    transition: background 0.6s;
-}
-.prev:hover svg path,
-.next:hover svg path {
-    stroke: $white1;
-    transition: stroke 0.4s;
-}
+// .prev:hover,
+// .next:hover {
+//     background-color: $black1;
+//     transition: background 0.6s;
+// }
+// .prev:hover svg path,
+// .next:hover svg path {
+//     stroke: $white1;
+//     transition: stroke 0.4s;
+// }
 
 svg {
     width: 100%;
