@@ -57,6 +57,19 @@ export default {
         window.removeEventListener('resize', this.checkPosition);
         if (this.staggerTween) this.staggerTween.kill();
     },
+    watch: {
+        paragraphs: {
+            immediate: true,
+            handler() {
+                if (!process.client) return;
+                    this.$nextTick(() => {
+                        const paragraphsEls = this.$refs.textStagger.querySelectorAll('li p');
+                        this.resetAnimation(paragraphsEls);
+                        this.runAnimation(paragraphsEls);
+                });
+            }
+        }
+    },
     methods: {
         initAnimation() {
             const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
