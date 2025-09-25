@@ -60,15 +60,15 @@
                 >
                     <SkewCardY :img='item.images.thumb' :path='item.path' />
                     <div class='desc'>
-                        <p class='work'>{{ item.tags.work }}</p>
+                        <p class='work'>{{ item.tags.work[$i18n.locale] }}</p>
                         <NuxtLink 
                             class='title mouse-hover1'
                             :to=item.path>
-                            <TextShifting :text='item.title' :key='item.slug' />
+                            <TextShifting :text='item.title[$i18n.locale]' :key='item.slug' />
                         </NuxtLink>
                         <div class='tags'>
                             <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
-                                #{{ value }}
+                                #{{ value[$i18n.locale] }}
                             </p>
                         </div>
                     </div>

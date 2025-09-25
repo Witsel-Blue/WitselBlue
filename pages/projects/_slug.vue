@@ -8,7 +8,7 @@
                     <ParallaxImg :src='project.images.mainvisual' />
                 </div>
                 <div class='title' data-aos='fade-up'>
-                    <p>{{ project.tags.work }}</p>
+                    <p>{{ project.tags.work[$i18n.locale] }}</p>
                     <a
                         v-if='project.link'
                         class='mouse-hover1'
@@ -17,7 +17,7 @@
                         @mouseenter='showCursorImage(true)'
                         @mouseleave='showCursorImage(false)'
                     >
-                        <TextShifting :text='project.title' />
+                        <TextShifting :text='localizedTitle' />
                     </a>
                 </div>
                 <div class='desc' v-if='project.desc'>
@@ -27,8 +27,8 @@
                                 <dl data-aos='fade-up'>
                                     <dt>Team<span v-if='project.desc.client'> / Client</span></dt>
                                     <dd>
-                                        {{ project.desc.agency }}
-                                        <span v-if='project.desc.client'> / {{ project.desc.client }}</span>
+                                        {{ project.desc.agency[$i18n.locale] }}
+                                        <span v-if='project.desc.client'> / {{ project.desc.client[$i18n.locale] }}</span>
                                     </dd>
                                 </dl>
                             </li>
@@ -44,7 +44,7 @@
                             <li v-if='project.desc.stack'>
                                 <dl data-aos='fade-up'>
                                     <dt>Main Stack</dt>
-                                    <dd>{{ project.desc.stack }}</dd>
+                                    <dd>{{ project.desc.stack[$i18n.locale] }}</dd>
                                 </dl>
                             </li>
                         </ul>
@@ -58,13 +58,13 @@
                         v-if='project.content.about'
                         data-aos='fade-up'
                         class='txt-c' 
-                        v-html='project.content.about'
+                        v-html='project.content.about[$i18n.locale]'
                     ></p>
                     <ButtonRound
                         v-if='project.link && project.link.href'
                         data-aos='fade-up'
                         class='txt-c'
-                        :link='project.link'
+                        :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
                     />
                 </div>
             </section>
@@ -139,6 +139,11 @@ export default {
         return {
             project: null,
             cursorText: '',
+        }
+    },
+    computed: {
+        localizedTitle() {
+            return this.project?.title?.[this.$i18n.locale] || '';
         }
     },
     async asyncData({ params, store }) {

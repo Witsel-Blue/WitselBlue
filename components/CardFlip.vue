@@ -6,7 +6,7 @@
             </div>
             <div class='card-back'>
                 <span>
-                    <p class='work'>{{ item.tags?.work }}</p>
+                    <p class='work'>{{ item.tags?.work[$i18n.locale] }}</p>
                     <nuxt-link v-if='item'
                         class='mouse-hover1'
                         :to="item.category === 'projects' ? `/projects/${item.slug}` :
@@ -14,12 +14,12 @@
                             item.category === 'archive_music' ? `/archive/music/${item.slug}` :
                             '/'"
                     >
-                        <TextShifting :text='item.title' :key='item.slug' />
+                        <TextShifting :text='item.title[$i18n.locale]' :key='item.slug' />
                     </nuxt-link>
                 </span>
                 <div class='tags'>
                     <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
-                        #{{ value }}
+                        #{{ value[$i18n.locale] }}
                     </p>
                 </div>
             </div>

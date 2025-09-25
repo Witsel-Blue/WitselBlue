@@ -24,12 +24,20 @@ export default {
             textArray: []
         }
     },
+    watch: {
+        text: {
+            immediate: true,
+            handler() {
+                this.splitTexts();
+            }
+        }
+    },
     mounted() {
         this.splitTexts();
     },
     methods: {
         splitTexts() {
-            const str = this.text;
+            const str = String(this.text || '');
             this.textArray = str.split('').map((ch, index) => ({
                 char: ch === ' ' ? '\u00A0' : ch,
                 id: index + 1,
