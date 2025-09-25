@@ -9,7 +9,7 @@
             @click='$emit("click")'
         >
             <span ref='circle' class='circle'></span>
-            <span class='title'>{{ link.text || text }}</span>
+            <span class='title'>{{ $t(link.text || text) }}</span>
         </a>
     </div>
 </template>

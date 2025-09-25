@@ -20,4 +20,21 @@ export default {
             'Mastered!',
         ],
     },
+    footer: {
+        lists: {
+            btn1: 'send mail',
+            btn2: 'view resume',
+        },
+        subLists: {
+            btn1: 'GitHub',
+            btn2: 'LinkedIn',
+            btn3: 'Slack',
+        },
+    },
+    pager: {
+        paragraphs: [
+            'click to',
+            'go top',
+        ],
+    },
 }

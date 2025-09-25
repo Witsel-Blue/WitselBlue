@@ -2,10 +2,7 @@
     <div id='pager'>
         <div class='wrapper mouse-hover1'>
             <TextStagger
-                :paragraphs="[
-                    'click to', 
-                    'go top'
-                ]"
+                :paragraphs="[$t('pager.paragraphs.0'), $t('pager.paragraphs.1')]"
                 triggerMode='bottom'
                 speedMode='fast'
                 :rewindAnimation='true'

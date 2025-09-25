@@ -18,5 +18,22 @@ export default {
             '잘 합니다',
             '통달!',
         ],
-    }
+    },
+    footer: {
+        lists: {
+            btn1: '메일 보내기',
+            btn2: '이력서 보기',
+        },
+        subLists: {
+            btn1: 'GitHub',
+            btn2: 'LinkedIn',
+            btn3: 'Slack',
+        },
+    },
+    pager: {
+        paragraphs: [
+            '클릭해서',
+            '맨 위로 스크롤',
+        ],
+    },
 }

@@ -21,10 +21,14 @@
                 <div>
                     <ul class='lists'>
                         <li>
-                            <ButtonRound :link='link' />
+                            <ButtonRound
+                                :link="{ href: 'mailto:witselblue@gmail.com', text: 'footer.lists.btn1' }"
+                            />
                         </li>
                         <li>
-                            <ButtonRound :link='link2' />
+                            <ButtonRound
+                                :link="{ href: '/resume', target: '_blank', text: 'footer.lists.btn2' }"
+                            />
                         </li>
                     </ul>
                 </div>
@@ -32,17 +36,17 @@
                     <ul class='sub-lists'>
                         <li>
                             <a href='https://github.com/Witsel-Blue' target='_blank' class='mouse-hover3'>
-                                github
+                                {{ $t('footer.subLists.btn1') }}
                             </a>
                         </li>
                         <li>
                             <a href='www.linkedin.com/in/witselblue' target='_blank' class='mouse-hover3'>
-                                linkedin
+                                {{ $t('footer.subLists.btn2') }}
                             </a>
                         </li>
                         <li>
                             <a href='https://witselblue.slack.com/team/U0830TL3ZDW' target='_blank' class='mouse-hover3'>
-                                slack
+                                {{ $t('footer.subLists.btn3') }}
                             </a>
                         </li>
                     </ul>
@@ -71,19 +75,6 @@ export default {
         ButtonRound,
         ChangeLang,
         ChangeCursor,
-    },
-    data() {
-        return {
-            link: {
-                href: 'mailto:witselblue@gmail.com',
-                text: 'send mail',
-            },
-            link2: {
-                href: '/resume',
-                text: 'view resume',
-                target: '_blank',
-            },
-        }
     },
     mounted() {
         this.$nextTick(() => {
