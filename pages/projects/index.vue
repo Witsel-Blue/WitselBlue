@@ -1,10 +1,10 @@
 <template>
     <div id='projects' class='page'>
-        <PageTransition :title='title' />
+        <PageTransition :title="$t('projects.title')" />
 
         <div class='main'>
             <h1 class='title ft-bagel'>
-                {{ title }}
+                {{ $t('projects.title') }}
             </h1>
             <StarBg />
         </div>
@@ -103,7 +103,6 @@ export default {
     },
     data() {
         return {
-            title: 'projects',
             activeTab: 'all',
             openedGroup: null,
             groupLabels: {

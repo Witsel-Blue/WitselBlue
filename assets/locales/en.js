@@ -37,4 +37,7 @@ export default {
             'go top',
         ],
     },
+    projects: {
+        title: 'projects',
+    }
 }

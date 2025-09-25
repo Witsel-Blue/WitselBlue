@@ -54,6 +54,24 @@ export default {
             return this.$store.state.cursor.showLottie || false;
         }
     },
+    mounted() {
+        this.initLocale();
+    },
+    watch: {
+        '$route.fullPath'() {
+            this.initLocale();
+        }
+    },
+    methods: {
+        initLocale() {
+            this.$store.dispatch('locales/initLocale');
+            const locale = this.$store.state.locales.locale;
+            if (this.$i18n.locale !== locale) {
+                this.$i18n.setLocale(locale);
+            }
+        }
+    }
+
 };
 </script>
 

@@ -15,9 +15,6 @@
 
 <script>
 export default {
-    mounted() {
-
-    },
     computed: {
         currentLocale() {
             return this.$i18n.locale;
@@ -25,7 +22,8 @@ export default {
     },
     methods: {
         changeLocale(locale) {
-            this.$i18n.locale = locale;
+            this.$store.dispatch('locales/setLocale', locale);
+            this.$i18n.setLocale(locale);
         }
     },
 }

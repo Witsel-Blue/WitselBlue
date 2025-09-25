@@ -36,4 +36,7 @@ export default {
             '맨 위로 스크롤',
         ],
     },
+    projects: {
+        title: '프로젝트',
+    }
 }
