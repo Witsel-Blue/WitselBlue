@@ -24,6 +24,9 @@
                             :hoverImages='profileHoverImgs'
                             triggerMode='middle'
                             speedMode='slow'
+                            :key='$i18n.locale'
+                            @hover-enter='(idx) => $set(activeHoverImgs, idx, true)'
+                            @hover-leave='(idx) => $set(activeHoverImgs, idx, false)'
                         />
                         <div class='arrow' data-aos='fade-up'>
                             <span>hover texts!</span>

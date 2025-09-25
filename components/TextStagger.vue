@@ -62,10 +62,11 @@ export default {
             immediate: true,
             handler() {
                 if (!process.client) return;
-                    this.$nextTick(() => {
-                        const paragraphsEls = this.$refs.textStagger.querySelectorAll('li p');
-                        this.resetAnimation(paragraphsEls);
-                        this.runAnimation(paragraphsEls);
+                this.$nextTick(() => {
+                    const paragraphsEls = this.$refs.textStagger.querySelectorAll('li p');
+                    this.resetAnimation(paragraphsEls);
+                    this.runAnimation(paragraphsEls);
+                    this.initHoverEvents();
                 });
             }
         }
@@ -164,8 +165,19 @@ export default {
             }
             
         },
+        initHoverEvents() {
+            const spans = this.$refs.textStagger.querySelectorAll('span.mouse-hover1');
+            spans.forEach((span, index) => {
+                span.addEventListener('mouseenter', () => {
+                    this.$emit('hover-enter', index);
+                });
+                span.addEventListener('mouseleave', () => {
+                    this.$emit('hover-leave', index);
+                });
+            });
+        }
     },
-    }
+}
 </script>
 
 <style lang='scss' scoped>
