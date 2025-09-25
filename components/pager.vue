@@ -7,7 +7,7 @@
                     'go top'
                 ]"
                 triggerMode='bottom'
-                speedMod='fast'
+                speedMode='fast'
                 :rewindAnimation='true'
             />
             <img

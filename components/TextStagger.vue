@@ -62,11 +62,19 @@ export default {
             immediate: true,
             handler() {
                 if (!process.client) return;
+
                 this.$nextTick(() => {
-                    const paragraphsEls = this.$refs.textStagger.querySelectorAll('li p');
+                    const paragraphsEls = this.$refs.textStagger?.querySelectorAll('li p');
+                    if (!paragraphsEls) return;
+
+                    if (this.triggerMode === 'bottom') {
+                        this.initAnimation();
+                        return;
+                    }
+
                     this.resetAnimation(paragraphsEls);
                     this.runAnimation(paragraphsEls);
-                    this.initHoverEvents();
+                    this.initHoverEvents?.();
                 });
             }
         }
