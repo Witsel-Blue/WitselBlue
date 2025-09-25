@@ -10,5 +10,14 @@ export default {
             'who can <span class="mouse-hover1">create</span> new experiences',
             'beyond just obtaining information.'
         ],
-    }
+        subTitle_skills: 'Skills',
+    },
+    randomSkillCards: {
+        categories: ['Framework', 'Library', 'Language', 'UI / Design', 'Environment'],
+        def: [
+            'I can manage',
+            "I'm solid",
+            'Mastered!',
+        ],
+    },
 }

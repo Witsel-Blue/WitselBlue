@@ -18,21 +18,16 @@ export default {
     mounted() {
 
     },
-    methods: {
-        changeLocale(locale) {
-            this.$i18n.locale = locale
-        }
-    },
-      watch: {
-        '$i18n.locale'(newVal) {
-            this.currentLocale = newVal
+    computed: {
+        currentLocale() {
+            return this.$i18n.locale;
         }
     },
     methods: {
         changeLocale(locale) {
-            this.$i18n.locale = locale
+            this.$i18n.locale = locale;
         }
-    }
+    },
 }
 </script>
 

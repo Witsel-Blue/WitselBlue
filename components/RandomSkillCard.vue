@@ -3,55 +3,55 @@
 
     <!-- card wrapper -->
     <div
-      class='skill-cards-wrapper'
-      ref='wrapper'
-      @mousemove='handleMouseMove'
+        class='skill-cards-wrapper'
+        ref='wrapper'
+        @mousemove='handleMouseMove'
     >
-      <div
-        v-for='(skill, index) in filteredSkills'
-        :key='skill.name'
-        class='skill-card mouse-hover2'
-        @mouseenter='hoverCard(index)'
-        @mouseleave='leaveCard(index)'
-      >
-        <div class='card-inner' :class='{ flipped: skill.flipped }'>
-            <div class='card-front'>
-                <img :src='skill.logo' />
-            </div>
-            <div class='card-back'>
-                <h3>{{ skill.title }}</h3>
-                <div class='stars'>
-                    <span 
-                        v-for='n in 5'
-                        :key='n'
-                        :class='{ filled: n <= skill.rate, animate: skill.flipped }'
-                        :style='{ "--i": n}'
-                    >
-                        ★
-                    </span>
+        <div
+                v-for='(skill, index) in filteredSkills'
+                :key='skill.name'
+                class='skill-card mouse-hover2'
+                @mouseenter='hoverCard(index)'
+                @mouseleave='leaveCard(index)'
+        >
+            <div class='card-inner' :class='{ flipped: skill.flipped }'>
+                <div class='card-front'>
+                    <img :src='skill.logo' />
+                </div>
+                <div class='card-back'>
+                    <h3>{{ skill.title[$i18n.locale] }}</h3>
+                    <div class='stars'>
+                        <span 
+                            v-for='n in 5'
+                            :key='n'
+                            :class='{ filled: n <= skill.rate, animate: skill.flipped }'
+                            :style='{ "--i": n}'
+                        >
+                            ★
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-      </div>
     </div>
 
     <!-- tabs -->
     <div class='tabs'>
         <ButtonRound
-            v-for='cat in categories'
-            :key='cat'
+            v-for='(cat, index) in categories'
+            :key='`${cat}-${index}`'
             :text='cat'
-            :class='{active: activeCategory === cat}'
-            @click='switchCategory(cat)'
+            :class='{ active: activeCategoryIndex === index }'
+            @click='switchCategory(index)'
         />
     </div>
 
     <div class='def'>
        <div class='inner'>
             <ul>
-                <li>★★★: I can manage</li>
-                <li>★★★★: I'm solid</li>
-                <li>★★★★★: Mastered!</li>
+                <li>★★★: {{ $t('randomSkillCards.def[0]') }}</li>
+                <li>★★★★: {{ $t('randomSkillCards.def[1]') }}</li>
+                <li>★★★★★: {{ $t('randomSkillCards.def[2]') }}</li>
             </ul>
        </div>
     </div>
@@ -68,18 +68,19 @@ export default {
     name: 'RandomSkillCard',
     data() {
         return {
-        categories: ['Framework', 'Library', 'Language', 'UI / Design', 'Environment'],
-        activeCategory: 'Framework',
-        skills: SkillsData,
-        basePositions: [],
-        mouse: { x: 0, y: 0 },
+            activeCategoryIndex: 0,
+            skills: SkillsData,
+            basePositions: [],
+            mouse: { x: 0, y: 0 },
         };
     },
     computed: {
+        categories() {
+           return this.$t('randomSkillCards.categories', {}, { returnObjects: true }) || [];
+        },
         filteredSkills() {
-            return this.skills.filter(
-                (skill) => skill.category === this.activeCategory
-            );
+            const activeCat = this.categories[this.activeCategoryIndex];
+            return this.skills.filter(skill => skill.category[this.$i18n.locale] === activeCat);
         },
     },
     mounted() {
@@ -89,12 +90,12 @@ export default {
         window.addEventListener('resize', this.scatterCards);
     },
     beforeDestroy() {
-        window.removeEventListener('resize', this.centerCards);
+        window.removeEventListener('resize', this.scatterCards);
     },
     methods: {
-        switchCategory(cat) {
-            if (this.activeCategory === cat) return;
-            this.activeCategory = cat;
+        switchCategory(index) {
+            if (this.activeCategoryIndex === index) return;
+            this.activeCategoryIndex = index;
 
             this.$nextTick(() => {
                 const cards = this.$refs.wrapper.children;

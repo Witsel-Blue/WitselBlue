@@ -9,5 +9,14 @@ export default {
             '다양한 방법으로 사용자가 <span class="mouse-hover1 ko">경험</span>할 수 있는',
             '사이트를 만드는 <br class="mb"><span class="mouse-hover1 ko"><b>웹 공간 설계자</b></span>가 제 목표입니다.',
         ],
+        subTitle_skills: '기술 스택',
+    },
+    randomSkillCards: {
+        categories: ['프레임워크', '라이브러리', '언어', 'UI / 디자인', '작업환경'],
+        def: [
+            '할 수 있어요',
+            '잘 합니다',
+            '통달!',
+        ],
     }
 }

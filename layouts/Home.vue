@@ -47,7 +47,7 @@
             <section class='skills' ref='skills'>
                 <div class='inner'>
                     <h1 class='subtitle ft-bagel txt-c'>
-                        Skills
+                        {{ $t('home.subTitle_skills') }}
                     </h1>
                     <img src='@/assets/img/home/tablecloth.jpg' class='tablecloth' />
                     <img src='@/assets/img/home/candle.png' class='candle' />
