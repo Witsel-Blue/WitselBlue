@@ -7,9 +7,9 @@
             <Mainvisual />
             <div class='inner'>
                 <p class='subtext'>
-                    frontend developer
+                    {{ $t('home.mainSub') }}
                 </p>
-                <TextScroll :text="'WitselBlue'" />
+                <TextScroll :text="$t('home.mainTitle')" />
             </div>
         </section>
         <div @mouseleave='onMouseLeaveMain'>
@@ -20,14 +20,8 @@
                     </div>
                     <div class='text'>
                         <TextStagger 
-                            :paragraphs="[
-                                'Hi,<br class=&quot;mb&quot;> this is <span class=&quot;mouse-hover1&quot;>WitselBlue</span> from Seoul.',
-                                'I try to make <span class=&quot;mouse-hover1&quot;>interactive</span> websites',
-                                'and <span class=&quot;mouse-hover1&quot;>scalable</span> clean codes.',
-                                'My aim is to be <br class=&quot;mb&quot;>a <span class=&quot;mouse-hover1&quot;>frontend developer</span>',
-                                'who can <span class=&quot;mouse-hover1&quot;>create</span> new experiences',
-                                'beyond just obtaining information.'
-                            ]"
+                            :paragraphs="$t('home.profileParagraphs')"
+                            :hoverImages='profileHoverImgs'
                             triggerMode='middle'
                             speedMode='slow'
                         />

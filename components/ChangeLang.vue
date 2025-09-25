@@ -1,7 +1,15 @@
 <template>
     <div id='change-lang'>
-        <button class='active mouse-hover2'>KO</button>
-        <button class='mouse-hover2'>EN</button>
+        <button @click="changeLocale('en')"
+            :class="['mouse-hover2', { active: currentLocale === 'en' }]"
+        >
+            ENG
+        </button>
+        <button @click="changeLocale('ko')" 
+            :class="['mouse-hover2', { active: currentLocale === 'ko' }]"
+        >
+            KO
+        </button>
     </div>
 </template>
 
@@ -11,8 +19,20 @@ export default {
 
     },
     methods: {
-
+        changeLocale(locale) {
+            this.$i18n.locale = locale
+        }
     },
+      watch: {
+        '$i18n.locale'(newVal) {
+            this.currentLocale = newVal
+        }
+    },
+    methods: {
+        changeLocale(locale) {
+            this.$i18n.locale = locale
+        }
+    }
 }
 </script>
 
@@ -24,6 +44,10 @@ export default {
     align-items: center;
     justify-content: center;
     gap: 4px;
+    position: fixed;
+    top: 0;
+    left: 5vw;
+    z-index: 10;
         
     button {
         font-size: 0.8rem;

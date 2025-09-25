@@ -52,6 +52,14 @@ export default {
     },
     mounted() {
         this.initCursor();
+        this.$watch(
+            () => this.$i18n.locale,
+            (newLocale) => {
+                this.$store.commit('cursor/setCursorText', '');
+                this.$store.commit('cursor/setCursorImage', false);
+                this.refreshHoverListeners();
+            }
+        );
     },
     beforeDestroy() {
         document.removeEventListener('mouseover', this.handleHover);
@@ -115,6 +123,10 @@ export default {
 
             window.addEventListener('cursor-set-text', this.handleSetText);
             window.addEventListener('cursor-show-image', this.handleShowImage);
+        },
+        refreshHoverListeners() {
+            this.$store.commit('cursor/setCursorText', '');
+            this.$store.commit('cursor/setCursorImage', false);
         },
     }
 }

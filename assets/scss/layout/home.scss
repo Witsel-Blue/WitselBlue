@@ -93,12 +93,21 @@
                     margin-top: 5vh;
                     line-height: 2.4;
                     text-align: center;
-                    span {
-                        font-family: 'Pacifico';
+                    span.mouse-hover1 {
+                        font-family: 'Knewave';
                         font-size: 1.8rem;
                         line-height: 1.6;
-                        &:first-child {
-                            font-family: 'Knewave';
+                        b {
+                            font-family: 'Pacifico';
+                            font-weight: normal;
+                        }
+                        &.ko {
+                            font-family: 'Diphylleia';
+                            b {
+                                font-family: 'Bagel';
+                                font-size: 2rem;
+                                font-weight: normal;
+                            }
                         }
                     }
                 }

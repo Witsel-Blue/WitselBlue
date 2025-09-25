@@ -13,6 +13,9 @@
                 <li>
                     <Pager />
                 </li>
+                <li>
+                    <ChangeLang />
+                </li>
             </ul>
         </nav>
 
@@ -51,11 +54,13 @@
 import Pager from '@/components/pager.vue';
 import Lottie from '@/components/Lottie.vue';
 import Drop from '@/assets/lottie/drop.json';
+import ChangeLang from '@/components/ChangeLang.vue';
     
 export default {
     components: {
         Pager,
         Lottie,
+        ChangeLang,
     },
     data() {
         return {

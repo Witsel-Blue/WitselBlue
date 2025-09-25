@@ -24,6 +24,11 @@ export default {
             speeds: [],
         };
     },
+    watch: {
+        text(newText) {
+            this.updateText(newText);
+        }
+    },
     mounted() {
         this.splitTexts();
         this.setSpeeds();
@@ -72,6 +77,15 @@ export default {
                     el.style.opacity = newOpacity;
                     el.style.display = newOpacity < 0.01 ? 'none' : 'inline-block';
                 });
+            });
+        },
+        updateText(newText) {
+            this.textArray = newText.split('');
+            const fixedSpeeds = [0.4, 0.6, 0.5, 0.7];
+            this.speeds = this.textArray.map((_, idx) => fixedSpeeds[idx % fixedSpeeds.length]);
+
+            this.$nextTick(() => {
+                this.initInitialAnimation();
             });
         },
 

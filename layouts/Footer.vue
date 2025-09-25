@@ -49,10 +49,10 @@
                 </div>
             </div>
             <div class='bottom'>
-                <!-- <div class='convenience'>
-                    <ChangeLang />
-                    <ChangeCursor />
-                </div> -->
+                <div class='convenience'>
+                    <!-- <ChangeLang /> -->
+                    <!-- <ChangeCursor /> -->
+                </div>
                 <!-- <div class='desc'>
                     <p>&copy; 2025 witselblue</p>
                 </div> -->
