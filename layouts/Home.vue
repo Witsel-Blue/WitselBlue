@@ -61,9 +61,12 @@
                         v-for='list in selected'
                         :key='list.slug'>
                         <div class='wrap'>
+                            <div class='cat'>
+                                {{ list.category }}
+                            </div>
                             <SkewCardX :img='list.images.thumb' :path='getPath(list)' />
                             <div class='desc'>
-                                <p class='work'>{{ list.category }}</p>
+                                <p class='work'>{{ list.tags.work }}</p>
                                 <Nuxt-link 
                                     class='title mouse-hover1'
                                     :to='getPath(list)'

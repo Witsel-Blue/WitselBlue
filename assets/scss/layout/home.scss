@@ -222,6 +222,17 @@
                 .wrap {
                     width: 80%;
                     position: relative;
+                    padding-left: calc(1.2rem + 8px);
+                }
+                .cat {
+                    font-family: "Anybody", sans-serif;
+                    font-stretch: 110%;
+                    font-size: 1.2rem;
+                    writing-mode: vertical-rl;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
                 }
                 ::v-deep .hover-img {
                     width: 80%;
