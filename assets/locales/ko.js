@@ -43,7 +43,7 @@ export default {
     },
     projects: {
         title: '프로젝트',
-        sortBy: '분류',
+        sortBy: '필터 분류',
         tabs: {
             'all': '전체',
             'work': '개발범위',

@@ -102,7 +102,7 @@ export default {
         }
         .text-shifting::v-deep span {
             font-weight: bold;
-            font-family: 'Diphylleia';
+            font-family: 'Diphylleia', 'Hahmlet';
             font-size: 2rem;
             line-height: 1;
             color: $white1;

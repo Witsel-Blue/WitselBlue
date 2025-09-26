@@ -262,7 +262,6 @@ export default {
 
         .button {
             padding: 8px 12px;
-            border-radius: 16px;
             
             .circle::before {
                 background-color: $black1;
@@ -282,7 +281,6 @@ export default {
         li {
             font-size: 0.8rem;
             color: $black1;
-            font-family: 'Diphylleia';
         }
     }
 }
@@ -334,7 +332,9 @@ export default {
 
             h3 {
                 font-size: 1.2rem;
-                font-family: 'Diphylleia';
+                font-family: 'BigShoulders', 'Namsan';
+                font-weight: 400;
+                text-align: center;
             }
 
             .stars {

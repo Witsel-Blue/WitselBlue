@@ -23,7 +23,7 @@
                     {{ $t('projects.tabs.all') }}
                 </button>
                 <p>
-                    {{ $t('projects.sortBy') }}:
+                    <span>{{ $t('projects.sortBy') }} : </span>
                 </p>
                 <div class='tab-sub-wrap'>
                     <div class='tab-group' v-for='(tagsArr, group) in tabs' :key='group'>

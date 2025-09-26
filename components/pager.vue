@@ -122,7 +122,7 @@ export default {
                 p {
                     font-size: 0.8rem;
                     line-height: 0.9;
-                    font-family: 'Diphylleia';
+                    font-family: 'basic_font', 'YUniverse';
                 }
                 &:last-child p {
                     line-height: 1.4;

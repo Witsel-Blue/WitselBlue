@@ -38,7 +38,7 @@ export default {
     justify-content: center;
     gap: 4px;
     position: fixed;
-    top: 0;
+    top: 2vh;
     left: 5vw;
     z-index: 10;
         

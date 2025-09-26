@@ -1,3 +1,4 @@
+// 전체 - 영어
 @font-face {
     font-family: 'basic_font';
     font-style: normal;
@@ -14,28 +15,32 @@
     unicode-range: U+0020-007F;
 }
 
+// 전체 - 한글
 @font-face {
-    font-family: 'basic_font';
+    font-family: 'basic_font_kr';
     font-style: normal;
     font-weight: 400;
-    src: url('@/static/fonts/NotoSansKR-Light.ttf');
+    src: url('@/static/fonts/GowunDodum-Regular.ttf');
     unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
 }
 
-@font-face {
-    font-family: 'Diphylleia';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/static/fonts/Diphylleia-Regular.ttf');
-}
-
+// 공용
 @font-face {
     font-family: 'Bagel';
     font-style: normal;
     font-weight: 400;
     src: url('@/static/fonts/BagelFatOne-Regular.ttf');
+    unicode-range: U+0020-007F;
+}
+@font-face {
+    font-family: 'Bagel_kr';
+    font-style: normal;
+    font-weight: 700; // 한글일 경우 볼드체 얇게 처리
+    src: url('@/static/fonts/BagelFatOne-Regular.ttf');
+    unicode-range: U+AC00-D7A3;
 }
 
+// 영어
 @font-face {
     font-family: 'TanPearl';
     font-style: normal;
@@ -61,6 +66,14 @@
 }
 
 @font-face {
+    font-family: 'Diphylleia';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/static/fonts/Diphylleia-Regular.ttf');
+    unicode-range: U+0020-007F;
+}
+
+@font-face {
     font-family: 'BigShoulders';
     font-style: normal;
     font-weight: 400;
@@ -68,12 +81,58 @@
     unicode-range: U+0020-007F;
 }
 
+// 한글
+@font-face {
+    font-family: 'Mango';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/static/fonts/MangoByeolbyeol.ttf');
+    unicode-range: U+AC00-D7A3;
+}
+
+@font-face {
+    font-family: 'Santokki';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/static/fonts/HSSantokki-Regular.ttf');
+    unicode-range: U+AC00-D7A3;
+}
+
+@font-face {
+    font-family: 'YUniverse';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/static/fonts/YUniverse-B.ttf');
+    unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
+}
+
+@font-face {
+    font-family: 'Hahmlet';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/static/fonts/Hahmlet-Regular.ttf');
+    unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
+}
+
+@font-face {
+    font-family: 'Namsan';
+    font-style: normal;
+    font-weight: 400;
+    src: url('@/static/fonts/서울남산 장체M.ttf');
+    unicode-range: U+AC00-D7A3;
+}
+
+
+/* ----- FONT FAMILY ----- */
+// 공용
 .ft-diphylleia {
     font-family: 'Diphylleia';
 }
 .ft-bagel {
-    font-family: 'Bagel';
+    font-family: 'Bagel', 'Bagel_kr';
 }
+
+// 영어
 .ft-tanpearl {
     font-family: 'TanPearl';
 }
@@ -83,8 +142,10 @@
 .ft-knewave {
     font-family: 'Knewave';
 }
-.ft-bigshoulders {
-    font-family: 'BigShoulders';
+
+// 한글
+.ft-icon {
+    font-family: 'YUniverse';
 }
 
 /* ----- FONT SIZE ----- */

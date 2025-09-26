@@ -33,12 +33,13 @@
                 font-size: 1.6rem;
                 position: absolute;
                 bottom: calc(16vh + 5rem + 2vh);
+                font-family: 'basic_font', 'Hahmlet';
             }
             #text-scroll::v-deep {
                 position: absolute;
                 bottom: calc(16vh);
                 span {
-                    font-family: 'Bagel';
+                    font-family: 'Bagel', 'Bagel_kr';
                     font-size: 5rem;
                 }
             }
@@ -102,11 +103,10 @@
                             font-weight: normal;
                         }
                         &.ko {
-                            font-family: 'Diphylleia';
+                            font-family: 'Santokki';
                             b {
-                                font-family: 'Bagel';
+                                font-family: 'Mango';
                                 font-size: 2rem;
-                                font-weight: normal;
                             }
                         }
                     }
@@ -225,8 +225,7 @@
                     padding-left: calc(1.2rem + 8px);
                 }
                 .cat {
-                    font-family: "Anybody", sans-serif;
-                    font-stretch: 110%;
+                    font-family: 'BigShoulders';
                     font-size: 1.2rem;
                     writing-mode: vertical-rl;
                     position: absolute;
@@ -263,7 +262,7 @@
                         font-weight: bold;
                         display: block;
                         span {
-                            font-family: 'Diphylleia';
+                            font-family: 'Diphylleia', 'Hahmlet';
                             // mix-blend-mode: hard-light;
                         }
                     }

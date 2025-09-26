@@ -33,8 +33,8 @@ export default [
     {
         slug: 'blue',
         title: {
-            en: 'Playlist Blue',
-            ko: '플레이리스트 블루',
+            en: 'Blue',
+            ko: '블루',
         },
         tags: {
             work: {
@@ -77,8 +77,8 @@ export default [
     {
         slug: 'silver',
         title: {
-            en: 'Playlist Silver',
-            ko: '플레이리스트 실버',
+            en: 'Silver',
+            ko: '실버',
         },
         tags: {
             work: {
