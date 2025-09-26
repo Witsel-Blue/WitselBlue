@@ -46,5 +46,8 @@ export default {
             'scope': '참여도',
             'platform': '플랫폼',
         }
+    },
+    archive_dev: {
+        title: '아카이브',
     }
 }

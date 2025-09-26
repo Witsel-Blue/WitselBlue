@@ -1,15 +1,27 @@
 export default [
     {
         slug: 'mindshaft',
-        title: 'Mindshaft',
+        title: {
+            en: 'Mindshaft',
+            ko: '마인드섀프트',
+        },
         tags: {
-            work: 'producing',
-            genre: 'techno',
+            work: {
+                en: 'producing',
+                ko: '프로듀싱'
+            },
+            genre: {
+                en: 'techno',
+                ko: '테크노'
+            }
         },
         link: {
             href: 'https://soundcloud.com/junqkim/junq-witsel-blue-mindshaft',
             target: '_blank',
-            text: 'listen on SoundCloud',
+            text: {
+                en: 'listen on SoundCloud',
+                ko: '사운드클라우드에서 듣기'
+            }
         },
         images: {
             thumb: require('@/assets/img/archive/music/mindshaft.jpg'),
@@ -20,17 +32,35 @@ export default [
     },
     {
         slug: 'blue',
-        title: 'Blue',
+        title: {
+            en: 'Blue',
+            ko: '블루',
+        },
         tags: {
-            work: 'producing',
-            genre: 'electronic',
-            genre2: 'grime',
-            genre3: 'house',
+            work: {
+                en: 'producing',
+                ko: '프로듀싱'
+            },
+            genre: {
+                en: 'electronic',
+                ko: '전자음악',
+            },
+            genre2: {
+                en: 'grime',
+                ko: '그라임',
+            },
+            genre3: {
+                en: 'house',
+                ko: '하우스',
+            },
         },
         link: {
             href: 'https://soundcloud.com/witsel_blue/sets/blue',
             target: '_blank',
-            text: 'listen on SoundCloud',
+            text: {
+                en: 'listen on SoundCloud',
+                ko: '사운드클라우드에서 듣기'
+            }
         },
         images: {
             thumb: require('@/assets/img/archive/music/blue.jpeg'),
@@ -46,17 +76,35 @@ export default [
     },
     {
         slug: 'silver',
-        title: 'Silver',
+        title: {
+            en: 'Silver',
+            ko: '실버',
+        },
         tags: {
-            work: 'producing',
-            genre: 'electronic',
-            genre2: 'dream pop',
-            genre3: 'trip hop',
+            work: {
+                en: 'producing',
+                ko: '프로듀싱'
+            },
+            genre: {
+                en: 'electronic',
+                ko: '전자음악',
+            },
+            genre2: {
+                en: 'dream pop',
+                ko: '드림팝',
+            },
+            genre3: {
+                en: 'trip hop',
+                ko: '트립합',
+            },
         },
         link: {
             href: 'https://soundcloud.com/witsel_blue/sets/silver',
             target: '_blank',
-            text: 'listen on SoundCloud',
+            text: {
+                en: 'listen on SoundCloud',
+                ko: '사운드클라우드에서 듣기'
+            }
         },
         images: {
             thumb: require('@/assets/img/archive/music/silver.jpeg'),
@@ -71,16 +119,31 @@ export default [
     },
     {
         slug: 'mix01',
-        title: 'MIX01',
+        title: {
+            en: 'MIX01',
+            ko: '믹스01',
+        },
         tags: {
-            work: 'dj',
-            genre: 'techno',
-            genre2: 'house'
+            work: {
+                en: 'dj',
+                ko: 'dj',
+            },
+            genre: {
+                en: 'techno',
+                ko: '테크노',
+            },
+            genre2: {
+                en: 'house',
+                ko: '하우스',
+            },
         },
         link: {
             href: 'https://soundcloud.com/witsel_blue/mix-01',
             target: '_blank',
-            text: 'listen on SoundCloud',
+            text: {
+                en: 'listen on SoundCloud',
+                ko: '사운드클라우드에서 듣기'
+            }
         },
         images: {
             thumb: require('@/assets/img/archive/music/mix1.jpeg'),
@@ -108,16 +171,31 @@ export default [
     },
     {
         slug: 'mix02',
-        title: 'MIX02',
+        title: {
+            en: 'MIX02',
+            ko: '믹스02',
+        },
         tags: {
-            work: 'dj',
-            genre: 'techno',
-            genre2: 'house'
+            work: {
+                en: 'dj',
+                ko: 'dj',
+            },
+            genre: {
+                en: 'techno',
+                ko: '테크노',
+            },
+            genre2: {
+                en: 'house',
+                ko: '하우스',
+            },
         },
         link: {
             href: 'https://soundcloud.com/witsel_blue/mix-02',
             target: '_blank',
-            text: 'listen on SoundCloud',
+            text: {
+                en: 'listen on SoundCloud',
+                ko: '사운드클라우드에서 듣기'
+            }
         },
         images: {
             thumb: require('@/assets/img/archive/music/mix2.jpg'),

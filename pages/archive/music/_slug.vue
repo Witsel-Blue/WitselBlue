@@ -8,7 +8,7 @@
                     <ParallaxImg :src='music.images.thumb' />
                 </div>
                 <div class='title' data-aos='fade-up'>
-                    <p>{{ music.tags.work }}</p>
+                    <p>{{ music.tags.work[$i18n.locale] }}</p>
                     <a
                         v-if='music.link'
                         class='mouse-hover1'
@@ -17,28 +17,28 @@
                         @mouseenter='showCursorImage(true)'
                         @mouseleave='showCursorImage(false)'
                     >
-                        <TextShifting :text='music.title' />
+                        <TextShifting :text='localizedTitle' />
                     </a>
-                    <TextShifting v-else :text='music.title' class='mouse-hover1' />
+                    <TextShifting v-else :text='localizedTitle' class='mouse-hover1' />
                 </div>
                 <div class='def'>
                     <div class='inner'>
                         <p>
                             <span data-aos='fade-up' v-if='music.tags.genre'>
-                                #{{ music.tags.genre }}
+                                #{{ music.tags.genre[$i18n.locale] }}
                             </span>
                             <span data-aos='fade-up' v-if='music.tags.genre2'>
-                                #{{ music.tags.genre2 }}
+                                #{{ music.tags.genre2[$i18n.locale] }}
                             </span>
                             <span data-aos='fade-up' v-if='music.tags.genre3'>
-                                #{{ music.tags.genre3 }}
+                                #{{ music.tags.genre3[$i18n.locale] }}
                             </span>
                         </p>
                          <ButtonRound
                             v-if='music.link'
                             data-aos='fade-up'
                             class='txt-c'
-                            :link='music.link'
+                            :link='{ ...music.link, text: music.link.text[$i18n.locale] }'
                         />
                     </div>
                 </div>
@@ -73,6 +73,11 @@ export default {
     data() {
         return {
             music: null,
+        }
+    },
+    computed: {
+        localizedTitle() {
+            return this.music?.title?.[this.$i18n.locale] || '';
         }
     },
     async asyncData({ params, store }) {

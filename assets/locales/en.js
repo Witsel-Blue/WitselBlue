@@ -47,5 +47,8 @@ export default {
             'scope': 'Contribution',
             'platform': 'Platform',
         }
+    },
+    archive_dev: {
+        title: 'archive',
     }
 }

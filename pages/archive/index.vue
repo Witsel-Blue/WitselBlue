@@ -5,7 +5,7 @@
 
         <div class='main'>
             <h1 class='title ft-bagel'>
-                {{ title }}
+                {{ $t('archive_dev.title') }}
             </h1>
             <StarBg />
         </div>
@@ -51,15 +51,17 @@
                 >
                     <SkewCardY :img='item.images.thumb' :path='item.path' />
                     <div class='desc'>
-                        <p class='work'>{{ item.tags.work }}</p>
+                        <p class='work'>
+                            {{ (typeof item.tags.work === 'object' ? item.tags.work[$i18n.locale] || item.tags.work.en : item.tags.work) }}
+                        </p>
                         <Nuxt-link 
                             class='title mouse-hover1'
                             :to='item.path'>
-                            <TextShifting :text='item.title' :key='item.slug || i' />
+                            <TextShifting :text='item.title[$i18n.locale]' :key='item.slug || i' />
                         </Nuxt-link>
                         <div class='tags'>
                             <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
-                                #{{ value }}
+                                #{{ typeof value === 'object' ? value[$i18n.locale] || value.en : value }}
                             </p>
                         </div>
                     </div>

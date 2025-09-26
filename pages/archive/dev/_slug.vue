@@ -17,9 +17,9 @@
                         @mouseenter='showCursorImage(true)'
                         @mouseleave='showCursorImage(false)'
                     >
-                        <TextShifting :text='dev.title' />
+                        <TextShifting :text='localizedTitle' />
                     </a>
-                    <TextShifting v-else :text='dev.title' class='mouse-hover1' />
+                    <TextShifting v-else :text='localizedTitle' class='mouse-hover1' />
                 </div>
                 <div class='def'>
                     <div class='inner'>
@@ -27,7 +27,7 @@
                             v-if='dev.content.about'
                             data-aos='fade-up'
                             class='txt-c' 
-                            v-html='dev.content.about'
+                            v-html='dev.content.about[$i18n.locale]'
                         ></p>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     v-if='dev.link'
                     data-aos='fade-up'
                     class='txt-c'
-                    :link='dev.link'
+                    :link='{ ...dev.link, text: dev.link.text[$i18n.locale] }'
                 />
             </section>
 
@@ -88,6 +88,11 @@ export default {
         return {
             dev: null,
             cursorText: '',
+        }
+    },
+    computed: {
+        localizedTitle() {
+            return this.dev?.title?.[this.$i18n.locale] || '';
         }
     },
     async asyncData({ params, store }) {
