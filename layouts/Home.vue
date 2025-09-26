@@ -66,12 +66,12 @@
                             </div>
                             <SkewCardX :img='list.images.thumb' :path='getPath(list)' />
                             <div class='desc'>
-                                <p class='work'>{{ list.tags.work }}</p>
+                                <p class='work'>{{ list.tags.work[$i18n.locale] }}</p>
                                 <Nuxt-link 
                                     class='title mouse-hover1'
                                     :to='getPath(list)'
                                 >
-                                    <TextShifting :text='list.title' :key='list.slug'></TextShifting>
+                                    <TextShifting :text='list.title[$i18n.locale]' :key='list.slug'></TextShifting>
                                 </Nuxt-link>
                             </div>
                         </div>

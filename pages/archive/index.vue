@@ -145,20 +145,24 @@ export default {
     mounted() {
         const currentPath = this.$route.path;
 
-        if (currentPath === '/archive' || currentPath.includes('/archive/dev')) {
-            this.activeMain = 'dev';
-            this.activeSub = 'all';
-        } else if (currentPath.includes('/archive/music')) {
+        this.activeMain = 'dev';
+        this.activeSub = 'all';
+
+        if (currentPath.includes('/archive/music')) {
             this.activeMain = 'music';
-            this.activeSub = 'all';
         }
 
         this.$nextTick(() => {
-            const mainBtn = this.$el.querySelector(`.tab-main button.${this.activeMain}`);
-            if (mainBtn) this.triggerDropLottie({ currentTarget: mainBtn });
+            if (this.activeMain) {
+                const mainBtn = this.$el.querySelector(`.tab-main button.${this.activeMain}`);
+                if (mainBtn) this.triggerDropLottie({ currentTarget: mainBtn });
+            }
+
             setTimeout(() => {
-                const subBtn = this.$el.querySelector(`.tab-sub button.${this.activeSub}`);
-                if (subBtn) this.triggerDropLottie({ currentTarget: subBtn });
+                if (this.activeSub) {
+                    const subBtn = this.$el.querySelector(`.tab-sub button.${this.activeSub}`);
+                    if (subBtn) this.triggerDropLottie({ currentTarget: subBtn });
+                }
             }, 0);
         });
 
