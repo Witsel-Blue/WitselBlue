@@ -47,7 +47,24 @@ export default {
             'platform': '플랫폼',
         }
     },
-    archive_dev: {
+    archive: {
         title: '아카이브',
+    },
+    archive_dev: {
+        title: '개발',
+        tabs: {
+            'all': '전체',
+            'p5.js': 'p5.js',
+            'pixi.js': 'pixi.js',
+            'three.js': 'three.js',
+        }
+    },
+    archive_music: {
+        title: '음악',
+        tabs: {
+            'all': '전체',
+            'producing': '프로듀싱',
+            'mixset': '믹스셋',
+        }
     }
 }

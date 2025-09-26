@@ -33,8 +33,8 @@ export default [
     {
         slug: 'blue',
         title: {
-            en: 'Blue',
-            ko: '블루',
+            en: 'Playlist Blue',
+            ko: '플레이리스트 블루',
         },
         tags: {
             work: {
@@ -77,8 +77,8 @@ export default [
     {
         slug: 'silver',
         title: {
-            en: 'Silver',
-            ko: '실버',
+            en: 'Playlist Silver',
+            ko: '플레이리스트 실버',
         },
         tags: {
             work: {
@@ -125,8 +125,8 @@ export default [
         },
         tags: {
             work: {
-                en: 'dj',
-                ko: 'dj',
+                en: 'mixset',
+                ko: '믹스셋',
             },
             genre: {
                 en: 'techno',
@@ -177,8 +177,8 @@ export default [
         },
         tags: {
             work: {
-                en: 'dj',
-                ko: 'dj',
+                en: 'mixset',
+                ko: '믹스셋',
             },
             genre: {
                 en: 'techno',

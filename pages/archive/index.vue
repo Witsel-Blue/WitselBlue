@@ -1,11 +1,11 @@
 <template>
     <div id='archive' class='page'>
 
-        <PageTransition :title='title' v-if="$route.path === '/archive'" />
+        <PageTransition :title="$t('archive.title')" v-if="$route.path === '/archive'" />
 
         <div class='main'>
             <h1 class='title ft-bagel'>
-                {{ $t('archive_dev.title') }}
+                {{ $t('archive.title') }}
             </h1>
             <StarBg />
         </div>

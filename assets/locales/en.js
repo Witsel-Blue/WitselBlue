@@ -48,7 +48,24 @@ export default {
             'platform': 'Platform',
         }
     },
-    archive_dev: {
+    archive: {
         title: 'archive',
+    },
+    archive_dev: {
+        title: 'development',
+        tabs: {
+            'all': 'All',
+            'p5.js': 'p5.js',
+            'pixi.js': 'pixi.js',
+            'three.js': 'three.js',
+        }
+    },
+    archive_music: {
+        title: 'music',
+        tabs: {
+            'all': 'All',
+            'producing': 'Producing',
+            'mixset': 'Mixset',
+        }
     }
 }
