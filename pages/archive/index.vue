@@ -24,18 +24,18 @@
                         :class='[tab, { active: activeMain === tab }]'
                         @click='toggleMenu($event, tab)'
                     >
-                        {{ tabLabels[tab] || tab }}
+                        {{ $t(`archive_${tab}.title`) }}
                     </button>
                 </div>
                 <div v-if='activeMain !== "all"' class='tab-sub'>
                     <button
-                        v-for='tab in subTabs[activeMain]'
-                        :key='tab'
+                        v-for='tab in subTabs'
+                        :key='tab.key'
                         class='mouse-hover2'
-                        :class='{ active: activeSub === tab }'
-                        @click='toggleSubmenu($event, tab)'
+                        :class='{ active: activeSub === tab.key }'
+                        @click='toggleSubmenu($event, tab.key)'
                     >
-                        {{ tabLabels[tab] || tab }}
+                        {{ tab.label }}
                     </button>
                 </div>
             </div>
@@ -100,20 +100,10 @@ export default {
             title: 'archive',
             mainTabs: ['dev', 'music'],
             activeMain: '',
-            subTabs: {
-                dev: ['all', 'p5.js', 'pixi.js', 'three.js'],
-                music: ['all', 'producing', 'dj'],
-            },
             activeSub: 'all',
             archive: {
                 dev: archiveDevData,
                 music: archiveMusicData,
-            },
-            tabLabels: {
-                dev: 'Development',
-                music: 'Music',
-                producing: 'Producing',
-                dj: 'Mixset'
             },
             Drop,
             showDrop: false,
@@ -122,19 +112,27 @@ export default {
         }
     },
     computed: {
+        subTabs() {
+            if (!this.activeMain) return [];
+            const tabs = this.$i18n.getLocaleMessage(this.$i18n.locale)[`archive_${this.activeMain}`]?.tabs;
+            if (!tabs) return [];
+            return Object.entries(tabs).map(([key, value]) => ({
+                key,
+                label: value
+            }));
+        },
         filteredLists() {
-            let list = []
-
-            if (this.activeMain === 'dev') {
-                list = [...this.archive.dev]
-            } else if (this.activeMain === 'music') {
-                list = [...this.archive.music]
-            }
+            let list = [];
+            if (this.activeMain === 'dev') list = [...this.archive.dev];
+            else if (this.activeMain === 'music') list = [...this.archive.music];
 
             if (this.activeSub !== 'all') {
-                list = list.filter(
-                    item => (item.tags?.work || item.work) === this.activeSub
-                )
+                list = list.filter(item => {
+                    const workValue = typeof item.tags.work === 'object'
+                        ? item.tags.work.key || item.tags.work.en
+                        : item.tags.work;
+                    return workValue === this.activeSub;
+                });
             }
 
             return list.map(item => ({
