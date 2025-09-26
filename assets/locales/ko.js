@@ -38,5 +38,13 @@ export default {
     },
     projects: {
         title: '프로젝트',
+        sortBy: '분류',
+        tabs: {
+            'all': '전체',
+            'work': '개발범위',
+            'env': '개발환경',
+            'scope': '참여도',
+            'platform': '플랫폼',
+        }
     }
 }

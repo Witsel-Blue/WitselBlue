@@ -39,5 +39,13 @@ export default {
     },
     projects: {
         title: 'projects',
+        sortBy: 'sort by',
+        tabs: {
+            'all': 'All',
+            'work': 'Work',
+            'env': 'Environment',
+            'scope': 'Contribution',
+            'platform': 'Platform',
+        }
     }
 }

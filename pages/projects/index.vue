@@ -20,10 +20,10 @@
                     :class="{ active: activeTab === 'all' }"
                     @click='selectAll($event)'
                 >
-                    All
+                    {{ $t('projects.tabs.all') }}
                 </button>
                 <p>
-                    sort by:
+                    {{ $t('projects.sortBy') }}:
                 </p>
                 <div class='tab-sub-wrap'>
                     <div class='tab-group' v-for='(tagsArr, group) in tabs' :key='group'>
@@ -32,7 +32,7 @@
                             :class='{ active: openedGroup === group }'
                             @click='toggleMenu($event, group)'
                         >
-                            {{ groupLabels[group] || group }}
+                            {{ $t('projects.tabs.' + group) }}
                         </button>
                         <div v-if='openedGroup === group' class='tab-sub'>
                             <button
@@ -42,7 +42,7 @@
                                 :class='{ active: activeTab === tag }'
                                 @click='toggleSubmenu($event, tag)'
                             >
-                                {{ tagLabels[tag] || tag }}
+                                {{ tag }}
                             </button>
                         </div>
                     </div>
@@ -105,21 +105,8 @@ export default {
         return {
             activeTab: 'all',
             openedGroup: null,
-            groupLabels: {
-                work: 'work',
-                env: 'environment',
-                scope: 'contribution',
-                platform: 'platform',
-            },
-            tagLabels: {
-                development: 'full-stack',
-                frontend: 'frontend',
-                publishing: 'publishing',
-                individual: 'individual',
-                teamwork: 'teamwork',
-                web: 'web',
-                app: 'app',
-            },
+            groupLabels: {},
+            tagLabels: {},
             lists: projectsData.map(p => ({
                 ...p,
                 path: `/projects/${p.slug}`,
@@ -138,10 +125,10 @@ export default {
             const platformSet = new Set();
 
             this.lists.forEach(item => {
-                if (item.tags.work) workSet.add(item.tags.work);
-                if (item.tags.env) envSet.add(item.tags.env);
-                if (item.tags.scope) scopeSet.add(item.tags.scope);
-                if (item.tags.platform) platformSet.add(item.tags.platform);
+                if (item.tags.work) workSet.add(item.tags.work[this.$i18n.locale] || item.tags.work.en);
+                if (item.tags.env) envSet.add(item.tags.env[this.$i18n.locale] || item.tags.env.en);
+                if (item.tags.scope) scopeSet.add(item.tags.scope[this.$i18n.locale] || item.tags.scope.en);
+                if (item.tags.platform) platformSet.add(item.tags.platform[this.$i18n.locale] || item.tags.platform.en);
             });
 
             return {
@@ -154,12 +141,11 @@ export default {
         filteredLists() {
             if (this.activeTab === 'all') return this.lists;
 
-            if (['work','env','scope','platform'].includes(this.activeTab)) {
-                return this.lists.filter(item => item.tags[this.activeTab]);
-            }
-
             return this.lists.filter(item =>
-                Object.values(item.tags).includes(this.activeTab)
+                Object.entries(item.tags).some(([key, val]) => {
+                    const v = val[this.$i18n.locale] || val.en;
+                    return v === this.activeTab;
+                })
             );
         }
     },
