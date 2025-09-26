@@ -8,7 +8,7 @@
                     <ParallaxImg :src='dev.images.mainvisual' />
                 </div>
                 <div class='title' data-aos='fade-up'>
-                    <p>{{ dev.tags.work }}</p>
+                    <p>{{ dev.tags.work[$i18n.locale] }}</p>
                     <a
                         v-if='dev.link'
                         class='mouse-hover1'

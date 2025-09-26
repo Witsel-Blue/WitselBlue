@@ -16,8 +16,22 @@
                 <CardFlip v-if='nextArchiveMusic' :item='nextArchiveMusic' />
                 <div class='view-all'>
                     <ButtonRound
-                        :link="{ href: isProjectPage ? '/projects' : isArchiveDevPage ? '/archive/dev' : isArchiveMusicPage ? '/archive/music' : null }"
-                        :text="isProjectPage ? 'view all projects' : isArchiveDevPage ? 'view all development' : isArchiveMusicPage ? 'view all music' : ''"
+                        :link="{
+                            href: isProjectPage
+                                ? '/projects'
+                                : isArchiveDevPage
+                                ? '/archive/dev'
+                                : isArchiveMusicPage
+                                ? '/archive/music'
+                                : null
+                        }"
+                        :text="isProjectPage
+                            ? $t('detailFooter.projects')
+                            : isArchiveDevPage
+                            ? $t('detailFooter.dev')
+                            : isArchiveMusicPage
+                            ? $t('detailFooter.music')
+                            : ''"
                     />
                 </div>
             </div>

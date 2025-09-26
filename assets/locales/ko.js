@@ -30,6 +30,11 @@ export default {
             btn3: 'Slack',
         },
     },
+    detailFooter: {
+        'projects': '모든 프로젝트 보기',
+        'dev': '모든 개발 보기',
+        'music': '모든 음악 보기',
+    },
     pager: {
         paragraphs: [
             '클릭해서',

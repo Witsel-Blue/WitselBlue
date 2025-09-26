@@ -31,6 +31,11 @@ export default {
             btn3: 'Slack',
         },
     },
+    detailFooter: {
+        'projects': 'view all projects',
+        'dev': 'view all development',
+        'music': 'view all music',
+    },
     pager: {
         paragraphs: [
             'click to',
