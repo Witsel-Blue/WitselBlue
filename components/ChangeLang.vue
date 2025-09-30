@@ -69,4 +69,22 @@ export default {
         }
     }
 }
+
+// mobile
+@media all and (max-width: $mobile) {
+    #change-lang {
+        position: initial;
+        justify-content: flex-end;
+
+        .text-shifting::v-deep {
+            span {
+                color: $white1;
+            }
+        }
+
+        button:not(:last-child)::after {
+            background-color: $white1;
+        }
+    }    
+}
 </style>

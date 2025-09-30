@@ -390,6 +390,9 @@
                 .arrow {
                     left: 4%;
                     top: calc(( 8px + 0.8rem + 16px) * -1);
+                    span {
+                        font-size: 0.6rem;
+                    }
                 }
                 #text-stagger::v-deep {
                     ul {

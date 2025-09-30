@@ -35,6 +35,9 @@
                         <li v-for='nav in navigation' :key='nav.name'>
                             <a :href='nav.path' @click='linkClick' v-html='nav.name'></a>
                         </li>
+                        <li>
+                            <ChangeLang />
+                        </li>
                     </ul>
                 </nav>
             </div>

@@ -72,12 +72,6 @@
         .mb {
             display: block;
             width: 100%;
-            // height: calc(40px + 10%);
-            // position: fixed;
-            // top: 0;
-            // left: 0;
-            // z-index: 101;
-            // background: linear-gradient(180deg, rgba(247,247,247,1) 0%, rgba(247,247,247,0.8) 60%, rgba(247,247,247,0) 100%);
         }
 
         .menu-button {
@@ -118,27 +112,26 @@
                 align-items: flex-end;
                 justify-content: flex-end;
                 li:not(:first-child) {
-                    margin-top: 5vh;
+                    margin-top: 24px;
                 }
-                li {
-                    // overflow: hidden;
+                li:last-child {
+                    margin-top: 64px;
                 }
                 a {
                     color: $white1;
                     font-size: 2rem;
                     line-height: 1;
                     p {
-                        font-family: 'Bagel';
+                        font-family: 'Knewave';
                         text-align: right;
-                        // transform: translateY(100%);
-                        // transition: all 0.4s ease;
                         span {
-                            font-family: 'Bagel';
+                            font-family: 'Knewave';
                         }
                     }
                 }
             }
         }
+
         .desc {
             position: fixed;
             bottom: 5vh;
@@ -185,4 +178,5 @@
             }
         }
     }
+
 }

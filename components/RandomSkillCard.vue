@@ -384,6 +384,7 @@ export default {
         }
         #button-round::v-deep .button {
             font-size: 0.8rem;
+            word-break: keep-all;
         }
     }
     .skill-cards-wrapper {
@@ -391,14 +392,14 @@ export default {
         width: 72%;
         height: 60vh;
         .skill-card {
-            width: 64px;
-            height: 92px;
+            width: 72px;
+            height: 104px;
             .card-back {
                 h3 {
-                    font-size: 1rem;
+                    font-size: 0.8rem;
                 }
                 .stars span {
-                    font-size: 0.6rem;
+                    font-size: 0.4rem;
                 }
             }
         }
