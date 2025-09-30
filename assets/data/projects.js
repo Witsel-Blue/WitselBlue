@@ -66,7 +66,7 @@ export default [
             duration: { start: '2024.11', },
             stack: {
                 en: 'Vue2 / Nuxt / SCSS / javascript',
-                ko: 'vue2 / Nuxt / SCSS / 자바스크립트',
+                ko: 'Vue2 / Nuxt / SCSS / 자바스크립트',
             },
         },
         tags: {

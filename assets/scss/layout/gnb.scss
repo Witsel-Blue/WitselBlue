@@ -25,14 +25,6 @@
                 left: 5vw;
                 z-index: 100;
             }
-            #lottie {
-                width: 40px;
-                height: 40px;
-                position: absolute;
-                top: 8px;
-                left: 50%;
-                transform: translate(-50%, -100%);
-            }
         }
         a {
             p {
@@ -50,8 +42,22 @@
             }
         }
         // .nuxt-link-exact-active:not(a[href='/']) {
+        //     position: relative;
         //     p span { 
         //         font-stretch: 200%;
+        //     }
+        //     &::after {
+        //         content: '';
+        //         width: 80px;
+        //         height: 80px;
+        //         border-radius: 50%;
+        //         background: radial-gradient(circle, #56779F 0%, rgba(255,255,255,0) 60%);
+        //         mix-blend-mode: difference;
+        //         position: absolute;
+        //         top: 50%;
+        //         left: 50%;
+        //         transform: translate(-50%, -50%);
+        //         z-index: -1;
         //     }
         // }
     }

@@ -3,18 +3,23 @@
         <button @click="changeLocale('en')"
             :class="['mouse-hover2', { active: currentLocale === 'en' }]"
         >
-            ENG
+            <TextShifting :text='"ENG"' />
         </button>
         <button @click="changeLocale('ko')" 
             :class="['mouse-hover2', { active: currentLocale === 'ko' }]"
         >
-            KO
+            <TextShifting :text='"KO"' />
         </button>
     </div>
 </template>
 
 <script>
+import TextShifting from '@/components/TextShifting.vue';
+
 export default {
+    components: {
+        TextShifting,
+    },
     computed: {
         currentLocale() {
             return this.$i18n.locale;
@@ -45,6 +50,10 @@ export default {
     button {
         font-size: 0.8rem;
         color: $black1;
+
+        .text-shifting {
+            display: inline-block;
+        }
 
         &:not(:last-child)::after {
             content: '';

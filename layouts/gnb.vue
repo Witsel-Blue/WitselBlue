@@ -3,9 +3,6 @@
         <nav class='pc'>
             <ul class='nav'>
                 <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1'>
-                    <Lottie v-if='nav.path === activeTab'
-                        :animationData='Drop' :loop='false' :autoplay='true'
-                    />
                     <Nuxt-link :to='nav.path' v-html='nav.name' 
                         @click.native.prevet='linkClick(nav.path)'
                     />
@@ -52,14 +49,11 @@
 
 <script>
 import Pager from '@/components/pager.vue';
-import Lottie from '@/components/Lottie.vue';
-import Drop from '@/assets/lottie/drop.json';
 import ChangeLang from '@/components/ChangeLang.vue';
     
 export default {
     components: {
         Pager,
-        Lottie,
         ChangeLang,
     },
     data() {
@@ -80,7 +74,6 @@ export default {
             ],
             open: false,
             headerShadow: false,
-            Drop,
         }
     },
     computed: {

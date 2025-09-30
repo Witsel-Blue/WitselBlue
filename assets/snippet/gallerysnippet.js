@@ -13,7 +13,7 @@ let moveX = 0;
 
 const init = () => {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color('#000000'); 
+    scene.background = new THREE.Color("#000000"); 
     camera = new THREE.PerspectiveCamera(75, WIDTH / HEIGHT, 0.1, 1000);
     camera.position.set(0, 0, 35);
 
@@ -24,15 +24,15 @@ const init = () => {
 
     document.body.appendChild(renderer.domElement);
 
-    // 조명
+    //조명
     var light = new THREE.HemisphereLight(0xffffff, 0x080820, 0.8);
     light.position.set(0, 80, 10);
     scene.add(light);
 
     {
-        // 가벽
+        //가벽
         const imageMap = new THREE.TextureLoader().load(
-            new URL('../assets/wall.jpg', import.meta.url).href
+            new URL("../assets/wall.jpg", import.meta.url).href
         );
 
         imageMap.wrapS = THREE.RepeatWrapping;
@@ -57,12 +57,12 @@ const init = () => {
     }
 };
 
-// 액자
+//액자 추가
 const addBox = (i) => {
     const imageMap = new THREE.TextureLoader().load(
-        new URL('../assets/img[i].png', import.meta.url).href
+        new URL('../assets/img{i}.jpeg', import.meta.url).href
     );
-    const geometry = new THREE.BoxGeometry(30, 30, 1);
+    const geometry = new THREE.BoxGeometry(22, 28, 1);
     const material = new THREE.MeshPhongMaterial({
         map: imageMap,
     });
@@ -74,7 +74,7 @@ const addBox = (i) => {
     boxMesh.position.set(x, y, z);
     galleryGroup.add(boxMesh);
 
-    // 조명
+    //조명
     const spotLight = new THREE.SpotLight(0xffffff, 1.2);
     spotLight.position.set(x, 40, 30);
     spotLight.angle = Math.PI / 6;
@@ -106,21 +106,30 @@ const stageResize = () => {
     camera.aspect = WIDTH / HEIGHT;
 };
 
-const clickFunc = (event) => {
-    if (event.pageX < WIDTH / 2) {
+let isScrolling = false;
+const scrollFunc = (event) => {
+    if (isScrolling) return;
+    isScrolling = true;
+
+    if (event.deltaY < 0) {
         if (pageNum > 0) {
             pageNum -= 1;
         }
-    } else {
+    } else if (event.deltaY > 0) {
         if (pageNum < totalNum - 1) {
             pageNum += 1;
         }
     }
+
     targetNum = -(pageNum * distance);
+
+    setTimeout(() => {
+        isScrolling = false;
+    }, 600);
 };
 
 init();
 animate();
-window.addEventListener('resize', stageResize);
-document.addEventListener('click', clickFunc);
+window.addEventListener("resize", stageResize);
+document.addEventListener("wheel", scrollFunc);
 `;
