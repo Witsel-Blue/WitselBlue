@@ -13,7 +13,7 @@ export default {
         subTitle_skills: 'Skills',
     },
     randomSkillCards: {
-        categories: ['Framework', 'Library', 'Language', 'UI / Design', 'Environment'],
+        categories: ['Framework', 'Library', 'Language', 'Design', 'Environment'],
         def: [
             'I can manage',
             "I'm solid",

@@ -12,7 +12,7 @@ export default {
         subTitle_skills: '기술 스택',
     },
     randomSkillCards: {
-        categories: ['프레임워크', '라이브러리', '언어', 'UI / 디자인', '작업환경'],
+        categories: ['프레임워크', '라이브러리', '언어', '디자인', '작업환경'],
         def: [
             '할 수 있어요',
             '잘 합니다',

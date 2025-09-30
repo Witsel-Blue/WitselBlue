@@ -94,6 +94,7 @@
                     margin-top: 5vh;
                     line-height: 2.4;
                     text-align: center;
+                    text-shadow: 0px 0px 8px $white1;
                     span.mouse-hover1 {
                         font-family: 'Knewave';
                         font-size: 1.8rem;
@@ -160,33 +161,18 @@
 
     .skills {
         height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         .inner {
             position:relative;
+            .subtitle {
+                padding-top: 10vh;
+            }
         }
-        .tablecloth {
-            position:absolute;
-            transform: rotate(-2deg);
+        .tray {
+            display: block;
+            position: absolute;
             width: 100%;
             height: auto;
-            margin-top: 4vh;
-            // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .candle {
-            position: absolute;
-            width: 240px;
-            top: 10%;
-        }
-        #RandomSkillCard::v-deep {
-            .skill-cards-wrapper {
-                margin: 10vh auto;
-            }
-            .tabs {
-                z-index: 1;
-            }
+            top: 15vh;
         }
     }
 
@@ -370,6 +356,84 @@
               grid-template-columns: 1fr;
           }
       }
+
+    }
+}
+
+
+@media all and (max-width: $mobile) {
+    #home {
+        .subtitle {
+            font-size: 2rem;
+        }
+
+        #main {
+            .inner {
+                .subtext {
+                    bottom: calc(16vh + 3.2rem + 2vh);
+                }
+                #text-scroll::v-deep {
+                    span {
+                        font-size: 3.2rem;
+                    }
+                }
+            }
+        }
+
+        .profile {
+            margin-top: 25vh;
+            #parallax-img {
+                width: 40%;
+                border-radius: 50%;
+            }
+            .text {
+                .arrow {
+                    left: 4%;
+                    top: calc(( 8px + 0.8rem + 16px) * -1);
+                }
+                #text-stagger::v-deep {
+                    ul {
+                        margin-top: 16px;
+                        p {
+                            font-size: 0.8rem;
+                        }
+                        span.mouse-hover1 {
+                            font-size: 1.4rem;
+                            line-height: 1.2;
+                        }
+                    }
+                }
+            }
+        }
+
+        .skills {
+            .inner {
+                width: 100%;
+                .subtitle {
+                    padding-top: 5vh;
+                    margin-bottom: 0;
+                }
+                .tray {
+                    transform-origin: 50% 50%;
+                    transform: rotate(90deg);
+                    top: 20vh;
+                    width: 100%;
+                }
+            }
+        }
+
+        .selected {
+            .container {
+                .panel {
+                    flex: 0 0 100vw;
+                    .desc {
+                        .title {
+                            font-size: 1.6rem;
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }

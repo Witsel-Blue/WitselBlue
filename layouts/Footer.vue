@@ -255,13 +255,19 @@ export default {
 // mobile
 @media all and (max-width: $mobile) {
     .footer-bg {
-        height: 15%;
+        height: calc(40px + 10vw);
     }
     .footer {
-        h1 {
-            font-size: 2rem;
-            span {
-                min-width: 8px;
+        .top {
+            h1 {
+                font-size: 2rem;
+                span {
+                    min-width: 8px;
+                }
+            }
+            .lists,
+            .sub-lists {
+                font-size: 0.8rem;
             }
         }
     }

@@ -135,4 +135,15 @@ export default {
         }
     }
 }
+
+// mobile
+@media all and (max-width: $mobile) {
+    #pager {
+        .wrapper #text-stagger::v-deep {
+            li p {
+                font-size: 0.6rem;
+            }
+        }
+    }
+}
 </style>

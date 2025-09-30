@@ -49,8 +49,7 @@
                     <h1 class='subtitle ft-bagel txt-c'>
                         {{ $t('home.subTitle_skills') }}
                     </h1>
-                    <img src='@/assets/img/home/tablecloth.jpg' class='tablecloth' />
-                    <img src='@/assets/img/home/candle.png' class='candle' />
+                    <img src='@/assets/img/home/tray.png' class='tray' />
                     <RandomSkillCard />
                 </div>
             </section>
@@ -155,7 +154,9 @@ export default {
         this.initSectionObserver();
         this.$nextTick(() => {
             this.scrollVertical();
-            this.initSectionScroll();
+            if (window.innerWidth > 425) {
+                this.initSectionScroll();
+            }
         });
 
         const mainRect = this.$refs.main?.getBoundingClientRect();
@@ -248,7 +249,7 @@ export default {
             });
         },
         scrollVertical() {
-            if (window.innerWidth <= 425) return;
+            // if (window.innerWidth <= 425) return;
 
             const ctx = gsap.context(() => {
                 const section = this.$refs.selected;

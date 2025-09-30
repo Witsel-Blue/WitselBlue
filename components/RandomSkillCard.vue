@@ -49,9 +49,9 @@
     <div class='def'>
        <div class='inner'>
             <ul>
-                <li>★★★: {{ $t('randomSkillCards.def[0]') }}</li>
-                <li>★★★★: {{ $t('randomSkillCards.def[1]') }}</li>
-                <li>★★★★★: {{ $t('randomSkillCards.def[2]') }}</li>
+                <li>★★★:<br class='mb'> {{ $t('randomSkillCards.def[0]') }}</li>
+                <li>★★★★:<br class='mb'> {{ $t('randomSkillCards.def[1]') }}</li>
+                <li>★★★★★:<br class='mb'> {{ $t('randomSkillCards.def[2]') }}</li>
             </ul>
        </div>
     </div>
@@ -250,6 +250,7 @@ export default {
     display: flex;
     justify-content: center;
     gap: 8px;
+    z-index: 1;
 
     #button-round::v-deep {
         &.active .button {
@@ -287,8 +288,9 @@ export default {
 
 .skill-cards-wrapper {
     position: relative;
-    width: 100%;
-    height: 40vh;
+    width: 80%;
+    height: 36vh;
+    margin: 15vh auto;
 }
 
 .skill-card {
@@ -321,10 +323,13 @@ export default {
             box-shadow: $shadow-card;
         }
         .card-front {
-            background: $grad-white;
+            background: $white1;
+            img {
+                filter: grayscale(1);
+            }
         }
         .card-back {
-            background: $grad-black;
+            background: $black1;
             transform: rotateY(180deg);
             color: $white1;
             flex-direction: column;
@@ -341,7 +346,7 @@ export default {
                 display: flex;
 
                 span {
-                    color: $black1;
+                    color: $black0;
                     font-size: 0.8rem;
 
                     &.filled.animate {
@@ -360,6 +365,57 @@ export default {
     }
     100% {
         color: $gray0;
+    }
+}
+
+// mobile
+@media all and (max-width: $mobile) {
+    #RandomSkillCard {
+        display: grid;
+    }
+    .tabs {
+        overflow-x: scroll;
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        justify-content: initial;
+        padding: 0 5vw;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        #button-round::v-deep .button {
+            font-size: 0.8rem;
+        }
+    }
+    .skill-cards-wrapper {
+        margin: 24px auto 0;
+        width: 72%;
+        height: 60vh;
+        .skill-card {
+            width: 64px;
+            height: 92px;
+            .card-back {
+                h3 {
+                    font-size: 1rem;
+                }
+                .stars span {
+                    font-size: 0.6rem;
+                }
+            }
+        }
+    }
+    .def {
+        display: none;
+        text-align: center;
+        grid-row: 1/2;
+        width: 100%;
+        ul {
+            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            li {
+                font-size: 0.6rem;
+            }
+        }
     }
 }
 </style>
