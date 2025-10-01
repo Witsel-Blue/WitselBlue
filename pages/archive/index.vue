@@ -118,13 +118,8 @@ export default {
         }
     },
     computed: {
-        layout: {
-            get() {
-                return this.$store.getters['layoutSwitch/layout'];
-            },
-            set(val) {
-                this.$store.dispatch('layoutSwitch/setLayout', val);
-            }
+        layout() {
+            return this.$store.getters['layoutSwitch/layout'];
         },
         subTabs() {
             if (!this.activeMain) return [];
@@ -159,32 +154,22 @@ export default {
     mounted() {
         const currentPath = this.$route.path;
 
-        this.activeMain = 'dev';
+        this.activeMain = currentPath.includes('/archive/music') ? 'music' : 'dev';
         this.activeSub = 'all';
 
-        if (currentPath.includes('/archive/music')) {
-            this.activeMain = 'music';
-        }
-
         this.$nextTick(() => {
-            if (this.activeMain) {
-                const mainBtn = this.$el.querySelector(`.tab-main button.${this.activeMain}`);
-                if (mainBtn) this.triggerDropLottie({ currentTarget: mainBtn });
-            }
+            const mainBtn = this.$el.querySelector(`.tab-main button.${this.activeMain}`);
+            if (mainBtn) this.triggerDropLottie({ currentTarget: mainBtn });
 
-            setTimeout(() => {
-                if (this.activeSub) {
-                    const subBtn = this.$el.querySelector(`.tab-sub button.${this.activeSub}`);
-                    if (subBtn) this.triggerDropLottie({ currentTarget: subBtn });
-                }
-            }, 0);
+            const subBtn = this.$el.querySelector(`.tab-sub button.${this.activeSub}`);
+            if (subBtn) this.triggerDropLottie({ currentTarget: subBtn });
+
+            this.animateListCardsSafe();
         });
-
-        this.animateListCards();
     },
     methods: {
-        setLayout(mode) {
-            this.layout = mode;
+        setLayout(newLayout) {
+            this.$store.dispatch('layoutSwitch/setLayout', newLayout);
         },
         triggerDropLottie(event) {
             const parentRect = event.currentTarget.offsetParent.getBoundingClientRect();
@@ -200,14 +185,30 @@ export default {
         },
         toggleMenu(event, tab) {
             this.triggerDropLottie(event);
-            if (tab === 'dev') this.$router.push('/archive/dev'); 
-            else if (tab === 'music') this.$router.push('/archive/music');
-            this.$nextTick(() => this.animateListCards());
+
+            this.activeMain = tab;
+            this.activeSub = 'all';
+
+            const path = `/archive/${tab}`;
+
+            if (this.$route.path !== path) {
+                try {
+                    this.$router.push(path);
+                } catch (e) {
+
+                }
+            }
+
+            this.$nextTick(() => {
+                this.animateListCardsSafe();
+            });
         },
         toggleSubmenu(event, tab) {
             this.triggerDropLottie(event);
             this.activeSub = tab;
-            this.$nextTick(() => this.animateListCards());
+            this.$nextTick(() => {
+                this.animateListCardsSafe();
+            });
         },
         animateListCards() {
             const cards = this.$refs.listCards;
@@ -229,6 +230,17 @@ export default {
                 ease: 'power2.out'
             });
         },
+        animateListCardsSafe() {
+            const tryAnimate = () => {
+                const cards = this.$refs.listCards;
+                if (!cards || (Array.isArray(cards) && cards.length === 0)) {
+                    setTimeout(tryAnimate, 20);
+                } else {
+                    this.animateListCards();
+                }
+            };
+            tryAnimate();
+        }
     },
 }
 </script>

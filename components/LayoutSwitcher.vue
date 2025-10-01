@@ -25,7 +25,6 @@ export default {
     },
     methods: {
         setLayout(mode) {
-            this.layout = mode;
             this.$emit("change-layout", mode);
         },
     },
