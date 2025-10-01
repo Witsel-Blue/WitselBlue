@@ -17,10 +17,11 @@
 
 <script>
 export default {
-    data() {
-        return {
-            layout: 'list',
-        };
+    props: {
+        layout: {
+            type: String,
+            default: 'list'
+        }
     },
     methods: {
         setLayout(mode) {

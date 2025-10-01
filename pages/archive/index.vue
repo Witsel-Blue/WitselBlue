@@ -11,7 +11,7 @@
         </div>
 
         <div class='layout-switcher-wrap'>
-            <LayoutSwitcher @change-layout='setLayout' />
+            <LayoutSwitcher @change-layout='setLayout' :layout='layout' />
         </div>
 
         <div class='tab-wrap'>
@@ -104,7 +104,6 @@ export default {
     data() {
         return {
             title: 'archive',
-            layout: 'list',
             mainTabs: ['dev', 'music'],
             activeMain: '',
             activeSub: 'all',
@@ -119,6 +118,14 @@ export default {
         }
     },
     computed: {
+        layout: {
+            get() {
+                return this.$store.getters['layoutSwitch/layout'];
+            },
+            set(val) {
+                this.$store.dispatch('layoutSwitch/setLayout', val);
+            }
+        },
         subTabs() {
             if (!this.activeMain) return [];
             const tabs = this.$i18n.getLocaleMessage(this.$i18n.locale)[`archive_${this.activeMain}`]?.tabs;
@@ -194,7 +201,8 @@ export default {
         toggleMenu(event, tab) {
             this.triggerDropLottie(event);
             if (tab === 'dev') this.$router.push('/archive/dev'); 
-            else if (tab === 'music') this.$router.push('/archive/music'); 
+            else if (tab === 'music') this.$router.push('/archive/music');
+            this.$nextTick(() => this.animateListCards());
         },
         toggleSubmenu(event, tab) {
             this.triggerDropLottie(event);
