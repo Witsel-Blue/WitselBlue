@@ -169,8 +169,11 @@ export default {
         });
     },
     methods: {
-        setLayout(newLayout) {
+        setLayout(newLayout, event) {
             this.$store.dispatch('layoutSwitch/setLayout', newLayout);
+            this.$nextTick(() => {
+                this.animateListCards();
+            });
         },
         triggerDropLottie(event) {
             const parentRect = event.currentTarget.offsetParent.getBoundingClientRect();
