@@ -10,6 +10,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/pwa": "^3.3.5",
     "aos": "^2.3.4",
     "core-js": "^3.37.1",
     "highlight.js": "^11.11.1",

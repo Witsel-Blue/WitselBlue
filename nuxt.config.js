@@ -11,7 +11,8 @@ export default {
             { name: 'format-detection', content: 'telephone=no' }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: 'apple-touch-icon', href: '/app-icon.png' },
         ]
     },
 
@@ -55,6 +56,7 @@ export default {
 
     modules: [
         'nuxt-i18n',
+        '@nuxtjs/pwa',
     ],
 
     build: {
@@ -88,6 +90,20 @@ export default {
         ],
         defaultLocale: 'en',
         langDir: 'assets/locales/',
+    },
+
+    pwa: {
+        icon: {
+            source: 'static/app-icon.png',
+            fileName: 'app-icon.png',
+            sizes: [64, 120, 144, 152, 192, 256, 512]
+        },
+        manifest: {
+            name: 'Witsel Blue',
+            short_name: 'WB',
+            theme_color: '#f7f7f7',
+            background_color: '#f7f7f7',
+        }
     }
 
 }
