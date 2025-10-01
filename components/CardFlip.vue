@@ -119,4 +119,17 @@ export default {
         }
     }
 }
+
+// mobile
+@media all and (max-width: $mobile) {
+    .card {
+        .card-back {
+            .text-shifting::v-deep {
+                span {
+                    font-size: 1.8rem;
+                }
+            }
+        }
+    }
+}
 </style>

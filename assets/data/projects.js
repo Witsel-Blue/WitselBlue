@@ -52,7 +52,7 @@ export default [
         content: {
             about: {
                 en: 'A website for insect research institute, Damgon Research.',
-                ko: '담곤 연구소를 위한 곤충 연구 웹사이트입니다.',
+                ko: '담곤 연구소를 위한<br class="mb"> 곤충 연구 웹사이트입니다.',
             },
         },
     },
@@ -108,8 +108,8 @@ export default [
         },
         content: {
             about: {
-                en:  'This is a 2025 version portfolio site built with Vue and Nuxt.<br> It utilizes libraries like GSAP and AOS,<br>and the main visuals are built by using p5.js.<br>The full code is available on GitHub, so check it out!',
-                ko: 'vue와 nuxt로 구축한 2025년 버전 포트폴리오 사이트입니다.<br>GSAP, AOS 등의 라이브러리를 이용하였고,<br>메인비주얼은 p5.js를 사용했습니다.<br>GitHub에 전체 코드를 올려두었으니 확인해 보세요!',
+                en:  'This is a 2025 version portfolio site<br class="mb"> built with Vue and Nuxt.<br> It utilizes libraries like GSAP and AOS,<br>and the main visuals are<br class="mb"> built by using p5.js.<br>The full code is available on GitHub, <br class="mb">so check it out!',
+                ko: 'vue와 nuxt로 구축한<br class="mb"> 2025년 버전 포트폴리오 사이트입니다.<br>GSAP, AOS 등의 라이브러리를 이용하였고,<br>메인비주얼은 p5.js를 사용했습니다.<br>GitHub에 전체 코드를 올려두었으니<br class="mb"> 확인해 보세요!',
             }
 
         }
@@ -170,7 +170,7 @@ export default [
         },
         content: {
             about: {
-                en: 'Financial Services app<br>planned by Samsung Life Insurance, Fire Insurance and Samsung Card.<br> Developed under security system in collaboration with multiple teams.<br> Managed components and over 1,400 pages, including the card main page.',
+                en: 'Financial Services app<br>planned by Samsung Life Insurance, Fire Insurance and Samsung Card.<br> Developed under security system in collaboration with multiple teams.<br> Managed components and over 1,400 pages, including<br class="mb"> the card main page.',
                 ko: '삼성생명, 삼성화재, 삼성카드,<br class="mb"> 삼성증권에서 만든 금융 서비스 앱<br> 여러 팀과 협력하여<br class="mb">인터넷 사용 없이 보안 시스템 아래에서 개발<br>컴포넌트와 1400여개 페이지 관리,<br class="mb"> 카드 메인 페이지 담당',
             }
         }
@@ -235,7 +235,7 @@ export default [
         },
         content: {
             about: {
-                en: 'An online space which can leave messages<br> commemorating the 10th anniversary of the Sewol Ferry Disaster.<br> Main visuals implemented using libraries like Scrollmagic and Tweenmax.',
+                en: 'An online space <br class="mb">which can leave messages<br> commemorating the 10th anniversary of <br class="mb">the Sewol Ferry Disaster.<br> Main visuals implemented using libraries like Scrollmagic<br class="mb"> and Tweenmax.',
                 ko: '세월호참사 10주기를 기념하여<br class="mb"> 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의<br class="mb"> 라이브러리를 이용하여 메인비주얼 구현',
             }
         },
@@ -300,8 +300,8 @@ export default [
         },
         content: {
             about: {
-                en: 'Banks Foundation for Young Entrepreneurs, DCAMP site renewal.<br>Responsible for the entire frontend of the site.<br>You can search and apply for programs DCAMP provides.<br>English site and personal membership window exists.',
-                ko: '은행권청년창업재단 디캠프 사이트 리뉴얼<br> 사이트 전체 프론트엔드 담당<br>디캠프가 제공하는 프로그램을 검색하고 신청할 수 있습니다.<br>영문사이트와 개인 멤버십 페이지가 따로 있습니다.',
+                en: 'Banks Foundation for Young Entrepreneurs, DCAMP site renewal.<br>Responsible for the entire<br class="mb"> frontend of the site.<br>You can search and apply for programs DCAMP provides.<br>English site and personal membership window exists.',
+                ko: '은행권청년창업재단 디캠프 사이트 리뉴얼.<br> 사이트 전체 프론트엔드 담당<br>디캠프가 제공하는 프로그램을<br class="mb"> 검색하고 신청할 수 있습니다.<br>영문사이트와 개인 멤버십<br class="mb"> 페이지가 따로 있습니다.',
             }
         },
     },
@@ -365,8 +365,8 @@ export default [
         },
         content: {
             about: {
-                en: 'The site operates various support programs helping dance artists.<br>You can apply support programs for health improvement or career transition.<br>Checking latest news, donation functioning are also possible.',
-                ko: '무용예술인의 직업전환과 복지증진을 목표로 다양한 지원사업을 운영하고 있는 사이트.<br> 사이트 내에서 다양한 지원을 신청할 수 있고, 소식을 확인할 수 있습니다.<br> 후원기능이 있고, 간단한 영문 페이지가 따로 존재합니다.', 
+                en: 'The site operates various support<br class="mb"> programs helping dance artists.<br>You can apply support programs<br class="mb"> for health improvement <br class="mb">or career transition.<br>Checking latest news,<br class="mb"> donation functioning are also possible.',
+                ko: '무용예술인의 직업전환과 복지증진을 목표로<br class="mb"> 다양한 지원사업을 운영하고 있는 사이트.<br> 사이트 내에서 다양한 지원을 신청할 수 있고, 소식을 확인할 수 있습니다.<br> 후원기능이 있고, 간단한 <br class="mb">영문 페이지가 따로 존재합니다.', 
             },
             // detail: [
             //     '연혁 쪽 내비게이션과 스크롤 직접 제작, 영문사이트 포함',
@@ -437,7 +437,7 @@ export default [
         },
         content: {
             about: {
-                en: 'KACE site renewal.<br>The site provides training experts in community education research<br>and applying services for community programs.',
+                en: 'KACE site renewal.<br>The site provides training experts in<br class="mb"> community education research<br>and applying services for<br class="mb"> community programs.',
                 ko: 'KACE 사이트 리뉴얼.<br>지역사회교육에 관한 조사연구 전문가 양성과<br> 다양한 교육공동체 프로그램을<br class="mb"> 신청할 수 있는 서비스를 제공합니다.',
             },
             // detail: [
@@ -504,8 +504,8 @@ export default [
         },
         content: {
             about: {
-                en: 'App version of the RNJOB website providing<br>training, employment counseling for nursing staffs.<br>You can access information about hospitals and institutions.',
-                ko: '간호인력의 교육, 취업, 상담을 지원·관리하는<br>RNJOB 웹사이트의 앱 버전입니다.<br>병원이나 기관의 정보 열람, 채용정보를 확인할 수 있습니다.',
+                en: 'App version of the <br class="mb">RNJOB website providing<br>training, employment counseling <br class="mb">for nursing staffs.<br>You can access information about <br class="mb">hospitals and institutions.',
+                ko: '간호인력의 교육, 취업, 상담을 지원·관리하는<br>RNJOB 웹사이트의 앱 버전입니다.<br>병원이나 기관의 정보 열람, <br class="mb">채용정보를 확인할 수 있습니다.',
             },
         },
     },
@@ -569,7 +569,7 @@ export default [
         },
         content: {
             about: {
-                en: 'An introduction and registeration site for walking donation event<br> sponsored by Oxfam Korea.<br>Scroll animation with SVG at home scren.<br>Team stamps are awarded based on mission completion.',
+                en: 'An introduction and registeration site <br class="mb">for walking donation event<br> sponsored by Oxfam Korea.<br>Scroll animation with SVG <br class="mb">at home scren.<br>Team stamps are awarded based on <br class="mb">mission completion.',
                 ko: '옥스팜코리아에서 주최한 걷기 기부<br class="mb"> 소개 및 참가신청 사이트.<br> 스크롤에 따라 SVG 라인이 그려지는<br class="mb"> 애니메이션 구현.<br>미션에 따라 팀의 스탬프가 인증됩니다.',
             },
             // detail: [
@@ -632,7 +632,7 @@ export default [
         },
         content: {
             about: {
-                en: 'Content platform where personal preferences and product stories meet.<br>The site introduces social economy products and brands.<br>Developed in blog format providing easy writing system for site operators.',
+                en: 'Content platform <br class="mb">where personal preferences <br class="mb">and product stories meet.<br>The site introduces social economy <br class="mb">products and brands.<br>Developed in blog format providing <br class="mb">easy writing system for site operators.',
                 ko: '나의 취향과 상품의 스토리가<br class="mb"> 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴<br class="mb"> 사회적경제의 상품과 브랜드를 소개.<br> 네이버 블로그 형식으로 운영에서 쉽게<br class="mb"> 글을 작성할 수 있도록 개발.<br>관리자가 더 편하게 글을 쓸 수 있도록 가이드 페이지를 따로 제작했습니다.',
             },
         },

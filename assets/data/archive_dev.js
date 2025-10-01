@@ -112,8 +112,8 @@ export default [
         },
         content: {
             about: {
-                en:  'Eyes and face of Zizi from Kiki&#39;s Delivery Service<br>follow a moving butterfly (your mouse!).',
-                ko: '마녀배달부 키키에 나오는 고양이 지지는<br>날아다니는 나비를 보는걸 좋아해요(당신의 마우스!)',
+                en:  'Eyes and face of Zizi <br class="mb">from Kiki&#39;s Delivery Service<br>follow a moving butterfly <br class="mb">(your mouse!).',
+                ko: '마녀배달부 키키에 나오는 고양이 지지는<br>날아다니는 나비를 보는걸 좋아해요<br class="mb">(당신의 마우스!)',
             },
             snippet: ziziSnippet,
         }
@@ -168,8 +168,8 @@ export default [
         },
         content: {
             about: {
-                en: 'In 60 seconds, 5 cats have to get to the goal line.<br>When Kiki turns back and cats are still moving, you are eliminated.<br>(Cats can only move when Kiki is not seeing!)<br>Click on each cats for run or stop.<br>Check out how many cats can get to the goal line!',
-                ko: '60초 안에 모든 다섯마리 고양이가 결승선에 도착해야합니다!<br>키키가 뒤돌아보고 있을 때 고양이가 움직이면 아웃이에요.<br>(키키가 보고 있지 않을 때 움직여야합니다!)<br>각 고양이를 클릭하면 움직이거나 멈출 수 있어요.<br>얼마나 많은 고양이가 결승선에 도달할 수 있는지 테스트해보세요!',
+                en: 'In 60 seconds, 5 cats have to <br class="mb">get to the goal line.<br>When Kiki turns back and cats are still moving, you are eliminated.<br>(Cats can only move <br class="mb">when Kiki is not seeing!)<br>Click on each cats for run or stop.<br>Check out how many cats can <br class="mb">get to the goal line!',
+                ko: '60초 안에 모든 다섯마리 고양이가 <br class="mb">결승선에 도착해야합니다!<br>키키가 뒤돌아보고 있을 때 <br class="mb">고양이가 움직이면 아웃이에요.<br>(키키가 보고 있지 않을 때 움직여야합니다!)<br>각 고양이를 클릭하면 <br class="mb">움직이거나 멈출 수 있어요.<br>얼마나 많은 고양이가 결승선에 <br class="mb">도달할 수 있는지 테스트해보세요!',
             },
             snippet: redlightgreenlightSnippet,
         }

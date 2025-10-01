@@ -52,29 +52,16 @@
                     </ul>
                 </div>
             </div>
-            <div class='bottom'>
-                <div class='convenience'>
-                    <!-- <ChangeLang /> -->
-                    <!-- <ChangeCursor /> -->
-                </div>
-                <!-- <div class='desc'>
-                    <p>&copy; 2025 witselblue</p>
-                </div> -->
-            </div>
         </div>
     </div>
 </template>
 
 <script>
 import ButtonRound from '@/components/ButtonRound.vue';
-import ChangeLang from '@/components/ChangeLang.vue';
-import ChangeCursor from '@/components/ChangeCursor.vue';
 
 export default {
     components: {
         ButtonRound,
-        ChangeLang,
-        ChangeCursor,
     },
     mounted() {
         this.$nextTick(() => {
@@ -131,7 +118,7 @@ export default {
 .footer-bg {
     width: 120%;
     margin-left: -10%;
-    height: 20%;
+    height: calc(5vh + 2rem + 5vw);
     background-color: $white2;
     border-radius: 0 0 100% 100%;
     box-shadow: $shadow-large;
@@ -140,7 +127,7 @@ export default {
 .footer {
     color: $white1;
     width: 100%;
-    height: 80%;
+    height: calc(100vh - (5vh + 2rem + 5vw));
     padding: 10vh 5vw 2.4vh;
     display: flex;
     flex-direction: column;
@@ -258,6 +245,8 @@ export default {
         height: calc(40px + 10vw);
     }
     .footer {
+        height: calc(100vh - (40px + 10vw));
+        padding: 5vw 5vw 15vw 5vw;
         .top {
             h1 {
                 font-size: 2rem;

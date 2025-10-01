@@ -52,23 +52,6 @@
                 </div>
             </section>
 
-            <section class='about'>
-                <div class='inner'>
-                    <p
-                        v-if='project.content.about'
-                        data-aos='fade-up'
-                        class='txt-c' 
-                        v-html='project.content.about[$i18n.locale]'
-                    ></p>
-                    <ButtonRound
-                        v-if='project.link && project.link.href'
-                        data-aos='fade-up'
-                        class='txt-c'
-                        :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
-                    />
-                </div>
-            </section>
-
             <section class='img-gif bg' data-aos='fade-up' v-if='project.images.gif'>
                 <div class='inner'>
                     <div class='device_pc' data-aos='fade-up'>
@@ -103,6 +86,23 @@
                             <img :src='project.images.mb3' class='img'>
                         </li>
                     </ul>
+                </div>
+            </section>
+
+            <section class='about'>
+                <div class='inner'>
+                    <p
+                        v-if='project.content.about'
+                        data-aos='fade-up'
+                        class='txt-c' 
+                        v-html='project.content.about[$i18n.locale]'
+                    ></p>
+                    <ButtonRound
+                        v-if='project.link && project.link.href'
+                        data-aos='fade-up'
+                        class='txt-c'
+                        :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
+                    />
                 </div>
             </section>
 

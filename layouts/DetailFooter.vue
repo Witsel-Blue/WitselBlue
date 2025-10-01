@@ -90,7 +90,7 @@ export default {
 
             const winH = window.innerHeight;
             const scrollY = window.scrollY;
-            const footerTop = footerBg.offsevtTop;
+            const footerTop = footerBg.offsetTop;
             const scrollStart = footerTop - (winH * 2 / 3);
 
             let r = 0;
@@ -129,6 +129,7 @@ export default {
     width: 120%;
     margin-left: -10%;
     height: 20%;
+    height: calc(5vh + 2rem + 5vw);
     background-color: $white2;
     border-radius: 0 0 100% 100%;
     box-shadow: $shadow-large;
@@ -137,7 +138,7 @@ export default {
 .footer {
     color: $white1;
     width: 100%;
-    height: 80%;
+    height: calc(100vh - (5vh + 2rem + 5vw));
     padding: 15vh 10vw;
     display: flex;
     align-items: center;
@@ -258,18 +259,33 @@ export default {
 // mobile
 @media all and (max-width: $mobile) {
     .footer-bg {
-        height: 15%;
+        height: calc(40px + 10vw);
     }
     .footer {
-        padding: 5vh 10vw 10vh;
-        gap: 24px;
-    }
-    .hover-flip {
-        .back {
-            a h3 {
-                margin-top: 4px;
-                font-size: 1.6rem;
+        height: calc(100vh - (40px + 10vw));
+        padding: 5vw 5vw 15vw 5vw;
+        gap: 2.5vh;
+        .top {
+            h1 {
+                font-size: 1.4rem;
             }
+        }
+        .bottom {
+            gap: 2.5vh;
+            #card-flip::v-deep {
+                width: 50vw;
+                height: 62vw;
+                .card-back {
+                    span > p {
+                        margin-bottom: 8px;
+                    }
+                }
+            }
+        }
+    }
+    #button-round::v-deep {
+        .button {
+            font-size: 0.8rem;
         }
     }
 }

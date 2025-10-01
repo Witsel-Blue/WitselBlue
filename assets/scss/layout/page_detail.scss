@@ -98,7 +98,6 @@
     }
 
     .about {
-        padding-top: 0 !important;
         p {
             line-height: 1.6;
         }
@@ -246,82 +245,65 @@
     ::v-deep br.mb {
         display: block;
     }
-    .contents {
-        display: grid;
-        section:nth-child(3) {
-            grid-row: 2/3;
-        }
+
+    .page_detail {
         .main {
-            height: auto;
-            padding: 15vh 0 0;
-            .inner {
-                display: flex;
-                flex-direction: column-reverse;
-                gap: 5vh;
-            }
             .mainvisual {
-                width: 100%;
-                #parallax-img::v-deep {
-                    .parallax-cont {
-                        padding-top: 100%;
-                        .img {
-                            height: 130%;
-                        }
-                    }
-                }
+                height: 40vh;
             }
             .title {
-                position: initial;
-                max-width: 100%;
+                bottom: 55vh;
                 p {
                     font-size: 0.8rem;
                 }
-                .text-shifting::v-deep span {
-                    font-weight: bold;
-                    font-size: 2.4rem;
+                .text-shifting::v-deep {
+                    span {
+                        font-size: 2rem;
+                    }
+                }
+            }
+            .desc {
+                padding-top: 13vh;
+                ul {
+                    grid-template-columns: 1fr;
                 }
             }
         }
-        .desc {
-            grid-template-columns: 1fr;
-            gap: 8px;
-            dl {
-                display: grid;
-                grid-template-columns: 1fr 2fr;
-                gap: 16px;
-                dt {
-                    font-size: 1rem;
-                }
-                dd {
-                    border: none;
-                    margin-top: 0;
-                    padding-top: 0;
-                }
+        .about {
+            #button-round::v-deep {
+                margin-top: 5vh;
+                font-size: 0.8rem;
             }
-        }
-        .device_mb {
-            grid-template-columns: 1fr;
-            gap: 5vh;
-            li {
-                width: 72%;
-                margin: auto;
-                .img {
-                    border-radius: 64px;
-                }
-            }
-        }
-        .device_pc {
-            .img-wrap {
-                border-radius: 16px 16px 0 0;
-            }
-        }
-        .img-mb {
-            .inner {
-                gap: 16px;
-            }
-        }
-        .iframe {
-            margin-top: 10vh;
         }
     }
+
+    #archive_dev_detail,
+    #archive_music_detail {
+        .main {
+            height: auto;
+            .title {
+                bottom: initial;
+                top: 37vh;
+            }
+        }
+        .def {
+            height: auto !important;
+        }
+        .showcase {
+            height: auto;
+            .iframe {
+                height: 60vh;
+            }
+        }
+        #button-round::v-deep {
+            font-size: 0.8rem;
+        }
+    }
+
+    #archive_music_detail {
+        .def {
+            padding-bottom: 0 !important;
+        }
+    }
+
 }
