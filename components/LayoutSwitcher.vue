@@ -35,6 +35,7 @@ export default {
 @use '@/assets/scss/base/variables.scss' as *;
 
 #layout-switcher {
+    display: none;
     ul {
         display: flex;
         align-items: flex-end;
@@ -49,6 +50,12 @@ export default {
                 }
             }
         }
+    }
+}
+
+@media all and (max-width: $mobile) {
+    #layout-switcher {
+        display: block;
     }
 }
 </style>
