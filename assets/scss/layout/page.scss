@@ -207,8 +207,6 @@
         .list-wrap {
             padding-top: 5vh;
             .inner {
-                grid-template-columns: 1fr 1fr;
-                grid-gap: 5vw;
                 .skew-section {
                     width: 100%;
                     ::v-deep .hover-img {
@@ -236,6 +234,21 @@
                     }
                 }
             }
+
+            &.list-mode {
+                .inner {
+                    grid-template-columns: 1fr;
+                    grid-gap: 10vw;
+                }
+            }
+
+            &.grid-mode {
+                .inner {
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: 5vw;
+                }
+            }
+
         }
     }
     
