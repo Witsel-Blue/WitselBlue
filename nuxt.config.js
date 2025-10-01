@@ -13,6 +13,7 @@ export default {
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
             { rel: 'apple-touch-icon', href: '/app-icon.png' },
+            { rel: 'icon', type: 'image/png', href: '/app-icon.png' },
         ]
     },
 
