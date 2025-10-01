@@ -9,6 +9,10 @@
             <StarBg />
         </div>
 
+        <div class='layout-switcher-wrap'>
+            <LayoutSwitcher @change-layout='setLayout' :layout='layout' />
+        </div>
+
         <div class='tab-wrap'>
             <div class='inner'>
                 <div class='drop-lottie' v-if='showDrop'
@@ -50,7 +54,7 @@
             </div>
         </div>
 
-        <div class='list-wrap'>
+        <div class='list-wrap' :class="`${layout}-mode`">
             <div class='inner'>
                 <div
                     v-for='(item, i) in filteredLists'
@@ -80,14 +84,15 @@
 
 <script>
 import projectsData from '@/assets/data/projects.js';
-import PageTransition from '@/layouts/PageTransition.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import PageTransition from '@/layouts/PageTransition.vue';
 import StarBg from '@/components/StarBg.vue';
-import SkewCardY from '@/components/SkewCardY.vue';
+import LayoutSwitcher from '@/components/LayoutSwitcher.vue';
 import TextShifting from '@/components/TextShifting.vue';
 import Lottie from '@/components/Lottie.vue';
 import Drop from '@/assets/lottie/drop.json';
+import SkewCardY from '@/components/SkewCardY.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -97,9 +102,10 @@ export default {
     components: {
         PageTransition,
         StarBg,
-        SkewCardY,
+        LayoutSwitcher,
         TextShifting,
         Lottie,
+        SkewCardY,
     },
     data() {
         return {
@@ -118,6 +124,9 @@ export default {
         }
     },
     computed: {
+        layout() {
+            return this.$store.getters['layoutSwitch/layout'];
+        },
         tabs() {
             const workSet = new Set();
             const envSet = new Set();
@@ -160,6 +169,9 @@ export default {
         });
     },
     methods: {
+        setLayout(newLayout) {
+            this.$store.dispatch('layoutSwitch/setLayout', newLayout);
+        },
         triggerDropLottie(event) {
             const parentRect = event.currentTarget.offsetParent.getBoundingClientRect();
             const btnRect = event.currentTarget.getBoundingClientRect();
