@@ -8,12 +8,23 @@ export default {
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             { hid: 'description', name: 'description', content: '' },
-            { name: 'format-detection', content: 'telephone=no' }
+            { name: 'format-detection', content: 'telephone=no' },
+            // 색상 설정 (모바일 브라우저 상단바)
+            { name: 'theme-color', content: '#f7f7f7' },
+            { name: 'apple-mobile-web-app-capable', content: 'yes' },
+            { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
         ],
         link: [
+            // 기본 파비콘
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: 'apple-touch-icon', href: '/app-icon.png' },
-            { rel: 'icon', type: 'image/png', href: '/app-icon.png' },
+            { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+            { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' },
+
+            // 애플 터치 아이콘 (iOS 홈화면 추가 시)
+            { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+
+            // 안드로이드/크롬 PWA용 아이콘
+            { rel: 'manifest', href: '/manifest.json' },
         ]
     },
 
