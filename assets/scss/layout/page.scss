@@ -173,7 +173,7 @@
         .main {
             height: auto;
             min-height: auto;
-            padding: 15vw 5vw 10vw 5vw;
+            padding: 25vw 5vw 10vw 5vw;
             .title {
                 font-size: 3rem;
                 margin-top: 0;
@@ -252,7 +252,7 @@
                 .desc {
                     .text-shifting::v-deep {
                         span {
-                            font-size: 1.6rem;
+                            font-size: 2rem;
                         }
                     }
                 }

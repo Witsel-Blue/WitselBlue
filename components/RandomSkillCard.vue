@@ -36,7 +36,7 @@
     </div>
 
     <!-- tabs -->
-    <div class='tabs' data-aos='fade-up'>
+    <div class='tabs'>
         <ButtonRound
             v-for='(cat, index) in categories'
             :key='`${cat}-${index}`'
