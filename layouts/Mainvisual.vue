@@ -1,7 +1,9 @@
 <template>
     <div id='mainvisual'>
         <!-- <MainThree /> -->
-        <MainP5 />
+        <client-only>
+            <MainP5 />
+        </client-only>
         <StarBg />
     </div>
 </template>

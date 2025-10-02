@@ -22,6 +22,7 @@ export default {
 
             const sketch = (s) => {
                 let scaleFactor = 1;
+
                 s.updateScale = function () {
                     scaleFactor = Math.min(s.width, s.height) / 800;
                 };
@@ -32,7 +33,7 @@ export default {
 
                     let center = s.createVector(x, y);
                     let mouse = s.createVector(s.mouseX, s.mouseY);
-                    let move = p5.Vector.sub(mouse, center);
+                    let move = s.constructor.Vector.sub(mouse, center);
                     move.mult(0.2);
                     move.limit(25 * scaleFactor);
 
