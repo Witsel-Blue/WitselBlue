@@ -10,6 +10,7 @@
                     {{ $t('home.mainSub') }}
                 </p>
                 <TextScroll :text="$t('home.mainTitle')" />
+                <ButtonSccrollDown />
             </div>
         </section>
         <div @mouseleave='onMouseLeaveMain'>
@@ -29,7 +30,8 @@
                             @hover-leave='(idx) => $set(activeHoverImgs, idx, false)'
                         />
                         <div class='arrow' data-aos='fade-up'>
-                            <span>hover texts!</span>
+                            <span class='pc'>hover texts!</span>
+                            <span class='mb'>click texts!</span>
                             <Lottie :animationData='Arrow' />
                         </div>
                     </div>
@@ -96,6 +98,7 @@ import Butterfly from '@/assets/lottie/butterfly.json';
 import Arrow from '@/assets/lottie/arrow.json';
 import Mainvisual from '@/layouts/Mainvisual.vue';
 import TextScroll from '@/components/TextScroll.vue';
+import ButtonSccrollDown from '@/components/ButtonScrollDown.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import SkewCardX from '@/components/SkewCardX.vue';
 import TextShifting from '@/components/TextShifting.vue';
@@ -113,6 +116,7 @@ export default {
     components: {
         Lottie,
         Mainvisual,
+        ButtonSccrollDown,
         TextScroll,
         ParallaxImg,
         SkewCardX,

@@ -78,3 +78,20 @@ img {
 .mt-40 {
     margin-top: 40px;
 }
+
+// pc mb
+.pc {
+    display: block !important;
+}
+.mb {
+    display: none !important;
+}
+
+@media all and (max-width: $mobile) {
+    .pc {
+        display: none !important;
+    }
+    .mb {
+        display: block !important;
+    }
+}

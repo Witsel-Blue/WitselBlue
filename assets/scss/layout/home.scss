@@ -43,6 +43,9 @@
                     font-size: 5rem;
                 }
             }
+            #button-scrolldown {
+                display: none;
+            }
         }
     }
 
@@ -306,6 +309,11 @@
                     span {
                         font-size: 4rem;
                     }
+                }
+                #button-scrolldown {
+                    display: block;
+                    position: absolute;
+                    bottom: 35vw;
                 }
             }
         }
