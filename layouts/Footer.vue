@@ -242,21 +242,21 @@ export default {
 // mobile
 @media all and (max-width: $mobile) {
     .footer-bg {
-        height: calc(40px + 10vw);
+        height: calc(60px + 10vw);
     }
     .footer {
-        height: calc(100vh - (40px + 10vw));
+        height: calc(100vh - (60px + 10vw));
         padding: 5vw 5vw 15vw 5vw;
         .top {
             h1 {
-                font-size: 2rem;
+                font-size: 2.4rem;
                 span {
                     min-width: 8px;
                 }
             }
             .lists,
             .sub-lists {
-                font-size: 0.8rem;
+                font-size: 1rem;
             }
         }
     }

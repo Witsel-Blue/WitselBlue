@@ -247,23 +247,29 @@
     }
 
     .page_detail {
+        section:not(.main) {
+            padding: 5vh 0;
+        }
         .main {
+            height: auto;
             .mainvisual {
                 height: 40vh;
             }
             .title {
-                bottom: 55vh;
+                bottom: initial;
+                top: 37vh;
                 p {
-                    font-size: 0.8rem;
+                    font-size: 1rem;
                 }
                 .text-shifting::v-deep {
                     span {
-                        font-size: 2rem;
+                        font-size: 2.4rem;
                     }
                 }
             }
             .desc {
-                padding-top: 13vh;
+                padding-top: 10vh;
+                padding-bottom: 5vh;
                 ul {
                     grid-template-columns: 1fr;
                 }
@@ -272,7 +278,6 @@
         .about {
             #button-round::v-deep {
                 margin-top: 5vh;
-                font-size: 0.8rem;
             }
         }
     }
@@ -288,15 +293,13 @@
         }
         .def {
             height: auto !important;
+            padding: 10vh 0 5vh;
         }
         .showcase {
             height: auto;
             .iframe {
                 height: 60vh;
             }
-        }
-        #button-round::v-deep {
-            font-size: 0.8rem;
         }
     }
 

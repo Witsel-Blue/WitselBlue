@@ -6,7 +6,7 @@
         >
             <Mainvisual />
             <div class='inner'>
-                <p class='subtext'>
+                <p class='subtext' data-aos='fade-up'>
                     {{ $t('home.mainSub') }}
                 </p>
                 <TextScroll :text="$t('home.mainTitle')" />
@@ -46,10 +46,10 @@
             </section>
             <section class='skills' ref='skills'>
                 <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c'>
+                    <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_skills') }}
                     </h1>
-                    <img src='@/assets/img/home/tray.png' class='tray' />
+                    <img src='@/assets/img/home/tray.png' class='tray' data-aos='fade-up' />
                     <RandomSkillCard />
                 </div>
             </section>
@@ -58,7 +58,8 @@
                     <li
                         class='panel'
                         v-for='list in selected'
-                        :key='list.slug'>
+                        :key='list.slug'
+                    >
                         <div class='wrap'>
                             <div class='cat'>
                                 {{ list.category }}

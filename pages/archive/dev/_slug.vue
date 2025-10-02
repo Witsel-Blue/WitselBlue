@@ -55,7 +55,7 @@
                 </div>
             </section>
 
-            <section class='viewcode'>
+            <section class='viewcode' v-if='dev.link'>
                 <ButtonRound
                     v-if='dev.link'
                     data-aos='fade-up'

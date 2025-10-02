@@ -259,15 +259,15 @@ export default {
 // mobile
 @media all and (max-width: $mobile) {
     .footer-bg {
-        height: calc(40px + 10vw);
+        height: calc(60px + 10vw);
     }
     .footer {
-        height: calc(100vh - (40px + 10vw));
+        height: calc(100vh - (60px + 10vw));
         padding: 5vw 5vw 15vw 5vw;
         gap: 2.5vh;
         .top {
             h1 {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
             }
         }
         .bottom {
@@ -281,11 +281,6 @@ export default {
                     }
                 }
             }
-        }
-    }
-    #button-round::v-deep {
-        .button {
-            font-size: 0.8rem;
         }
     }
 }

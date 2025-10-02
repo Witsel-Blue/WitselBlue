@@ -36,7 +36,7 @@
     </div>
 
     <!-- tabs -->
-    <div class='tabs'>
+    <div class='tabs' data-aos='fade-up'>
         <ButtonRound
             v-for='(cat, index) in categories'
             :key='`${cat}-${index}`'
@@ -49,9 +49,9 @@
     <div class='def'>
        <div class='inner'>
             <ul>
-                <li>★★★:<br class='mb'> {{ $t('randomSkillCards.def[0]') }}</li>
-                <li>★★★★:<br class='mb'> {{ $t('randomSkillCards.def[1]') }}</li>
-                <li>★★★★★:<br class='mb'> {{ $t('randomSkillCards.def[2]') }}</li>
+                <li data-aos='fade-up'>★★★:<br class='mb'> {{ $t('randomSkillCards.def[0]') }}</li>
+                <li data-aos='fade-up'>★★★★:<br class='mb'> {{ $t('randomSkillCards.def[1]') }}</li>
+                <li data-aos='fade-up'>★★★★★:<br class='mb'> {{ $t('randomSkillCards.def[2]') }}</li>
             </ul>
        </div>
     </div>
@@ -324,9 +324,9 @@ export default {
         }
         .card-front {
             background: $white1;
-            img {
-                // filter: grayscale(1);
-            }
+            // img {
+            //     filter: grayscale(1);
+            // }
         }
         .card-back {
             background: $black1;
@@ -383,12 +383,11 @@ export default {
             display: none;
         }
         #button-round::v-deep .button {
-            font-size: 0.8rem;
             word-break: keep-all;
         }
     }
     .skill-cards-wrapper {
-        margin: 24px auto 0;
+        margin: 5vh auto;
         width: 72%;
         height: 60vh;
         .skill-card {

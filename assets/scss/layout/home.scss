@@ -288,93 +288,23 @@
 // mobile
 @media all and (max-width: $mobile) {
     #home {
-        .inner {
-            .subtitle-wrap {
-                .subtitle {
-                    font-size: 2.4rem;
-                }
+        section {
+            // border: 1px solid red;
+            .subtitle {
+                padding-top: 0 !important;
             }
         }
 
         #main {
             .inner {
                 .subtext {
-                    font-size: 1rem;
-                }
-            }
-        }
-      
-        .profile {
-            #parallax-img {
-                width: 56%;
-                border-radius: 60px;
-            }
-        }
-
-        .archive,
-        .project {
-            .panel {
-                .desc {
-                    .title::v-deep {
-                        font-size: 1.8rem !important;
-                        margin-top: 4px;
-                    }
-                }
-            }
-        }
-      
-      .project {
-          .container {
-              margin-top: 10vh;
-              padding: 0;
-              width: 100% !important;
-              height: auto;
-              flex-direction: column;
-              gap: 10vh;
-              .panel {
-                  &:first-child {
-                      display: none;
-                  }
-                  .hover-img {
-                      width: 100%;
-                  }
-                  .desc {
-                      position: initial;
-                      max-width: 100%;
-                      margin-top: 16px;
-                      .title {
-                          font-size: 1.8rem;
-                          line-height: 1;
-                      }
-                  }
-              }
-          }
-      }
-
-      .skills {
-          .wrap {
-              grid-template-columns: 1fr;
-          }
-      }
-
-    }
-}
-
-
-@media all and (max-width: $mobile) {
-    #home {
-        .subtitle {
-            font-size: 2rem;
-        }
-
-        #main {
-            .inner {
-                .subtext {
-                    bottom: calc(16vh + 3.2rem + 2vh);
+                    font-size: 1.2rem;
+                    bottom: calc(30vh + 4rem + 2vh);
                 }
                 #text-scroll::v-deep {
+                    bottom: 30vh;
                     span {
-                        font-size: 3.2rem;
+                        font-size: 4rem;
                     }
                 }
             }
@@ -382,8 +312,10 @@
 
         .profile {
             margin-top: 25vh;
+            height: auto;
+            padding: 10vh 0;
             #parallax-img {
-                width: 40%;
+                width: 50%;
                 border-radius: 50%;
             }
             .text {
@@ -397,9 +329,6 @@
                 #text-stagger::v-deep {
                     ul {
                         margin-top: 16px;
-                        p {
-                            font-size: 0.8rem;
-                        }
                         span.mouse-hover1 {
                             font-size: 1.4rem;
                             line-height: 1.2;
@@ -407,9 +336,30 @@
                     }
                 }
             }
+            .profile-hover-img {
+                li {
+                    &:nth-child(1) {
+                        width: 240px;
+                    }
+                    &:nth-child(2) {
+                        width: 200px;
+                    }
+                    &:nth-child(3) {
+                        width: 160px;
+                    }
+                    &:nth-child(4) {
+                        width: 200px;
+                    }
+                    &:nth-child(5) {
+                        width: 160px;
+                    }
+                }
+            }
         }
 
         .skills {
+            height: auto;
+            padding: 10vh 0;
             .inner {
                 width: 100%;
                 .subtitle {
@@ -427,11 +377,22 @@
 
         .selected {
             .container {
-                .panel {
+                .panel::v-deep {
                     flex: 0 0 100vw;
+                    .cat {
+                        writing-mode: initial;
+                        position: initial;
+                        margin-left: 5vw;
+                        font-size: 1.6rem;
+                    }
+                    .hover-img {
+                        .res-box-wrap {
+                            padding-bottom: 140%;
+                        }
+                    }
                     .desc {
                         .title {
-                            font-size: 1.6rem;
+                            font-size: 2rem;
                         }
                     }
                 }
