@@ -21,6 +21,11 @@ export default {
             const p5 = (await import('p5')).default;
 
             const sketch = (s) => {
+                let scaleFactor = 1;
+                s.updateScale = function () {
+                    scaleFactor = Math.min(s.width, s.height) / 800;
+                };
+
                 s.face = function (x, y) {
                     s.push();
                     s.translate(x, y);
@@ -29,10 +34,10 @@ export default {
                     let mouse = s.createVector(s.mouseX, s.mouseY);
                     let move = p5.Vector.sub(mouse, center);
                     move.mult(0.2);
-                    move.limit(25);
+                    move.limit(25 * scaleFactor);
 
                     let pupilMove = move.copy();
-                    pupilMove.limit(20);
+                    pupilMove.limit(20 * scaleFactor);
 
                     let eyeMove = move.copy();
                     eyeMove.mult(0.5);
@@ -49,22 +54,22 @@ export default {
                     let earMove = move.copy();
                     earMove.mult(-0.2);
 
-                    s.strokeWeight(5);
+                    s.strokeWeight(5 * scaleFactor);
 
                     // ears
                     s.push();
                     s.translate(earMove.x, earMove.y);
                     s.fill('rgb(53,64,94)');
-                    s.ellipse(-80, -90, 80, 140);
-                    s.ellipse(80, -90, 80, 140);
+                    s.ellipse(-80 * scaleFactor, -90 * scaleFactor, 80 * scaleFactor, 140 * scaleFactor);
+                    s.ellipse(80 * scaleFactor, -90 * scaleFactor, 80 * scaleFactor, 140 * scaleFactor);
                     s.fill('#442F68');
-                    s.ellipse(-80, -90, 50, 110);
-                    s.ellipse(80, -90, 50, 110);
+                    s.ellipse(-80 * scaleFactor, -90 * scaleFactor, 50 * scaleFactor, 110 * scaleFactor);
+                    s.ellipse(80 * scaleFactor, -90 * scaleFactor, 50 * scaleFactor, 110 * scaleFactor);
                     s.pop();
 
                     // face
                     s.fill('rgb(53,64,94)');
-                    s.ellipse(0, 20, 300, 240);
+                    s.ellipse(0, 20 * scaleFactor, 300 * scaleFactor, 240 * scaleFactor);
 
                     // eyes
                     s.push();
@@ -72,23 +77,23 @@ export default {
 
                     if (s.mouseIsPressed) {
                         // closedEyes
-                        s.line(-30, 30, -75, 30);
-                        s.line(-30, 30, -70, 50);
-                        s.line(-30, 30, -70, 10);
-                        s.line(30, 30, 75, 30);
-                        s.line(30, 30, 70, 50);
-                        s.line(30, 30, 70, 10);
+                        s.line(-30 * scaleFactor, 30 * scaleFactor, -75 * scaleFactor, 30 * scaleFactor);
+                        s.line(-30 * scaleFactor, 30 * scaleFactor, -70 * scaleFactor, 50 * scaleFactor);
+                        s.line(-30 * scaleFactor, 30 * scaleFactor, -70 * scaleFactor, 10 * scaleFactor);
+                        s.line(30 * scaleFactor, 30 * scaleFactor, 75 * scaleFactor, 30 * scaleFactor);
+                        s.line(30 * scaleFactor, 30 * scaleFactor, 70 * scaleFactor, 50 * scaleFactor);
+                        s.line(30 * scaleFactor, 30 * scaleFactor, 70 * scaleFactor, 10 * scaleFactor);
                     } else {
                         // eyes
                         s.fill('white');
-                        s.ellipse(-60, 20, 100, 100);
-                        s.ellipse(60, 20, 100, 100);
+                        s.ellipse(-60 * scaleFactor, 20 * scaleFactor, 100 * scaleFactor, 100 * scaleFactor);
+                        s.ellipse(60 * scaleFactor, 20 * scaleFactor, 100 * scaleFactor, 100 * scaleFactor);
                         // pupil
                         s.push();
                         s.translate(pupilMove.x, pupilMove.y);
                         s.fill('rgb(0,0,0)');
-                        s.ellipse(60, 20, 40, 60);
-                        s.ellipse(-60, 20, 40, 60);
+                        s.ellipse(60 * scaleFactor, 20 * scaleFactor, 40 * scaleFactor, 60 * scaleFactor);
+                        s.ellipse(-60* scaleFactor, 20* scaleFactor, 40* scaleFactor, 60* scaleFactor);
                         s.pop();
                     }
                     s.pop();
@@ -96,29 +101,29 @@ export default {
                     // nose
                     s.push();
                     s.translate(noseMove.x, noseMove.y);
-                    s.line(-3, 70, 3, 70);
-                    s.line(0, 75, -5, 70);
-                    s.line(0, 75, 5, 70);
-                    s.line(0, 75, 0, 90);
+                    s.line(-3 * scaleFactor, 70 * scaleFactor, 3 * scaleFactor, 70 * scaleFactor);
+                    s.line(0, 75 * scaleFactor, -5 * scaleFactor, 70 * scaleFactor);
+                    s.line(0, 75 * scaleFactor, 5 * scaleFactor, 70 * scaleFactor);
+                    s.line(0, 75 * scaleFactor, 0, 90 * scaleFactor);
                     s.pop();
 
                     // mouth
                     s.push();
                     s.translate(mouthMove.x, noseMove.y);
                     s.fill('rgb(187,75,95)');
-                    s.ellipse(0, 100, 40, 30);
+                    s.ellipse(0, 100 * scaleFactor, 40 * scaleFactor, 30 * scaleFactor);
                     s.pop();
 
                     // whiskers
                     s.push();
                     s.translate(whiskersMove.x, whiskersMove.y);
                     s.strokeWeight(2);
-                    s.line(-80, 80, -130, 65);
-                    s.line(-80, 92.5, -150, 92.5);
-                    s.line(-80, 105, -130, 115);
-                    s.line(80, 80, 130, 65);
-                    s.line(80, 92.5, 150, 92.5);
-                    s.line(80, 105, 130, 115);
+                    s.line(-80 * scaleFactor, 80 * scaleFactor, -130 * scaleFactor, 65 * scaleFactor);
+                    s.line(-80 * scaleFactor, 92.5 * scaleFactor, -150 * scaleFactor, 92.5 * scaleFactor);
+                    s.line(-80 * scaleFactor, 105 * scaleFactor, -130 * scaleFactor, 115 * scaleFactor);
+                    s.line(80 * scaleFactor, 80 * scaleFactor, 130 * scaleFactor, 65 * scaleFactor);
+                    s.line(80 * scaleFactor, 92.5 * scaleFactor, 150 * scaleFactor, 92.5 * scaleFactor);
+                    s.line(80 * scaleFactor, 105 * scaleFactor, 130 * scaleFactor, 115 * scaleFactor);
                     s.pop();
 
                     s.pop();
@@ -129,6 +134,7 @@ export default {
                     const { width, height } = container.elt.getBoundingClientRect();
                     s.createCanvas(width, height);
                     s.noCursor();
+                    s.updateScale();
                 };
 
                 s.draw = function () {
@@ -140,6 +146,7 @@ export default {
                     const container = s.select('.p5-wrapper');
                     const { width, height } = container.elt.getBoundingClientRect();
                     s.resizeCanvas(width, height);
+                    s.updateScale();
                 };
             };
 

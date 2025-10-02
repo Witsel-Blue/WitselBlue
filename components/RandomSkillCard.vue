@@ -199,7 +199,7 @@ export default {
             this.filteredSkills[index].flipped = true;
             gsap.to(this.$refs.wrapper.children[index], {
                 zIndex: 100,
-                scale: 1.2,
+                scale: 1.5,
                 rotation: 0,
                 duration: 0.3,
                 ease: 'power2.out',
@@ -325,7 +325,7 @@ export default {
         .card-front {
             background: $white1;
             img {
-                filter: grayscale(1);
+                // filter: grayscale(1);
             }
         }
         .card-back {
