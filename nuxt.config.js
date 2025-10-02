@@ -43,6 +43,7 @@ export default {
 
     plugins: [
         { src: '@/plugins/aos.client.js', ssr: false },
+        { src: '@/plugins/p5.client.js', ssr: false },
         { src: '@/plugins/p5.speech.js', ssr: false },
         { src: '@/plugins/lottie.js', ssr: false },
         { src: '@/plugins/vue-awesome-swiper.js', ssr: false },

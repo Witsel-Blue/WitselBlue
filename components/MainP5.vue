@@ -6,7 +6,6 @@
 export default {
     name: 'P5Canvas',
     mounted() {
-    // SSR 방지
         if (typeof window !== 'undefined') {
             this.initP5();
         }
