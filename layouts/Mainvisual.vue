@@ -24,12 +24,12 @@ export default {
 </script>
   
 <style lang='scss' scoped>
-    #star-bg {
-        position: absolute;
-        top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10vh 10vw;
-    }
+#star-bg {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10vh 10vw;
+}
 </style>

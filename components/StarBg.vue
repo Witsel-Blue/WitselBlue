@@ -1,7 +1,7 @@
 <template>
     <div id='star-bg'>
         <div class='star-wrap'>
-            <img class='star1 y1'
+            <img class='star1 y1' 
                 src='@/assets/img/star1.png'
             />
             <img class='star2'

@@ -1,22 +1,27 @@
 <template>
     <div id='app'>
-        <CursorCustom 
-            :extra-class="$store.state.cursor.extraClass"
-            :showLottie="showCursorLottie"
-        />
-        <GNB v-if='!isNoUIPage' />
-        <Nuxt :key='$route.fullPath' />
-        <Footer v-if='showFooter' />
-        <DetailFooter
-            v-if='showDetailFooter'
-            :next-project='nextProject'
-            :next-archive-dev='nextArchiveDev'
-            :next-archive-music='nextArchiveMusic'
-        />
+        <Intro v-if="showIntro" @end="handleIntroEnd" />
+
+        <div v-else>
+            <CursorCustom 
+                :extra-class="$store.state.cursor.extraClass"
+                :showLottie="showCursorLottie"
+            />
+            <GNB v-if='!isNoUIPage' />
+            <Nuxt :key='$route.fullPath' />
+            <Footer v-if='showFooter'></Footer>
+            <DetailFooter
+                v-if='showDetailFooter'
+                :next-project='nextProject'
+                :next-archive-dev='nextArchiveDev'
+                :next-archive-music='nextArchiveMusic'
+            />
+        </div>
     </div>
 </template>
 
 <script>
+import Intro from '@/layouts/Intro.vue';
 import CursorCustom from '@/components/CursorCustom.vue';
 import GNB from '@/layouts/gnb.vue';
 import Footer from '@/layouts/Footer.vue';
@@ -24,10 +29,16 @@ import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
     components: { 
+        Intro,
         CursorCustom,
         GNB,
         Footer,
         DetailFooter,
+    },
+    data() {
+        return {
+            showIntro: true,
+        }
     },
     computed: {
         isNoUIPage() {
@@ -63,6 +74,9 @@ export default {
         }
     },
     methods: {
+        handleIntroEnd() {
+            this.showIntro = false;
+        },
         initLocale() {
             this.$store.dispatch('locales/initLocale');
             const locale = this.$store.state.locales.locale;
