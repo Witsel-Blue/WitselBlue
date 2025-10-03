@@ -28,6 +28,9 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            .arrow {
+                display: none;
+            }
             .subtext {
                 text-align: center;
                 font-size: 1.6rem;
@@ -296,10 +299,6 @@
 
 // mobile
 @media all and (max-width: $mobile) {
-    section {
-        border: 1px solid red;
-    }
-
     #home {
         section {
             .subtitle {
@@ -309,6 +308,22 @@
 
         #main {
             .inner {
+                .arrow {
+                    display: block;
+                    position: absolute;
+                    top: calc(5vw + 60px);
+                    left: calc(5vw + 30px);
+                    #lottie {
+                        height: 32px;
+                    }
+                    span {
+                        font-size: 0.6rem;
+                        font-family: 'Diphylleia';
+                        transform: rotate(12deg);
+                        display: block;
+                    }
+
+                }
                 .subtext {
                     font-size: 1.2rem;
                     bottom: calc(30vh + 4rem + 2vh);
@@ -322,7 +337,7 @@
                 #button-scrolldown {
                     display: block;
                     position: absolute;
-                    bottom: 35vw;
+                    bottom: 5vw;
                 }
             }
         }
@@ -339,6 +354,9 @@
                 margin-top: -40%;
                 span {
                     font-size: 0.6rem;
+                }
+                #lottie {
+                    height: 32px;
                 }
             }
             .text {

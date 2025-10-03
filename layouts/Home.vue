@@ -6,6 +6,10 @@
         >
             <Mainvisual />
             <div class='inner'>
+                <div class='arrow'>
+                    <Lottie :animationData='Arrow' />
+                    <span>menu button!</span>
+                </div>
                 <p class='subtext' data-aos='fade-up'>
                     {{ $t('home.mainSub') }}
                 </p>
