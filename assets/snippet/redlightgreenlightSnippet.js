@@ -7,8 +7,11 @@ class Game {
     timerInterval = null;
     sounds = {};
     doll;
+    _updateRegistered = false;
+    container;
 
     constructor() {
+        this.update = this.update.bind(this);
         this.init();
     }
 
@@ -21,51 +24,74 @@ class Game {
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
         });
+
+        this.container = document.createElement('div');
+        this.container.id = 'game-container';
+        Object.assign(this.container.style, {
+            width: '360px',
+            height: '640px',
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%) scale(1)',
+            transformOrigin: '50% 50%',
+        });
+        document.body.appendChild(this.container);
+
         this.app.canvas.id = 'app-canvas';
-        document.body.appendChild(this.app.canvas);
+        this.app.canvas.style.width = '360px';
+        this.app.canvas.style.height = '640px';
+        this.app.canvas.style.display = 'block';
+        this.container.appendChild(this.app.canvas);
+
+        this.resizeCanvas();
+        window.addEventListener('resize', () => this.resizeCanvas());
 
         this.createGameCover();
+
         await this.loadGameAssets();
         this.drawFinishLine();
+    }
+
+    resizeCanvas() {
+        const maxWidth = 360;
+        const scale = window.innerWidth >= maxWidth ? 1 : window.innerWidth / maxWidth;
+
+        this.container.style.transform = 'translate(-50%, -50%) scale(scale)';
     }
 
     createGameCover() {
         const cover = document.createElement('div');
         cover.id = 'game-cover';
         Object.assign(cover.style, {
-            width: '360px',
-            height: '640px',
+            width: '100%',
+            height: '100%',
             position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
+            left: '0',
+            top: '0',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            cursor: 'pointer',
-            zIndex: '1'
+            zIndex: '10',
+            display: 'block'
         });
 
         const startText = document.createElement('div');
         startText.id = 'start-text';
-        startText.textContent = '화면을 클릭하여 게임 시작';
+        startText.textContent = '게임을 시작하려면 버튼을 누르세요';
         Object.assign(startText.style, {
             color: 'white',
-            fontSize: '28px',
+            fontSize: '24px',
             position: 'absolute',
             left: '50%',
-            top: '50%',
+            top: '45%',
             transform: 'translate(-50%, -50%)',
-            textAlign: 'center'
+            textAlign: 'center',
+            zIndex: '11'
         });
         cover.appendChild(startText);
 
-        cover.addEventListener('click', () => {
-            if (!this.gameStarted) {
-                this.startGame();
-                cover.style.display = 'none';
-            }
-        });
+        this.createStartOrResetButton(cover, true);
 
-        document.body.appendChild(cover);
+        this.container.appendChild(cover);
     }
 
     async loadGameAssets() {
@@ -84,9 +110,7 @@ class Game {
         const sound = this.sounds[name];
         if (sound) {
             const playPromise = sound.play();
-            if (playPromise) playPromise.catch( err => 
-                console.log('Sound play failed:', err)
-            );
+            if (playPromise) playPromise.catch(err => console.log('Sound play failed:', err));
         }
     }
 
@@ -110,7 +134,11 @@ class Game {
             this.app.stage.addChild(player);
         }
 
-        this.app.ticker.add(this.update.bind(this));
+        if (!this._updateRegistered) {
+            this.app.ticker.add(this.update);
+            this._updateRegistered = true;
+        }
+
         this.startTimer();
     }
 
@@ -154,12 +182,8 @@ class Game {
     }
 
     checkGameEnd() {
-        const allEliminated = this.players.every(p => 
-            p.state === 'eliminated'
-        );
-        const allFinished = this.players.every(p => 
-            p.state === 'eliminated' || p.isFinished()
-        );
+        const allEliminated = this.players.every(p => p.state === 'eliminated');
+        const allFinished = this.players.every(p => p.state === 'eliminated' || p.isFinished());
 
         if (allEliminated || allFinished || this.timer <= 0) {
             this.endGame();
@@ -176,6 +200,7 @@ class Game {
 
         const cover = document.getElementById('game-cover');
         if (!cover) return;
+
         cover.style.display = 'block';
 
         const startText = document.getElementById('start-text');
@@ -193,12 +218,12 @@ class Game {
             color: 'white',
             fontSize: '32px',
             textAlign: 'center',
-            zIndex: '2'
+            zIndex: '11'
         });
         cover.appendChild(endText);
 
         const resultText = document.createElement('div');
-        resultText.textContent = '생존자: ';
+        resultText.textContent = '생존자: survivors명';
         Object.assign(resultText.style, {
             position: 'absolute',
             top: '280px',
@@ -207,16 +232,16 @@ class Game {
             color: 'white',
             fontSize: '24px',
             textAlign: 'center',
-            zIndex: '2'
+            zIndex: '11'
         });
         cover.appendChild(resultText);
 
-        this.createResetButton(cover);
+        this.createStartOrResetButton(cover, false);
     }
 
-    createResetButton(parent) {
+    createStartOrResetButton(parent, isFirst = false) {
         const button = document.createElement('button');
-        button.textContent = '게임 다시 시작';
+        button.textContent = isFirst ? '게임 시작' : '게임 다시 시작';
         Object.assign(button.style, {
             position: 'absolute',
             left: '50%',
@@ -226,7 +251,7 @@ class Game {
             borderRadius: '16px',
             fontSize: '18px',
             cursor: 'pointer',
-            zIndex: '2'
+            zIndex: '12'
         });
 
         button.addEventListener('click', () => {
@@ -234,7 +259,13 @@ class Game {
             parent.querySelectorAll('div').forEach(div => {
                 if (div.id !== 'start-text') div.remove();
             });
-            this.resetGame();
+
+            if (!isFirst) {
+                this.resetGame(); 
+            }
+
+            this.startGame();
+            parent.style.display = 'none';
         });
 
         parent.appendChild(button);
