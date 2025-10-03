@@ -72,7 +72,8 @@
             width: 28%;
             border-radius: 50%;
             overflow: hidden;
-            margin: auto;  
+            margin: auto;
+            margin-top: -5vh;
             .parallax-cont {
                 padding-top: 100%;
                 .img {
@@ -146,22 +147,22 @@
                 opacity: 0;
                 transition: opacity 0.5s ease-in, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 
-              &:nth-child(1) {
-                  width: 500px;
-              }
-              &:nth-child(3) {
-                  width: 340px;
-              }
-              &:nth-child(4) {
-                  width: 500px;
-              }
-              &:nth-child(5) {
-                  width: 240px;
-              }
-              &.active {
-                  opacity: 1;
-                  transform: translate(-50%, -50%) scale(1);
-              }
+                &:nth-child(1) {
+                    width: 500px;
+                }
+                &:nth-child(3) {
+                    width: 340px;
+                }
+                &:nth-child(4) {
+                    width: 500px;
+                }
+                &:nth-child(5) {
+                    width: 240px;
+                }
+                &.active {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                }
             }
         }
     }

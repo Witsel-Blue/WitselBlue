@@ -69,7 +69,15 @@ export default {
         window.removeEventListener('cursor-show-image', this.handleShowImage);
     },
     methods: {
+        isMobileOrTablet() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isMobile = /iphone|ipod|android.*mobile|windows phone/.test(ua);
+            const isTablet = /ipad|android(?!.*mobile)|tablet/.test(ua);
+
+            return isMobile || isTablet;
+        },
         initCursor() {
+            if (this.isMobileOrTablet()) return;
             if (window.innerWidth <= 425) return;
 
             const gsap = this.$gsap;
