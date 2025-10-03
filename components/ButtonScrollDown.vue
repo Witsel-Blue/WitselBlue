@@ -3,6 +3,7 @@
         <button 
             class='scroll-down mouse-hover1'
             @click='scrollDown'
+            :style="{ opacity: buttonOpacity }"
         >
             <img src='@/assets/img/arrow.svg'>
         </button>
@@ -11,6 +12,17 @@
 
 <script>
 export default {
+    data() {
+        return {
+            buttonOpacity: 1,
+        }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.fadeinout);
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.fadeinout);
+    },
     methods: {
         scrollDown() {
             const h = window.innerHeight;
@@ -18,7 +30,15 @@ export default {
                 top: h * 1.25,
                 behavior: 'smooth',
             });
-        }
+        },
+        fadeinout() {
+            const maxScroll = 100;
+            const scrollY = window.scrollY;
+            let opacity = 1 - scrollY / maxScroll;
+            if (opacity < 0) opacity = 0;
+            if (opacity > 1) opacity = 1;
+            this.buttonOpacity = opacity;
+        },
     },
 }
 </script>
