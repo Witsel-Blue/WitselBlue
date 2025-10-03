@@ -356,6 +356,19 @@ export default [
     },
     {
         title: {
+            en: 'Vite',
+            ko: 'Vite',
+        },
+        category: {
+            en: 'Environment',
+            ko: '작업환경',
+        },
+        logo: require('@/assets/img/skills/vite.png'),
+        rate: 4,
+        flipped: false,
+    },
+    {
+        title: {
             en: 'NPM',
             ko: 'NPM',
         },
