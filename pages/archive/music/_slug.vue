@@ -4,7 +4,7 @@
         <div class='contents'>
 
             <section class='main'>
-                <div class='mainvisual' data-aos='fade-up'>
+                <div class='mainvisual'>
                     <ParallaxImg :src='music.images.thumb' />
                 </div>
                 <div class='title' data-aos='fade-up'>
