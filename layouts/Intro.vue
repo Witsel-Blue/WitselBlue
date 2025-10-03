@@ -1,11 +1,18 @@
 <template>
     <div class='intro' v-show='visible'>
-        <p>Hello World</p>
+        <div class='inner-s'>
+            <TextTyping />
+        </div>
     </div>
 </template>
 
 <script>
+import TextTyping from '@/components/TextTyping.vue';
+
 export default {
+    components: {
+        TextTyping,
+    },
     data() {
         return {
             visible: true,
@@ -22,6 +29,7 @@ export default {
 
 <style lang='scss' scoped>
 @use '@/assets/scss/base/variables.scss' as *;
+@import '@/assets/scss/layout/layout.scss';
 
 .intro {
     position: fixed;
@@ -36,18 +44,11 @@ export default {
     transition: opacity 0.4s;
     background: $grad-blue;
 }
-p {
-    text-align: center;
-    color: $white1;
-    font-size: 6rem;
-    font-weight: bold;
-    font-family: 'TanPearl';
-}
 
 // mobile
 @media all and (max-width: $mobile) {
-    p {
-        font-size: 4rem;
+    .inner-s {
+        width: 60%;
     }
 }
 </style>
