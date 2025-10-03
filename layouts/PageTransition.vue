@@ -1,9 +1,7 @@
 <template>
-    <div id='page-transition' ref='pageTransition'>
+    <div id='page-transition' ref='pageTransition' v-if='!isMobile'>
         <div class='bg'>
-            <TextMask 
-                :text='title'
-            />
+            <TextMask :text='title' />
         </div>
         <div class='bg2'></div>
     </div>
@@ -22,13 +20,20 @@ export default {
     },
     data() {
         return {
+            isMobile: false,
         }
     },
     mounted() {
-        this.$nextTick(() => {
-            this.pageTransition();
-            window.scrollTo({ top: 0 });
-        });
+        this.isMobile = window.innerWidth <= 425;
+
+        if (this.isMobile) {
+            this.$emit('end');
+        } else {
+            this.$nextTick(() => {
+                this.pageTransition();
+                window.scrollTo({ top: 0 });
+            });
+        }
     },
     methods: {
         pageTransition() {
