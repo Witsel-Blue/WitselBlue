@@ -1,5 +1,5 @@
 <template>
-    <div id='app'>
+    <div id="app">
         <Intro v-if="showIntro" @end="handleIntroEnd" />
 
         <div v-else>
@@ -7,14 +7,14 @@
                 :extra-class="$store.state.cursor.extraClass"
                 :showLottie="showCursorLottie"
             />
-            <GNB v-if='!isNoUIPage' />
-            <Nuxt :key='$route.fullPath' />
-            <Footer v-if='showFooter'></Footer>
+            <GNB v-if="!isNoUIPage" />
+            <Nuxt :key="$route.fullPath" />
+            <Footer v-if="showFooter" />
             <DetailFooter
-                v-if='showDetailFooter'
-                :next-project='nextProject'
-                :next-archive-dev='nextArchiveDev'
-                :next-archive-music='nextArchiveMusic'
+                v-if="showDetailFooter"
+                :next-project="nextProject"
+                :next-archive-dev="nextArchiveDev"
+                :next-archive-music="nextArchiveMusic"
             />
         </div>
     </div>
@@ -28,17 +28,12 @@ import Footer from '@/layouts/Footer.vue';
 import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
-    components: { 
-        Intro,
-        CursorCustom,
-        GNB,
-        Footer,
-        DetailFooter,
-    },
+    components: { Intro, CursorCustom, GNB, Footer, DetailFooter },
     data() {
         return {
-            showIntro: true,
-        }
+            showIntro: false,
+            hasVisitedHome: false,
+        };
     },
     computed: {
         isNoUIPage() {
@@ -63,19 +58,45 @@ export default {
         },
         showCursorLottie() {
             return this.$store.state.cursor.showLottie || false;
-        }
+        },
     },
     mounted() {
         this.initLocale();
+        this.checkIntro(true);
     },
     watch: {
-        '$route.fullPath'() {
+        '$route.fullPath'(to, from) {
             this.initLocale();
-        }
+            this.checkIntro(false);
+        },
     },
     methods: {
         handleIntroEnd() {
             this.showIntro = false;
+            this.hasVisitedHome = true;
+            sessionStorage.setItem('introShown', 'true');
+        },
+        checkIntro(isInitialLoad) {
+            const path = this.$route.path;
+            const homePaths = ['/', '/ko'];
+
+            if (!homePaths.includes(path)) {
+                this.showIntro = false;
+                return;
+            }
+
+            const perfEntries = performance.getEntriesByType('navigation');
+            const isReload = perfEntries.length && perfEntries[0].type === 'reload';
+
+            const sessionStored = sessionStorage.getItem('introShown') === 'true';
+
+            if (isInitialLoad && (!sessionStored || isReload)) {
+                this.showIntro = true;
+                sessionStorage.removeItem('introShown');
+                this.hasVisitedHome = false;
+            } else {
+                this.showIntro = !this.hasVisitedHome && !sessionStored;
+            }
         },
         initLocale() {
             this.$store.dispatch('locales/initLocale');
@@ -83,13 +104,12 @@ export default {
             if (this.$i18n.locale !== locale) {
                 this.$i18n.setLocale(locale);
             }
-        }
-    }
-
+        },
+    },
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 @use '@/assets/scss/base/variables.scss' as *;
 
 #app {
