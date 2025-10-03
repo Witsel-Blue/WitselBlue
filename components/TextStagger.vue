@@ -57,49 +57,55 @@ export default {
         window.removeEventListener('resize', this.checkPosition);
         if (this.staggerTween) this.staggerTween.kill();
     },
-watch: {
-    paragraphs: {
-        immediate: true,
-        handler() {
-            if (!process.client) return;
+    watch: {
+        paragraphs: {
+            immediate: true,
+            handler() {
+                if (!process.client) return;
 
-            this.$nextTick(() => {
-                const paragraphsEls = this.$refs.textStagger?.querySelectorAll('li p');
-                if (!paragraphsEls) return;
+                this.$nextTick(() => {
+                    const container = this.$refs.textStagger;
+                    if (!container) return;
 
-                if (this.triggerMode === 'bottom') {
-                    // 기존 initAnimation은 그대로 유지
-                    this.initAnimation();
+                    const paragraphsEls = container.querySelectorAll('li p');
+                    if (!paragraphsEls.length) return;
 
-                    // 추가: 맨 아래면 애니메이션 실행
-                    const scrollPosition = window.scrollY + window.innerHeight;
-                    const docHeight = document.documentElement.scrollHeight;
-                    const isBottom = scrollPosition >= docHeight - 1;
+                    if (this.triggerMode === 'bottom') {
+                        this.initAnimation();
 
-                    if (isBottom) {
-                        this.runAnimation(paragraphsEls);
-                        this.bottomTriggered = true;
+                        const scrollPosition = window.scrollY + window.innerHeight;
+                        const docHeight = document.documentElement.scrollHeight;
+                        const isBottom = scrollPosition >= docHeight - 1;
+
+                        if (isBottom) {
+                            this.runAnimation(paragraphsEls);
+                            this.bottomTriggered = true;
+                        }
+
+                        return;
                     }
 
-                    return;
-                }
-
-                // middle 모드 원래 동작
-                this.resetAnimation(paragraphsEls);
-                this.runAnimation(paragraphsEls);
-                this.initHoverEvents?.();
-            });
+                    this.resetAnimation(paragraphsEls);
+                    this.runAnimation(paragraphsEls);
+                    this.initHoverEvents?.();
+                });
+            }
         }
-    }
-},
+    },
     methods: {
         initAnimation() {
-            const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
+            const container = this.$refs.textStagger;
+            if (!container) return;
+
+            const paragraphs = container.querySelectorAll('li p');
+            if (!paragraphs.length) return;
+
             gsap.set(paragraphs, {
                 yPercent: 150,
                 rotation: (i) => (i % 2 === 0 ? -4 : 4),
                 opacity: 1,
-            })
+            });
+
             this.checkPosition();
         },
         runAnimation(paragraphs) {
@@ -148,7 +154,12 @@ watch: {
             this.bottomTriggered = false; 
         },
         checkPosition() {
-            const paragraphs = this.$refs.textStagger.querySelectorAll('li p');
+            const container = this.$refs.textStagger;
+            if (!container) return;
+
+            const paragraphs = container.querySelectorAll('li p');
+            if (!paragraphs.length) return;
+
             const rect = this.$refs.textStagger.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const rectCenter = rect.top + rect.height / 2;
