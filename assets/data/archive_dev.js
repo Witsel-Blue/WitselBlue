@@ -48,8 +48,8 @@ export default [
         },
         content: {
             about: {
-                en: 'Move mouse wheel up and down to view more pictures!',
-                ko: '더 많은 그림을 보기 위해 <br>마우스 휠을 움직여 보세요!',
+                en: 'Click left and right corner<br> to view more pictures!',
+                ko: '더 많은 그림을 보기 위해 <br>왼쪽 오른쪽 사이드를 클릭해 보세요!',
             },
             snippet: gallerySnippet,
         }
