@@ -90,6 +90,25 @@
                 background: radial-gradient(circle, transparent 0%, transparent 60%, rgba(0, 0, 0, 0.4) 100%);    
             }
         }
+        .arrow {
+            position: absolute;
+            margin-top: calc(-10% - 24px);
+            left: 24%;
+            span {
+                font-size: 0.8rem;
+                display: block;
+                transform: rotate(12deg);
+                font-family: 'Diphylleia';
+                position: absolute;
+                top: -16px;
+                left: 8px;
+                width: 100%;
+            }
+            #lottie {
+                height: 40px;
+                transform: rotate(180deg);
+            }
+        }
         .text {
             position: relative;
             #text-stagger::v-deep {
@@ -114,21 +133,6 @@
                             }
                         }
                     }
-                }
-            }
-            .arrow {
-                position: absolute;
-                top: calc((40px + 0.8rem + 16px) * -1);
-                left: 24%;
-                span {
-                    font-size: 0.8rem;
-                    display: block;
-                    transform: rotate(10deg);
-                    font-family: 'Diphylleia';
-                }
-                #lottie {
-                    height: 40px;
-                    transform: rotate(180deg);
                 }
             }
         }
@@ -164,6 +168,7 @@
 
     .skills {
         height: 100vh;
+        background-color: $gray1;
         .inner {
             position:relative;
             .subtitle {
@@ -290,9 +295,12 @@
 
 // mobile
 @media all and (max-width: $mobile) {
+    section {
+        border: 1px solid red;
+    }
+
     #home {
         section {
-            // border: 1px solid red;
             .subtitle {
                 padding-top: 0 !important;
             }
@@ -320,20 +328,19 @@
 
         .profile {
             margin-top: 25vh;
-            height: auto;
             padding: 10vh 0;
             #parallax-img {
                 width: 50%;
                 border-radius: 50%;
             }
-            .text {
-                .arrow {
-                    left: 4%;
-                    top: calc(( 8px + 0.8rem + 16px) * -1);
-                    span {
-                        font-size: 0.6rem;
-                    }
+            .arrow {
+                left: 4%;
+                margin-top: -40%;
+                span {
+                    font-size: 0.6rem;
                 }
+            }
+            .text {
                 #text-stagger::v-deep {
                     ul {
                         margin-top: 16px;

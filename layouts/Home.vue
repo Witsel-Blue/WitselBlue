@@ -19,6 +19,11 @@
                     <div data-aos='fade-up'>
                         <ParallaxImg :src='profile.img' />
                     </div>
+                    <div class='arrow'>
+                        <span class='pc'>hover texts!</span>
+                        <span class='mb'>click texts!</span>
+                        <Lottie :animationData='Arrow' />
+                    </div>
                     <div class='text'>
                         <TextStagger 
                             :paragraphs="$t('home.profileParagraphs')"
@@ -29,11 +34,6 @@
                             @hover-enter='(idx) => $set(activeHoverImgs, idx, true)'
                             @hover-leave='(idx) => $set(activeHoverImgs, idx, false)'
                         />
-                        <div class='arrow' data-aos='fade-up'>
-                            <span class='pc'>hover texts!</span>
-                            <span class='mb'>click texts!</span>
-                            <Lottie :animationData='Arrow' />
-                        </div>
                     </div>
                     <ul class='profile-hover-img'>
                         <li v-for='(img, idx) in profileHoverImgs'
