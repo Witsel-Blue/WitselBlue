@@ -60,7 +60,7 @@ const init = () => {
 //액자 추가
 const addBox = (i) => {
     const imageMap = new THREE.TextureLoader().load(
-        new URL('../assets/img{i}.jpeg', import.meta.url).href
+        new URL('../assets/imgi.jpeg', import.meta.url).href
     );
     const geometry = new THREE.BoxGeometry(22, 28, 1);
     const material = new THREE.MeshPhongMaterial({
@@ -106,30 +106,22 @@ const stageResize = () => {
     camera.aspect = WIDTH / HEIGHT;
 };
 
-let isScrolling = false;
-const scrollFunc = (event) => {
-    if (isScrolling) return;
-    isScrolling = true;
-
-    if (event.deltaY < 0) {
+const clickFunc = (event) => {
+    if (event.pageX < WIDTH / 2) {
         if (pageNum > 0) {
             pageNum -= 1;
         }
-    } else if (event.deltaY > 0) {
+    } else {
         if (pageNum < totalNum - 1) {
             pageNum += 1;
         }
     }
-
     targetNum = -(pageNum * distance);
-
-    setTimeout(() => {
-        isScrolling = false;
-    }, 600);
 };
+
 
 init();
 animate();
 window.addEventListener("resize", stageResize);
-document.addEventListener("wheel", scrollFunc);
+document.addEventListener("click", clickFunc);
 `;
