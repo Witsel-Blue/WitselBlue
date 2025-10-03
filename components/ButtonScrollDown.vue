@@ -5,15 +5,23 @@
             @click='scrollDown'
             :style="{ opacity: buttonOpacity }"
         >
-            <img src='@/assets/img/arrow.svg'>
+            <Lottie :animationData='ScrollDown' />
+            <!-- <img src='@/assets/img/ScrollDown.svg'> -->
         </button>
     </div>
 </template>
 
 <script>
+import Lottie from '@/components/Lottie.vue';
+import ScrollDown from '@/assets/lottie/ScrollDown.json';
+
 export default {
+    components: {
+        Lottie,
+    },
     data() {
         return {
+            ScrollDown,
             buttonOpacity: 1,
         }
     },
@@ -54,6 +62,7 @@ button {
     width: 40px;
     height: 40px;
     margin: 10px 0;
+    position: relative;
         
     img {
         width: 100%;
@@ -76,22 +85,22 @@ button {
         transform: translateY(0);
     }
     40% {
-        -webkit-transform: translateY(-10px);
-        -ms-transform: translateY(-10px);
-        transform: translateY(-10px);
+        -webkit-transform: translateY(-8px);
+        -ms-transform: translateY(-8px);
+        transform: translateY(-8px);
     }
     60% {
-        -webkit-transform: translateY(-5px);
-        -ms-transform: translateY(-5px);
-        transform: translateY(-5px);
+        -webkit-transform: translateY(-3px);
+        -ms-transform: translateY(-3px);
+        transform: translateY(-3px);
     }
 }
 
 // mobile
 @media all and (max-width: $mobile) {
     button {
-        width: 32px;
-        height: 32px;
+        width: 24px;
+        height: auto;
     }
 }
 </style>

@@ -28,7 +28,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            .arrow {
+            .text {
                 display: none;
             }
             .subtext {
@@ -95,22 +95,27 @@
             }
         }
         .arrow {
+            width: 80px;
             position: absolute;
-            margin-top: calc(-10% - 24px);
+            margin-top: calc(-20% - 24px);
             left: 24%;
             span {
                 font-size: 0.8rem;
                 display: block;
-                transform: rotate(12deg);
+                transform: rotate(16deg);
                 font-family: 'Diphylleia';
                 position: absolute;
                 top: -16px;
-                left: 8px;
+                left: 12px;
                 width: 100%;
             }
             #lottie {
-                height: 40px;
                 transform: rotate(180deg);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
             }
         }
         .text {
@@ -308,18 +313,14 @@
 
         #main {
             .inner {
-                .arrow {
+                .text {
                     display: block;
                     position: absolute;
                     top: calc(5vw + 60px);
-                    left: calc(5vw + 30px);
-                    #lottie {
-                        height: 32px;
-                    }
+                    left: calc(5vw - 40px);
                     span {
-                        font-size: 0.6rem;
+                        font-size: 0.8rem;
                         font-family: 'Diphylleia';
-                        transform: rotate(12deg);
                         display: block;
                     }
 
@@ -337,7 +338,7 @@
                 #button-scrolldown {
                     display: block;
                     position: absolute;
-                    bottom: 5vw;
+                    bottom: 20vh;
                 }
             }
         }
@@ -350,13 +351,13 @@
                 border-radius: 50%;
             }
             .arrow {
+                width: 60px;
                 left: 4%;
-                margin-top: -40%;
+                margin-top: -60%;
                 span {
-                    font-size: 0.6rem;
-                }
-                #lottie {
-                    height: 32px;
+                    font-size: 0.8rem;
+                    width: 120%;
+                    left: 8px;
                 }
             }
             .text {

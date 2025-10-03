@@ -6,8 +6,7 @@
         >
             <Mainvisual />
             <div class='inner'>
-                <div class='arrow'>
-                    <Lottie :animationData='Arrow' />
+                <div class='text'>
                     <span>menu button!</span>
                 </div>
                 <p class='subtext'>
