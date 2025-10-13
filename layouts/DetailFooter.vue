@@ -146,7 +146,7 @@ export default {
     width: 120%;
     margin-left: -10%;
     height: 20%;
-    height: calc(5vh + 2rem + 5vw);
+    height: calc(5vh + 2rem + 5vh);
     background-color: $white2;
     border-radius: 0 0 100% 100%;
     box-shadow: $shadow-large;
@@ -155,7 +155,7 @@ export default {
 .footer {
     color: $white1;
     width: 100%;
-    height: calc(100vh - (5vh + 2rem + 5vw));
+    height: calc(100vh - (5vh + 2rem + 5vh));
     padding: 15vh 10vw;
     display: flex;
     align-items: center;

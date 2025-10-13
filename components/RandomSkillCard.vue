@@ -1,6 +1,8 @@
 <template>
   <div id='RandomSkillCard'>
 
+    <img src='@/assets/img/home/tray.png' class='tray' />
+    
     <!-- card wrapper -->
     <div
         class='skill-cards-wrapper'
@@ -246,51 +248,18 @@ export default {
 @use '@/assets/scss/base/variables.scss' as *;
 @import '@/assets/scss/layout/page.scss';
 
-.tabs {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    z-index: 1;
-
-    #button-round::v-deep {
-        &.active .button {
-            background-color: $black1;
-
-            .title {
-                color: $white1;
-            }
-        }
-
-        .button {
-            padding: 8px 12px;
-            background-color: rgba(237, 237, 237, 0.8);
-            
-            .circle::before {
-                background-color: $black1;
-                opacity: 0.8;
-            }
-        }
-    }
-}
-
-.def {
-    margin: 16px auto 0;
-    ul {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        li {
-            font-size: 0.8rem;
-            color: $black1;
-        }
-    }
+.tray {
+    position: absolute;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
 }
 
 .skill-cards-wrapper {
     position: relative;
     width: 80%;
-    height: 36vh;
+    height: 50vh;
     margin: 15vh auto;
 }
 
@@ -360,6 +329,47 @@ export default {
     }
 }
 
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 1;
+
+    #button-round::v-deep {
+        &.active .button {
+            background-color: $black1;
+
+            .title {
+                color: $white1;
+            }
+        }
+
+        .button {
+            padding: 8px 12px;
+            background-color: rgba(237, 237, 237, 0.8);
+            
+            .circle::before {
+                background-color: $black1;
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.def {
+    margin: 16px auto 0;
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        li {
+            font-size: 0.8rem;
+            color: $black1;
+        }
+    }
+}
+
 @keyframes fillStar {
     0% {
         color: $black0;
@@ -374,21 +384,17 @@ export default {
     #RandomSkillCard {
         display: grid;
     }
-    .tabs {
-        overflow-x: scroll;
-        display: grid;
-        grid-template-columns: auto auto auto auto auto;
-        justify-content: initial;
-        padding: 0 5vw;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-        #button-round::v-deep .button {
-            word-break: keep-all;
-        }
+
+    .tray {
+        transform-origin: 50% 50%;
+        transform: rotate(90deg);
+        top: 20vh;
+        left: -10vw;
+        width: 120%;
     }
+                
     .skill-cards-wrapper {
-        margin: 5vh auto;
+        margin: 10vh auto 5vh;
         width: 72%;
         height: 60vh;
         .skill-card {
@@ -404,6 +410,21 @@ export default {
             }
         }
     }
+
+    .tabs {
+        overflow-x: scroll;
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        justify-content: initial;
+        padding: 0 5vw;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        #button-round::v-deep .button {
+            word-break: keep-all;
+        }
+    }
+
     .def {
         display: none;
         text-align: center;
@@ -418,5 +439,6 @@ export default {
             }
         }
     }
+
 }
 </style>

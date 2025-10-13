@@ -159,7 +159,7 @@ export default {
 <style scoped>
 .p5-wrapper {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 }
 canvas {
     background: transparent !important;

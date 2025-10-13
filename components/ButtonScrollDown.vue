@@ -99,7 +99,7 @@ button {
 // mobile
 @media all and (max-width: $mobile) {
     button {
-        width: 16px;
+        width: 24px;
         height: auto;
     }
 }

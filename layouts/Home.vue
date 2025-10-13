@@ -58,7 +58,7 @@
                     <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_skills') }}
                     </h1>
-                    <img src='@/assets/img/home/tray.png' class='tray' data-aos='fade-up' />
+                    <!-- <img src='@/assets/img/home/tray.png' class='tray' data-aos='fade-up' /> -->
                     <RandomSkillCard />
                 </div>
             </section>

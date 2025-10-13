@@ -11,11 +11,11 @@
 
     .divider {
         width: 100vw;
-        margin-bottom: -1px;
-        margin-top: -1px;
         img {
             width: 100%;
             max-width: 100%;
+            margin-bottom: -1px;
+            margin-top: -1px;
         }
         &.rev {
             transform: rotate(180deg);
@@ -31,6 +31,8 @@
             height: 100%;
         }
         #mainvisual {
+            width: 100%;
+            height: 100%;
             position: absolute;
             top: 0;
         }
@@ -189,17 +191,10 @@
     }
 
     .skills {
-        padding: 4vh 0 8vh;
+        padding: 10vh 0 15vh;
         background-color: $gray1;
         .inner {
             position:relative;
-        }
-        .tray {
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: auto;
-            top: 5vh;
         }
     }
 
@@ -326,6 +321,7 @@
                 height: calc(var(--vh, 1vh) * 100);
             }
             .inner {
+                position: initial;
                 .text {
                     display: block;
                     position: absolute;
@@ -411,13 +407,6 @@
                 .subtitle {
                     padding-top: 5vh;
                     margin-bottom: 0;
-                }
-                .tray {
-                    transform-origin: 50% 50%;
-                    transform: rotate(90deg);
-                    top: 15vh;
-                    left: -10vw;
-                    width: 120%;
                 }
             }
         }
