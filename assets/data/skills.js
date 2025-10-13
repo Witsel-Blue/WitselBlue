@@ -12,19 +12,19 @@ export default [
         rate: 5,
         flipped: false,
     },
-    {
-        title: {
-            en: 'Nuxt.js',
-            ko: 'Nuxt.js',
-        },
-        category: {
-            en: 'Framework',
-            ko: '프레임워크',
-        },
-        logo: require('@/assets/img/skills/nuxt.png'),
-        rate: 5,
-        flipped: false,
-    },
+    // {
+    //     title: {
+    //         en: 'Nuxt.js',
+    //         ko: 'Nuxt.js',
+    //     },
+    //     category: {
+    //         en: 'Framework',
+    //         ko: '프레임워크',
+    //     },
+    //     logo: require('@/assets/img/skills/nuxt.png'),
+    //     rate: 5,
+    //     flipped: false,
+    // },
     {
         title: {
             en: 'React.js',
@@ -38,19 +38,19 @@ export default [
         rate: 4,
         flipped: false,
     },
-    {
-        title: {
-            en: 'Next.js',
-            ko: 'Next.js',
-        },
-        category: {
-            en: 'Framework',
-            ko: '프레임워크',
-        },
-        logo: require('@/assets/img/skills/next.png'),
-        rate: 4,
-        flipped: false,
-    },
+    // {
+    //     title: {
+    //         en: 'Next.js',
+    //         ko: 'Next.js',
+    //     },
+    //     category: {
+    //         en: 'Framework',
+    //         ko: '프레임워크',
+    //     },
+    //     logo: require('@/assets/img/skills/next.png'),
+    //     rate: 4,
+    //     flipped: false,
+    // },
     {
         title: {
             en: 'Drupal',
@@ -262,19 +262,19 @@ export default [
         rate: 3,
         flipped: false,
     },
-    {
-        title: {
-            en: 'Material-UI',
-            ko: 'Material-UI',
-        },
-        category: {
-            en: 'Design',
-            ko: '디자인',
-        },
-        logo: require('@/assets/img/skills/mui.png'),
-        rate: 4,
-        flipped: false,
-    },
+    // {
+    //     title: {
+    //         en: 'Material-UI',
+    //         ko: 'Material-UI',
+    //     },
+    //     category: {
+    //         en: 'Design',
+    //         ko: '디자인',
+    //     },
+    //     logo: require('@/assets/img/skills/mui.png'),
+    //     rate: 4,
+    //     flipped: false,
+    // },
     {
         title: {
             en: 'Figma',
@@ -367,32 +367,32 @@ export default [
         rate: 4,
         flipped: false,
     },
-    {
-        title: {
-            en: 'NPM',
-            ko: 'NPM',
-        },
-        category: {
-            en: 'Environment',
-            ko: '작업환경',
-        },
-        logo: require('@/assets/img/skills/npm.png'),
-        rate: 4,
-        flipped: false,
-    },
-    {
-        title: {
-            en: 'VS Code',
-            ko: 'VS Code',
-        },
-        category: {
-            en: 'Environment',
-            ko: '작업환경',
-        },
-        logo: require('@/assets/img/skills/vscode.png'),
-        rate: 4,
-        flipped: false,
-    },
+    // {
+    //     title: {
+    //         en: 'NPM',
+    //         ko: 'NPM',
+    //     },
+    //     category: {
+    //         en: 'Environment',
+    //         ko: '작업환경',
+    //     },
+    //     logo: require('@/assets/img/skills/npm.png'),
+    //     rate: 4,
+    //     flipped: false,
+    // },
+    // {
+    //     title: {
+    //         en: 'VS Code',
+    //         ko: 'VS Code',
+    //     },
+    //     category: {
+    //         en: 'Environment',
+    //         ko: '작업환경',
+    //     },
+    //     logo: require('@/assets/img/skills/vscode.png'),
+    //     rate: 4,
+    //     flipped: false,
+    // },
     {
         title: {
             en: 'ChatGPT',

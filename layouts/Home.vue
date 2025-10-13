@@ -159,12 +159,12 @@ export default {
     },
     mounted() {
         this.initProfileImgHover();
-        this.initSectionObserver();
+        // this.initSectionObserver();
         this.$nextTick(() => {
             this.scrollVertical();
-            if (window.innerWidth > 425) {
-                this.initSectionScroll();
-            }
+            // if (window.innerWidth > 425) {
+            //     this.initSectionScroll();
+            // }
         });
 
         const mainRect = this.$refs.main?.getBoundingClientRect();

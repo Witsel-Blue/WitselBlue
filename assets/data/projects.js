@@ -48,6 +48,7 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/projects/damgon_thumb.png'),
+            mainvisual: require('@/assets/img/projects/damgon_main.png'),
         },
         content: {
             about: {
