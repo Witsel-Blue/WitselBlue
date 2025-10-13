@@ -13,7 +13,10 @@
                 alt='pager'
                 class='pager' 
                 xmlns="http://www.w3.org/2000/svg" width="78" height="81" viewBox="0 0 78 81" fill="none">
-                <path d="M39 0L43.8394 25.7875L63.0992 7.73481L51.6697 31.4072L77.9933 27.9848L54.6606 40.5L77.9933 53.0152L51.6697 49.5928L63.0992 73.2652L43.8394 55.2125L39 81L34.1606 55.2125L14.9008 73.2652L26.3303 49.5928L0.00668335 53.0152L23.3394 40.5L0.00668335 27.9848L26.3303 31.4072L14.9008 7.73481L34.1606 25.7875L39 0Z" fill="#3E3C3C"/>
+                <path 
+                    d="M39 0L43.8394 25.7875L63.0992 7.73481L51.6697 31.4072L77.9933 27.9848L54.6606 40.5L77.9933 53.0152L51.6697 49.5928L63.0992 73.2652L43.8394 55.2125L39 81L34.1606 55.2125L14.9008 73.2652L26.3303 49.5928L0.00668335 53.0152L23.3394 40.5L0.00668335 27.9848L26.3303 31.4072L14.9008 7.73481L34.1606 25.7875L39 0Z" 
+                    :fill="clientPathColor"
+                />
             </svg>
         </div>
     </div>
@@ -37,15 +40,20 @@ export default {
         return {
             scrollTween: null,
             scrollTrigger: null,
+            pathColorST: null,
+            clientPathColor: '#3E3C3C',
         }
     },
     mounted() {
         if (process.client) {
             this.initGsap();
-            this.$watch('$route', () => {
+            this.updatePathColor(this.$route.path);
+
+            this.$watch('$route', (to) => {
                 this.$nextTick(() => {
                     this.resetGsap();
                     this.initGsap();
+                    this.updatePathColor(to.path);
                 });
             });
         }
@@ -75,6 +83,11 @@ export default {
             });
 
             this.scrollTrigger = this.scrollTween.scrollTrigger;
+
+            const isHome = this.$route.path === '/'; 
+            if (isHome) {
+                this.initPathColor();
+            }
         },
         resetGsap() {
             if (this.scrollTween) {
@@ -94,7 +107,104 @@ export default {
                     behavior: 'smooth',
                 });
             }
-        }
+        },
+        initPathColor() {
+            const path = this.$el.querySelector('svg path');
+            const bumper = document.querySelector('.bumper');
+            if (!path || !bumper) return;
+
+            if (this.$route.path === '/') {
+                gsap.set(path, { fill: '#f7f7f7' });
+            }
+
+            this.pathColorST = gsap.to(path, {
+                fill: '#3E3C3C',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: bumper,
+                    start: 'top 100%',
+                    end: 'top top',
+                    scrub: true,
+                    invalidateOnRefresh: true,
+                    immediateRender: false,
+                }
+            });
+
+            ScrollTrigger.refresh();
+        },
+        updatePathColor(path) {
+            const pathEl = this.$el?.querySelector('svg path');
+
+            if (path === '/') {
+                this.clientPathColor = '#f7f7f7';
+
+                if (this.pathColorST) {
+                    this.pathColorST.kill();
+                    this.pathColorST = null;
+                }
+                if (this.scrollTween) {
+                    this.scrollTween.kill();
+                    this.scrollTween = null;
+                }
+                if (this.scrollTrigger) {
+                    this.scrollTrigger.kill();
+                    this.scrollTrigger = null;
+                }
+
+                this.$nextTick(() => {
+                    this.waitForBumper();
+                });
+            } else {
+                this.clientPathColor = '#3E3C3C';
+
+                if (this.pathColorST) {
+                    this.pathColorST.kill();
+                    this.pathColorST = null;
+                }
+                if (this.scrollTween) {
+                    this.scrollTween.kill();
+                    this.scrollTween = null;
+                }
+                if (this.scrollTrigger) {
+                    this.scrollTrigger.kill();
+                    this.scrollTrigger = null;
+                }
+
+                if (pathEl) {
+                    gsap.set(pathEl, { fill: this.clientPathColor });
+                }
+            }
+        },
+        resetPathColor() {
+            if (this.pathColorST) {
+                this.pathColorST.kill();
+                this.pathColorST = null;
+            }
+            const path = this.$el?.querySelector('svg path');
+            if (path) path.setAttribute('fill', this.clientPathColor);
+        },
+        waitForBumper(retries = 0) {
+            if (this.$route.path !== '/') return;
+
+            const bumper = document.querySelector('.bumper');
+            if (!bumper && retries < 10) {
+                setTimeout(() => this.waitForBumper(retries + 1), 50);
+                return;
+            }
+
+            const pathEl = this.$el?.querySelector('svg path');
+            if (pathEl) {
+                gsap.set(pathEl, { fill: '#f7f7f7' });
+            }
+
+            if (this.pathColorST) {
+                this.pathColorST.kill();
+                this.pathColorST = null;
+            }
+
+            this.initPathColor();
+        },
+
     },
 }
 </script>
