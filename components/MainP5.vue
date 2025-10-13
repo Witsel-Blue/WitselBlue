@@ -59,16 +59,16 @@ export default {
                     // ears
                     s.push();
                     s.translate(earMove.x, earMove.y);
-                    s.fill('rgb(53,64,94)');
+                    s.fill('#3E3C3C');
                     s.ellipse(-80 * scaleFactor, -90 * scaleFactor, 80 * scaleFactor, 140 * scaleFactor);
                     s.ellipse(80 * scaleFactor, -90 * scaleFactor, 80 * scaleFactor, 140 * scaleFactor);
-                    s.fill('#442F68');
+                    s.fill('#A29BB9');
                     s.ellipse(-80 * scaleFactor, -90 * scaleFactor, 50 * scaleFactor, 110 * scaleFactor);
                     s.ellipse(80 * scaleFactor, -90 * scaleFactor, 50 * scaleFactor, 110 * scaleFactor);
                     s.pop();
 
                     // face
-                    s.fill('rgb(53,64,94)');
+                    s.fill('#3E3C3C');
                     s.ellipse(0, 20 * scaleFactor, 300 * scaleFactor, 240 * scaleFactor);
 
                     // eyes
@@ -91,7 +91,7 @@ export default {
                         // pupil
                         s.push();
                         s.translate(pupilMove.x, pupilMove.y);
-                        s.fill('rgb(0,0,0)');
+                        s.fill('black');
                         s.ellipse(60 * scaleFactor, 20 * scaleFactor, 40 * scaleFactor, 60 * scaleFactor);
                         s.ellipse(-60* scaleFactor, 20* scaleFactor, 40* scaleFactor, 60* scaleFactor);
                         s.pop();
@@ -110,7 +110,7 @@ export default {
                     // mouth
                     s.push();
                     s.translate(mouthMove.x, noseMove.y);
-                    s.fill('rgb(187,75,95)');
+                    s.fill('rgb(182,104,118)');
                     s.ellipse(0, 100 * scaleFactor, 40 * scaleFactor, 30 * scaleFactor);
                     s.pop();
 
