@@ -130,44 +130,61 @@ export default {
         },
         updateGnbColor(path) {
             const menus = this.$refs.menu;
-            if (!menus || !menus.length) return;
+            if (!menus) return;
 
+            const menuList = Array.isArray(menus) ? menus : [menus];
             ScrollTrigger.getAll().forEach(t => t.kill());
+            menuList.forEach(m => {
+                const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
+                if (a) gsap.killTweensOf(a);
+            });
 
             if (path === '/') {
-                this.initGnbColorScroll();
+                this.initGnbColorScroll(menuList);
             } else {
-                menus.forEach(menu => menu.style.color = '#3E3C3C');
+                menuList.forEach(m => {
+                    const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
+                    if (a) {
+                    a.style.color = '#3E3C3C';
+                    }
+                });
             }
         },
-        initGnbColorScroll() {
-            const menus = this.$refs.menu;
+        initGnbColorScroll(menus) {
             if (!menus || !menus.length) return;
 
-            menus.forEach(menu => {
-                const a = menu.querySelector('a') || (menu.$el && menu.$el.querySelector('a'));
+            const bumper = document.querySelector('.bumper');
+            if (!bumper) {
+                menus.forEach(m => {
+                    const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
+                    if (a) a.style.color = '#3E3C3C';
+                });
+                return;
+            }
+
+            menus.forEach(m => {
+                const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
                 if (a) a.style.color = '#f7f7f7';
             });
 
-            const profile = document.querySelector('.profile');
-            if (!profile) return;
-
-            menus.forEach(menu => {
-                const a = menu.querySelector('a') || (menu.$el && menu.$el.querySelector('a'));
+            menus.forEach(m => {
+                const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
                 if (!a) return;
+
+                gsap.killTweensOf(a);
 
                 gsap.to(a, {
                     color: '#3E3C3C',
                     ease: 'none',
                     scrollTrigger: {
-                        trigger: profile,
+                        trigger: bumper,
                         start: 'top 100%',
                         end: 'top top',
                         scrub: true,
-                    },
+                    }
                 });
             });
-        }
+        },
 
     }
 }

@@ -7,6 +7,11 @@
     }
     .pc {
         .nav {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            
             > li:nth-child(1) {
                 position: fixed;
                 top: 5%;

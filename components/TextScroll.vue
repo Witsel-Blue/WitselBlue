@@ -98,6 +98,11 @@ export default {
     .text-wrapper {
         display: flex;
         flex-wrap: wrap;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
         span.text {
             display: inline-block;
             will-change: transform, opacity;

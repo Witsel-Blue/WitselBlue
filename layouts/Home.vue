@@ -18,6 +18,7 @@
             </div>
         </section>
         <div @mouseleave='onMouseLeaveMain'>
+            <div class='bumper' ref='bumper'></div>
             <section class='profile' ref='profile'>
                 <div class='inner'>
                     <div data-aos='fade-up'>
@@ -162,22 +163,19 @@ export default {
             isScrolling: false,
             currentSectionIndex: 0,
             useVhFix: false,
+            homeBgSt: null,
         }
     },
     mounted() {
         this.setVhFix();
         window.addEventListener('resize', this.setVhFix);
 
-        this.initBackgroundScroll();
+        this.initBgScroll();
 
         this.initProfileImgHover();
 
-        // this.initSectionObserver();
         this.$nextTick(() => {
             this.scrollVertical();
-            // if (window.innerWidth > 425) {
-            //     this.initSectionScroll();
-            // }
         });
 
         const mainRect = this.$refs.main?.getBoundingClientRect();
@@ -188,9 +186,16 @@ export default {
             this.$store.commit('cursor/setCursorLottie', true);
         }
     },
+    activated() {
+        this.initBgScroll();
+    },
     beforeDestroy() {
         window.removeEventListener('resize', this.setVhFix);
         if (this.gsapContext) this.gsapContext.revert();
+        if (this.homeBgST) {
+            this.homeBgST.kill();
+            this.homeBgST = null;
+        }
         if (this.selectedST && typeof this.selectedST.kill === 'function') {
             try { this.selectedST.kill(true); } catch (err) {}
             this.selectedST = null;
@@ -207,23 +212,6 @@ export default {
         }
     },
     methods: {
-        initBackgroundScroll() {
-            const home = this.$refs.home;
-            const main = this.$refs.main;
-            const profile = this.$refs.profile;
-            if (!main || !profile) return;
-
-            gsap.to(home, {
-                backgroundColor: '#f7f7f7',
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: profile,
-                    start: 'top 100%',
-                    end: 'top top',
-                    scrub: true,
-                }
-            });
-        },
         onMouseEnterMain() {
             this.$store.commit('cursor/setCursorClass', 'cursor-main');
             this.$store.commit('cursor/setCursorAnimation', Butterfly);
@@ -247,6 +235,35 @@ export default {
                 this.showLottie = false;
             }
         },
+        initBgScroll() {
+            const bumper = this.$refs.bumper;
+            const homeEl = this.$refs.home;
+            if (!bumper || !homeEl) return;
+
+            if (this.homeBgST) {
+                this.homeBgST.kill();
+                this.homeBgST = null;
+            }
+
+            this.$nextTick(() => {
+                const bumperTop = bumper.getBoundingClientRect().top + window.scrollY;
+                homeEl.style.backgroundColor = window.scrollY < bumperTop ? '#293047' : '#f7f7f7';
+
+                this.homeBgST = gsap.to(homeEl, {
+                    backgroundColor: '#f7f7f7',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: bumper,
+                        start: 'top 100%',
+                        end: 'top top',
+                        scrub: true,
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                ScrollTrigger.refresh();
+            });
+        },
         initProfileImgHover() {
             const spans = this.$el.querySelectorAll('.profile .mouse-hover1');
             spans.forEach((span, index) => {
@@ -258,35 +275,6 @@ export default {
                 });
             });
         },
-        // initSectionObserver() {
-        //     const secs = [
-        //         this.$refs.main,
-        //         this.$refs.profile,
-        //         this.$refs.skills,
-        //         this.$refs.selected,
-        //         this.$refs.about
-        //     ].filter(Boolean);
-
-        //     this.sectionEls = secs;
-
-        //     const options = { root: null, rootMargin: '0px', threshold: [0.25, 0.5, 0.75] };
-
-        //     this.observer = new IntersectionObserver((entries) => {
-        //         const visible = entries.filter(en => en.isIntersecting);
-        //         if (visible.length === 0) return;
-
-        //         visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        //         const topEntry = visible[0];
-        //         const idx = this.sectionEls.indexOf(topEntry.target);
-        //         if (idx !== -1) {
-        //             this.currentSectionIndex = idx;
-        //         }
-        //     }, options);
-
-        //     secs.forEach(sec => {
-        //         try { this.observer.observe(sec); } catch (e) {}
-        //     });
-        // },
         scrollVertical() {
             // if (window.innerWidth <= 425) return;
 
@@ -321,86 +309,6 @@ export default {
 
             this.gsapContext = ctx;
         },
-        // initSectionScroll() {
-        //     const sections = this.sectionEls;
-        //     if (!sections || sections.length === 0) return;
-
-        //     const getTop = (el) => (el.getBoundingClientRect().top + window.scrollY);
-
-        //     this.wheelHandler = (e) => {
-        //         if (this.isScrolling) return;
-
-        //         const delta = e.deltaY;
-        //         if (!delta) return;
-        //         if (Math.abs(delta) < 6) return;
-
-        //         let currentIndex = (typeof this.currentSectionIndex === 'number') ? this.currentSectionIndex : -1;
-
-        //         if (currentIndex === -1) {
-        //             const centerY = window.innerHeight / 2;
-        //             currentIndex = sections.findIndex(sec => {
-        //             if (!sec) return false;
-        //             const r = sec.getBoundingClientRect();
-        //             return r.top <= centerY && r.bottom > centerY;
-        //             });
-        //         }
-
-        //         if (currentIndex === -1) return;
-
-        //         const currentSection = sections[currentIndex];
-
-        //         // skills -> selected
-        //         if (currentSection === this.$refs.skills && delta > 0) {
-        //             e.preventDefault();
-        //             this.isScrolling = true;
-        //             const targetY = getTop(this.$refs.selected);
-        //             this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
-        //             return;
-        //         }
-
-        //         // selected 내부
-        //         if (currentSection === this.$refs.selected) {
-        //             let progress = 0;
-        //             const st = this.selectedST || (ScrollTrigger.getById ? ScrollTrigger.getById('selected') : null);
-
-        //             if (st && typeof st.progress === 'number') {
-        //             progress = st.progress;
-        //             } else {
-        //             const container = this.$refs.selected.querySelector('.container');
-        //             const rect = this.$refs.selected.getBoundingClientRect();
-        //             const startScrollY = window.scrollY - rect.top;
-        //             const containerWidth = container ? container.scrollWidth : window.innerWidth;
-        //             progress = containerWidth ? Math.min(Math.max((window.scrollY - startScrollY) / containerWidth, 0), 1) : 0;
-        //             }
-
-        //             if (delta > 0 && progress >= 0.95) {
-        //                 e.preventDefault();
-        //                 this.isScrolling = true;
-        //                 const targetY = getTop(this.$refs.about);
-        //                 this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
-        //             } else if (delta < 0 && progress <= 0.05) {
-        //                 e.preventDefault();
-        //                 this.isScrolling = true;
-        //                 const targetY = getTop(this.$refs.skills);
-        //                 this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
-        //             }
-        //             return;
-        //         }
-
-        //         // 일반 섹션 스냅
-        //         let targetIndex = currentIndex;
-        //         if (delta > 0 && currentIndex < sections.length - 1) targetIndex++;
-        //         else if (delta < 0 && currentIndex > 0) targetIndex--;
-        //         else return;
-
-        //         e.preventDefault();
-        //         this.isScrolling = true;
-        //         const targetY = getTop(sections[targetIndex]);
-        //         this.smoothScrollTo(targetY, 700, () => { this.isScrolling = false; });
-        //     };
-
-        //     window.addEventListener('wheel', this.wheelHandler, { passive: false });
-        // },
         smoothScrollTo(targetY, duration = 800, callback) {
             const startY = window.scrollY;
             const distance = targetY - startY;
