@@ -312,6 +312,9 @@
         }
 
         #main {
+            &.use-vh-fix {
+                height: calc(var(--vh, 1vh) * 100);
+            }
             .inner {
                 .text {
                     display: block;
@@ -338,7 +341,7 @@
                 #button-scrolldown {
                     display: block;
                     position: absolute;
-                    bottom: 20vh;
+                    bottom: 15vh;
                 }
             }
         }
