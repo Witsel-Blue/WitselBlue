@@ -50,6 +50,9 @@
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
+            <div class='divider'>
+                <img src='@/assets/img/divider.svg' />
+            </div>
             <section class='skills' ref='skills'>
                 <div class='inner'>
                     <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
@@ -59,6 +62,9 @@
                     <RandomSkillCard />
                 </div>
             </section>
+            <div class='divider rev'>
+                <img src='@/assets/img/divider.svg' />
+            </div>
             <section class='selected' ref='selected' id='selected'>
                 <ul class='container' ref='comp'>
                     <li
@@ -160,7 +166,7 @@ export default {
         }
     },
     mounted() {
-            this.setVhFix();
+        this.setVhFix();
         window.addEventListener('resize', this.setVhFix);
 
         this.initProfileImgHover();

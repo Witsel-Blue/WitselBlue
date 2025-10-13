@@ -1,5 +1,5 @@
 <template>
-    <div id='detail_footer'>
+    <div id='detail_footer' :class="{ 'use-vh-fix': useVhFix }">
         <div ref='bg' class='footer-bg'></div>
         <div class='footer'>
             <div class='top'>
@@ -74,12 +74,15 @@ export default {
         },
     },
     mounted() {
+        this.setVhFix();
+        window.addEventListener('resize', this.setVhFix);
         this.$nextTick(() => {
             this.bgScroll();
             window.addEventListener('scroll', this.bgScroll);
         });
     },
     beforeDestroy() {
+        window.removeEventListener('resize', this.setVhFix);
         window.removeEventListener('scroll', this.bgScroll);
     },
     methods: {
@@ -110,6 +113,20 @@ export default {
             }
 
             footerBg.style.borderRadius = `0 0 ${r}% ${r}%`;
+        },
+        setVhFix() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isMobile = /iphone|ipad|ipod|android/.test(ua);
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+            this.useVhFix = isMobile || isSafari;
+
+            if (this.useVhFix) {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            } else {
+                document.documentElement.style.removeProperty('--vh');
+            }
         },
     }
 }
