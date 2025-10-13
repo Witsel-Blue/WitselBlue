@@ -1,36 +1,36 @@
 <template>
   <div id='RandomSkillCard'>
-
-    <img src='@/assets/img/home/tray.png' class='tray' />
     
     <!-- card wrapper -->
-    <div
-        class='skill-cards-wrapper'
-        ref='wrapper'
-        @mousemove='handleMouseMove'
-    >
+    <div class='tray'>
         <div
-                v-for='(skill, index) in filteredSkills'
-                :key='skill.name'
-                class='skill-card mouse-hover2'
-                @mouseenter='hoverCard(index)'
-                @mouseleave='leaveCard(index)'
+            class='skill-cards-wrapper'
+            ref='wrapper'
+            @mousemove='handleMouseMove'
         >
-            <div class='card-inner' :class='{ flipped: skill.flipped }'>
-                <div class='card-front'>
-                    <img :src='skill.logo' />
-                </div>
-                <div class='card-back'>
-                    <h3>{{ skill.title[$i18n.locale] }}</h3>
-                    <div class='stars'>
-                        <span 
-                            v-for='n in 5'
-                            :key='n'
-                            :class='{ filled: n <= skill.rate, animate: skill.flipped }'
-                            :style='{ "--i": n}'
-                        >
-                            ★
-                        </span>
+            <div
+                    v-for='(skill, index) in filteredSkills'
+                    :key='skill.name'
+                    class='skill-card mouse-hover2'
+                    @mouseenter='hoverCard(index)'
+                    @mouseleave='leaveCard(index)'
+            >
+                <div class='card-inner' :class='{ flipped: skill.flipped }'>
+                    <div class='card-front'>
+                        <img :src='skill.logo' />
+                    </div>
+                    <div class='card-back'>
+                        <h3>{{ skill.title[$i18n.locale] }}</h3>
+                        <div class='stars'>
+                            <span 
+                                v-for='n in 5'
+                                :key='n'
+                                :class='{ filled: n <= skill.rate, animate: skill.flipped }'
+                                :style='{ "--i": n}'
+                            >
+                                ★
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -249,18 +249,18 @@ export default {
 @import '@/assets/scss/layout/page.scss';
 
 .tray {
-    position: absolute;
-    top: 10vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
+    background: url('@/assets/img/home/tray.png') no-repeat 50% 50%;
+    background-size: contain;
+    width: 100%;
+    height: 60vh;
+    margin: 5vh auto;
+    padding: 5vh 0 0;
 }
-
 .skill-cards-wrapper {
     position: relative;
     width: 80%;
-    height: 50vh;
-    margin: 15vh auto;
+    height: 100%;
+    margin: auto;
 }
 
 .skill-card {
@@ -386,17 +386,14 @@ export default {
     }
 
     .tray {
-        transform-origin: 50% 50%;
-        transform: rotate(90deg);
-        top: 20vh;
-        left: -10vw;
-        width: 120%;
+        background: url('@/assets/img/home/tray_mb.png') no-repeat 50% 50%;
+        background-size: contain;
+        height: 80vh;
+        padding: 0;
+        margin: 0;
     }
                 
     .skill-cards-wrapper {
-        margin: 10vh auto 5vh;
-        width: 72%;
-        height: 60vh;
         .skill-card {
             width: 72px;
             height: 104px;
