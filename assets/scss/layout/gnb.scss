@@ -33,12 +33,12 @@
                 font-size: 2rem;   
                 span {
                     font-family: 'Anybody', sans-serif !important;
-                    transition: all 0.4s;
+                    transition: font-stretch 0.4s;
                 }
             }
             &:hover p span {
                 font-stretch: 200%;
-                transition: all 0.4s;
+                transition: font-stretch 0.4s;
             }
         }
         // .nuxt-link-exact-active:not(a[href='/']) {

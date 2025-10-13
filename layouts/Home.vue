@@ -1,5 +1,5 @@
 <template>
-    <div id='home'>
+    <div id='home' ref='home'>
         <section id='main' ref='main' 
             @mouseenter='onMouseEnterMain'
             @mouseleave='onMouseLeaveMain'
@@ -58,7 +58,6 @@
                     <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_skills') }}
                     </h1>
-                    <!-- <img src='@/assets/img/home/tray.png' class='tray' data-aos='fade-up' /> -->
                     <RandomSkillCard />
                 </div>
             </section>
@@ -169,6 +168,8 @@ export default {
         this.setVhFix();
         window.addEventListener('resize', this.setVhFix);
 
+        this.initBackgroundScroll();
+
         this.initProfileImgHover();
 
         // this.initSectionObserver();
@@ -206,6 +207,23 @@ export default {
         }
     },
     methods: {
+        initBackgroundScroll() {
+            const home = this.$refs.home;
+            const main = this.$refs.main;
+            const profile = this.$refs.profile;
+            if (!main || !profile) return;
+
+            gsap.to(home, {
+                backgroundColor: '#f7f7f7',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: profile,
+                    start: 'top 100%',
+                    end: 'top top',
+                    scrub: true,
+                }
+            });
+        },
         onMouseEnterMain() {
             this.$store.commit('cursor/setCursorClass', 'cursor-main');
             this.$store.commit('cursor/setCursorAnimation', Butterfly);

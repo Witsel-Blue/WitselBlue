@@ -63,6 +63,11 @@ export default {
     components: {
         ButtonRound,
     },
+    data() {
+        return {
+            useVhFix: false,
+        }
+    },
     mounted() {
         this.setVhFix();
         window.addEventListener('resize', this.setVhFix);

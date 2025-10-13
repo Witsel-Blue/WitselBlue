@@ -62,6 +62,11 @@ export default {
             default: null,
         },
     },
+    data() {
+        return {
+            useVhFix: false,
+        }
+    },
     computed: {
         isProjectPage() {
             return !!this.nextProject;

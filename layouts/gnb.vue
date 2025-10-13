@@ -2,7 +2,7 @@
     <div id='gnb' ref='gnb'>
         <nav class='pc'>
             <ul class='nav'>
-                <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1'>
+                <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1' ref='menu'>
                     <Nuxt-link :to='nav.path' v-html='nav.name' 
                         @click.native.prevet='linkClick(nav.path)'
                     />
@@ -54,6 +54,12 @@
 <script>
 import Pager from '@/components/pager.vue';
 import ChangeLang from '@/components/ChangeLang.vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+if (process.client) {
+    gsap.registerPlugin(ScrollTrigger);
+}
     
 export default {
     components: {
@@ -89,6 +95,12 @@ export default {
         this.menuClick();
         this.linkClick();
         this.winScrolled();
+        this.updateGnbColor(this.$route.path);
+    },
+    watch: {
+        '$route.path'(newPath) {
+            this.updateGnbColor(newPath);
+        }
     },
     methods: {
         menuClick() {
@@ -115,7 +127,48 @@ export default {
             if (this.$route.path === path) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+        },
+        updateGnbColor(path) {
+            const menus = this.$refs.menu;
+            if (!menus || !menus.length) return;
+
+            ScrollTrigger.getAll().forEach(t => t.kill());
+
+            if (path === '/') {
+                this.initGnbColorScroll();
+            } else {
+                menus.forEach(menu => menu.style.color = '#3E3C3C');
+            }
+        },
+        initGnbColorScroll() {
+            const menus = this.$refs.menu;
+            if (!menus || !menus.length) return;
+
+            menus.forEach(menu => {
+                const a = menu.querySelector('a') || (menu.$el && menu.$el.querySelector('a'));
+                if (a) a.style.color = '#f7f7f7';
+            });
+
+            const profile = document.querySelector('.profile');
+            if (!profile) return;
+
+            menus.forEach(menu => {
+                const a = menu.querySelector('a') || (menu.$el && menu.$el.querySelector('a'));
+                if (!a) return;
+
+                gsap.to(a, {
+                    color: '#3E3C3C',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: profile,
+                        start: 'top 100%',
+                        end: 'top top',
+                        scrub: true,
+                    },
+                });
+            });
         }
+
     }
 }
 </script>

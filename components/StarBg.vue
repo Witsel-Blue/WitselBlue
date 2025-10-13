@@ -1,27 +1,27 @@
 <template>
     <div id='star-bg'>
         <div class='star-wrap'>
-            <img class='star1 y1' 
-                src='@/assets/img/star1.png'
-            />
-            <img class='star2'
-                src='@/assets/img/star1.png'
-            />
-            <img class='star3 y1'
-                src='@/assets/img/star1.png'
-            />
-            <img class='star4'
-                src='@/assets/img/star1.png'
-            />
-            <img class='star5'
-                src='@/assets/img/star2.png'
-            />
-            <img class='star6'
-                src='@/assets/img/star3.png'
-            />
-            <img class='star7'
-                src='@/assets/img/star3.png'
-            />
+            <svg class='star1 y1' xmlns="http://www.w3.org/2000/svg" width="141" height="141" viewBox="0 0 141 141" fill="none">
+                <path d="M70.3801 0L89.2913 51.4689L140.76 70.3801L89.2913 89.2913L70.3801 140.76L51.4689 89.2913L0 70.3801L51.4689 51.4689L70.3801 0Z" fill="#3E3C3C"/>
+            </svg>
+            <svg class='star2' xmlns="http://www.w3.org/2000/svg" width="141" height="141" viewBox="0 0 141 141" fill="none">
+                <path d="M70.3801 0L89.2913 51.4689L140.76 70.3801L89.2913 89.2913L70.3801 140.76L51.4689 89.2913L0 70.3801L51.4689 51.4689L70.3801 0Z" fill="#3E3C3C"/>
+            </svg>
+            <svg class='star3 y1' xmlns="http://www.w3.org/2000/svg" width="141" height="141" viewBox="0 0 141 141" fill="none">
+                <path d="M70.3801 0L89.2913 51.4689L140.76 70.3801L89.2913 89.2913L70.3801 140.76L51.4689 89.2913L0 70.3801L51.4689 51.4689L70.3801 0Z" fill="#3E3C3C"/>
+            </svg>
+            <svg class='star4' xmlns="http://www.w3.org/2000/svg" width="141" height="141" viewBox="0 0 141 141" fill="none">
+                <path d="M70.3801 0L89.2913 51.4689L140.76 70.3801L89.2913 89.2913L70.3801 140.76L51.4689 89.2913L0 70.3801L51.4689 51.4689L70.3801 0Z" fill="#3E3C3C"/>
+            </svg>
+            <svg class='star5' xmlns="http://www.w3.org/2000/svg" width="141" height="141" viewBox="0 0 141 141" fill="none">
+                <path d="M86.4756 52.5039L86.9541 53.8066L88.2568 54.2852L132.062 70.3799L88.2568 86.4756L86.9541 86.9541L86.4756 88.2568L70.3799 132.062L54.2852 88.2568L53.8066 86.9541L52.5039 86.4756L8.69727 70.3799L52.5039 54.2852L53.8066 53.8066L54.2852 52.5039L70.3799 8.69727L86.4756 52.5039Z" stroke="#3E3C3C" stroke-width="6"/>
+            </svg>
+            <svg class='star6' xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="50" fill="#3E3C3C"/>
+            </svg>
+            <svg class='star7' xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="50" fill="#3E3C3C"/>
+            </svg>
         </div>
     </div>
 </template>
