@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 @use '@/assets/scss/base/variables.scss' as *;
     
 #change-lang {
@@ -49,7 +49,7 @@ export default {
         
     button {
         font-size: 0.8rem;
-        color: $black1;
+        color: var(--btn-color, $black1);
 
         .text-shifting {
             display: inline-block;
@@ -60,7 +60,7 @@ export default {
             display: inline-block;
             width: 1px;
             height: 0.6rem;
-            background-color: $black1;
+            background-color: var(--after-color, $black1);
             margin: 0 8px;
         }
 

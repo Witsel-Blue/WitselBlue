@@ -4,7 +4,7 @@
             <ul class='nav'>
                 <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1' ref='menu'>
                     <Nuxt-link :to='nav.path' v-html='nav.name' 
-                        @click.native.prevet='linkClick(nav.path)'
+                        @click.native.prevent='linkClick(nav.path)'
                     />
                 </li>
                 <li>
@@ -135,46 +135,105 @@ export default {
             const menuList = Array.isArray(menus) ? menus : [menus];
             ScrollTrigger.getAll().forEach(t => t.kill());
             menuList.forEach(m => {
-                const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
+                const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                 if (a) gsap.killTweensOf(a);
             });
 
+            const changeLangEl = document.querySelector('#change-lang');
+            const langButtons = changeLangEl ? changeLangEl.querySelectorAll('button') : [];
+
             if (path === '/' || path === '/ko') {
-                this.initGnbColorScroll(menuList);
+                this.initGnbColorScroll(menuList, langButtons);
             } else {
                 menuList.forEach(m => {
-                    const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
-                    if (a) {
-                    a.style.color = '#3E3C3C';
-                    }
+                    const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
+                    if (a) a.style.color = '#3E3C3C';
+                });
+
+                langButtons.forEach(btn => {
+                    const spans = btn.querySelectorAll('.text-shifting span');
+                    spans.forEach(span => span.style.color = '#3E3C3C');
+                    btn.style.setProperty('--btn-color', '#3E3C3C');
+                    btn.style.setProperty('--after-color', '#3E3C3C');
                 });
             }
         },
-        initGnbColorScroll(menus) {
+        initGnbColorScroll(menus, langButtons = []) {
             if (!menus || !menus.length) return;
 
             const bumper = document.querySelector('.bumper');
+            const path = this.$route.path;
+            const useWhite = path === '/' || path === '/ko';
+
             if (!bumper) {
                 menus.forEach(m => {
-                    const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
+                    const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                     if (a) a.style.color = '#3E3C3C';
                 });
+
+                langButtons.forEach(btn => {
+                    const spans = btn.querySelectorAll('.text-shifting span');
+                    spans.forEach(span => span.style.color = '#3E3C3C');
+                    btn.style.setProperty('--after-color', '#3E3C3C');
+                    btn.style.setProperty('--btn-color', '#3E3C3C');
+                });
+
                 return;
             }
 
+            // GNB Menu
+            const menuColor = useWhite ? '#f7f7f7' : '#3E3C3C';
             menus.forEach(m => {
-                const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
-                if (a) a.style.color = '#f7f7f7';
+                const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
+                if (a) a.style.color = menuColor;
             });
 
-            menus.forEach(m => {
-                const a = (m.$el && m.$el.querySelector) ? m.$el.querySelector('a') : (m.querySelector ? m.querySelector('a') : m);
-                if (!a) return;
+            // ChangeLang
+            langButtons.forEach(btn => {
+                const spans = btn.querySelectorAll('.text-shifting span');
+                spans.forEach(span => span.style.color = menuColor);
 
-                gsap.killTweensOf(a);
+                btn.style.setProperty('--after-color', menuColor);
+                btn.style.setProperty('--btn-color', menuColor);
+            });
+
+            if (!useWhite) return;
+
+            // GNB Menu 스크롤 트리거
+            menus.forEach(m => {
+                const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
+                if (!a) return;
 
                 gsap.to(a, {
                     color: '#3E3C3C',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: bumper,
+                        start: 'top 100%',
+                        end: 'top top',
+                        scrub: true,
+                    }
+                });
+            });
+
+            // ChangeLang 버튼 span + ::after 스크롤 트리거
+            langButtons.forEach(btn => {
+                const spans = btn.querySelectorAll('.text-shifting span');
+                spans.forEach(span => {
+                    gsap.to(span, {
+                        color: '#3E3C3C',
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: bumper,
+                            start: 'top 100%',
+                            end: 'top top',
+                            scrub: true,
+                        }
+                    });
+                });
+                gsap.to(btn, {
+                    '--after-color': '#3E3C3C',
+                    '--btn-color': '#3E3C3C',
                     ease: 'none',
                     scrollTrigger: {
                         trigger: bumper,
