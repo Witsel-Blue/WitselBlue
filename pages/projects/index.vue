@@ -1,90 +1,86 @@
 <template>
     <div id='projects' class='page'>
-        <PageTransition 
+        <!-- <PageTransition 
             :title="$t('projects.title')" 
-            @end="showContent = true"
-        />
+        /> -->
 
-        <div v-if='showContent'>
-            <div class='main'>
-                <h1 class='title ft-bagel'>
-                    {{ $t('projects.title') }}
-                </h1>
-                <StarBg />
-            </div>
+        <div class='main'>
+            <h1 class='title ft-bagel'>
+                {{ $t('projects.title') }}
+            </h1>
+            <StarBg />
+        </div>
 
-            <div class='layout-switcher-wrap'>
-                <LayoutSwitcher @change-layout='setLayout' :layout='layout' />
-            </div>
+        <div class='layout-switcher-wrap'>
+            <LayoutSwitcher @change-layout='setLayout' :layout='layout' />
+        </div>
 
-            <div class='tab-wrap'>
-                <div class='inner'>
-                    <div class='drop-lottie' v-if='showDrop'
-                        :style='{top: `${dropPos.y}px`, left: `${dropPos.x}px`}'>
-                        <Lottie :animationData='Drop' :loop='false' :autoplay='true' :key='dropKey' />
-                    </div>
-                    <button
-                        class='all mouse-hover2'
-                        :class="{ active: activeTab === 'all' }"
-                        @click='selectAll($event)'
-                    >
-                        {{ $t('projects.tabs.all') }}
-                    </button>
-                    <p>
-                        <span>{{ $t('projects.sortBy') }} : </span>
-                    </p>
-                    <div class='tab-sub-wrap'>
-                        <div class='tab-group' v-for='(tagsArr, group) in tabs' :key='group'>
-                            <button 
-                                class='mouse-hover2'
-                                :class='{ active: openedGroup === group }'
-                                @click='toggleMenu($event, group)'
-                            >
-                                {{ $t('projects.tabs.' + group) }}
-                            </button>
-                            <div v-if='openedGroup === group' class='tab-sub'>
-                                <button
-                                    v-for='tag in tagsArr'
-                                    :key='tag'
-                                    class='mouse-hover2'
-                                    :class='{ active: activeTab === tag }'
-                                    @click='toggleSubmenu($event, tag)'
-                                >
-                                    {{ tag }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        <div class='tab-wrap'>
+            <div class='inner'>
+                <div class='drop-lottie' v-if='showDrop'
+                    :style='{top: `${dropPos.y}px`, left: `${dropPos.x}px`}'>
+                    <Lottie :animationData='Drop' :loop='false' :autoplay='true' :key='dropKey' />
                 </div>
-            </div>
-
-            <div class='list-wrap' :class="`${layout}-mode`">
-                <div class='inner'>
-                    <div
-                        v-for='(item, i) in filteredLists'
-                        :key='i'
-                        class='list-card'
-                        ref='listCards'
-                    >
-                        <SkewCardY :img='item.images.thumb' :path='item.path' />
-                        <div class='desc'>
-                            <p class='work'>{{ item.tags.work[$i18n.locale] }}</p>
-                            <NuxtLink 
-                                class='title mouse-hover1'
-                                :to=item.path>
-                                <TextShifting :text='item.title[$i18n.locale]' :key='item.slug' />
-                            </NuxtLink>
-                            <div class='tags'>
-                                <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
-                                    #{{ value[$i18n.locale] }}
-                                </p>
-                            </div>
+                <button
+                    class='all mouse-hover2'
+                    :class="{ active: activeTab === 'all' }"
+                    @click='selectAll($event)'
+                >
+                    {{ $t('projects.tabs.all') }}
+                </button>
+                <p>
+                    <span>{{ $t('projects.sortBy') }} : </span>
+                </p>
+                <div class='tab-sub-wrap'>
+                    <div class='tab-group' v-for='(tagsArr, group) in tabs' :key='group'>
+                        <button 
+                            class='mouse-hover2'
+                            :class='{ active: openedGroup === group }'
+                            @click='toggleMenu($event, group)'
+                        >
+                            {{ $t('projects.tabs.' + group) }}
+                        </button>
+                        <div v-if='openedGroup === group' class='tab-sub'>
+                            <button
+                                v-for='tag in tagsArr'
+                                :key='tag'
+                                class='mouse-hover2'
+                                :class='{ active: activeTab === tag }'
+                                @click='toggleSubmenu($event, tag)'
+                            >
+                                {{ tag }}
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class='list-wrap' :class="`${layout}-mode`">
+            <div class='inner'>
+                <div
+                    v-for='(item, i) in filteredLists'
+                    :key='i'
+                    class='list-card'
+                    ref='listCards'
+                >
+                    <SkewCardY :img='item.images.thumb' :path='item.path' />
+                    <div class='desc'>
+                        <p class='work'>{{ item.tags.work[$i18n.locale] }}</p>
+                        <NuxtLink 
+                            class='title mouse-hover1'
+                            :to=item.path>
+                            <TextShifting :text='item.title[$i18n.locale]' :key='item.slug' />
+                        </NuxtLink>
+                        <div class='tags'>
+                            <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
+                                #{{ value[$i18n.locale] }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -115,7 +111,6 @@ export default {
     },
     data() {
         return {
-            showContent: false,
             activeTab: 'all',
             openedGroup: null,
             groupLabels: {},

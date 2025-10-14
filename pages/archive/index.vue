@@ -1,77 +1,74 @@
 <template>
     <div id='archive' class='page'>
-        <PageTransition 
+        <!-- <PageTransition 
             :title="$t('archive.title')" 
-            v-if='showPageTransition'
-            @end="showContent = true"
-        />
+        /> -->
 
-        <div v-if='showContent'>
-            <div class='main'>
-                <h1 class='title ft-bagel'>
-                    {{ $t('archive.title') }}
-                </h1>
-                <StarBg />
-            </div>
 
-            <div class='layout-switcher-wrap'>
-                <LayoutSwitcher @change-layout='setLayout' :layout='layout' />
-            </div>
+        <div class='main'>
+            <h1 class='title ft-bagel'>
+                {{ $t('archive.title') }}
+            </h1>
+            <StarBg />
+        </div>
 
-            <div class='tab-wrap'>
-                <div class='inner'>
-                    <div class='drop-lottie' v-if='showDrop'
-                        :style='{top: `${dropPos.y}px`, left: `${dropPos.x}px`}'>
-                        <Lottie :animationData='Drop' :loop='false' :autoplay='true' :key='dropKey' />
-                    </div>
-                    <div class='tab-main'>
-                        <button
-                            v-for='tab in mainTabs'
-                            :key='tab'
-                            class='mouse-hover2'
-                            :class='[tab, { active: activeMain === tab }]'
-                            @click='toggleMenu($event, tab)'
-                        >
-                            {{ $t(`archive_${tab}.title`) }}
-                        </button>
-                    </div>
-                    <div v-if='activeMain !== "all"' class='tab-sub'>
-                        <button
-                            v-for='tab in subTabs'
-                            :key='tab.key'
-                            class='mouse-hover2'
-                            :class='{ active: activeSub === tab.key }'
-                            @click='toggleSubmenu($event, tab.key)'
-                        >
-                            {{ tab.label }}
-                        </button>
-                    </div>
+        <div class='layout-switcher-wrap'>
+            <LayoutSwitcher @change-layout='setLayout' :layout='layout' />
+        </div>
+
+        <div class='tab-wrap'>
+            <div class='inner'>
+                <div class='drop-lottie' v-if='showDrop'
+                    :style='{top: `${dropPos.y}px`, left: `${dropPos.x}px`}'>
+                    <Lottie :animationData='Drop' :loop='false' :autoplay='true' :key='dropKey' />
+                </div>
+                <div class='tab-main'>
+                    <button
+                        v-for='tab in mainTabs'
+                        :key='tab'
+                        class='mouse-hover2'
+                        :class='[tab, { active: activeMain === tab }]'
+                        @click='toggleMenu($event, tab)'
+                    >
+                        {{ $t(`archive_${tab}.title`) }}
+                    </button>
+                </div>
+                <div v-if='activeMain !== "all"' class='tab-sub'>
+                    <button
+                        v-for='tab in subTabs'
+                        :key='tab.key'
+                        class='mouse-hover2'
+                        :class='{ active: activeSub === tab.key }'
+                        @click='toggleSubmenu($event, tab.key)'
+                    >
+                        {{ tab.label }}
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div class='list-wrap' :class="`${layout}-mode`">
-                <div class='inner'>
-                    <div
-                        v-for='(item, i) in filteredLists'
-                        :key='i'
-                        class='list-card'
-                        ref='listCards'
-                    >
-                        <SkewCardY :img='item.images.thumb' :path='item.path' />
-                        <div class='desc'>
-                            <p class='work'>
-                                {{ (typeof item.tags.work === 'object' ? item.tags.work[$i18n.locale] || item.tags.work.en : item.tags.work) }}
+        <div class='list-wrap' :class="`${layout}-mode`">
+            <div class='inner'>
+                <div
+                    v-for='(item, i) in filteredLists'
+                    :key='i'
+                    class='list-card'
+                    ref='listCards'
+                >
+                    <SkewCardY :img='item.images.thumb' :path='item.path' />
+                    <div class='desc'>
+                        <p class='work'>
+                            {{ (typeof item.tags.work === 'object' ? item.tags.work[$i18n.locale] || item.tags.work.en : item.tags.work) }}
+                        </p>
+                        <Nuxt-link 
+                            class='title mouse-hover1'
+                            :to='item.path'>
+                            <TextShifting :text='item.title[$i18n.locale]' :key='item.slug || i' />
+                        </Nuxt-link>
+                        <div class='tags'>
+                            <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
+                                #{{ typeof value === 'object' ? value[$i18n.locale] || value.en : value }}
                             </p>
-                            <Nuxt-link 
-                                class='title mouse-hover1'
-                                :to='item.path'>
-                                <TextShifting :text='item.title[$i18n.locale]' :key='item.slug || i' />
-                            </Nuxt-link>
-                            <div class='tags'>
-                                <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
-                                    #{{ typeof value === 'object' ? value[$i18n.locale] || value.en : value }}
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,8 +106,6 @@ export default {
     },
     data() {
         return {
-            showContent: false,
-            showPageTransition: false,
             title: 'archive',
             mainTabs: ['dev', 'music'],
             activeMain: '',
@@ -165,14 +160,6 @@ export default {
         this.activeMain = currentPath.includes('/archive/music') ? 'music' : 'dev';
         this.activeSub = 'all';
 
-        if (currentPath === '/archive') {
-            this.showPageTransition = true;
-            this.showContent = false;
-        } else {
-            this.showPageTransition = false;
-            this.showContent = true;
-        }
-
         this.$nextTick(() => {
             const mainBtn = this.$el.querySelector(`.tab-main button.${this.activeMain}`);
             if (mainBtn) this.triggerDropLottie({ currentTarget: mainBtn });
@@ -185,14 +172,6 @@ export default {
     },
     watch: {
         '$route.path'(newPath) {
-            if (newPath === '/archive') {
-                this.showPageTransition = true;
-                this.showContent = false;
-            } else {
-                this.showPageTransition = false;
-                this.showContent = true;
-            }
-
             this.$nextTick(() => {
                 this.animateListCardsSafe();
             });
