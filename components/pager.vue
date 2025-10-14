@@ -84,7 +84,7 @@ export default {
 
             this.scrollTrigger = this.scrollTween.scrollTrigger;
 
-            const isHome = this.$route.path === '/'; 
+            const isHome = this.$route.path === '/' || this.$route.path === '/ko'; 
             if (isHome) {
                 this.initPathColor();
             }
@@ -135,7 +135,7 @@ export default {
         updatePathColor(path) {
             const pathEl = this.$el?.querySelector('svg path');
 
-            if (path === '/') {
+            if (path === '/' || path === '/ko') {
                 this.clientPathColor = '#f7f7f7';
 
                 if (this.pathColorST) {

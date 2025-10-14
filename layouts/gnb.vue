@@ -139,7 +139,7 @@ export default {
                 if (a) gsap.killTweensOf(a);
             });
 
-            if (path === '/') {
+            if (path === '/' || path === '/ko') {
                 this.initGnbColorScroll(menuList);
             } else {
                 menuList.forEach(m => {
