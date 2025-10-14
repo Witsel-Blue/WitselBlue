@@ -76,9 +76,9 @@ export default {
         position: initial;
         justify-content: flex-end;
 
-        .text-shifting::v-deep {
+        .text-shifting {
             span {
-                color: $white1;
+                color: $white1 !important;
             }
         }
 

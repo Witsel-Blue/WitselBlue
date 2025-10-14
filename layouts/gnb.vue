@@ -106,8 +106,11 @@ export default {
         menuClick() {
             this.open = !this.open;
         },
-        linkClick() {
+        linkClick(path) {
             this.open = false;
+            if (this.$route.path === path) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         },
         shadowClick() {
             this.open = false;
@@ -121,12 +124,6 @@ export default {
                     return this.headerShadow = false;
                 }
             });
-        },
-        linkClick(path) {
-            this.open = false;
-            if (this.$route.path === path) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
         },
         updateGnbColor(path) {
             const menus = this.$refs.menu;
@@ -181,14 +178,13 @@ export default {
                 return;
             }
 
-            // GNB Menu
             const menuColor = useWhite ? '#f7f7f7' : '#3E3C3C';
+
             menus.forEach(m => {
                 const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                 if (a) a.style.color = menuColor;
             });
 
-            // ChangeLang
             langButtons.forEach(btn => {
                 const spans = btn.querySelectorAll('.text-shifting span');
                 spans.forEach(span => span.style.color = menuColor);
@@ -199,7 +195,6 @@ export default {
 
             if (!useWhite) return;
 
-            // GNB Menu 스크롤 트리거
             menus.forEach(m => {
                 const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                 if (!a) return;
@@ -216,7 +211,6 @@ export default {
                 });
             });
 
-            // ChangeLang 버튼 span + ::after 스크롤 트리거
             langButtons.forEach(btn => {
                 const spans = btn.querySelectorAll('.text-shifting span');
                 spans.forEach(span => {

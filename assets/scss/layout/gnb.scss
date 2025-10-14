@@ -149,12 +149,6 @@
         }
         
         .mb.active {
-            .menu-button {
-                svg path {
-                    fill: #fff;
-                    transition: all 0.4s ease;
-                }
-            }
             .menu-cont {
                 visibility: visible;
                 transform: translateY(0);
