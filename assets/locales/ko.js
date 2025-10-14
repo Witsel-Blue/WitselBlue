@@ -1,4 +1,9 @@
 export default {
+    gnb: {
+        home: '홈',
+        projects: '프로젝트',
+        archive: '아카이브',
+    },
     home: {
         mainSub: '프론트엔드 개발자',
         mainTitle: '비첼블루',

@@ -34,7 +34,9 @@
                 <nav>
                     <ul class='nav'>
                         <li v-for='nav in navigation' :key='nav.name'>
-                            <a :href='nav.path' @click='linkClick' v-html='nav.name'></a>
+                            <a :href='nav.path' @click='linkClick'>
+                                {{ $t(`gnb.${nav.key}`) }}
+                            </a>
                         </li>
                         <li>
                             <ChangeLang />
@@ -70,14 +72,17 @@ export default {
         return {
             navigation: [
                 {
+                    key: 'home',
                     name: '<p>H<span>o</span>me</p>',
                     path: '/'
                 },
                 {
+                    key: 'projects',
                     name: '<p>Pr<span>o</span>jects</p>',
                     path: '/projects'
                 },
                 {
+                    key: 'archive',
                     name: '<p>Ar<span>h</span>ive</p>',
                     path: '/archive'
                 },
