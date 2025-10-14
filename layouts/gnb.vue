@@ -96,6 +96,7 @@ export default {
         this.linkClick();
         this.winScrolled();
         this.updateGnbColor(this.$route.path);
+        this.updateMenuButtonColor();
     },
     watch: {
         '$route.path'(newPath) {
@@ -105,25 +106,55 @@ export default {
     methods: {
         menuClick() {
             this.open = !this.open;
+            this.updateMenuButtonColor();
         },
         linkClick(path) {
             this.open = false;
             if (this.$route.path === path) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+            this.updateMenuButtonColor();
         },
         shadowClick() {
             this.open = false;
+            this.updateMenuButtonColor();
         },
         winScrolled() {
-            window.addEventListener('scroll', function() {
-                var scrollY = window.scrollY;
-                if (scrollY > 100) {
-                    return this.headerShadow = true;
-                } else {
-                    return this.headerShadow = false;
-                }
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                this.headerShadow = scrollY > 100;
+                if (!this.open) this.updateMenuButtonColor();
             });
+            this.updateMenuButtonColor();
+        },
+        updateMenuButtonColor() {
+            const menuButtonPaths = this.$refs.mb?.querySelectorAll('svg path');
+            if (!menuButtonPaths || !menuButtonPaths.length) return;
+
+            if (this.open) {
+                menuButtonPaths.forEach(p => p.setAttribute('fill', '#f7f7f7'));
+                return;
+            }
+
+            const isHome = this.$route.path === '/' || this.$route.path === '/ko';
+
+            if (!isHome) {
+                menuButtonPaths.forEach(p => p.setAttribute('fill', '#3E3C3C'));
+                return;
+            }
+
+            const bumper = document.querySelector('.bumper');
+            let useWhite = true;
+
+            if (bumper) {
+                const rect = bumper.getBoundingClientRect();
+                useWhite = rect.top > 0;
+            } else {
+                useWhite = window.scrollY === 0;
+            }
+
+            const color = useWhite ? '#f7f7f7' : '#3E3C3C';
+            menuButtonPaths.forEach(p => p.setAttribute('fill', color));
         },
         updateGnbColor(path) {
             const menus = this.$refs.menu;
