@@ -147,10 +147,13 @@ export default {
                 });
             }
 
+            const currentLocale = this.$i18n.locale;
             return list.map(item => ({
                 ...item,
                 title: item.title || item.name || item.artist,
-                path: `/archive/${this.activeMain}/${item.slug}`,
+                path: currentLocale === 'en' 
+                    ? `/archive/${this.activeMain}/${item.slug}`
+                    : `/${currentLocale}/archive/${this.activeMain}/${item.slug}`,
             }));
         }
     },
@@ -202,7 +205,10 @@ export default {
             this.activeMain = tab;
             this.activeSub = 'all';
 
-            const path = `/archive/${tab}`;
+            const currentLocale = this.$i18n.locale;
+            const path = currentLocale === 'en' 
+                ? `/archive/${tab}`
+                : `/${currentLocale}/archive/${tab}`;
 
             if (this.$route.path !== path) {
                 try {

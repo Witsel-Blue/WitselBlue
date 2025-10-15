@@ -34,7 +34,7 @@
                 <nav>
                     <ul class='nav'>
                         <li v-for='nav in navigation' :key='nav.name'>
-                            <a :href='nav.path' @click='linkClick'>
+                            <a :href='nav.path' @click='linkClick(nav.path)'>
                                 {{ $t(`gnb.${nav.key}`) }}
                             </a>
                         </li>
@@ -115,8 +115,13 @@ export default {
         },
         linkClick(path) {
             this.open = false;
-            if (this.$route.path === path) {
+            const currentLocale = this.$i18n.locale;
+            const localizedPath = currentLocale === 'en' ? path : `/${currentLocale}${path}`;
+            
+            if (this.$route.path === localizedPath) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                this.$router.push(localizedPath);
             }
             this.updateMenuButtonColor();
         },

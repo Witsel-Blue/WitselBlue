@@ -150,14 +150,21 @@ export default {
             };
         },
         filteredLists() {
-            if (this.activeTab === 'all') return this.lists;
+            if (this.activeTab === 'all') return this.listsWithLocalizedPaths;
 
-            return this.lists.filter(item =>
+            return this.listsWithLocalizedPaths.filter(item =>
                 Object.entries(item.tags).some(([key, val]) => {
                     const v = val[this.$i18n.locale] || val.en;
                     return v === this.activeTab;
                 })
             );
+        },
+        listsWithLocalizedPaths() {
+            const currentLocale = this.$i18n.locale;
+            return this.lists.map(item => ({
+                ...item,
+                path: currentLocale === 'en' ? item.path : `/${currentLocale}${item.path}`
+            }));
         }
     },
     mounted() {

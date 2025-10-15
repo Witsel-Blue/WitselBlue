@@ -337,7 +337,9 @@ export default {
                 development: 'archive/dev',
                 music: 'archive/music',
             }
-            return `/${mapping[item.category]}/${item.slug}`
+            const basePath = `/${mapping[item.category]}/${item.slug}`;
+            const currentLocale = this.$i18n.locale;
+            return currentLocale === 'en' ? basePath : `/${currentLocale}${basePath}`;
         },
         setVhFix() {
             const ua = navigator.userAgent.toLowerCase();

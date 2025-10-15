@@ -103,6 +103,12 @@ export default {
         ],
         defaultLocale: 'en',
         langDir: 'assets/locales/',
+        strategy: 'prefix_except_default',
+        detectBrowserLanguage: {
+            useCookie: true,
+            cookieKey: 'i18n_redirected',
+            redirectOn: 'root',
+        },
     },
 
     pwa: {
