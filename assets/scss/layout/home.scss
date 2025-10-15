@@ -344,6 +344,13 @@
             &.use-vh-fix {
                 height: calc(var(--vh, 1vh) * 100);
             }
+            #mainvisual {
+                ::v-deep #star-bg {
+                    .star5 {
+                        bottom: 16%;
+                    }
+                }
+            }
             .inner {
                 position: initial;
                 .text {
@@ -382,15 +389,19 @@
         }
 
         .profile {
-            padding: 10vh 0;
+            padding: 15vh 0 10vh;
+            height: auto;
+            .inner {
+                display: initial;
+            }
             #parallax-img {
                 width: 50%;
                 border-radius: 50%;
             }
             .arrow {
                 width: 60px;
-                left: 4%;
-                margin-top: -60%;
+                left: 8%;
+                margin-top: -4%;
                 span {
                     font-size: 0.8rem;
                     width: 120%;

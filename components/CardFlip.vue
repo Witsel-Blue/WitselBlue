@@ -86,7 +86,7 @@ export default {
     }
 
     .card-back {
-        background: $blue2;
+        background: $blueblack2;
         color: $white1;
         transform: rotateY(180deg);
         display: flex;

@@ -42,7 +42,7 @@ export default {
     align-items: center;
     z-index: 9999;
     transition: opacity 0.4s;
-    background: $grad-black;
+    background: $grad-blue;
 }
 
 // mobile

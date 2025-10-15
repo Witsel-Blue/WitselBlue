@@ -247,10 +247,10 @@ export default {
 
             this.$nextTick(() => {
                 const bumperTop = bumper.getBoundingClientRect().top + window.scrollY;
-                homeEl.style.backgroundColor = window.scrollY < bumperTop ? '#293047' : '#f7f7f7';
+                homeEl.style.background = window.scrollY < bumperTop ? '#455A74' : '#f7f7f7';
 
                 this.homeBgST = gsap.to(homeEl, {
-                    backgroundColor: '#f7f7f7',
+                    background: '#f7f7f7',
                     ease: 'none',
                     scrollTrigger: {
                         trigger: bumper,
@@ -293,12 +293,12 @@ export default {
                     xPercent: -100 * (panels.length - 1),
                     ease: 'none',
                     scrollTrigger: {
-                    id: 'selected',
-                    trigger: section,
-                    start: 'top top',
-                    pin: true,
-                    scrub: 0.5,
-                    end: () => `+=${container.scrollWidth}`,
+                        id: 'selected',
+                        trigger: section,
+                        start: 'top top',
+                        pin: true,
+                        scrub: 0.5,
+                        end: () => `+=${container.scrollWidth}`,
                     }
                 });
 

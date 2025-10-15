@@ -134,7 +134,7 @@ export default {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background: $grad-black;
+    background: $grad-blue;
 }
 
 .footer-bg {
