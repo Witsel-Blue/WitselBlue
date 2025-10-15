@@ -34,7 +34,7 @@
                 <nav>
                     <ul class='nav'>
                         <li v-for='nav in navigation' :key='nav.name'>
-                            <a :href='nav.path' @click='linkClick(nav.path)'>
+                            <a :href='nav.path' @click.prevent='linkClick(nav.path)'>
                                 {{ $t(`gnb.${nav.key}`) }}
                             </a>
                         </li>
@@ -105,6 +105,7 @@ export default {
     watch: {
         '$route.path'(newPath) {
             this.updateGnbColor(newPath);
+            this.updateMenuButtonColor();
         }
     },
     methods: {
