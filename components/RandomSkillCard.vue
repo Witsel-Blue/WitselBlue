@@ -299,7 +299,7 @@ export default {
             // }
         }
         .card-back {
-            background: $black1;
+            background: $blue2;
             transform: rotateY(180deg);
             color: $white1;
             flex-direction: column;
@@ -316,7 +316,7 @@ export default {
                 display: flex;
 
                 span {
-                    color: $black0;
+                    color: $blue1;
                     font-size: 0.8rem;
 
                     &.filled.animate {

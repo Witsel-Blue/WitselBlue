@@ -10,8 +10,9 @@ $gray1: #ededed;
 $gray2: #c6c6c6;
 $gray3: #959595;
 
-$blue0: #A2B4CA;
-$blue1: #56779F;
+$blue0: #9399AF;
+$blue1: #424A66;
+$blue2: #293047;
 
 $width-l: 1000px;
 $width-m: 800px;
@@ -21,9 +22,8 @@ $tablet: 768px;
 $mobile: 425px;
 
 $grad-white: radial-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(247, 247, 247, 1) 40%, rgba(231, 231, 231, 1) 100%);
-$grad-black: radial-gradient(circle,rgba(124, 122, 122, 1) 0%, rgba(95, 93, 93, 1) 43%, rgba(75, 73, 73, 1) 75%, rgba(62, 60, 60, 1) 100%);
-
-$grad-blue: radial-gradient(circle, #56779F 0%, #fff 100%);
+$grad-black: radial-gradient(circle, #293047 0%, #f7f7f7 100%);
+$grad-blue: radial-gradient(circle, #56779F 0%, #f7f7f7 100%);
 
 $shadow-card: 0 10px 20px rgba(0, 0, 0, 0.1);
 $shadow-large: 0 4px 40px rgba(0, 0, 0, 0.1), 0 2px 24px rgba(0, 0, 0, 0.1);

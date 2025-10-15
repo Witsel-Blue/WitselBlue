@@ -64,7 +64,7 @@ export default [
             ko: '나의 포트폴리오',
         },
         desc: {
-            duration: { start: '2024.11', },
+            duration: { start: '2024.11, 2025,09', end: '2025.10' },
             stack: {
                 en: 'Vue2 / Nuxt / SCSS / javascript',
                 ko: 'Vue2 / Nuxt / SCSS / 자바스크립트',
@@ -98,7 +98,7 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/projects/myportfolio_thumb.png'),
-            mainvisual: require('@/assets/img/projects/myportfolio_thumb.png'),
+            mainvisual: require('@/assets/img/projects/myportfolio_main.png'),
             gif: require('@/assets/img/projects/myportfolio_gif.gif'),
             pc1: require('@/assets/img/projects/myportfolio_pc1.png'),
             pc2: require('@/assets/img/projects/myportfolio_pc2.png'),

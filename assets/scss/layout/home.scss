@@ -41,6 +41,13 @@
                 path, circle {
                     fill: $white2;
                 }
+                .star5 {
+                    bottom: 30%;
+                    path {
+                        fill: none;
+                        stroke: $white2;
+                    }
+                }
             }
         }
         .inner {
