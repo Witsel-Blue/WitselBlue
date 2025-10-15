@@ -98,7 +98,6 @@ export default {
     },
     mounted() {
         this.menuClick();
-        this.linkClick();
         this.winScrolled();
         this.updateGnbColor(this.$route.path);
         this.updateMenuButtonColor();
@@ -114,6 +113,7 @@ export default {
             this.updateMenuButtonColor();
         },
         linkClick(path) {
+            if (!path) return;
             this.open = false;
             const currentLocale = this.$i18n.locale;
             const localizedPath = currentLocale === 'en' ? path : `/${currentLocale}${path}`;
