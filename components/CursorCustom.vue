@@ -60,6 +60,14 @@ export default {
                 this.refreshHoverListeners();
             }
         );
+        this.$watch(
+            () => this.$route.path,
+            (newPath, oldPath) => {
+                if (newPath !== oldPath) {
+                    this.resetCursorState();
+                }
+            }
+        );
     },
     beforeDestroy() {
         document.removeEventListener('mouseover', this.handleHover);
@@ -135,6 +143,18 @@ export default {
         refreshHoverListeners() {
             this.$store.commit('cursor/setCursorText', '');
             this.$store.commit('cursor/setCursorImage', false);
+        },
+        resetCursorState() {
+            this.$store.commit('cursor/setCursorClass', '');
+            this.$store.commit('cursor/setCursorText', '');
+            this.$store.commit('cursor/setCursorImage', false);
+            this.$store.commit('cursor/setCursorLottie', false);
+            this.$store.commit('cursor/setCursorAnimation', null);
+            
+            const circle = this.$refs.circle;
+            if (circle) {
+                circle.classList.remove('hover1', 'hover2', 'hover3', 'no-cursor', 'cursor-main');
+            }
         },
     }
 }

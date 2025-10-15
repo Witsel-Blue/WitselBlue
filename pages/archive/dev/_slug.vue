@@ -129,6 +129,12 @@ export default {
     beforeDestroy() {
         this.$store.commit('setDetailPage', false);
         this.$store.commit('clearNextArchiveDev');
+
+        this.$store.commit('cursor/setCursorClass', '');
+        this.$store.commit('cursor/setCursorText', '');
+        this.$store.commit('cursor/setCursorImage', false);
+        this.$store.commit('cursor/setCursorLottie', false);
+        this.$store.commit('cursor/setCursorAnimation', null);
     },
     mounted() {
         window.addEventListener('resize', this.getMbHeight);

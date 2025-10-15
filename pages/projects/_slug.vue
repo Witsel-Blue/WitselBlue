@@ -180,6 +180,12 @@ export default {
     beforeDestroy() {
         this.$store.commit('setDetailPage', false);
         this.$store.commit('clearNextProject');
+        
+        this.$store.commit('cursor/setCursorClass', '');
+        this.$store.commit('cursor/setCursorText', '');
+        this.$store.commit('cursor/setCursorImage', false);
+        this.$store.commit('cursor/setCursorLottie', false);
+        this.$store.commit('cursor/setCursorAnimation', null);
     },
     mounted() {
         setTimeout(() => {
