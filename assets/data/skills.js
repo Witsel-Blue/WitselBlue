@@ -395,15 +395,15 @@ export default [
     // },
     {
         title: {
-            en: 'ChatGPT',
-            ko: '챗GPT',
+            en: 'CursorAI',
+            ko: '커서AI',
         },
         category: {
             en: 'Environment',
             ko: '작업환경',
         },
-        logo: require('@/assets/img/skills/chatgpt.png'),
-        rate: 4,
+        logo: require('@/assets/img/skills/cursorai.png'),
+        rate: 3,
         flipped: false,
     },
 
