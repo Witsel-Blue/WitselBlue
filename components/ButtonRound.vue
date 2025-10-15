@@ -9,7 +9,7 @@
             @click='$emit("click")'
         >
             <span ref='circle' class='circle'></span>
-            <span class='title'>{{ $t(link.text || text) }}</span>
+            <span class='title'>{{ displayText }}</span>
         </a>
     </div>
 </template>
@@ -24,6 +24,18 @@ export default {
             default: () => ({}),
         },
         text: String,
+    },
+    computed: {
+        displayText() {
+            const raw = (this.link && this.link.text) || this.text || '';
+            if (typeof raw !== 'string' || raw.length === 0) return '';
+            try {
+                if (this.$i18n && typeof this.$i18n.te === 'function' && this.$i18n.te(raw)) {
+                    return this.$t(raw);
+                }
+            } catch (e) { }
+            return raw;
+        }
     },
     mounted() {
         this.circleMove();
