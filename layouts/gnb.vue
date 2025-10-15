@@ -97,7 +97,7 @@ export default {
         }
     },
     mounted() {
-        this.menuClick();
+        this.open = false; // ensure closed on first paint
         this.winScrolled();
         this.updateGnbColor(this.$route.path);
         this.updateMenuButtonColor();
