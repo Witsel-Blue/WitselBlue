@@ -4,9 +4,14 @@
   
 <script>
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
     
-let camera, scene, renderer;
+let camera, scene, renderer, spheres = [];
+let mouseX = 0, mouseY = 0;
+let windowHalfX = 0;
+let windowHalfY = 0;
+let deviceOrientationX = 0;
+let deviceOrientationY = 0;
+let isMobile = false;
   
 export default {
     name: 'MainThree',
@@ -17,97 +22,208 @@ export default {
     },
     mounted() {
         this.init();
+        this.animate();
+    },
+    beforeDestroy() {
+        this.cleanup();
     },
     methods: {
         init() {
-            const result = document.querySelector('#MainThree');
-            const mouse = new THREE.Vector2();
-            const target = new THREE.Vector2();
-            const windowHalf = new THREE.Vector2( window.innerWidth / 2, window.innerHeight / 2 );
-
-            // 1. Scene: 화면에서 보여주려는 객체를 담는 공간
-            const scene = new THREE.Scene();
-            scene.background = null;
-
-            // 2. Camera : Scene을 바라볼 시점
-            camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 500 );
-            camera.position.z = 10;
-
-            // 3. Renderer : Scene+Camera, 화면 그려주는 역할
-            const renderer = new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: true,
-            });
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            renderer.setClearColor(0x000000, 0);
-            result.appendChild( renderer.domElement );
-
-            // light
-            const light = new THREE.DirectionalLight(0xffffff);
-            light.position.set(-5, 10, 50);
-            scene.add(light);
-
-            // material
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x9FB1C8,
-            });
-            material.shininess = 100;
-            material.specular = new THREE.Color(0xffffff);
-
-            // object
-            const geometry1 = new THREE.TorusKnotGeometry( 1, 0.4, 128, 128, 1, 3 );
-            const torus = new THREE.Mesh(geometry1, material);
-            torus.position.set(1.6, -0.2, 1);
-            scene.add(torus);
-
-            const geometry2 = new THREE.SphereGeometry( 0.6, 64, 32 );
-            const sphere = new THREE.Mesh(geometry2, material);
-            sphere.position.set(-1.8, 0.6, 1);
-            scene.add(sphere);
-
-            renderer.render(scene, camera);
-
-            // responsive
-            window.addEventListener('resize', ()=> {
-                camera.aspect = window.innerWidth/window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            })
-
-            // mousemove
-            document.addEventListener( 'mousemove', onMouseMove, false );
-            // document.addEventListener( 'wheel', onMouseWheel, false );
-                
-            function onMouseMove( event ) {
-                mouse.x = ( event.clientX - windowHalf.x );
-                mouse.y = ( event.clientY - windowHalf.x );
-            }
-
-            // function onMouseWheel( event ) {
-            //     camera.position.z += event.deltaY * 0.01;
-            // }
-
-            function animate() {
-                const time = Date.now() * 0.0001;
-                torus.rotation.x = time;
-                torus.rotation.y = time;
-                sphere.rotation.x = time;
-                sphere.rotation.y = time;
-
-                target.x = ( 1 - mouse.x ) * 0.0002;
-                target.y = ( 1 - mouse.y ) * 0.0002;
-                camera.rotation.x += 0.05 * ( target.y - camera.rotation.x );
-                camera.rotation.y += 0.05 * ( target.x - camera.rotation.y );
-                requestAnimationFrame( animate );
-                renderer.render( scene, camera );
-            }
-            animate();
-
+            // 클라이언트 사이드에서만 실행
+            if (typeof window === 'undefined') return;
+            
+            // 모바일 디바이스 감지
+            isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                      ('ontouchstart' in window) || 
+                      (navigator.maxTouchPoints > 0);
+            
+            // 윈도우 크기 초기화
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            
+            // 씬 생성
+            scene = new THREE.Scene();
+            
+            // 카메라 생성
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 500;
+            
+            // 렌더러 생성
+            const container = document.getElementById('MainThree');
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0); // 투명 배경
+            container.appendChild(renderer.domElement);
+            
+            // 구체들 생성
+            this.createSpheres();
+            
+            // 이벤트 리스너 등록
+            this.setupEventListeners();
         },
+        
+        createSpheres() {
+            const geometry = new THREE.SphereGeometry(2, 16, 16);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            // 100개의 구체를 랜덤하게 배치
+            for (let i = 0; i < 100; i++) {
+                const sphere = new THREE.Mesh(geometry, material);
+                
+                // 랜덤 위치
+                sphere.position.x = (Math.random() - 0.5) * 1000;
+                sphere.position.y = (Math.random() - 0.5) * 1000;
+                sphere.position.z = (Math.random() - 0.5) * 1000;
+                
+                // 랜덤 크기
+                const scale = Math.random() * 0.5 + 0.5;
+                sphere.scale.setScalar(scale);
+                
+                // 랜덤 회전 속도 저장
+                sphere.userData = {
+                    rotationSpeed: {
+                        x: (Math.random() - 0.5) * 0.02,
+                        y: (Math.random() - 0.5) * 0.02,
+                        z: (Math.random() - 0.5) * 0.02
+                    }
+                };
+                
+                spheres.push(sphere);
+                scene.add(sphere);
+            }
+        },
+        
+        setupEventListeners() {
+            // 마우스 이벤트 (데스크톱)
+            document.addEventListener('mousemove', this.onMouseMove, false);
+            window.addEventListener('resize', this.onWindowResize, false);
+            
+            // 디바이스 오리엔테이션 이벤트 (모바일/태블릿)
+            if (isMobile) {
+                // iOS 13+에서는 권한 요청이 필요
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    // 사용자 제스처 후 권한 요청
+                    const requestPermission = () => {
+                        DeviceOrientationEvent.requestPermission()
+                            .then(response => {
+                                if (response === 'granted') {
+                                    window.addEventListener('deviceorientation', this.onDeviceOrientation, false);
+                                }
+                            })
+                            .catch(console.error);
+                    };
+                    
+                    // 터치 이벤트로 권한 요청 트리거
+                    document.addEventListener('touchstart', requestPermission, { once: true });
+                } else {
+                    // Android나 구형 iOS
+                    window.addEventListener('deviceorientation', this.onDeviceOrientation, false);
+                }
+            }
+        },
+        
+        onMouseMove(event) {
+            if (!isMobile) {
+                mouseX = (event.clientX - windowHalfX) * 0.1;
+                mouseY = (event.clientY - windowHalfY) * 0.1;
+            }
+        },
+        
+        onDeviceOrientation(event) {
+            if (isMobile) {
+                // 베타(좌우 기울기)와 감마(앞뒤 기울기) 값을 사용
+                // 값의 범위를 조정하여 마우스 움직임과 비슷한 효과 생성
+                deviceOrientationX = (event.beta || 0) * 0.1;  // 좌우 기울기
+                deviceOrientationY = (event.gamma || 0) * 0.1; // 앞뒤 기울기
+            }
+        },
+        
+        onWindowResize() {
+            if (typeof window === 'undefined') return;
+            
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        },
+        
+        animate() {
+            requestAnimationFrame(this.animate);
+            
+            // 카메라 위치 조정 (마우스 또는 디바이스 기울기)
+            let targetX, targetY;
+            
+            if (isMobile) {
+                // 모바일: 디바이스 기울기 사용
+                targetX = deviceOrientationX;
+                targetY = deviceOrientationY;
+            } else {
+                // 데스크톱: 마우스 위치 사용
+                targetX = mouseX;
+                targetY = -mouseY;
+            }
+            
+            camera.position.x += (targetX - camera.position.x) * 0.05;
+            camera.position.y += (targetY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            
+            // 구체들 회전
+            spheres.forEach(sphere => {
+                sphere.rotation.x += sphere.userData.rotationSpeed.x;
+                sphere.rotation.y += sphere.userData.rotationSpeed.y;
+                sphere.rotation.z += sphere.userData.rotationSpeed.z;
+            });
+            
+            renderer.render(scene, camera);
+        },
+        
+        cleanup() {
+            if (typeof window === 'undefined') return;
+            
+            // 이벤트 리스너 제거
+            document.removeEventListener('mousemove', this.onMouseMove, false);
+            window.removeEventListener('resize', this.onWindowResize, false);
+            window.removeEventListener('deviceorientation', this.onDeviceOrientation, false);
+            document.removeEventListener('touchstart', this.requestPermission, false);
+            
+            // 렌더러 정리
+            if (renderer) {
+                renderer.dispose();
+                const container = document.getElementById('MainThree');
+                if (container && container.contains(renderer.domElement)) {
+                    container.removeChild(renderer.domElement);
+                }
+            }
+            
+            // 씬 정리
+            if (scene) {
+                spheres.forEach(sphere => {
+                    scene.remove(sphere);
+                    if (sphere.geometry) sphere.geometry.dispose();
+                    if (sphere.material) sphere.material.dispose();
+                });
+                spheres = [];
+            }
+        }
     }
 }
 </script>
 
 <style scoped>
-
+#MainThree {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
 </style>

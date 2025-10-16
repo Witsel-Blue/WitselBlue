@@ -2,7 +2,7 @@
     <div id='mainvisual'>
         <client-only>
             <MainP5 />
-            <!-- <MainThree /> -->
+            <MainThree />
         </client-only>
         <StarBg />
     </div>
