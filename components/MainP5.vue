@@ -22,6 +22,7 @@ export default {
             const sketch = (s) => {
                 let scaleFactor = 1;
                 let trailBatches = [];
+                let isMobile = false;
                 let lastMouseX = 0;
                 let lastMouseY = 0;
                 let mouseMoveThreshold = 1.5;
@@ -160,6 +161,7 @@ export default {
                 };
 
                 s.mouseMoved = function() {
+                    if (isMobile) return;
                     const distance = s.dist(s.mouseX, s.mouseY, lastMouseX, lastMouseY);
                     if (distance > mouseMoveThreshold) {
                         s.addTrailCircle(s.mouseX, s.mouseY);
@@ -209,13 +211,21 @@ export default {
                     s.noCursor();
                     s.updateScale();
                     
+                    if (typeof window !== 'undefined') {
+                        isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                            || ('ontouchstart' in window)
+                            || (navigator.maxTouchPoints > 0);
+                    }
+                    
                     lastMouseX = s.mouseX;
                     lastMouseY = s.mouseY;
                 };
 
                 s.draw = function () {
                     s.clear();
-                    s.updateAndDrawTrail();
+                    if (!isMobile) {
+                        s.updateAndDrawTrail();
+                    }
                     s.face(s.width / 2, s.height * 2 / 5);
                 };
 
