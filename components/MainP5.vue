@@ -21,6 +21,11 @@ export default {
 
             const sketch = (s) => {
                 let scaleFactor = 1;
+                let trailBatches = [];
+                let lastMouseX = 0;
+                let lastMouseY = 0;
+                let mouseMoveThreshold = 1.5;
+                let trailLength = 60;
 
                 s.updateScale = function () {
                     scaleFactor = Math.min(s.width, s.height) / 800;
@@ -129,16 +134,88 @@ export default {
                     s.pop();
                 };
 
+                // 마우스 궤적
+                s.addTrailCircle = function(x, y) {
+                    const numCircles = Math.floor(s.random(3, 6));
+                    const batch = { circles: [], createdAt: s.millis() };
+                    
+                    for (let i = 0; i < numCircles; i++) {
+                        const offsetX = s.random(-15, 15);
+                        const offsetY = s.random(-15, 15);
+                        
+                        batch.circles.push({
+                            x: x + offsetX,
+                            y: y + offsetY,
+                            opacity: s.random(0.5, 1),
+                            size: s.random(3, 8),
+                            life: 1.0,
+                            maxLife: s.random(0.2, 0.5)
+                        });
+                    }
+                    
+                    trailBatches.push(batch);
+                    if (trailBatches.length > trailLength) {
+                        trailBatches.shift();
+                    }
+                };
+
+                s.mouseMoved = function() {
+                    const distance = s.dist(s.mouseX, s.mouseY, lastMouseX, lastMouseY);
+                    if (distance > mouseMoveThreshold) {
+                        s.addTrailCircle(s.mouseX, s.mouseY);
+                        lastMouseX = s.mouseX;
+                        lastMouseY = s.mouseY;
+                    }
+                };
+
+                s.updateAndDrawTrail = function() {
+                    for (let b = 0; b < trailBatches.length; b++) {
+                        const batch = trailBatches[b];
+                        if (!batch) continue;
+                        
+                        const positionRatio = trailBatches.length <= 1 ? 0 : b / (trailBatches.length - 1);
+                        const batchOpacityFactor = 0.3 + 0.7 * positionRatio;
+                        
+                        for (let i = batch.circles.length - 1; i >= 0; i--) {
+                            const circle = batch.circles[i];
+                            circle.life -= s.deltaTime / 1000 / circle.maxLife;
+                            if (circle.life <= 0) {
+                                batch.circles.splice(i, 1);
+                            }
+                        }
+                        if (batch.circles.length === 0) {
+                            continue;
+                        }
+                        
+                        const maxRenderable = batch.circles.length;
+                        const renderCount = Math.max(1, Math.round((b + 1) / trailBatches.length * maxRenderable));
+                        
+                        for (let i = 0; i < Math.min(renderCount, batch.circles.length); i++) {
+                            const circle = batch.circles[i];
+                            const currentOpacity = circle.opacity * circle.life * batchOpacityFactor;
+                            s.push();
+                            s.noStroke();
+                            s.fill(255, 234, 150, currentOpacity * 255);
+                            s.ellipse(circle.x, circle.y, circle.size, circle.size);
+                            s.pop();
+                        }
+                    }
+                };
+
                 s.setup = function () {
                     const container = s.select('.p5-wrapper');
                     const { width, height } = container.elt.getBoundingClientRect();
                     s.createCanvas(width, height);
                     s.noCursor();
                     s.updateScale();
+                    
+                    lastMouseX = s.mouseX;
+                    lastMouseY = s.mouseY;
                 };
 
                 s.draw = function () {
                     s.clear();
+                    s.updateAndDrawTrail();
                     s.face(s.width / 2, s.height * 2 / 5);
                 };
 
