@@ -389,20 +389,18 @@
         }
 
         .profile {
-            padding: 15vh 0 10vh;
-            height: auto;
+            padding: 10vh 0;
             .inner {
                 display: initial;
             }
             #parallax-img {
                 width: 50%;
                 border-radius: 50%;
-                z-index: 1;
             }
             .arrow {
                 width: 60px;
-                left: 8%;
-                margin-top: -4%;
+                left: 4%;
+                margin-top: -60%;
                 span {
                     font-size: 0.8rem;
                     width: 120%;
@@ -410,7 +408,6 @@
                 }
             }
             .text {
-                z-index: 1;
                 #text-stagger::v-deep {
                     ul {
                         margin-top: 16px;
@@ -439,9 +436,6 @@
                         width: 160px;
                     }
                 }
-            }
-            #text-marquee {
-                z-index: 0;
             }
         }
 
