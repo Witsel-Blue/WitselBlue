@@ -27,15 +27,19 @@ export default {
 
             // 1. Scene: 화면에서 보여주려는 객체를 담는 공간
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf7f7f7);
+            scene.background = null;
 
             // 2. Camera : Scene을 바라볼 시점
             camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 500 );
             camera.position.z = 10;
 
             // 3. Renderer : Scene+Camera, 화면 그려주는 역할
-            const renderer = new THREE.WebGLRenderer();
+            const renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true,
+            });
             renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setClearColor(0x000000, 0);
             result.appendChild( renderer.domElement );
 
             // light
@@ -102,5 +106,8 @@ export default {
         },
     }
 }
-  
 </script>
+
+<style scoped>
+
+</style>

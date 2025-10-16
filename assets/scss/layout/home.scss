@@ -397,6 +397,7 @@
             #parallax-img {
                 width: 50%;
                 border-radius: 50%;
+                z-index: 1;
             }
             .arrow {
                 width: 60px;
@@ -409,6 +410,7 @@
                 }
             }
             .text {
+                z-index: 1;
                 #text-stagger::v-deep {
                     ul {
                         margin-top: 16px;
@@ -437,6 +439,9 @@
                         width: 160px;
                     }
                 }
+            }
+            #text-marquee {
+                z-index: 0;
             }
         }
 
