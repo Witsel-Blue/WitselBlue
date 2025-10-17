@@ -76,7 +76,7 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/archive/dev/kiki_thumb.png'),
-            mainvisual: require('@/assets/img/archive/dev/kiki_thumb.png'),
+            mainvisual: require('@/assets/img/archive/dev/kiki_main.png'),
         },
         content: {
             about: {
@@ -108,7 +108,7 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/archive/dev/zizi_thumb.png'),
-            mainvisual: require('@/assets/img/archive/dev/zizi_thumb.png'),
+            mainvisual: require('@/assets/img/archive/dev/zizi_main.png'),
         },
         content: {
             about: {
@@ -140,7 +140,7 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/archive/dev/witchpot_thumb.png'),
-            mainvisual: require('@/assets/img/archive/dev/witchpot_thumb.png'),
+            mainvisual: require('@/assets/img/archive/dev/witchpot_main.png'),
         },
         content: {
             about: {

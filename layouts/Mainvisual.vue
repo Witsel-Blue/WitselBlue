@@ -5,6 +5,7 @@
             <MainThree />
         </client-only>
         <StarBg />
+        <div class='grad' />
     </div>
 </template>
   
@@ -59,5 +60,12 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 10vh 10vw;
+}
+
+.grad {
+    width: 100%;
+    height: 100%;
+    margin: -10vh auto 0;
+    background: radial-gradient(circle, #191d24 0%, transparent 40%);
 }
 </style>

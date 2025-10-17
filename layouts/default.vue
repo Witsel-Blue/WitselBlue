@@ -107,7 +107,7 @@ export default {
             const homePaths = ['/', '/ko'];
 
             if (!homePaths.includes(path)) {
-                this.showIntro = false;
+                this.$store.commit('setShowIntro', false);
                 return;
             }
 
