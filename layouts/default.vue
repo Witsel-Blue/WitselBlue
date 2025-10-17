@@ -1,27 +1,25 @@
 <template>
     <div id="app">
         <Intro v-if="showIntro" @end="handleIntroEnd" />
-
-        <div v-else>
-            <PageTransition 
-                v-if="showPageTransition"
-                :title="pageTransitionTitle"
-                @end="handlePageTransitionEnd"
-            />
-            <CursorCustom 
-                :extra-class="$store.state.cursor.extraClass"
-                :showLottie="showCursorLottie"
-            />
-            <GNB v-if="!isNoUIPage" />
-            <Nuxt :key="$route.fullPath" />
-            <Footer v-if="showFooter" />
-            <DetailFooter
-                v-if="showDetailFooter"
-                :next-project="nextProject"
-                :next-archive-dev="nextArchiveDev"
-                :next-archive-music="nextArchiveMusic"
-            />
-        </div>
+        
+        <PageTransition 
+            v-if="showPageTransition"
+            :title="pageTransitionTitle"
+            @end="handlePageTransitionEnd"
+        />
+        <CursorCustom 
+            :extra-class="$store.state.cursor.extraClass"
+            :showLottie="showCursorLottie"
+        />
+        <GNB v-if="!isNoUIPage" />
+        <Nuxt :key="$route.fullPath" />
+        <Footer v-if="showFooter" />
+        <DetailFooter
+            v-if="showDetailFooter"
+            :next-project="nextProject"
+            :next-archive-dev="nextArchiveDev"
+            :next-archive-music="nextArchiveMusic"
+        />
     </div>
 </template>
 
@@ -37,11 +35,13 @@ export default {
     components: { Intro, PageTransition, CursorCustom, GNB, Footer, DetailFooter },
     data() {
         return {
-            showIntro: false,
             hasVisitedHome: false,
         };
     },
     computed: {
+        showIntro() {
+            return this.$store.state.showIntro;
+        },
         isNoUIPage() {
             return this.$store.state.isNoUIPage;
         },
@@ -88,9 +88,16 @@ export default {
     },
     methods: {
         handleIntroEnd() {
-            this.showIntro = false;
+            console.log('[default] handleIntroEnd called');
+            this.$store.commit('setShowIntro', false);
             this.hasVisitedHome = true;
             sessionStorage.setItem('introShown', 'true');
+            console.log('[default] sessionStorage set, dispatching intro-end event');
+            
+            this.$nextTick(() => {
+                console.log('[default] Dispatching intro-end event');
+                window.dispatchEvent(new Event('intro-end'));
+            });
         },
         handlePageTransitionEnd() {
             this.$store.commit('setShowPageTransition', false);
@@ -110,11 +117,11 @@ export default {
             const sessionStored = sessionStorage.getItem('introShown') === 'true';
 
             if (isInitialLoad && (!sessionStored || isReload)) {
-                this.showIntro = true;
+                this.$store.commit('setShowIntro', true);
                 sessionStorage.removeItem('introShown');
                 this.hasVisitedHome = false;
             } else {
-                this.showIntro = !this.hasVisitedHome && !sessionStored;
+                this.$store.commit('setShowIntro', !this.hasVisitedHome && !sessionStored);
             }
         },
         initLocale() {

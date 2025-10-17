@@ -7,14 +7,14 @@
         >
             <Mainvisual />
             <div class='inner'>
-                <div class='text'>
+                <div class='text' ref='menuButton'>
                     <span>menu button!</span>
                 </div>
-                <p class='subtext'>
+                <p class='subtext' ref='subtext'>
                     {{ $t('home.mainSub') }}
                 </p>
-                <TextScroll :text="$t('home.mainTitle')" />
-                <ButtonSccrollDown />
+                <TextScroll :text="$t('home.mainTitle')" ref='textScroll' />
+                <ButtonSccrollDown ref='scrollDown' />
             </div>
         </section>
         <div @mouseleave='onMouseLeaveMain'>
@@ -185,6 +185,11 @@ export default {
             this.$store.commit('cursor/setCursorAnimation', Butterfly);
             this.$store.commit('cursor/setCursorLottie', true);
         }
+        this.$nextTick(() => {
+            setTimeout(() => {
+                this.initFadeIn();
+            }, 100);
+        });
     },
     activated() {
         this.initBgScroll();
@@ -212,6 +217,56 @@ export default {
         }
     },
     methods: {
+        initFadeIn() {
+            console.log('[Home] initFadeIn called');
+            const showIntro = this.$store.state.showIntro;
+            
+            if (showIntro === true) {
+                console.log('[Home] Setting initial opacity to 0');
+                this.$nextTick(() => {
+                    if (this.$refs.subtext) {
+                        this.$refs.subtext.style.opacity = '0';
+                    }
+                    if (this.$refs.textScroll) {
+                        this.$refs.textScroll.$el.style.opacity = '0';
+                    }
+                    if (this.$refs.menuButton) {
+                        this.$refs.menuButton.style.opacity = '0';
+                    }
+                    if (this.$refs.scrollDown) {
+                        this.$refs.scrollDown.$el.style.opacity = '0';
+                    }
+                });
+                
+                window.addEventListener('intro-end', this.handleIntroEnd, { once: true });
+            }
+        },
+        handleIntroEnd() {
+            setTimeout(() => {
+                if (this.$refs.subtext) {
+                    gsap.to(this.$refs.subtext, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                }
+            }, 500);
+            
+            setTimeout(() => {
+                if (this.$refs.textScroll) {
+                    gsap.to(this.$refs.textScroll.$el, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                }
+            }, 1000);
+            
+            setTimeout(() => {
+                window.dispatchEvent(new Event('fade-in-gnb'));
+            }, 2000);
+            
+            setTimeout(() => {
+                if (this.$refs.menuButton) {
+                    gsap.to(this.$refs.menuButton, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                }
+                if (this.$refs.scrollDown) {
+                    gsap.to(this.$refs.scrollDown.$el, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                }
+            }, 3000);
+        },
         onMouseEnterMain() {
             this.$store.commit('cursor/setCursorClass', 'cursor-main');
             this.$store.commit('cursor/setCursorAnimation', Butterfly);
@@ -247,7 +302,7 @@ export default {
 
             this.$nextTick(() => {
                 const bumperTop = bumper.getBoundingClientRect().top + window.scrollY;
-                homeEl.style.background = window.scrollY < bumperTop ? '#455A74' : '#f7f7f7';
+                homeEl.style.background = window.scrollY < bumperTop ? '#2D3A4A' : '#f7f7f7';
 
                 this.homeBgST = gsap.to(homeEl, {
                     background: '#f7f7f7',

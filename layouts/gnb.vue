@@ -101,6 +101,11 @@ export default {
         this.winScrolled();
         this.updateGnbColor(this.$route.path);
         this.updateMenuButtonColor();
+        this.$nextTick(() => {
+            setTimeout(() => {
+                this.initFadeIn();
+            }, 100);
+        });
     },
     watch: {
         '$route.path'(newPath) {
@@ -109,6 +114,37 @@ export default {
         }
     },
     methods: {
+        initFadeIn() {
+            console.log('[GNB] initFadeIn called');
+            const isHome = this.$route.path === '/' || this.$route.path === '/ko';
+            console.log('[GNB] isHome:', isHome);
+            
+            if (isHome) {
+                const showIntro = this.$store.state.showIntro;
+                console.log('[GNB] showIntro from store:', showIntro);
+                
+                if (showIntro === true) {
+                    console.log('[GNB] Setting initial opacity to 0');
+                    const gnbEl = this.$refs.gnb;
+                    if (gnbEl) {
+                        gnbEl.style.opacity = '0';
+                        console.log('[GNB] GNB opacity set to 0');
+                    }
+                    
+                    window.addEventListener('fade-in-gnb', this.handleFadeIn, { once: true });
+                }
+            }
+        },
+        handleFadeIn() {
+            console.log('[GNB] handleFadeIn called');
+            const gnbEl = this.$refs.gnb;
+            if (gnbEl && this.$gsap) {
+                console.log('[GNB] Fading in GNB');
+                this.$gsap.to(gnbEl, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+            } else {
+                console.log('[GNB] Cannot fade in - gnbEl:', gnbEl, 'gsap:', this.$gsap);
+            }
+        },
         menuClick() {
             this.open = !this.open;
             this.updateMenuButtonColor();

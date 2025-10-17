@@ -6,6 +6,7 @@ export const state = () => ({
     nextArchiveMusic: null,
     showPageTransition: false,
     pageTransitionTitle: '',
+    showIntro: false,
 });
 
 export const mutations = {
@@ -38,5 +39,8 @@ export const mutations = {
     },
     setPageTransitionTitle(state, title) {
         state.pageTransitionTitle = title;
+    },
+    setShowIntro(state, value) {
+        state.showIntro = value;
     }
 };

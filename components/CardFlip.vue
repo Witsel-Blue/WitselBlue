@@ -97,7 +97,7 @@ export default {
         text-align: center;
         span > p {
             font-size: 0.8rem;
-            color: $blue0;
+            color: $blueblack0;
             margin-bottom: 24px;
         }
         .text-shifting::v-deep span {
@@ -111,7 +111,7 @@ export default {
             p {
                 display: inline-block;
                 font-size: 0.8rem;
-                color: $blue0;
+                color: $blueblack0;
                 &:not(:first-child) {
                     margin-left: 4px;
                 }

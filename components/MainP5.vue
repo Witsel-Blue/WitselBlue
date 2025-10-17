@@ -197,7 +197,7 @@ export default {
                             const currentOpacity = circle.opacity * circle.life * batchOpacityFactor;
                             s.push();
                             s.noStroke();
-                            s.fill(255, 234, 150, currentOpacity * 255);
+                            s.fill(162, 180, 202, currentOpacity * 255);
                             s.ellipse(circle.x, circle.y, circle.size, circle.size);
                             s.pop();
                         }
