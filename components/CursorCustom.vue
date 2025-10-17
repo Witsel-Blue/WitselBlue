@@ -78,15 +78,14 @@ export default {
     },
     methods: {
         isMobileOrTablet() {
-            const ua = navigator.userAgent.toLowerCase();
-            const isMobile = /iphone|ipod|android.*mobile|windows phone/.test(ua);
-            const isTablet = /ipad|android(?!.*mobile)|tablet/.test(ua);
-
-            return isMobile || isTablet;
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (isTouchDevice) return true;
+            
+            const isSmallScreen = window.innerWidth <= 425;
+            return isSmallScreen;
         },
         initCursor() {
             if (this.isMobileOrTablet()) return;
-            if (window.innerWidth <= 425) return;
 
             const gsap = this.$gsap;
             const circle = this.$refs.circle;
@@ -239,6 +238,16 @@ html, a, button {
 
 // mobile
 @media all and (max-width: $mobile) {
+    html, a, button {
+        cursor: initial !important;
+    }
+    .cursor-circle {
+        display: none;
+    }
+}
+
+// 터치 디바이스
+@media (pointer: coarse) {
     html, a, button {
         cursor: initial !important;
     }
