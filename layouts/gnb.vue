@@ -128,18 +128,12 @@ export default {
                     if (nav) {
                         const titleKey = nav.key;
                         const title = this.$t(`gnb.${titleKey}`);
-                        console.log('PageTransition - titleKey:', titleKey, 'title:', title);
                         this.$store.commit('setPageTransitionTitle', title);
                     }
-                    
-                    console.log('Setting showPageTransition to true');
                     this.$store.commit('setShowPageTransition', true);
-                    console.log('Store state:', this.$store.state.showPageTransition);
-                    
                     setTimeout(() => {
-                        console.log('Navigating to:', localizedPath);
                         this.$router.push(localizedPath);
-                    }, 1200);
+                    }, 1500);
                 } else {
                     this.$router.push(localizedPath);
                 }

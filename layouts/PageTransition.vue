@@ -44,12 +44,15 @@ export default {
 
             setTimeout(() => {
                 el.classList.add('active');
-                this.$emit('end');
             }, 1200);
 
             setTimeout(() => {
-                el.classList.add('active2');
+                this.$emit('end');
             }, 2000);
+
+            setTimeout(() => {
+                el.classList.add('active2');
+            }, 2400);
         },
     }
 }
