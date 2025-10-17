@@ -24,7 +24,9 @@ export default {
         }
     },
     mounted() {
+        console.log('[PageTransition] mounted with title:', this.title);
         this.isMobile = window.innerWidth <= 425;
+        console.log('[PageTransition] isMobile:', this.isMobile);
 
         if (this.isMobile) {
             this.$emit('end');

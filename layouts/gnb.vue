@@ -3,8 +3,8 @@
         <nav class='pc'>
             <ul class='nav'>
                 <li v-for='nav in navigation' :key='nav.name' class='mouse-hover1' ref='menu'>
-                    <Nuxt-link :to='nav.path' v-html='nav.name' 
-                        @click.native.prevent='linkClick(nav.path)'
+                    <a href='#' v-html='nav.name' 
+                        @click.prevent='linkClick(nav.path)'
                     />
                 </li>
                 <li>
@@ -97,7 +97,7 @@ export default {
         }
     },
     mounted() {
-        this.open = false; // ensure closed on first paint
+        this.open = false;
         this.winScrolled();
         this.updateGnbColor(this.$route.path);
         this.updateMenuButtonColor();
@@ -114,6 +114,7 @@ export default {
             this.updateMenuButtonColor();
         },
         linkClick(path) {
+            console.log('[gnb] linkClick called with path:', path);
             if (!path) return;
             this.open = false;
             const currentLocale = this.$i18n.locale;
@@ -122,7 +123,26 @@ export default {
             if (this.$route.path === localizedPath) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                this.$router.push(localizedPath);
+                if (path === '/projects' || path === '/archive') {
+                    const nav = this.navigation.find(n => n.path === path);
+                    if (nav) {
+                        const titleKey = nav.key;
+                        const title = this.$t(`gnb.${titleKey}`);
+                        console.log('PageTransition - titleKey:', titleKey, 'title:', title);
+                        this.$store.commit('setPageTransitionTitle', title);
+                    }
+                    
+                    console.log('Setting showPageTransition to true');
+                    this.$store.commit('setShowPageTransition', true);
+                    console.log('Store state:', this.$store.state.showPageTransition);
+                    
+                    setTimeout(() => {
+                        console.log('Navigating to:', localizedPath);
+                        this.$router.push(localizedPath);
+                    }, 1200);
+                } else {
+                    this.$router.push(localizedPath);
+                }
             }
             this.updateMenuButtonColor();
         },

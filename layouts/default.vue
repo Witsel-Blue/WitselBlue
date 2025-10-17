@@ -3,6 +3,11 @@
         <Intro v-if="showIntro" @end="handleIntroEnd" />
 
         <div v-else>
+            <PageTransition 
+                v-if="showPageTransition"
+                :title="pageTransitionTitle"
+                @end="handlePageTransitionEnd"
+            />
             <CursorCustom 
                 :extra-class="$store.state.cursor.extraClass"
                 :showLottie="showCursorLottie"
@@ -22,13 +27,14 @@
 
 <script>
 import Intro from '@/layouts/Intro.vue';
+import PageTransition from '@/layouts/PageTransition.vue';
 import CursorCustom from '@/components/CursorCustom.vue';
 import GNB from '@/layouts/gnb.vue';
 import Footer from '@/layouts/Footer.vue';
 import DetailFooter from '@/layouts/DetailFooter.vue';
 
 export default {
-    components: { Intro, CursorCustom, GNB, Footer, DetailFooter },
+    components: { Intro, PageTransition, CursorCustom, GNB, Footer, DetailFooter },
     data() {
         return {
             showIntro: false,
@@ -59,6 +65,16 @@ export default {
         showCursorLottie() {
             return this.$store.state.cursor.showLottie || false;
         },
+        showPageTransition() {
+            const show = this.$store.state.showPageTransition;
+            console.log('[default.vue] showPageTransition computed:', show);
+            return show;
+        },
+        pageTransitionTitle() {
+            const title = this.$store.state.pageTransitionTitle;
+            console.log('[default.vue] pageTransitionTitle computed:', title);
+            return title;
+        },
     },
     mounted() {
         this.initLocale();
@@ -75,6 +91,9 @@ export default {
             this.showIntro = false;
             this.hasVisitedHome = true;
             sessionStorage.setItem('introShown', 'true');
+        },
+        handlePageTransitionEnd() {
+            this.$store.commit('setShowPageTransition', false);
         },
         checkIntro(isInitialLoad) {
             const path = this.$route.path;
