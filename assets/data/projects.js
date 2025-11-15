@@ -6,7 +6,7 @@ export default [
             ko: '담곤 연구소',
         },
         desc: {
-            duration: { start: '2025.07', end: '2025.09', },
+            duration: { start: '2025.07', end: '2025.10', },
             client: {
                 en: 'Damgon Research',
                 ko: '담곤 연구소',
@@ -39,7 +39,7 @@ export default [
             },
         },
         link: {
-            href: '',
+            href: 'https://damgon.vercel.app',
             target: '_blank',
             text: {
                 en: 'visit site',
@@ -49,11 +49,20 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/damgon_thumb.png'),
             mainvisual: require('@/assets/img/projects/damgon_main.png'),
+            pc1: require('@/assets/img/projects/damgon_pc1.png'),
+            pc2: require('@/assets/img/projects/damgon_pc2.png'),
+            pc3: require('@/assets/img/projects/damgon_pc3.png'),
+            mb1: require('@/assets/img/projects/damgon_mb1.png'),
+            mb2: require('@/assets/img/projects/damgon_mb2.png'),
+            mb3: require('@/assets/img/projects/damgon_mb3.png'),
+            pc4: require('@/assets/img/projects/damgon_pc4.png'),
+            pc5: require('@/assets/img/projects/damgon_pc5.png'),
+            pc6: require('@/assets/img/projects/damgon_pc6.png'),
         },
         content: {
             about: {
-                en: 'A website for insect research institute, Damgon Research.',
-                ko: '담곤 연구소를 위한<br class="mb"> 곤충 연구 웹사이트입니다.',
+                en: 'A website for insect research institute, Damgon Research.<br>Developed with React and Next.js, <br> and you can write, manage articles<br class="mb"> with admin pages.<br>Supbase and Vecel are used for <br class="mb">data management and distribution.',
+                ko: '담곤 연구소를 위한<br class="mb"> 곤충 연구 웹사이트입니다.<br>React와 Next.js를 사용하여 개발하였고, <br> admin 페이지를 통해<br class="mb"> 글을 등록, 관리할 수 있습니다.<br>Supbase와 Vecel을 통해 데이터 관리 및<br class="mb"> 배포까지 진행하였습니다.',
             },
         },
     },

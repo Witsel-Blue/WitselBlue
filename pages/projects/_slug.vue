@@ -116,6 +116,14 @@
                     </p>
                 </div>
             </section>
+
+            <section class='img-pc2' v-if='project.images.pc4'>
+                <div class='inner'>
+                    <img :src='project.images.pc4' data-aos='fade-up'>
+                    <img v-if='project.images.pc5' :src='project.images.pc5' data-aos='fade-up'>
+                    <img v-if='project.images.pc6' :src='project.images.pc6' data-aos='fade-up'>
+                </div>
+            </section>
             
         </div>
     </div>

@@ -134,9 +134,13 @@
         gap: 32px;
     }
 
-    .img-pc {
+    .img-pc,
+    .img-pc2 {
         img:not(:first-child) {
             margin-top: 5vh;
+        }
+        img {
+            box-shadow: $shadow-card;
         }
     }
 
