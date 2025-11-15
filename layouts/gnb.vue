@@ -109,14 +109,20 @@ export default {
     },
     watch: {
         '$route.path'(newPath) {
-            this.updateGnbColor(newPath);
-            this.updateMenuButtonColor();
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    console.log('[GNB] Route changed to:', newPath);
+                    this.updateGnbColor(newPath);
+                    this.updateMenuButtonColor();
+                }, 300);
+            });
         }
     },
     methods: {
         initFadeIn() {
             console.log('[GNB] initFadeIn called');
-            const isHome = this.$route.path === '/' || this.$route.path === '/ko';
+            const normalizedPath = this.$route.path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko';
             console.log('[GNB] isHome:', isHome);
             
             if (isHome) {
@@ -158,6 +164,10 @@ export default {
             
             if (this.$route.path === localizedPath) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    this.updateGnbColor(path);
+                    this.updateMenuButtonColor();
+                }, 300);
             } else {
                 if (path === '/projects' || path === '/archive') {
                     const nav = this.navigation.find(n => n.path === path);
@@ -172,6 +182,12 @@ export default {
                     }, 1500);
                 } else {
                     this.$router.push(localizedPath);
+                    if (path === '/') {
+                        console.log('[gnb] Dispatching reset-home-bg event');
+                        setTimeout(() => {
+                            window.dispatchEvent(new Event('reset-home-bg'));
+                        }, 500);
+                    }
                 }
             }
             this.updateMenuButtonColor();
@@ -197,7 +213,8 @@ export default {
                 return;
             }
 
-            const isHome = this.$route.path === '/' || this.$route.path === '/ko';
+            const normalizedPath = this.$route.path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko';
 
             if (!isHome) {
                 menuButtonPaths.forEach(p => p.setAttribute('fill', '#3E3C3C'));
@@ -231,7 +248,10 @@ export default {
             const changeLangEl = document.querySelector('#change-lang');
             const langButtons = changeLangEl ? changeLangEl.querySelectorAll('button') : [];
 
-            if (path === '/' || path === '/ko') {
+            const normalizedPath = path.replace(/\/$/, '');
+            const isHomePath = normalizedPath === '' || normalizedPath === '/ko';
+
+            if (isHomePath) {
                 this.initGnbColorScroll(menuList, langButtons);
             } else {
                 menuList.forEach(m => {
@@ -252,7 +272,8 @@ export default {
 
             const bumper = document.querySelector('.bumper');
             const path = this.$route.path;
-            const useWhite = path === '/' || path === '/ko';
+            const normalizedPath = path.replace(/\/$/, '');
+            const isHomePath = normalizedPath === '' || normalizedPath === '/ko';
 
             if (!bumper) {
                 menus.forEach(m => {
@@ -270,6 +291,17 @@ export default {
                 return;
             }
 
+            let useWhite = true;
+            
+            if (window.scrollY === 0) {
+                useWhite = true;
+            } else {
+                const rect = bumper.getBoundingClientRect();
+                useWhite = rect.top > 0;
+            }
+
+            console.log('[GNB] initGnbColorScroll - scrollY:', window.scrollY, 'useWhite:', useWhite, 'path:', path);
+
             const menuColor = useWhite ? '#f7f7f7' : '#3E3C3C';
 
             menus.forEach(m => {
@@ -285,7 +317,8 @@ export default {
                 btn.style.setProperty('--btn-color', menuColor);
             });
 
-            if (!useWhite) return;
+            // 홈 경로가 아니면 스크롤 애니메이션 설정 안 함
+            if (!isHomePath) return;
 
             menus.forEach(m => {
                 const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
@@ -329,6 +362,10 @@ export default {
                     }
                 });
             });
+
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 100);
         },
 
     }

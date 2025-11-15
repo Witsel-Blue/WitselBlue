@@ -84,7 +84,8 @@ export default {
 
             this.scrollTrigger = this.scrollTween.scrollTrigger;
 
-            const isHome = this.$route.path === '/' || this.$route.path === '/ko'; 
+            const normalizedPath = this.$route.path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko'; 
             if (isHome) {
                 this.initPathColor();
             }
@@ -106,6 +107,16 @@ export default {
                     top: 0,
                     behavior: 'smooth',
                 });
+                
+                // 홈 페이지일 경우 배경색 재설정 이벤트 발송
+                const normalizedPath = this.$route.path.replace(/\/$/, '');
+                const isHome = normalizedPath === '' || normalizedPath === '/ko';
+                if (isHome) {
+                    console.log('[pager] Dispatching reset-home-bg event');
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('reset-home-bg'));
+                    }, 500);
+                }
             }
         },
         initPathColor() {
@@ -113,7 +124,10 @@ export default {
             const bumper = document.querySelector('.bumper');
             if (!path || !bumper) return;
 
-            if (this.$route.path === '/') {
+            const normalizedPath = this.$route.path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko';
+            
+            if (isHome) {
                 gsap.set(path, { fill: '#f7f7f7' });
             }
 
@@ -135,7 +149,10 @@ export default {
         updatePathColor(path) {
             const pathEl = this.$el?.querySelector('svg path');
 
-            if (path === '/' || path === '/ko') {
+            const normalizedPath = path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko';
+
+            if (isHome) {
                 this.clientPathColor = '#f7f7f7';
 
                 if (this.pathColorST) {
@@ -151,8 +168,11 @@ export default {
                     this.scrollTrigger = null;
                 }
 
+                // bumper가 로드될 때까지 기다린 후 색상 애니메이션 설정
                 this.$nextTick(() => {
-                    this.waitForBumper();
+                    setTimeout(() => {
+                        this.waitForBumper();
+                    }, 300);
                 });
             } else {
                 this.clientPathColor = '#3E3C3C';
@@ -184,7 +204,9 @@ export default {
             if (path) path.setAttribute('fill', this.clientPathColor);
         },
         waitForBumper(retries = 0) {
-            if (this.$route.path !== '/') return;
+            const normalizedPath = this.$route.path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko';
+            if (!isHome) return;
 
             const bumper = document.querySelector('.bumper');
             if (!bumper && retries < 10) {
@@ -193,8 +215,20 @@ export default {
             }
 
             const pathEl = this.$el?.querySelector('svg path');
+            
+            // 스크롤 위치에 따라 초기 색상 결정
+            let useWhite = true;
+            if (window.scrollY === 0) {
+                useWhite = true;
+            } else if (bumper) {
+                const rect = bumper.getBoundingClientRect();
+                useWhite = rect.top > 0;
+            }
+            
+            const initialColor = useWhite ? '#f7f7f7' : '#3E3C3C';
+            
             if (pathEl) {
-                gsap.set(pathEl, { fill: '#f7f7f7' });
+                gsap.set(pathEl, { fill: initialColor });
             }
 
             if (this.pathColorST) {
@@ -202,7 +236,10 @@ export default {
                 this.pathColorST = null;
             }
 
-            this.initPathColor();
+            // 스크롤 애니메이션 설정
+            if (bumper) {
+                this.initPathColor();
+            }
         },
 
     },

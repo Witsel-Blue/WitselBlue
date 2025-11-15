@@ -170,6 +170,30 @@ export default {
         this.setVhFix();
         window.addEventListener('resize', this.setVhFix);
 
+        this.handleResetBgScroll = () => {
+            console.log('[Home] handleResetBgScroll event received');
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    if (this.gsapContext) {
+                        console.log('[Home] Reverting gsapContext');
+                        this.gsapContext.revert();
+                        this.gsapContext = null;
+                    }
+                    if (this.selectedST && typeof this.selectedST.kill === 'function') {
+                        console.log('[Home] Killing selectedST');
+                        try { this.selectedST.kill(true); } catch (err) {}
+                        this.selectedST = null;
+                    }
+                    
+                    this.initBgScroll();
+                    this.scrollVertical();
+                    
+                    console.log('[Home] Background and horizontal scroll reset complete');
+                }, 300);
+            });
+        };
+        window.addEventListener('reset-home-bg', this.handleResetBgScroll);
+
         this.initBgScroll();
 
         this.initProfileImgHover();
@@ -192,10 +216,15 @@ export default {
         });
     },
     activated() {
-        this.initBgScroll();
+        this.$nextTick(() => {
+            setTimeout(() => {
+                this.initBgScroll();
+            }, 300);
+        });
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.setVhFix);
+        window.removeEventListener('reset-home-bg', this.handleResetBgScroll);
         if (this.gsapContext) this.gsapContext.revert();
         if (this.homeBgST) {
             this.homeBgST.kill();
@@ -352,7 +381,10 @@ export default {
         initBgScroll() {
             const bumper = this.$refs.bumper;
             const homeEl = this.$refs.home;
-            if (!bumper || !homeEl) return;
+            if (!bumper || !homeEl) {
+                console.log('[Home] initBgScroll - bumper or homeEl not found');
+                return;
+            }
 
             if (this.homeBgST) {
                 this.homeBgST.kill();
@@ -360,9 +392,21 @@ export default {
             }
 
             this.$nextTick(() => {
-                const bumperTop = bumper.getBoundingClientRect().top + window.scrollY;
-                homeEl.style.background = window.scrollY < bumperTop ? '#2D3A4A' : '#f7f7f7';
+                // 현재 스크롤 위치에 따라 초기 배경색 결정
+                let useDarkBg = true;
+                if (window.scrollY === 0) {
+                    useDarkBg = true;
+                } else {
+                    const rect = bumper.getBoundingClientRect();
+                    useDarkBg = rect.top > 0;
+                }
 
+                const initialBg = useDarkBg ? '#2D3A4A' : '#f7f7f7';
+                homeEl.style.background = initialBg;
+
+                console.log('[Home] initBgScroll - scrollY:', window.scrollY, 'useDarkBg:', useDarkBg);
+
+                // 스크롤 애니메이션 설정
                 this.homeBgST = gsap.to(homeEl, {
                     background: '#f7f7f7',
                     ease: 'none',
@@ -394,11 +438,25 @@ export default {
 
             const ctx = gsap.context(() => {
                 const section = this.$refs.selected;
-                if (!section) return;
+                if (!section) {
+                    console.log('[Home] scrollVertical - section not found');
+                    return;
+                }
                 const container = section.querySelector('.container');
-                if (!container) return;
+                if (!container) {
+                    console.log('[Home] scrollVertical - container not found');
+                    return;
+                }
                 const panels = container.querySelectorAll(':scope > .panel');
-                if (!panels.length) return;
+                if (!panels.length) {
+                    console.log('[Home] scrollVertical - panels not found');
+                    return;
+                }
+
+                console.log('[Home] scrollVertical - setting up horizontal scroll', {
+                    panelsCount: panels.length,
+                    containerWidth: container.scrollWidth
+                });
 
                 container.style.display = 'flex';
                 container.style.willChange = 'transform';
@@ -413,15 +471,22 @@ export default {
                         pin: true,
                         scrub: 0.5,
                         end: () => `+=${container.scrollWidth}`,
+                        invalidateOnRefresh: true
                     }
                 });
 
                 if (tween && tween.scrollTrigger) {
                     this.selectedST = tween.scrollTrigger;
+                    console.log('[Home] scrollVertical - ScrollTrigger created');
                 }
             }, this.$refs.selected);
 
             this.gsapContext = ctx;
+            
+            this.$nextTick(() => {
+                ScrollTrigger.refresh();
+                console.log('[Home] scrollVertical - ScrollTrigger refreshed');
+            });
         },
         smoothScrollTo(targetY, duration = 800, callback) {
             const startY = window.scrollY;
