@@ -95,14 +95,14 @@ export default {
                 this.scrollTriggerInstance.kill();
             }
 
-            const yDistance = section.offsetHeight - img.offsetHeight;
+            const yDistance = (section.offsetHeight - img.offsetHeight) * 0.5;
 
             const animation = gsap.to(img, {
                 scrollTrigger: {
                     trigger: section,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: 1.5,
+                    scrub: 3,
                     invalidateOnRefresh: true
                 },
                 y: yDistance,
@@ -137,7 +137,7 @@ export default {
         object-fit: cover;
         top: 0;
         width: 100%;
-        height: 120%;
+        height: 110%;
     }
 }
 </style>

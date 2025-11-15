@@ -108,6 +108,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/myportfolio_thumb.png'),
             mainvisual: require('@/assets/img/projects/myportfolio_main.png'),
+            mainvisual_mb: require('@/assets/img/projects/myportfolio_main_mb.png'),
             gif: require('@/assets/img/projects/myportfolio_gif.gif'),
             pc1: require('@/assets/img/projects/myportfolio_pc1.png'),
             pc2: require('@/assets/img/projects/myportfolio_pc2.png'),
@@ -174,6 +175,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/monimo_thumb.png'),
             mainvisual: require('@/assets/img/projects/monimo_main.png'),
+            mainvisual_mb: require('@/assets/img/projects/monimo_main_mb.png'),
             mb1: require('@/assets/img/projects/monimo_mb1.png'),
             mb2: require('@/assets/img/projects/monimo_mb2.png'),
             mb3: require('@/assets/img/projects/monimo_mb3.png'),
@@ -235,7 +237,6 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/416_thumb.png'),
             mainvisual: require('@/assets/img/projects/416_main.png'),
-            // gif: require('@/assets/img/projects/416_gif.gif'),
             pc1: require('@/assets/img/projects/416_pc1.png'),
             pc2: require('@/assets/img/projects/416_pc2.png'),
             pc3: require('@/assets/img/projects/416_pc3.png'),
@@ -300,7 +301,6 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/dcamp_thumb.png'),
             mainvisual: require('@/assets/img/projects/dcamp_main.png'),
-            // gif: require('@/assets/img/projects/dcamp_gif.gif'),
             pc1: require('@/assets/img/projects/dcamp_pc1.png'),
             pc2: require('@/assets/img/projects/dcamp_pc2.png'),
             pc3: require('@/assets/img/projects/dcamp_pc3.png'),
@@ -507,6 +507,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/rnjob_thumb.png'),
             mainvisual: require('@/assets/img/projects/rnjob_main.png'),
+            mainvisual_mb: require('@/assets/img/projects/rnjob_main_mb.png'),
             pc1: '',
             mb1: require('@/assets/img/projects/rnjob_mb1.png'),
             mb2: require('@/assets/img/projects/rnjob_mb2.png'),
@@ -569,7 +570,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/oxfam_thumb.png'),
             mainvisual: require('@/assets/img/projects/oxfam_main.png'),
-            // gif: require('@/assets/img/projects/oxfam_gif.gif'),
+            mainvisual_mb: require('@/assets/img/projects/oxfam_main_mb.png'),
             pc1: require('@/assets/img/projects/oxfam_pc1.png'),
             pc2: require('@/assets/img/projects/oxfam_pc2.png'),
             pc3: require('@/assets/img/projects/oxfam_pc3.png'),

@@ -20,7 +20,8 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/archive/dev/beads_thumb.png'),
-            mainvisual: require('@/assets/img/archive/dev/beads_thumb.png'),
+            mainvisual: require('@/assets/img/archive/dev/beads_main.png'),
+            mainvisual_mb: require('@/assets/img/archive/dev/beads_main_mb.png'),
         },
         content: {
             about: {
@@ -44,7 +45,8 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/archive/dev/3dgallery_thumb.png'),
-            mainvisual: require('@/assets/img/archive/dev/3dgallery_thumb.png'),
+            mainvisual: require('@/assets/img/archive/dev/3dgallery_main.png'),
+            mainvisual_mb: require('@/assets/img/archive/dev/3dgallery_main_mb.png'),
         },
         content: {
             about: {
@@ -77,6 +79,7 @@ export default [
         images: {
             thumb: require('@/assets/img/archive/dev/kiki_thumb.png'),
             mainvisual: require('@/assets/img/archive/dev/kiki_main.png'),
+            mainvisual_mb: require('@/assets/img/archive/dev/kiki_main_mb.png'),
         },
         content: {
             about: {
@@ -109,6 +112,7 @@ export default [
         images: {
             thumb: require('@/assets/img/archive/dev/zizi_thumb.png'),
             mainvisual: require('@/assets/img/archive/dev/zizi_main.png'),
+            mainvisual_mb: require('@/assets/img/archive/dev/zizi_main_mb.png'),
         },
         content: {
             about: {
@@ -141,6 +145,7 @@ export default [
         images: {
             thumb: require('@/assets/img/archive/dev/witchpot_thumb.png'),
             mainvisual: require('@/assets/img/archive/dev/witchpot_main.png'),
+            mainvisual_mb: require('@/assets/img/archive/dev/witchpot_main_mb.png'),
         },
         content: {
             about: {
@@ -164,7 +169,8 @@ export default [
         },
         images: {
             thumb: require('@/assets/img/archive/dev/redlightgreenlight_thumb.png'),
-            mainvisual: require('@/assets/img/archive/dev/redlightgreenlight_thumb.png'),
+            mainvisual: require('@/assets/img/archive/dev/redlightgreenlight_main.png'),
+            mainvisual_mb: require('@/assets/img/archive/dev/redlightgreenlight_main_mb.png'),
         },
         content: {
             about: {
