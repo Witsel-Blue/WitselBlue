@@ -52,13 +52,10 @@ export default {
             const container = document.getElementById('MainThree');
             renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setClearColor(0x000000, 0); // 투명 배경
+            renderer.setClearColor(0x000000, 0);
             container.appendChild(renderer.domElement);
             
-            // 구체들 생성
             this.createSpheres();
-            
-            // 이벤트 리스너 등록
             this.setupEventListeners();
         },
         
@@ -104,9 +101,7 @@ export default {
             
             // 디바이스 오리엔테이션 이벤트 (모바일/태블릿)
             if (isMobile) {
-                // iOS 13+에서는 권한 요청이 필요
                 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    // 사용자 제스처 후 권한 요청
                     const requestPermission = () => {
                         DeviceOrientationEvent.requestPermission()
                             .then(response => {
@@ -116,8 +111,6 @@ export default {
                             })
                             .catch(console.error);
                     };
-                    
-                    // 터치 이벤트로 권한 요청 트리거
                     document.addEventListener('touchstart', requestPermission, { once: true });
                 } else {
                     // Android나 구형 iOS
@@ -135,10 +128,8 @@ export default {
         
         onDeviceOrientation(event) {
             if (isMobile) {
-                // 베타(좌우 기울기)와 감마(앞뒤 기울기) 값을 사용
-                // 값의 범위를 조정하여 마우스 움직임과 비슷한 효과 생성
-                deviceOrientationX = (event.beta || 0) * 0.1;  // 좌우 기울기
-                deviceOrientationY = (event.gamma || 0) * 0.1; // 앞뒤 기울기
+                deviceOrientationX = (event.beta || 0) * 0.1;
+                deviceOrientationY = (event.gamma || 0) * 0.1;
             }
         },
         
@@ -187,13 +178,11 @@ export default {
         cleanup() {
             if (typeof window === 'undefined') return;
             
-            // 이벤트 리스너 제거
             document.removeEventListener('mousemove', this.onMouseMove, false);
             window.removeEventListener('resize', this.onWindowResize, false);
             window.removeEventListener('deviceorientation', this.onDeviceOrientation, false);
             document.removeEventListener('touchstart', this.requestPermission, false);
             
-            // 렌더러 정리
             if (renderer) {
                 renderer.dispose();
                 const container = document.getElementById('MainThree');
@@ -202,7 +191,6 @@ export default {
                 }
             }
             
-            // 씬 정리
             if (scene) {
                 spheres.forEach(sphere => {
                     scene.remove(sphere);

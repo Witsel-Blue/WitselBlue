@@ -644,7 +644,7 @@ export default [
         content: {
             about: {
                 en: 'Content platform <br class="mb">where personal preferences <br class="mb">and product stories meet.<br>The site introduces social economy <br class="mb">products and brands.<br>Developed in blog format providing <br class="mb">easy writing system for site operators.',
-                ko: '나의 취향과 상품의 스토리가<br class="mb"> 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴<br class="mb"> 사회적경제의 상품과 브랜드를 소개.<br> 네이버 블로그 형식으로 운영에서 쉽게<br class="mb"> 글을 작성할 수 있도록 개발.<br>관리자가 더 편하게 글을 쓸 수 있도록 가이드 페이지를 따로 제작했습니다.',
+                ko: '나의 취향과 상품의 스토리가<br class="mb"> 만나는 콘텐츠 플랫폼으로,<br> 세상을 바꾸는 실험과 시도가 담긴<br class="mb"> 사회적경제의 상품과 브랜드를 소개.<br> 네이버 블로그 형식으로 운영에서 쉽게<br class="mb"> 글을 작성할 수 있도록 개발.<br>관리자가 더 편하게 글을 쓸 수 있도록<br class="mb"> 가이드 페이지를 따로 제작했습니다.',
             },
         },
     },

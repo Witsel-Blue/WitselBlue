@@ -5,7 +5,7 @@
             @mouseleave='onMouseLeaveMain'
             :class="{ 'use-vh-fix': useVhFix }"
         >
-            <Mainvisual />
+            <Mainvisual ref='mainvisual' />
             <div class='inner'>
                 <div class='text' ref='menuButton'>
                     <span>menu button!</span>
@@ -218,54 +218,113 @@ export default {
     },
     methods: {
         initFadeIn() {
-            console.log('[Home] initFadeIn called');
             const showIntro = this.$store.state.showIntro;
             
             if (showIntro === true) {
-                console.log('[Home] Setting initial opacity to 0');
                 this.$nextTick(() => {
+                    if (this.$refs.mainvisual) {
+                        gsap.set(this.$refs.mainvisual.$el, { 
+                            opacity: 0,
+                            scale: 0.4
+                        });
+                    }
                     if (this.$refs.subtext) {
-                        this.$refs.subtext.style.opacity = '0';
+                        const viewportCenter = window.innerHeight / 2;
+                        const elementTop = this.$refs.subtext.getBoundingClientRect().top;
+                        const offsetY = viewportCenter - elementTop - (window.innerHeight * 0.08) - 16;
+                        gsap.set(this.$refs.subtext, { 
+                            opacity: 0, 
+                            y: offsetY
+                        });
                     }
                     if (this.$refs.textScroll) {
-                        this.$refs.textScroll.$el.style.opacity = '0';
+                        const viewportCenter = window.innerHeight / 2;
+                        const elementTop = this.$refs.textScroll.$el.getBoundingClientRect().top;
+                        const offsetY = viewportCenter - elementTop - (window.innerHeight * 0.08);
+                        gsap.set(this.$refs.textScroll.$el, { 
+                            opacity: 0, 
+                            y: offsetY
+                        });
                     }
                     if (this.$refs.menuButton) {
-                        this.$refs.menuButton.style.opacity = '0';
+                        gsap.set(this.$refs.menuButton, { opacity: 0 });
                     }
                     if (this.$refs.scrollDown) {
-                        this.$refs.scrollDown.$el.style.opacity = '0';
+                        gsap.set(this.$refs.scrollDown.$el, { opacity: 0 });
                     }
                 });
                 
                 window.addEventListener('intro-end', this.handleIntroEnd, { once: true });
             }
         },
-        handleIntroEnd() {
+        handleIntroEnd() {            
+            // 1. Subtext - 페이드인
             setTimeout(() => {
                 if (this.$refs.subtext) {
-                    gsap.to(this.$refs.subtext, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                    gsap.to(this.$refs.subtext, { 
+                        opacity: 1, 
+                        ease: 'power3.out' 
+                    });
                 }
-            }, 500);
-            
+            }, 0);
+
+            // 2. TextScroll - 페이드인
             setTimeout(() => {
                 if (this.$refs.textScroll) {
-                    gsap.to(this.$refs.textScroll.$el, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                    gsap.to(this.$refs.textScroll.$el, { 
+                        opacity: 1, 
+                    });
+                }
+            }, 500);
+
+            // 3. Subtext - 화면 중앙에서 원래 위치로 이동
+            setTimeout(() => {
+                if (this.$refs.subtext) {
+                    gsap.to(this.$refs.subtext, { 
+                        y: 0, 
+                        duration: 1.2, 
+                        ease: 'power3.out' 
+                    });
+                }
+                if (this.$refs.textScroll) {
+                    gsap.to(this.$refs.textScroll.$el, { 
+                        y: 0, 
+                        duration: 1.2, 
+                        ease: 'power3.out' 
+                    });
                 }
             }, 1000);
+
+            // 3. Mainvisual - 페이드인 + 스케일 확대
+            setTimeout(() => {
+                if (this.$refs.mainvisual) {
+                    gsap.to(this.$refs.mainvisual.$el, { 
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1.2, 
+                        ease: 'power3.out' 
+                    });
+                }
+            }, 1500);
             
+            // 5. GNB & MenuButton & ScrollDown - 페이드인
             setTimeout(() => {
                 window.dispatchEvent(new Event('fade-in-gnb'));
-            }, 2000);
-            
-            setTimeout(() => {
                 if (this.$refs.menuButton) {
-                    gsap.to(this.$refs.menuButton, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                    gsap.to(this.$refs.menuButton, { 
+                        opacity: 1, 
+                        duration: 0.8, 
+                        ease: 'power2.out' 
+                    });
                 }
                 if (this.$refs.scrollDown) {
-                    gsap.to(this.$refs.scrollDown.$el, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+                    gsap.to(this.$refs.scrollDown.$el, { 
+                        opacity: 1, 
+                        duration: 0.8, 
+                        ease: 'power2.out' 
+                    });
                 }
-            }, 3000);
+            }, 2000);
         },
         onMouseEnterMain() {
             this.$store.commit('cursor/setCursorClass', 'cursor-main');
