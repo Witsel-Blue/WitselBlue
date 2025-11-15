@@ -170,6 +170,7 @@ export default {
                     }
                 };
 
+                // 커서 경로 그리기
                 s.updateAndDrawTrail = function() {
                     for (let b = 0; b < trailBatches.length; b++) {
                         const batch = trailBatches[b];
@@ -197,7 +198,7 @@ export default {
                             const currentOpacity = circle.opacity * circle.life * batchOpacityFactor;
                             s.push();
                             s.noStroke();
-                            s.fill(162, 180, 202, currentOpacity * 255);
+                            s.fill(246, 246, 246, currentOpacity * 255);
                             s.ellipse(circle.x, circle.y, circle.size, circle.size);
                             s.pop();
                         }

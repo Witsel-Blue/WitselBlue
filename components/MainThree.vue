@@ -101,19 +101,28 @@ export default {
             
             // 디바이스 오리엔테이션 이벤트 (모바일/태블릿)
             if (isMobile) {
+                console.log('Mobile device detected, setting up device orientation...');
+                
                 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    console.log('iOS 13+ detected, permission required');
                     const requestPermission = () => {
+                        console.log('Requesting device orientation permission...');
                         DeviceOrientationEvent.requestPermission()
                             .then(response => {
+                                console.log('Permission response:', response);
                                 if (response === 'granted') {
                                     window.addEventListener('deviceorientation', this.onDeviceOrientation, false);
+                                    console.log('Device orientation event listener added');
                                 }
                             })
-                            .catch(console.error);
+                            .catch(err => {
+                                console.error('Permission request failed:', err);
+                            });
                     };
                     document.addEventListener('touchstart', requestPermission, { once: true });
                 } else {
                     // Android나 구형 iOS
+                    console.log('Android or old iOS detected, adding listener directly');
                     window.addEventListener('deviceorientation', this.onDeviceOrientation, false);
                 }
             }
@@ -127,9 +136,17 @@ export default {
         },
         
         onDeviceOrientation(event) {
-            if (isMobile) {
-                deviceOrientationX = (event.beta || 0) * 0.1;
-                deviceOrientationY = (event.gamma || 0) * 0.1;
+            if (isMobile && event.beta !== null && event.gamma !== null) {
+
+                deviceOrientationY = Math.max(-30, Math.min(30, event.gamma)) * 2;
+                deviceOrientationX = Math.max(-30, Math.min(30, event.beta - 45)) * 2;
+                
+                console.log('DeviceOrientation:', {
+                    beta: event.beta,
+                    gamma: event.gamma,
+                    targetX: deviceOrientationX,
+                    targetY: deviceOrientationY
+                });
             }
         },
         
@@ -153,8 +170,8 @@ export default {
             
             if (isMobile) {
                 // 모바일: 디바이스 기울기 사용
-                targetX = deviceOrientationX;
-                targetY = deviceOrientationY;
+                targetX = deviceOrientationY;
+                targetY = -deviceOrientationX;
             } else {
                 // 데스크톱: 마우스 위치 사용
                 targetX = mouseX;
