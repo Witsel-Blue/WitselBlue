@@ -5,7 +5,12 @@
 
             <section class='main'>
                 <div class='mainvisual'>
-                    <ParallaxImg :src='project.images.mainvisual' />
+                    <client-only>
+                        <ParallaxImg 
+                            :src='project.images.mainvisual' 
+                            :srcMobile='project.images.mainvisual_mb || project.images.mainvisual'
+                        />
+                    </client-only>
                 </div>
                 <div class='title' data-aos='fade-up'>
                     <p>{{ project.tags.work[$i18n.locale] }}</p>

@@ -1,9 +1,9 @@
 <template>
-    <div id='parallax-img'>
+    <div id='parallax-img' data-aos-disable>
         <div class='parallax-wrap'>
-            <div class='parallax-cont'>
+            <div class='parallax-cont' data-aos='fade-up'>
                 <img
-                    :src='src'
+                    :src='currentSrc'
                     class='img'
                     oncontextmenu='return false;'
                     ondragstart='return false;'
@@ -24,18 +24,33 @@ if (process.client) {
 export default {
     props: {
         src: String,
+        srcMobile: String,
     },
     data() {
         return {
-            scrollTriggerInstance: null
+            scrollTriggerInstance: null,
+            isMobile: false
+        }
+    },
+    computed: {
+        currentSrc() {
+            return (this.isMobile && this.srcMobile) ? this.srcMobile : this.src;
         }
     },
     mounted() {
+        if (!process.client) return;
+        
+        this.checkMobile();
+        window.addEventListener('resize', this.handleResize);
+        
         this.$nextTick(() => {
             const img = this.$el.querySelector('.img');
-            if (img.complete) {
-                this.parallaxImg();
-            } else {
+            
+            if (img && img.complete) {
+                setTimeout(() => {
+                    this.parallaxImg();
+                }, 100);
+            } else if (img) {
                 img.addEventListener('load', () => {
                     this.parallaxImg();
                 });
@@ -43,31 +58,60 @@ export default {
         });
     },
     beforeDestroy() {
+        if (!process.client) return;
+        
+        window.removeEventListener('resize', this.handleResize);
         if (this.scrollTriggerInstance) {
             this.scrollTriggerInstance.kill();
+            this.scrollTriggerInstance = null;
         }
     },
     methods: {
+        checkMobile() {
+            if (!process.client) return;
+            this.isMobile = window.innerWidth <= 768;
+        },
+        handleResize() {
+            if (!process.client) return;
+            
+            const wasMobile = this.isMobile;
+            this.checkMobile();
+            
+            if (wasMobile !== this.isMobile) {
+                this.$nextTick(() => {
+                    this.parallaxImg();
+                });
+            }
+        },
         parallaxImg() {
-            const gsap = this.$gsap;
-            const ScrollTrigger = this.$ScrollTrigger;
+            if (!process.client) return;
+            
             const section = this.$el.querySelector('.parallax-wrap');
             const img = this.$el.querySelector('.img');
 
             if (!section || !img) return;
+
             if (this.scrollTriggerInstance) {
                 this.scrollTriggerInstance.kill();
             }
 
-            this.scrollTriggerInstance = gsap.to(img, {
+            const yDistance = section.offsetHeight - img.offsetHeight;
+
+            const animation = gsap.to(img, {
                 scrollTrigger: {
                     trigger: section,
+                    start: 'top top',
+                    end: 'bottom top',
                     scrub: 1.5,
                     invalidateOnRefresh: true
                 },
-                y: section.offsetHeight - img.offsetHeight,
+                y: yDistance,
                 ease: 'none'
-            }).scrollTrigger;
+            });
+
+            this.scrollTriggerInstance = animation.scrollTrigger;
+            
+            ScrollTrigger.refresh();
         }
     },
 }
