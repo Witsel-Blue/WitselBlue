@@ -25,18 +25,41 @@ export default {
     props: {
         src: String,
     },
+    data() {
+        return {
+            scrollTriggerInstance: null
+        }
+    },
     mounted() {
-        this.parallaxImg();
+        this.$nextTick(() => {
+            const img = this.$el.querySelector('.img');
+            if (img.complete) {
+                this.parallaxImg();
+            } else {
+                img.addEventListener('load', () => {
+                    this.parallaxImg();
+                });
+            }
+        });
+    },
+    beforeDestroy() {
+        if (this.scrollTriggerInstance) {
+            this.scrollTriggerInstance.kill();
+        }
     },
     methods: {
         parallaxImg() {
             const gsap = this.$gsap;
             const ScrollTrigger = this.$ScrollTrigger;
+            const section = this.$el.querySelector('.parallax-wrap');
+            const img = this.$el.querySelector('.img');
 
-            const section = document.getElementsByClassName('parallax-wrap')[0];
-            const img = document.getElementsByClassName('img')[0];
+            if (!section || !img) return;
+            if (this.scrollTriggerInstance) {
+                this.scrollTriggerInstance.kill();
+            }
 
-            gsap.to(img, {
+            this.scrollTriggerInstance = gsap.to(img, {
                 scrollTrigger: {
                     trigger: section,
                     scrub: 1.5,
@@ -44,7 +67,7 @@ export default {
                 },
                 y: section.offsetHeight - img.offsetHeight,
                 ease: 'none'
-            });
+            }).scrollTrigger;
         }
     },
 }
