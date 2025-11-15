@@ -52,7 +52,8 @@
                 <TextMarquee text='witselblue' />
             </section>
             <div class='divider'>
-                <img src='@/assets/img/divider.svg' />
+                <!-- <img src='@/assets/img/divider.svg' /> -->
+                 <Wave />
             </div>
             <section class='skills' ref='skills'>
                 <div class='inner'>
@@ -63,7 +64,8 @@
                 </div>
             </section>
             <div class='divider rev'>
-                <img src='@/assets/img/divider.svg' />
+                <!-- <img src='@/assets/img/divider.svg' /> -->
+                 <Wave />
             </div>
             <section class='selected' ref='selected' id='selected'>
                 <ul class='container' ref='comp'>
@@ -116,6 +118,7 @@ import TextMarquee from '@/components/TextMarquee.vue';
 import TextRotating from '@/components/TextRotating.vue';
 import TextStagger from '@/components/TextStagger.vue';
 import RandomSkillCard from '@/components/RandomSkillCard.vue';
+import Wave from '@/components/Wave.vue';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger);
@@ -135,6 +138,7 @@ export default {
         TextRotating,
         TextStagger,
         RandomSkillCard,
+        Wave,
     },
     data() {
         return {
