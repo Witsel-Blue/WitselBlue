@@ -42,16 +42,6 @@ export default {
   pointer-events: none;
 }
 
-.p5-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  pointer-events: none;
-  background: transparent !important;
-}
 
 #star-bg {
     position: absolute;
@@ -66,6 +56,7 @@ export default {
     width: 100%;
     height: 100%;
     margin: -10vh auto 0;
-    background: radial-gradient(circle, #191d24 0%, transparent 40%);
+    background: radial-gradient(circle, #f7f7f7 0%, transparent 80%);
+    opacity: 0.6;
 }
 </style>

@@ -5,17 +5,38 @@
 <script>
 export default {
     name: 'P5Canvas',
+    data() {
+        return {
+            p5Instance: null
+        }
+    },
     mounted() {
         if (typeof window !== 'undefined') {
-            this.initP5();
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    this.initP5();
+                    window.addEventListener('fade-in-gnb', this.handleResizeAfterIntro, { once: true });
+                }, 100);
+            });
         }
     },
     beforeDestroy() {
+        window.removeEventListener('fade-in-gnb', this.handleResizeAfterIntro);
         if (this.p5Instance) {
             this.p5Instance.remove();
         }
     },
     methods: {
+        handleResizeAfterIntro() {
+            console.log('[MainP5] handleResizeAfterIntro called');
+            if (this.p5Instance) {
+                setTimeout(() => {
+                    if (this.p5Instance.windowResized) {
+                        this.p5Instance.windowResized();
+                    }
+                }, 300);
+            }
+        },
         async initP5() {
             const p5 = (await import('p5')).default;
 
@@ -207,7 +228,16 @@ export default {
 
                 s.setup = function () {
                     const container = s.select('.p5-wrapper');
-                    const { width, height } = container.elt.getBoundingClientRect();
+                    if (!container || !container.elt) {
+                        console.error('[MainP5] Container not found');
+                        return;
+                    }
+                    const rect = container.elt.getBoundingClientRect();
+                    const width = rect.width || window.innerWidth;
+                    const height = rect.height || window.innerHeight;
+                    
+                    console.log('[MainP5] setup - canvas size:', { width, height });
+                    
                     s.createCanvas(width, height);
                     s.noCursor();
                     s.updateScale();
@@ -232,7 +262,16 @@ export default {
 
                 s.windowResized = function () {
                     const container = s.select('.p5-wrapper');
-                    const { width, height } = container.elt.getBoundingClientRect();
+                    if (!container || !container.elt) {
+                        console.error('[MainP5] Container not found on resize');
+                        return;
+                    }
+                    const rect = container.elt.getBoundingClientRect();
+                    const width = rect.width || window.innerWidth;
+                    const height = rect.height || window.innerHeight;
+                    
+                    console.log('[MainP5] windowResized - new canvas size:', { width, height });
+                    
                     s.resizeCanvas(width, height);
                     s.updateScale();
                 };
@@ -246,10 +285,16 @@ export default {
 
 <style scoped>
 .p5-wrapper {
-    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    z-index: 3;
+    pointer-events: none;
 }
 canvas {
+    display: block;
     background: transparent !important;
 }
 </style>

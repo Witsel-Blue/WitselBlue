@@ -258,7 +258,6 @@ export default {
                     if (this.$refs.mainvisual) {
                         gsap.set(this.$refs.mainvisual.$el, { 
                             opacity: 0,
-                            scale: 0.4
                         });
                     }
                     if (this.$refs.subtext) {
@@ -333,7 +332,6 @@ export default {
                 if (this.$refs.mainvisual) {
                     gsap.to(this.$refs.mainvisual.$el, { 
                         opacity: 1,
-                        scale: 1,
                         duration: 1.2, 
                         ease: 'power3.out' 
                     });
@@ -405,7 +403,7 @@ export default {
                     useDarkBg = rect.top > 0;
                 }
 
-                const initialBg = useDarkBg ? '#2D3A4A' : '#f7f7f7';
+                const initialBg = useDarkBg ? '#8BA1BC' : '#f7f7f7';
                 homeEl.style.background = initialBg;
 
                 console.log('[Home] initBgScroll - scrollY:', window.scrollY, 'useDarkBg:', useDarkBg);
