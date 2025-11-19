@@ -15,6 +15,46 @@ export default {
             '사이트를 만드는 <br class="mb"><span class="mouse-hover1 ko"><b>웹 공간 설계자</b></span>가 제 목표입니다.',
         ],
         subTitle_skills: '기술 스택',
+        subTitle_history: '히스토리',
+    },
+    history: {
+        triggers: [
+            { 
+                id: 1, 
+                title: '성신여대 졸업',
+                text: '글로벌의과학과 졸업',
+            },
+            { 
+                id: 2, 
+                title: '음악 프로듀싱',
+                text: '전자음악 프로듀싱, 믹스셋 제작, 크루 활동',
+            },
+            { 
+                id: 3, 
+                title: 'SBS 아카데미 웹디자인 수료',
+                text: '기획, 디자인, 퍼블리싱 등 웹 개발 전반 공부',
+            },
+            { 
+                id: 4, 
+                title: '스컹크웍스 스튜디오',
+                text: '스타트업 웹에이전시 회사에서 프론트엔드 개발자로 활동',
+            },
+            { 
+                id: 5, 
+                title: '인터렉티브 개발자 준비',
+                text: 'touchdesigner, three.js, p5.js 등 공부',
+            },
+            { 
+                id: 6, 
+                title: '리즌디자인',
+                text: '삼성카드 모니모 앱개발 참여'
+            },
+            { 
+                id: 7, 
+                title: '프리랜스 개인 작업 및 공부',
+                text: '담곤 연구소 홈페이지, 포트폴리오 작업 및 python, typescript 등 공부',
+            }
+        ]
     },
     randomSkillCards: {
         categories: ['프레임워크', '라이브러리', '언어', '디자인', '작업환경'],

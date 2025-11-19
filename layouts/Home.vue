@@ -93,7 +93,13 @@
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
-            <section class='about' ref='about'>
+            <section class='history' ref='history'>
+                <div class='inner'>
+                    <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
+                        {{ $t('home.subTitle_history') }}
+                    </h1>
+                    <History />
+                </div>
             </section>
         </div>
     </div>
@@ -118,6 +124,7 @@ import TextMarquee from '@/components/TextMarquee.vue';
 import TextRotating from '@/components/TextRotating.vue';
 import TextStagger from '@/components/TextStagger.vue';
 import RandomSkillCard from '@/components/RandomSkillCard.vue';
+import History from '@/components/History.vue';
 import Wave from '@/components/Wave.vue';
 
 if (process.client) {
@@ -138,6 +145,7 @@ export default {
         TextRotating,
         TextStagger,
         RandomSkillCard,
+        History,
         Wave,
     },
     data() {

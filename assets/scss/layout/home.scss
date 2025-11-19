@@ -12,6 +12,7 @@
     .divider {
         margin-top: 10vh;
         width: 100vw;
+        transform: rotate(180deg);
         img {
             width: 100%;
             max-width: 100%;
@@ -19,7 +20,7 @@
             margin-top: -1px;
         }
         &.rev {
-            transform: rotate(180deg);
+            transform: rotate(0deg);
             margin-top: 0;
         }
     }
@@ -311,20 +312,12 @@
         }
     }
 
-    .about {
-        // height: 100vh;
-
-        h4 {
-            font-weight: bold;
-            margin-bottom: 8px;
+    .history {
+        .subtitle {
+            margin-bottom: 4rem;
         }
-        .inner > ul {
-            > li:not(:first-child) {
-                margin-top: 1.6rem;
-            }
-        }
-        ul.dot li {
-            justify-content: center;
+        #history {
+            padding-top: 1.6rem;
         }
     }
 

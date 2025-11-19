@@ -54,9 +54,9 @@ export default {
 
 .grad {
     width: 100%;
-    height: 100%;
-    margin: -10vh auto 0;
-    background: radial-gradient(circle, #f7f7f7 0%, transparent 80%);
-    opacity: 0.6;
+    height: 110%;
+    margin: -15vh auto 0;
+    background: radial-gradient(circle, #f7f7f7 0%, transparent 60%);
+    opacity: 0.4;
 }
 </style>

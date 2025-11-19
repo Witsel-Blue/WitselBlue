@@ -16,6 +16,7 @@ export default {
             'beyond just obtaining information.'
         ],
         subTitle_skills: 'Skills',
+        subTitle_history: 'History',
     },
     randomSkillCards: {
         categories: ['Framework', 'Library', 'Language', 'Design', 'Environment'],
@@ -24,6 +25,45 @@ export default {
             "I'm solid",
             'Mastered!',
         ],
+    },
+    history: {
+        triggers: [
+            { 
+                id: 1, 
+                title: 'Sungshin Women\'s University',
+                text: 'Graduated Global Medical Science Department',
+            },
+            { 
+                id: 2, 
+                title: 'Music Producing',
+                text: 'Electronic music producing, mixset creation, crew activities',
+            },
+            { 
+                id: 3, 
+                title: 'SBS Academy Web Design Course',
+                text: 'Learned general planning, design, publishing, etc. of web development',
+            },
+            { 
+                id: 4, 
+                title: 'Skunkworks Studio',
+                text: 'Frontend developer activities from startup web agency company.',
+            },
+            { 
+                id: 5, 
+                title: 'Preparing for Interactive Developer Career',
+                text: 'Studied touchdesigner, three.js, p5.js, etc.',
+            },
+            { 
+                id: 6, 
+                title: 'Lisn Design',
+                text: 'Participated in Samsung Card Monimo App Development',
+            },
+            { 
+                id: 7, 
+                title: 'Freelance Work and Study',
+                text: 'Worked indivually on Damgon Research, portfolio & studied python, typescript, etc.',
+            }
+        ]
     },
     footer: {
         lists: {
