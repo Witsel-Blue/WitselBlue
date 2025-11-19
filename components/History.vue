@@ -127,25 +127,26 @@ export default {
         return {
             scrollTriggerInstance: null,
             triggerProgress: [
-                { id: 1, progress: 0.04, anchor: 'right', image: require('@/assets/img/home/history1.png') },
-                { id: 2, progress: 0.17, anchor: 'left', image: require('@/assets/img/home/history2.png') },
-                { id: 3, progress: 0.33, anchor: 'right', image: require('@/assets/img/home/history3.png') },
-                { id: 4, progress: 0.42, anchor: 'right', image: require('@/assets/img/home/history4.png') },
-                { id: 5, progress: 0.63, anchor: 'left', image: require('@/assets/img/home/history5.png') },
-                { id: 6, progress: 0.72, anchor: 'left', image: require('@/assets/img/home/history6.png') },
-                { id: 7, progress: 0.93, anchor: 'right', image: require('@/assets/img/home/history7.png') }
+                { id: 1, progress: 0.06, anchor: 'right', image: require('@/assets/img/home/history1.png') },
+                { id: 2, progress: 0.2, anchor: 'left', image: require('@/assets/img/home/history2.png') },
+                { id: 3, progress: 0.38, anchor: 'right', image: require('@/assets/img/home/history3.png') },
+                { id: 4, progress: 0.55, anchor: 'left', image: require('@/assets/img/home/history4.png') },
+                { id: 5, progress: 0.68, anchor: 'left', image: require('@/assets/img/home/history5.png') },
+                { id: 6, progress: 0.82, anchor: 'left', image: require('@/assets/img/home/history6.png') },
+                { id: 7, progress: 1, anchor: 'right', image: require('@/assets/img/home/history7.png') }
             ],
             years: [
                 { id: 1, progress: 0, label: '2010' },
-                { id: 2, progress: 0.12, label: '2018' },
-                { id: 3, progress: 0.25, label: '2020' },
-                { id: 4, progress: 0.38, label: '2021' },
-                { id: 5, progress: 0.54, label: '2022' },
-                { id: 6, progress: 0.68, label: '2024' },
-                { id: 7, progress: 0.82, label: '2025' }
+                { id: 2, progress: 0.15, label: '2018' },
+                { id: 3, progress: 0.3, label: '2020' },
+                { id: 4, progress: 0.44, label: '2021' },
+                { id: 5, progress: 0.62, label: '2022' },
+                { id: 6, progress: 0.75, label: '2024' },
+                { id: 7, progress: 0.92, label: '2025' }
             ],
             currentTrigger: null,
             activatedYears: [],
+            activatedTriggers: [],
         }
     },
     computed: {
@@ -242,7 +243,8 @@ export default {
                 
                 if (triggerEl && triggerEl[0]) {
                     gsap.set(triggerEl[0], {
-                        attr: { cx: point.x, cy: point.y }
+                        attr: { cx: point.x, cy: point.y },
+                        opacity: 0
                     });
                 }
                 
@@ -252,7 +254,8 @@ export default {
                         ? point.x + xOffset
                         : point.x + xOffset - 240;
                     gsap.set(triggerTitle[0], {
-                        attr: { x: foreignX, y: point.y - 12 }
+                        attr: { x: foreignX, y: point.y - 12 },
+                        opacity: 0
                     });
                 }
                 
@@ -348,7 +351,59 @@ export default {
             });
         },
         checkTriggerProximity(progress) {
-            const threshold = 0.04;
+            const thresholdEarly = 0.05; // title, circle용
+            const threshold = 0.04; // text, image용
+            
+            this.triggers.forEach(trigger => {
+                const triggerEl = this.$refs[`trigger${trigger.id}`];
+                const triggerTitle = this.$refs[`triggerTitle${trigger.id}`];
+                
+                if (progress >= trigger.progress - thresholdEarly) {
+                    if (!this.activatedTriggers.includes(trigger.id)) {
+                        this.activatedTriggers.push(trigger.id);
+                        
+                        // Circle 활성화
+                        if (triggerEl && triggerEl[0]) {
+                            gsap.to(triggerEl[0], {
+                                opacity: 1,
+                                duration: 0.2,
+                                ease: 'power2.out'
+                            });
+                        }
+                        
+                        // Title 활성화
+                        if (triggerTitle && triggerTitle[0]) {
+                            gsap.to(triggerTitle[0], {
+                                opacity: 1,
+                                duration: 0.2,
+                                ease: 'power2.out'
+                            });
+                        }
+                    }
+                } else {
+                    if (this.activatedTriggers.includes(trigger.id)) {
+                        this.activatedTriggers = this.activatedTriggers.filter(id => id !== trigger.id);
+                        
+                        // Circle 비활성화
+                        if (triggerEl && triggerEl[0]) {
+                            gsap.to(triggerEl[0], {
+                                opacity: 0,
+                                duration: 0.2,
+                                ease: 'power2.out'
+                            });
+                        }
+                        
+                        // Title 비활성화
+                        if (triggerTitle && triggerTitle[0]) {
+                            gsap.to(triggerTitle[0], {
+                                opacity: 0,
+                                duration: 0.2,
+                                ease: 'power2.out'
+                            });
+                        }
+                    }
+                }
+            });
             
             const nearTrigger = this.triggers.find(trigger => {
                 return Math.abs(progress - trigger.progress) < threshold;
@@ -438,7 +493,8 @@ export default {
                 const yearEl = this.$refs[`year${year.id}`];
                 if (!yearEl || !yearEl[0]) return;
                 
-                if (progress >= year.progress) {
+                // progress가 year.progress보다 클 때만 활성화 (맨 위에서는 숨김)
+                if (progress > year.progress) {
                     if (!this.activatedYears.includes(year.id)) {
                         this.activatedYears.push(year.id);
                         gsap.to(yearEl[0], {
