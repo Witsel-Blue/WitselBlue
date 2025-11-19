@@ -7,6 +7,7 @@
                 <div class='mainvisual'>
                     <client-only>
                         <ParallaxImg 
+                            :key='project.slug'
                             :src='project.images.mainvisual' 
                             :srcMobile='project.images.mainvisual_mb || project.images.mainvisual'
                         />
@@ -140,6 +141,8 @@ import PageTransition from '@/layouts/PageTransition.vue';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
     
 export default {
     components: {
@@ -177,18 +180,63 @@ export default {
         });
     },
     beforeRouteUpdate(to, from, next) {
+        console.log('[_slug] beforeRouteUpdate - start');
+        
+        // 1. 스크롤을 맨 위로 이동 (가장 먼저)
+        if (process.client) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            console.log('[_slug] Scroll set to 0');
+        }
+        
+        // 2. 모든 ScrollTrigger 제거
+        if (process.client && ScrollTrigger) {
+            ScrollTrigger.getAll().forEach(st => st.kill());
+            console.log('[_slug] All ScrollTriggers killed');
+        }
+        
+        // 3. 모든 ParallaxImg의 transform 초기화
+        if (process.client) {
+            const parallaxImgs = document.querySelectorAll('#parallax-img .img');
+            parallaxImgs.forEach(img => {
+                if (typeof gsap !== 'undefined') {
+                    gsap.killTweensOf(img);
+                    gsap.set(img, { clearProps: 'all' });
+                }
+            });
+            console.log('[_slug] ParallaxImg transforms cleared');
+        }
+        
         const project = projectsData.find(p => p.slug === to.params.slug);
         const index = projectsData.findIndex(p => p.slug === to.params.slug);
         const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
 
         this.project = project;
 
+        // next()를 먼저 호출하여 라우트 변경 완료
+        next();
+        
+        // 라우트 변경 후 DOM 업데이트 대기
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);
             this.$store.commit('setNextProject', nextProject);
+            
+            // 스크롤이 0인지 재확인
+            setTimeout(() => {
+                if (process.client) {
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                    console.log('[_slug] Scroll confirmed at 0, current scrollY:', window.scrollY);
+                }
+            }, 300);
+            
+            // ScrollTrigger refresh - ParallaxImg가 생성된 후
+            setTimeout(() => {
+                if (process.client && ScrollTrigger) {
+                    console.log('[_slug] beforeRouteUpdate - refreshing all ScrollTriggers');
+                    ScrollTrigger.refresh();
+                    console.log('[_slug] Current ScrollTriggers count:', ScrollTrigger.getAll().length);
+                }
+            }, 1500);
         });
-
-        next();
     },
     beforeDestroy() {
         this.$store.commit('setDetailPage', false);

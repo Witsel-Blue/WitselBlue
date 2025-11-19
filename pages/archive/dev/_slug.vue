@@ -7,6 +7,7 @@
                 <div class='mainvisual'>
                     <client-only>
                         <ParallaxImg 
+                            :key='dev.slug'
                             :src='dev.images.mainvisual' 
                             :srcMobile='dev.images.mainvisual_mb || dev.images.mainvisual'
                         />
@@ -82,6 +83,8 @@ import archiveDevData from '@/assets/data/archive_dev.js';
 import ParallaxImg from '@/components/ParallaxImg.vue';
 import ButtonRound from '@/components/ButtonRound.vue';
 import TextShifting from '@/components/TextShifting.vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 export default {
     components: {
@@ -118,18 +121,51 @@ export default {
         });
     },
     beforeRouteUpdate(to, from, next) {
+        // 1. 스크롤을 맨 위로 이동 (가장 먼저)
+        if (process.client) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+        
+        // 2. 모든 ScrollTrigger 제거
+        if (process.client && ScrollTrigger) {
+            ScrollTrigger.getAll().forEach(st => st.kill());
+        }
+        
+        // 3. 모든 ParallaxImg의 transform 초기화
+        if (process.client) {
+            const parallaxImgs = document.querySelectorAll('#parallax-img .img');
+            parallaxImgs.forEach(img => {
+                if (typeof gsap !== 'undefined') {
+                    gsap.killTweensOf(img);
+                    gsap.set(img, { clearProps: 'all' });
+                }
+            });
+        }
+        
         const dev = archiveDevData.find(p => p.slug === to.params.slug);
         const index = archiveDevData.findIndex(p => p.slug === to.params.slug);
         const nextArchiveDev = { ...archiveDevData[(index + 1) % archiveDevData.length], category: 'archive_dev' };
 
         this.dev = dev;
 
+        next();
+        
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);
             this.$store.commit('setNextArchiveDev', nextArchiveDev);
+            
+            setTimeout(() => {
+                if (process.client) {
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                }
+            }, 300);
+            
+            setTimeout(() => {
+                if (process.client && ScrollTrigger) {
+                    ScrollTrigger.refresh();
+                }
+            }, 1500);
         });
-
-        next();
     },
     beforeDestroy() {
         this.$store.commit('setDetailPage', false);
