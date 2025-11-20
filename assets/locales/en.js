@@ -1,4 +1,7 @@
 export default {
+    intro: {
+        textTyping: 'Hello World',
+    },
     gnb: {
         home: 'Home',
         projects: 'Projects',

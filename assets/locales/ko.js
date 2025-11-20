@@ -1,4 +1,7 @@
 export default {
+    intro: {
+        textTyping: '안녕, 세상아',
+    },
     gnb: {
         home: '홈',
         projects: '프로젝트',

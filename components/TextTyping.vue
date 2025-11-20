@@ -1,8 +1,7 @@
 <template>
     <div id='text-typing'>
         <div class='output' ref='output'>
-            <h1 :class='{ cursor: !isParagraph }'>{{ headerText }}</h1>
-            <p :class='{ cursor: isParagraph }'>{{ paragraphText }}</p>
+            <h1 :class='{ cursor: true, ko: isKorean }'>{{ headerText }}</h1>
         </div>
     </div>
 </template>
@@ -12,63 +11,68 @@ export default {
     data() {
         return {
             headerText: '',
-            paragraphText: '',
             i: 0,
             a: 0,
             isBackspacing: false,
-            isParagraph: false,
-            textArray: [
-                'Hello World',
-            ],
-            speedForward: 100,
-            speedWait: 1500,
-            speedBetweenLines: 1500,
-            speedBackspace: 30,
+            textArray: [],
+            speedForward: 100, // 타이핑 속도
+            speedWait: 800, // 타이핑 완료 후 대기시간
+            speedBackspace: 10, // 백스페이스 속도
         };
     },
-    mounted() {
-        this.startTyping();
+    computed: {
+        typingText() {
+            return this.$t('intro.textTyping');
+        },
+        isKorean() {
+            return this.$i18n.locale === 'ko';
+        }
+    },
+    watch: {
+        typingText: {
+            immediate: true,
+            handler(newText) {
+                if (newText) {
+                    this.textArray = [newText];
+                    this.resetAnimation();
+                    this.$nextTick(() => {
+                        this.startTyping();
+                    });
+                }
+            }
+        }
     },
     methods: {
+        resetAnimation() {
+            this.headerText = '';
+            this.i = 0;
+            this.a = 0;
+            this.isBackspacing = false;
+        },
         startTyping() {
-            this.typeWriter();
+            if (this.textArray.length > 0 && this.textArray[0]) {
+                this.typeWriter();
+            }
         },
         typeWriter() {
             const aString = this.textArray[this.a];
             if (!this.isBackspacing) {
                 if (this.i < aString.length) {
-                    if (aString.charAt(this.i) === '|') {
-                        this.isParagraph = true;
-                        this.i++;
-                        setTimeout(this.typeWriter, this.speedBetweenLines);
-                    } else {
-                        if (!this.isParagraph) {
-                            this.headerText += aString.charAt(this.i);
-                        } else {
-                            this.paragraphText += aString.charAt(this.i);
-                        }
-                        this.i++;
-                        setTimeout(this.typeWriter, this.speedForward);
-                    }
+                    this.headerText += aString.charAt(this.i);
+                    this.i++;
+                    setTimeout(this.typeWriter, this.speedForward);
                 } else if (this.i === aString.length) {
                     this.isBackspacing = true;
                     setTimeout(this.typeWriter, this.speedWait);
                 }
             } else {
-                if (this.headerText.length > 0 || this.paragraphText.length > 0) {
-                    if (this.paragraphText.length > 0) {
-                        this.paragraphText = this.paragraphText.substring(0, this.paragraphText.length - 1);
-                    } else if (this.headerText.length > 0) {
-                        this.isParagraph = false;
-                        this.headerText = this.headerText.substring(0, this.headerText.length - 1);
-                    }
+                // 백스페이스 모드
+                if (this.headerText.length > 0) {
+                    this.headerText = this.headerText.substring(0, this.headerText.length - 1);
                     setTimeout(this.typeWriter, this.speedBackspace);
                 } else {
                     this.isBackspacing = false;
-                    this.i = 0;
-                    this.isParagraph = false;
-                    this.a = (this.a + 1) % this.textArray.length;
-                    setTimeout(this.typeWriter, 50);
+                    this.$emit('typing-complete');
                 }
             }
         }
@@ -86,6 +90,10 @@ export default {
         font-size: 4rem;
         line-height: 1;
         font-family: 'TanPearl', 'YUniverse';
+        
+        &.ko {
+            font-size: 5rem;
+        }
     }
 }
 
@@ -101,10 +109,6 @@ export default {
 h1.cursor::after {
     height: 4rem;
     width: 4px;
-}
-p.cursor::after {
-    height: 4rem;
-    width: 1rem;
 }
 
 @keyframes blink {
@@ -127,6 +131,10 @@ p.cursor::after {
     .output {
         h1 {
             font-size: 3rem;
+            
+            &.ko {
+                font-size: 3.5rem; // 한글일 때 모바일에서도 더 큰 폰트 사이즈
+            }
         }
     }
 }
