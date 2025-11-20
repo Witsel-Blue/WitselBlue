@@ -234,11 +234,22 @@ export default {
         },
         hoverCard(index) {
             this.filteredSkills[index].flipped = true;
-            gsap.to(this.$refs.wrapper.children[index], {
-                zIndex: 100,
-                scale: 1.5,
+            const cards = this.$refs.wrapper.children;
+            const isMobile = window.innerWidth <= 768;
+            const hoverScale = isMobile ? 2 : 1.5;
+            
+            Array.from(cards).forEach((card, i) => {
+                if (i !== index) {
+                    gsap.set(card, { zIndex: 1 });
+                }
+            });
+            
+            // 호버된 카드만 맨 앞으로
+            gsap.to(cards[index], {
+                zIndex: 1000,
+                scale: hoverScale,
                 rotation: 0,
-                duration: 0.3,
+                duration: 0.2,
                 ease: 'power2.out',
             });
         },
@@ -251,7 +262,7 @@ export default {
                 rotation: base.rotation,
                 x: base.x,
                 y: base.y,
-                duration: 0.3,
+                duration: 0.2,
                 ease: 'power2.out',
             });
         },
@@ -270,7 +281,7 @@ export default {
                     x: base.x + offsetX,
                     y: base.y + offsetY,
                     rotation: base.rotation + this.mouse.x * 15,
-                    duration: 0.3,
+                    duration: 0.2,
                     ease: 'power2.out',
                 });
             });
