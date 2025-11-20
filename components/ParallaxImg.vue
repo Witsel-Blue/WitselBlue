@@ -42,7 +42,6 @@ export default {
             if (newSrc !== oldSrc) {
                 console.log('[ParallaxImg] src changed from', oldSrc, 'to', newSrc);
                 
-                // 기존 ScrollTrigger 완전히 제거
                 if (this.scrollTriggerInstance) {
                     console.log('[ParallaxImg] watch: Killing existing ScrollTrigger');
                     this.scrollTriggerInstance.kill();
@@ -150,7 +149,6 @@ export default {
         initParallax() {
             if (!process.client) return;
             
-            // DOM 완전 렌더링 대기
             this.$nextTick(() => {
                 setTimeout(() => {
                     const img = this.$el?.querySelector('.img');
@@ -175,7 +173,6 @@ export default {
                             };
                             img.addEventListener('load', loadHandler);
                             
-                            // Fallback
                             setTimeout(() => {
                                 if (!this.scrollTriggerInstance) {
                                     console.log('[ParallaxImg] Fallback initialization...');
@@ -231,10 +228,8 @@ export default {
                 this.scrollTriggerInstance = null;
             }
 
-            // 모든 기존 GSAP 애니메이션 제거
             gsap.killTweensOf(img);
             
-            // Transform 완전히 초기화
             gsap.set(img, { 
                 clearProps: 'all',
                 y: 0,
@@ -265,18 +260,17 @@ export default {
                         invalidateOnRefresh: true,
                         markers: false,
                         id: 'parallax-img',
-                        onUpdate: (self) => {
-                            console.log('[ParallaxImg] ST onUpdate:', {
-                                progress: self.progress.toFixed(3),
-                                scrollY: window.scrollY
-                            });
-                        },
+                        // onUpdate: (self) => {
+                        //     console.log('[ParallaxImg] ST onUpdate:', {
+                        //         progress: self.progress.toFixed(3),
+                        //         scrollY: window.scrollY
+                        //     });
+                        // },
                     },
                     y: yDistance,
                     ease: 'none',
                     onUpdate: function() {
                         const currentY = this.targets()[0]._gsap.y;
-                        console.log('[ParallaxImg] GSAP onUpdate - y:', currentY);
                     }
                 });
 

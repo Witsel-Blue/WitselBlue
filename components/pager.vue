@@ -26,9 +26,10 @@
 import TextStagger from '@/components/TextStagger.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 
 if (process.client) {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 }
     
 export default {
@@ -46,30 +47,83 @@ export default {
     },
     mounted() {
         if (process.client) {
+            console.log('[pager] mounted, initializing immediately...');
+            window.addEventListener('intro-end', this.handleIntroEnd, { once: true });
+            
             this.initGsap();
             this.updatePathColor(this.$route.path);
 
             this.$watch('$route', (to) => {
                 this.$nextTick(() => {
-                    this.resetGsap();
-                    this.initGsap();
-                    this.updatePathColor(to.path);
+                    setTimeout(() => {
+                        this.resetGsap();
+                        this.initGsap();
+                        this.updatePathColor(to.path);
+                    }, 700);
                 });
             });
         }
     },
     beforeDestroy() {
-        window.removeEventListener('scroll', this.checkScrollBottom);
+        console.log('[pager] beforeDestroy called');
+        window.removeEventListener('intro-end', this.handleIntroEnd);
+        
+        if (this.scrollTween) {
+            this.scrollTween.kill();
+            this.scrollTween = null;
+        }
+        if (this.scrollTrigger) {
+            this.scrollTrigger.kill();
+            this.scrollTrigger = null;
+        }
+        if (this.pathColorST) {
+            this.pathColorST.kill();
+            this.pathColorST = null;
+        }
     },
     methods: {
         async initGsap() {
+            console.log('[pager] initGsap called');
+            
+            if (this.scrollTween) {
+                console.log('[pager] Killing existing scrollTween');
+                this.scrollTween.kill();
+                this.scrollTween = null;
+            }
+            if (this.scrollTrigger) {
+                console.log('[pager] Killing existing scrollTrigger');
+                this.scrollTrigger.kill();
+                this.scrollTrigger = null;
+            }
+            if (this.pathColorST) {
+                console.log('[pager] Killing existing pathColorST');
+                this.pathColorST.kill();
+                this.pathColorST = null;
+            }
+            
             const gsap = (await import('gsap')).default;
             const { ScrollTrigger } = await import('gsap/dist/ScrollTrigger.js');
+            const { ScrollToPlugin } = await import('gsap/dist/ScrollToPlugin.js');
 
-            gsap.registerPlugin(ScrollTrigger);
-            gsap.set('.pager', { rotation: 0 });
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+            
+            gsap.set('.pager', { 
+                rotation: 0,
+                clearProps: 'all'
+            });
+            
+            console.log('[pager] Creating new ScrollTrigger for rotation');
 
-            const triggerEl = document.getElementById('app') || document.body;
+            const normalizedPath = this.$route.path.replace(/\/$/, '');
+            const isHome = normalizedPath === '' || normalizedPath === '/ko';
+            
+            let triggerEl;
+            
+            if (isHome) {
+                triggerEl = document.querySelector('#home') || document.getElementById('app') || document.body;
+            } else {
+                triggerEl = document.getElementById('app') || document.body;
+            }
 
             this.scrollTween = gsap.to('.pager', {
                 rotation: 360*2,
@@ -79,13 +133,13 @@ export default {
                     start: 'top top',
                     end: 'bottom bottom',
                     scrub: true,
+                    invalidateOnRefresh: true,
                 },
             });
 
             this.scrollTrigger = this.scrollTween.scrollTrigger;
+            console.log('[pager] ScrollTrigger created:', !!this.scrollTrigger);
 
-            const normalizedPath = this.$route.path.replace(/\/$/, '');
-            const isHome = normalizedPath === '' || normalizedPath === '/ko'; 
             if (isHome) {
                 this.initPathColor();
             }
@@ -103,19 +157,24 @@ export default {
         },
         scrollToTop() {
             if (process.client) {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                });
-                
-                // 홈 페이지일 경우 배경색 재설정 이벤트 발송
                 const normalizedPath = this.$route.path.replace(/\/$/, '');
                 const isHome = normalizedPath === '' || normalizedPath === '/ko';
+                
+                gsap.to(window, {
+                    scrollTo: { y: 0, autoKill: true },
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                        console.log('[pager] Scroll to top complete, final scrollY:', window.scrollY);
+                    }
+                });
+                
                 if (isHome) {
                     console.log('[pager] Dispatching reset-home-bg event');
                     setTimeout(() => {
                         window.dispatchEvent(new Event('reset-home-bg'));
-                    }, 500);
+                    }, 900);
                 }
             }
         },
@@ -168,7 +227,6 @@ export default {
                     this.scrollTrigger = null;
                 }
 
-                // bumper가 로드될 때까지 기다린 후 색상 애니메이션 설정
                 this.$nextTick(() => {
                     setTimeout(() => {
                         this.waitForBumper();
@@ -203,6 +261,20 @@ export default {
             const path = this.$el?.querySelector('svg path');
             if (path) path.setAttribute('fill', this.clientPathColor);
         },
+        handleIntroEnd() {
+            console.log('[pager] handleIntroEnd - hiding TextStagger');
+            const textStagger = this.$el?.querySelector('#text-stagger');
+            if (textStagger) {
+                const paragraphs = textStagger.querySelectorAll('li p');
+                if (paragraphs.length) {
+                    gsap.set(paragraphs, {
+                        opacity: 0,
+                        yPercent: 150,
+                        rotation: (i) => (i % 2 === 0 ? -4 : 4),
+                    });
+                }
+            }
+        },
         waitForBumper(retries = 0) {
             const normalizedPath = this.$route.path.replace(/\/$/, '');
             const isHome = normalizedPath === '' || normalizedPath === '/ko';
@@ -210,13 +282,23 @@ export default {
 
             const bumper = document.querySelector('.bumper');
             if (!bumper && retries < 10) {
-                setTimeout(() => this.waitForBumper(retries + 1), 50);
+                console.log('[pager] bumper not found, retrying...', retries);
+                setTimeout(() => this.waitForBumper(retries + 1), 200);
+                return;
+            }
+
+            if (!bumper) {
+                console.log('[pager] bumper not found after retries, using default color');
+                this.clientPathColor = '#3E3C3C';
+                const pathEl = this.$el?.querySelector('svg path');
+                if (pathEl) {
+                    gsap.set(pathEl, { fill: '#3E3C3C' });
+                }
                 return;
             }
 
             const pathEl = this.$el?.querySelector('svg path');
             
-            // 스크롤 위치에 따라 초기 색상 결정
             let useWhite = true;
             if (window.scrollY === 0) {
                 useWhite = true;
@@ -226,6 +308,9 @@ export default {
             }
             
             const initialColor = useWhite ? '#f7f7f7' : '#3E3C3C';
+            this.clientPathColor = initialColor;
+            
+            console.log('[pager] waitForBumper - scrollY:', window.scrollY, 'useWhite:', useWhite, 'color:', initialColor);
             
             if (pathEl) {
                 gsap.set(pathEl, { fill: initialColor });
@@ -236,7 +321,6 @@ export default {
                 this.pathColorST = null;
             }
 
-            // 스크롤 애니메이션 설정
             if (bumper) {
                 this.initPathColor();
             }

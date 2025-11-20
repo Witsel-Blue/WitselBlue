@@ -45,17 +45,43 @@ export default {
     },
     mounted() {
         if (process.client) {
+            console.log('[TextStagger] mounted, triggerMode:', this.triggerMode);
+            
+            // 초기화
+            this.animated = false;
+            this.bottomTriggered = false;
+            if (this.staggerTween) {
+                this.staggerTween.kill();
+                this.staggerTween = null;
+            }
+            
             this.$nextTick(() => {
+                console.log('[TextStagger] Initializing animation');
                 this.initAnimation();
                 window.addEventListener('scroll', this.checkPosition);
                 window.addEventListener('resize', this.checkPosition);
+                
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const isBottom = scrollPosition >= docHeight - 1;
+                console.log('[TextStagger] Initial state:', {
+                    scrollPosition,
+                    docHeight,
+                    isBottom,
+                    scrollY: window.scrollY
+                });
             });
         }
     },
     beforeDestroy() {
         window.removeEventListener('scroll', this.checkPosition);
         window.removeEventListener('resize', this.checkPosition);
-        if (this.staggerTween) this.staggerTween.kill();
+        if (this.staggerTween) {
+            this.staggerTween.kill();
+            this.staggerTween = null;
+        }
+        this.animated = false;
+        this.bottomTriggered = false;
     },
     watch: {
         paragraphs: {
@@ -71,6 +97,9 @@ export default {
                     if (!paragraphsEls.length) return;
 
                     if (this.triggerMode === 'bottom') {
+                        this.bottomTriggered = false;
+                        this.animated = false;
+                        
                         this.initAnimation();
 
                         const scrollPosition = window.scrollY + window.innerHeight;

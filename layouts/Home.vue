@@ -98,7 +98,7 @@
                     <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_history') }}
                     </h1>
-                    <History />
+                    <History v-if='showHistory' />
                 </div>
             </section>
         </div>
@@ -176,9 +176,15 @@ export default {
             currentSectionIndex: 0,
             useVhFix: false,
             homeBgSt: null,
+            showHistory: true,
         }
     },
     mounted() {
+        console.log('[Home] mounted called', { 
+            gsap: typeof gsap !== 'undefined',
+            ScrollTrigger: typeof ScrollTrigger !== 'undefined'
+        });
+        
         this.setVhFix();
         window.addEventListener('resize', this.setVhFix);
 
@@ -206,28 +212,52 @@ export default {
         };
         window.addEventListener('reset-home-bg', this.handleResetBgScroll);
 
-        this.initBgScroll();
-
-        this.initProfileImgHover();
-
-        this.$nextTick(() => {
-            this.scrollVertical();
-        });
-
-        const mainRect = this.$refs.main?.getBoundingClientRect();
-        const centerY = window.innerHeight / 2;
-        if (mainRect && mainRect.top <= centerY && mainRect.bottom > centerY) {
-            this.$store.commit('cursor/setCursorClass', 'cursor-main');
-            this.$store.commit('cursor/setCursorAnimation', Butterfly);
-            this.$store.commit('cursor/setCursorLottie', true);
+        // GSAP 로드 체크
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            console.error('[Home] GSAP or ScrollTrigger not loaded! Retrying...');
+            setTimeout(() => {
+                if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    console.log('[Home] GSAP loaded on retry');
+                    this.initHomeAnimations();
+                } else {
+                    console.error('[Home] GSAP still not loaded after retry');
+                    setTimeout(() => {
+                        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                            console.log('[Home] GSAP loaded on second retry');
+                            this.initHomeAnimations();
+                        } else {
+                            console.error('[Home] GSAP failed to load');
+                        }
+                    }, 500);
+                }
+            }, 300);
+            return;
         }
+
         this.$nextTick(() => {
             setTimeout(() => {
-                this.initFadeIn();
-            }, 100);
+                this.initHomeAnimations();
+            }, 500);
         });
     },
     activated() {
+        console.log('[Home] activated called');
+        
+        // GSAP 로드 체크
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            console.error('[Home] activated - GSAP not loaded! Retrying...');
+            setTimeout(() => {
+                if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            this.initBgScroll();
+                        }, 300);
+                    });
+                }
+            }, 300);
+            return;
+        }
+        
         this.$nextTick(() => {
             setTimeout(() => {
                 this.initBgScroll();
@@ -235,15 +265,30 @@ export default {
         });
     },
     beforeDestroy() {
+        console.log('[Home] beforeDestroy called - cleaning up Home ScrollTriggers only');
+        
         window.removeEventListener('resize', this.setVhFix);
         window.removeEventListener('reset-home-bg', this.handleResetBgScroll);
-        if (this.gsapContext) this.gsapContext.revert();
+        
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.getAll().forEach(st => {
+                const id = st.vars && st.vars.id;
+                if (id === 'home-bg' || id === 'selected') {
+                    try { st.kill(true); } catch (e) {}
+                }
+            });
+        }
+        
+        if (this.gsapContext) {
+            try { this.gsapContext.revert(); } catch (e) {}
+            this.gsapContext = null;
+        }
         if (this.homeBgST) {
-            this.homeBgST.kill();
+            try { this.homeBgST.kill(); } catch (e) {}
             this.homeBgST = null;
         }
-        if (this.selectedST && typeof this.selectedST.kill === 'function') {
-            try { this.selectedST.kill(true); } catch (err) {}
+        if (this.selectedST) {
+            try { this.selectedST.kill(true); } catch (e) {}
             this.selectedST = null;
         }
         if (this.observer) {
@@ -258,6 +303,118 @@ export default {
         }
     },
     methods: {
+        reinitializeHome(retryCount = 0) {
+            console.log('[Home] reinitializeHome called, retry:', retryCount);
+            
+            if (retryCount > 5) {
+                console.error('[Home] Max retry count reached, aborting reinitialize');
+                return;
+            }
+            
+            if (typeof ScrollTrigger !== 'undefined') {
+                console.log('[Home] Killing Home ScrollTriggers only...');
+                ScrollTrigger.getAll().forEach(st => {
+                    const id = st.vars && st.vars.id;
+                    if (id === 'home-bg' || id === 'selected') {
+                        console.log('[Home] Killing ScrollTrigger:', id);
+                        try { st.kill(true); } catch (e) {}
+                    }
+                });
+            }
+            
+            if (this.gsapContext) {
+                console.log('[Home] Reverting gsapContext');
+                try { this.gsapContext.revert(); } catch (e) {}
+                this.gsapContext = null;
+            }
+            if (this.selectedST) {
+                this.selectedST = null;
+            }
+            if (this.homeBgST) {
+                this.homeBgST = null;
+            }
+            
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        console.error('[Home] GSAP not loaded during reinitialize, retrying...');
+                        setTimeout(() => {
+                            this.reinitializeHome(retryCount + 1);
+                        }, 500);
+                        return;
+                    }
+                    
+                    const bumper = document.querySelector('.bumper');
+                    const homeEl = document.querySelector('#home');
+                    
+                    if (!bumper || !homeEl) {
+                        console.warn('[Home] DOM elements not ready, retrying...', { bumper: !!bumper, homeEl: !!homeEl });
+                        setTimeout(() => {
+                            this.reinitializeHome(retryCount + 1);
+                        }, 500);
+                        return;
+                    }
+                    
+                    console.log('[Home] All cleared, re-initializing...');
+                    
+                    const scrollY = window.scrollY;
+                    console.log('[Home] Current scrollY:', scrollY);
+                    
+                    this.initBgScroll();
+                    
+                    setTimeout(() => {
+                        this.scrollVertical();
+                        
+                        setTimeout(() => {
+                            ScrollTrigger.refresh();
+                            console.log('[Home] ScrollTrigger refreshed, total triggers:', ScrollTrigger.getAll().length);
+                            console.log('[Home] Re-initialization complete');
+                        }, 500);
+                    }, 300);
+                }, 1000);
+            });
+        },
+        initHomeAnimations() {
+            console.log('[Home] initHomeAnimations called');
+            
+            const showIntro = this.$store.state.showIntro;
+            console.log('[Home] showIntro:', showIntro);
+            
+            // Intro가 있을 때 배경색을 초기에 하늘색으로 설정
+            if (showIntro) {
+                const homeEl = this.$refs.home;
+                if (homeEl) {
+                    homeEl.style.background = '#8BA1BC';
+                    console.log('[Home] Initial background color set to #8BA1BC for intro');
+                }
+            }
+            
+            // Intro가 없을 때만 즉시 ScrollTrigger 생성
+            if (!showIntro) {
+                this.initBgScroll();
+                this.$nextTick(() => {
+                    this.scrollVertical();
+                });
+            }
+            
+            this.initProfileImgHover();
+
+            const mainRect = this.$refs.main?.getBoundingClientRect();
+            const centerY = window.innerHeight / 2;
+            if (mainRect && mainRect.top <= centerY && mainRect.bottom > centerY) {
+                this.$store.commit('cursor/setCursorClass', 'cursor-main');
+                this.$store.commit('cursor/setCursorAnimation', Butterfly);
+                this.$store.commit('cursor/setCursorLottie', true);
+            }
+            
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    this.initFadeIn();
+                }, 100);
+            });
+            
+            console.log('[Home] All animations initialized');
+        },
         initFadeIn() {
             const showIntro = this.$store.state.showIntro;
             
@@ -297,7 +454,10 @@ export default {
                 window.addEventListener('intro-end', this.handleIntroEnd, { once: true });
             }
         },
-        handleIntroEnd() {            
+        handleIntroEnd() {
+            console.log('[Home] Removing History component');
+            this.showHistory = false;
+            
             // 1. Subtext - 페이드인
             setTimeout(() => {
                 if (this.$refs.subtext) {
@@ -363,6 +523,39 @@ export default {
                         ease: 'power2.out' 
                     });
                 }
+                
+                // 모든 애니메이션 완료 후 스크롤
+                setTimeout(() => {
+                    console.log('[Home] All intro animations complete, enabling scroll');
+                    document.body.style.overflow = '';
+                    document.body.style.height = '';
+                    document.documentElement.style.overflow = '';
+                    document.documentElement.style.height = '';
+                    
+                    console.log('[Home] Dispatching remount-pager after intro');
+                    window.dispatchEvent(new Event('remount-pager'));
+                    
+                    this.$nextTick(() => {
+                        console.log('[Home] Re-creating History component');
+                        this.showHistory = true;
+                    });
+                    
+                    console.log('[Home] Scroll enabled, initializing ScrollTriggers');
+                    
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            console.log('[Home] Initializing ScrollTriggers after intro');
+                            
+                            this.initBgScroll();
+                            this.scrollVertical();
+                            
+                            setTimeout(() => {
+                                ScrollTrigger.refresh();
+                                console.log('[Home] All ScrollTriggers refreshed, total:', ScrollTrigger.getAll().length);
+                            }, 300);
+                        }, 200);
+                    });
+                }, 400);
             }, 2000);
         },
         onMouseEnterMain() {
@@ -402,7 +595,6 @@ export default {
             }
 
             this.$nextTick(() => {
-                // 현재 스크롤 위치에 따라 초기 배경색 결정
                 let useDarkBg = true;
                 if (window.scrollY === 0) {
                     useDarkBg = true;
@@ -416,7 +608,6 @@ export default {
 
                 console.log('[Home] initBgScroll - scrollY:', window.scrollY, 'useDarkBg:', useDarkBg);
 
-                // 스크롤 애니메이션 설정
                 this.homeBgST = gsap.to(homeEl, {
                     background: '#f7f7f7',
                     ease: 'none',
@@ -425,11 +616,17 @@ export default {
                         start: 'top 100%',
                         end: 'top top',
                         scrub: true,
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        id: 'home-bg'
                     }
                 });
+                
+                console.log('[Home] initBgScroll complete, ScrollTrigger created');
 
-                ScrollTrigger.refresh();
+                setTimeout(() => {
+                    ScrollTrigger.refresh();
+                    console.log('[Home] initBgScroll - ScrollTrigger refreshed');
+                }, 300);
             });
         },
         initProfileImgHover() {
@@ -444,8 +641,6 @@ export default {
             });
         },
         scrollVertical() {
-            // if (window.innerWidth <= 425) return;
-
             const ctx = gsap.context(() => {
                 const section = this.$refs.selected;
                 if (!section) {
@@ -493,9 +688,13 @@ export default {
 
             this.gsapContext = ctx;
             
+            console.log('[Home] scrollVertical complete');
+            
             this.$nextTick(() => {
-                ScrollTrigger.refresh();
-                console.log('[Home] scrollVertical - ScrollTrigger refreshed');
+                setTimeout(() => {
+                    ScrollTrigger.refresh();
+                    console.log('[Home] scrollVertical - ScrollTrigger refreshed, total triggers:', ScrollTrigger.getAll().length);
+                }, 300);
             });
         },
         smoothScrollTo(targetY, duration = 800, callback) {

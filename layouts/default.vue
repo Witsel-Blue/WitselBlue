@@ -79,11 +79,38 @@ export default {
     mounted() {
         this.initLocale();
         this.checkIntro(true);
+        
+        // Intro가 표시될 때 스크롤 막기
+        if (this.$store.state.showIntro) {
+            console.log('[default] Intro showing, disabling scroll');
+            document.body.style.overflow = 'hidden';
+            document.body.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+            document.documentElement.style.height = '100vh';
+        }
     },
     watch: {
         '$route.fullPath'(to, from) {
             this.initLocale();
             this.checkIntro(false);
+            
+            this.$nextTick(() => {
+                if (this.$store.state.showIntro) {
+                    console.log('[default] Route changed, Intro showing, disabling scroll');
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.height = '100vh';
+                    document.documentElement.style.overflow = 'hidden';
+                    document.documentElement.style.height = '100vh';
+                } else {
+                    const homePaths = ['/', '/ko'];
+                    if (!homePaths.includes(to)) {
+                        document.body.style.overflow = '';
+                        document.body.style.height = '';
+                        document.documentElement.style.overflow = '';
+                        document.documentElement.style.height = '';
+                    }
+                }
+            });
         },
     },
     methods: {
@@ -92,7 +119,6 @@ export default {
             this.$store.commit('setShowIntro', false);
             this.hasVisitedHome = true;
             sessionStorage.setItem('introShown', 'true');
-            console.log('[default] sessionStorage set, dispatching intro-end event');
             
             this.$nextTick(() => {
                 console.log('[default] Dispatching intro-end event');

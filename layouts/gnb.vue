@@ -8,7 +8,7 @@
                     />
                 </li>
                 <li>
-                    <Pager />
+                    <Pager v-if='showPager' />
                 </li>
                 <li>
                     <ChangeLang />
@@ -48,7 +48,7 @@
                 <p>&copy; 2025 witselblue</p>
             </div>
             <div class='shadow'@click='shadowClick'></div>
-            <Pager />
+            <Pager v-if='showPager' />
         </div>
     </div>
 </template>
@@ -89,6 +89,7 @@ export default {
             ],
             open: false,
             headerShadow: false,
+            showPager: false,
         }
     },
     computed: {
@@ -99,26 +100,45 @@ export default {
     mounted() {
         this.open = false;
         this.winScrolled();
-        this.updateGnbColor(this.$route.path);
-        this.updateMenuButtonColor();
+        
+        const showIntro = this.$store.state.showIntro;
+        if (!showIntro) {
+            this.showPager = true;
+        }
+        
+        window.addEventListener('remount-pager', this.handleRemountPager);
+        
         this.$nextTick(() => {
             setTimeout(() => {
+        this.updateGnbColor(this.$route.path);
+        this.updateMenuButtonColor();
                 this.initFadeIn();
-            }, 100);
+            }, 600);
         });
+    },
+    beforeDestroy() {
+        window.removeEventListener('remount-pager', this.handleRemountPager);
     },
     watch: {
         '$route.path'(newPath) {
             this.$nextTick(() => {
                 setTimeout(() => {
                     console.log('[GNB] Route changed to:', newPath);
-                    this.updateGnbColor(newPath);
-                    this.updateMenuButtonColor();
+            this.updateGnbColor(newPath);
+            this.updateMenuButtonColor();
                 }, 300);
             });
         }
     },
     methods: {
+        handleRemountPager() {
+            console.log('[GNB] handleRemountPager called, removing Pager');
+            this.showPager = false;
+            this.$nextTick(() => {
+                console.log('[GNB] Re-creating Pager');
+                this.showPager = true;
+            });
+        },
         initFadeIn() {
             console.log('[GNB] initFadeIn called');
             const normalizedPath = this.$route.path.replace(/\/$/, '');
@@ -267,7 +287,7 @@ export default {
                 });
             }
         },
-        initGnbColorScroll(menus, langButtons = []) {
+        initGnbColorScroll(menus, langButtons = [], retryCount = 0) {
             if (!menus || !menus.length) return;
 
             const bumper = document.querySelector('.bumper');
@@ -275,7 +295,16 @@ export default {
             const normalizedPath = path.replace(/\/$/, '');
             const isHomePath = normalizedPath === '' || normalizedPath === '/ko';
 
+            if (!bumper && isHomePath && retryCount < 10) {
+                console.log('[GNB] bumper not found, retrying...', retryCount);
+                setTimeout(() => {
+                    this.initGnbColorScroll(menus, langButtons, retryCount + 1);
+                }, 200);
+                return;
+            }
+
             if (!bumper) {
+                console.log('[GNB] bumper not found after retries, using default color');
                 menus.forEach(m => {
                     const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                     if (a) a.style.color = '#3E3C3C';
@@ -317,7 +346,6 @@ export default {
                 btn.style.setProperty('--btn-color', menuColor);
             });
 
-            // 홈 경로가 아니면 스크롤 애니메이션 설정 안 함
             if (!isHomePath) return;
 
             menus.forEach(m => {

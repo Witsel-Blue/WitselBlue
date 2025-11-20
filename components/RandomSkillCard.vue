@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
 
@@ -51,9 +51,9 @@
     <div class='def'>
        <div class='inner'>
             <ul>
-                <li data-aos='fade-up'>★★★:<br class='mb'> {{ $t('randomSkillCards.def[0]') }}</li>
-                <li data-aos='fade-up'>★★★★:<br class='mb'> {{ $t('randomSkillCards.def[1]') }}</li>
-                <li data-aos='fade-up'>★★★★★:<br class='mb'> {{ $t('randomSkillCards.def[2]') }}</li>
+                <li>★★★:<br class='mb'> {{ $t('randomSkillCards.def[0]') }}</li>
+                <li>★★★★:<br class='mb'> {{ $t('randomSkillCards.def[1]') }}</li>
+                <li>★★★★★:<br class='mb'> {{ $t('randomSkillCards.def[2]') }}</li>
             </ul>
        </div>
     </div>
