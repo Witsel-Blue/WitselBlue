@@ -74,6 +74,9 @@ export default {
             skills: SkillsData,
             basePositions: [],
             mouse: { x: 0, y: 0 },
+            isScattered: false,
+            resizeTimer: null,
+            lastWrapperSize: { width: 0, height: 0 },
         };
     },
     computed: {
@@ -89,12 +92,37 @@ export default {
         this.$nextTick(() => {
             this.scatterCards();
         });
-        window.addEventListener('resize', this.scatterCards);
+        window.addEventListener('resize', this.handleResize);
     },
     beforeDestroy() {
-        window.removeEventListener('resize', this.scatterCards);
+        window.removeEventListener('resize', this.handleResize);
+        if (this.resizeTimer) {
+            clearTimeout(this.resizeTimer);
+        }
     },
     methods: {
+        handleResize() {
+            if (this.resizeTimer) {
+                clearTimeout(this.resizeTimer);
+            }
+            
+            this.resizeTimer = setTimeout(() => {
+                if (!this.$refs.wrapper) return;
+                
+                const wrapperRect = this.$refs.wrapper.getBoundingClientRect();
+                const currentWidth = wrapperRect.width;
+                const currentHeight = wrapperRect.height;
+                
+                // 재배치
+                const widthChanged = Math.abs(this.lastWrapperSize.width - currentWidth) > 10;
+                const heightChanged = Math.abs(this.lastWrapperSize.height - currentHeight) > 10;
+                
+                if (widthChanged || heightChanged) {
+                    this.lastWrapperSize = { width: currentWidth, height: currentHeight };
+                    this.scatterCards();
+                }
+            }, 300);
+        },
         switchCategory(index) {
             if (this.activeCategoryIndex === index) return;
             this.activeCategoryIndex = index;
@@ -158,9 +186,13 @@ export default {
         scatterCards() {
             if (!this.$refs.wrapper) return;
             const cards = this.$refs.wrapper.children;
+            if (cards.length === 0) return;
+            
             const wrapperRect = this.$refs.wrapper.getBoundingClientRect();
-            const cardWidth = 104;
-            const cardHeight = 144;
+            
+            const isMobile = window.innerWidth <= 768;
+            const cardWidth = isMobile ? 72 : 104;
+            const cardHeight = isMobile ? 104 : 144;
 
             const centerX = wrapperRect.width / 2 - cardWidth / 2;
             const centerY = wrapperRect.height / 2 - cardHeight / 2;
@@ -196,6 +228,9 @@ export default {
 
                 gsap.set(card, { x, y, rotation, scale: 1 });
             });
+            
+            this.lastWrapperSize = { width: wrapperRect.width, height: wrapperRect.height };
+            this.isScattered = true;
         },
         hoverCard(index) {
             this.filteredSkills[index].flipped = true;

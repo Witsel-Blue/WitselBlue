@@ -90,6 +90,7 @@ export default {
         font-size: 4rem;
         line-height: 1;
         font-family: 'TanPearl', 'YUniverse';
+        word-break: keep-all;
         
         &.ko {
             font-size: 5rem;
@@ -133,7 +134,7 @@ h1.cursor::after {
             font-size: 3rem;
             
             &.ko {
-                font-size: 3.5rem; // 한글일 때 모바일에서도 더 큰 폰트 사이즈
+                font-size: 4rem;
             }
         }
     }
