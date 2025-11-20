@@ -152,15 +152,37 @@ export default {
                 const normalizedPath = this.$route.path.replace(/\/$/, '');
                 const isHome = normalizedPath === '' || normalizedPath === '/ko';
                 
-                gsap.to(window, {
-                    scrollTo: { y: 0, autoKill: true },
-                    duration: 0.8,
-                    ease: 'power2.out',
-                    onComplete: () => {
-                        window.scrollTo({ top: 0, behavior: 'instant' });
-                        console.log('[pager] Scroll to top complete, final scrollY:', window.scrollY);
-                    }
-                });
+                // mobile
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                    
+                    gsap.to(window, {
+                        scrollTo: { y: 0, autoKill: true },
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        onComplete: () => {
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                            document.documentElement.scrollTop = 0;
+                            document.body.scrollTop = 0;
+                            console.log('[pager] Scroll to top complete (mobile), final scrollY:', window.scrollY);
+                        }
+                    });
+                } else {
+                    // pc
+                    gsap.to(window, {
+                        scrollTo: { y: 0, autoKill: true },
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        onComplete: () => {
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                            console.log('[pager] Scroll to top complete, final scrollY:', window.scrollY);
+                        }
+                    });
+                }
                 
                 if (isHome) {
                     console.log('[pager] Dispatching reset-home-bg event');

@@ -58,9 +58,10 @@ import Pager from '@/components/pager.vue';
 import ChangeLang from '@/components/ChangeLang.vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 
 if (process.client) {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 }
     
 export default {
@@ -90,6 +91,7 @@ export default {
             open: false,
             headerShadow: false,
             showPager: false,
+            gnbScrollTriggers: [],
         }
     },
     computed: {
@@ -181,13 +183,19 @@ export default {
             this.open = false;
             const currentLocale = this.$i18n.locale;
             const localizedPath = currentLocale === 'en' ? path : `/${currentLocale}${path}`;
+            const isMobile = process.client && window.innerWidth <= 768;
             
             if (this.$route.path === localizedPath) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setTimeout(() => {
+                // 같은 경로일 때 맨 위로 스크롤
+                if (!isMobile) {
+                    this.scrollToTop(() => {
+                        this.updateGnbColor(path);
+                        this.updateMenuButtonColor();
+                    });
+                } else {
                     this.updateGnbColor(path);
                     this.updateMenuButtonColor();
-                }, 300);
+                }
             } else {
                 if (path === '/projects' || path === '/archive') {
                     const nav = this.navigation.find(n => n.path === path);
@@ -204,6 +212,11 @@ export default {
                     this.$router.push(localizedPath);
                     if (path === '/') {
                         console.log('[gnb] Dispatching reset-home-bg event');
+                        if (!isMobile) {
+                            this.$nextTick(() => {
+                                this.scrollToTop();
+                            });
+                        }
                         setTimeout(() => {
                             window.dispatchEvent(new Event('reset-home-bg'));
                         }, 500);
@@ -211,6 +224,21 @@ export default {
                 }
             }
             this.updateMenuButtonColor();
+        },
+        scrollToTop(callback) {
+            if (process.client) {
+                gsap.to(window, {
+                    scrollTo: { y: 0, autoKill: true },
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                        if (callback) {
+                            setTimeout(callback, 100);
+                        }
+                    }
+                });
+            }
         },
         shadowClick() {
             this.open = false;
@@ -259,7 +287,12 @@ export default {
             if (!menus) return;
 
             const menuList = Array.isArray(menus) ? menus : [menus];
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            
+            this.gnbScrollTriggers.forEach(st => {
+                if (st && st.kill) st.kill();
+            });
+            this.gnbScrollTriggers = [];
+            
             menuList.forEach(m => {
                 const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                 if (a) gsap.killTweensOf(a);
@@ -352,7 +385,7 @@ export default {
                 const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                 if (!a) return;
 
-                gsap.to(a, {
+                const st = gsap.to(a, {
                     color: '#3E3C3C',
                     ease: 'none',
                     scrollTrigger: {
@@ -362,12 +395,15 @@ export default {
                         scrub: true,
                     }
                 });
+                if (st && st.scrollTrigger) {
+                    this.gnbScrollTriggers.push(st.scrollTrigger);
+                }
             });
 
             langButtons.forEach(btn => {
                 const spans = btn.querySelectorAll('.text-shifting span');
                 spans.forEach(span => {
-                    gsap.to(span, {
+                    const st = gsap.to(span, {
                         color: '#3E3C3C',
                         ease: 'none',
                         scrollTrigger: {
@@ -377,8 +413,11 @@ export default {
                             scrub: true,
                         }
                     });
+                    if (st && st.scrollTrigger) {
+                        this.gnbScrollTriggers.push(st.scrollTrigger);
+                    }
                 });
-                gsap.to(btn, {
+                const st = gsap.to(btn, {
                     '--after-color': '#3E3C3C',
                     '--btn-color': '#3E3C3C',
                     ease: 'none',
@@ -389,6 +428,9 @@ export default {
                         scrub: true,
                     }
                 });
+                if (st && st.scrollTrigger) {
+                    this.gnbScrollTriggers.push(st.scrollTrigger);
+                }
             });
 
             setTimeout(() => {
