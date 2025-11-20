@@ -315,19 +315,19 @@ export default [
         flipped: false,
     },
 
-    // {
-    //     title: {
-    //         en: 'Docker',
-    //         ko: '도커',
-    //     },
-    //     category: {
-    //         en: 'Environment',
-    //         ko: '작업환경',
-    //     },
-    //     logo: require('@/assets/img/skills/docker.png'),
-    //     rate: 3,
-    //     flipped: false,
-    // },
+    {
+        title: {
+            en: 'Docker',
+            ko: '도커',
+        },
+        category: {
+            en: 'Environment',
+            ko: '작업환경',
+        },
+        logo: require('@/assets/img/skills/docker.png'),
+        rate: 3,
+        flipped: false,
+    },
     {
         title: {
             en: 'GitHub',
@@ -406,19 +406,19 @@ export default [
         rate: 5,
         flipped: false,
     },
-    {
-        title: {
-            en: 'Supabase',
-            ko: 'Supabase',
-        },
-        category: {
-            en: 'Environment',
-            ko: '작업환경',
-        },
-        logo: require('@/assets/img/skills/supabase.png'),
-        rate: 3,
-        flipped: false,
-    },
+    // {
+    //     title: {
+    //         en: 'Supabase',
+    //         ko: 'Supabase',
+    //     },
+    //     category: {
+    //         en: 'Environment',
+    //         ko: '작업환경',
+    //     },
+    //     logo: require('@/assets/img/skills/supabase.png'),
+    //     rate: 3,
+    //     flipped: false,
+    // },
     {
         title: {
             en: 'Vercel',

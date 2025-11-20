@@ -115,23 +115,15 @@ export default {
             console.log('[pager] Creating new ScrollTrigger for rotation');
 
             const normalizedPath = this.$route.path.replace(/\/$/, '');
-            const isHome = normalizedPath === '' || normalizedPath === '/ko';
+            const checkIsHome = normalizedPath === '' || normalizedPath === '/ko';
             
-            let triggerEl;
-            
-            if (isHome) {
-                triggerEl = document.querySelector('#home') || document.getElementById('app') || document.body;
-            } else {
-                triggerEl = document.getElementById('app') || document.body;
-            }
-
             this.scrollTween = gsap.to('.pager', {
                 rotation: 360*2,
                 ease: 'none',
                 scrollTrigger: {
-                    trigger: triggerEl,
+                    trigger: document.body,
                     start: 'top top',
-                    end: 'bottom bottom',
+                    end: 'max',
                     scrub: true,
                     invalidateOnRefresh: true,
                 },
@@ -140,7 +132,7 @@ export default {
             this.scrollTrigger = this.scrollTween.scrollTrigger;
             console.log('[pager] ScrollTrigger created:', !!this.scrollTrigger);
 
-            if (isHome) {
+            if (checkIsHome) {
                 this.initPathColor();
             }
         },
