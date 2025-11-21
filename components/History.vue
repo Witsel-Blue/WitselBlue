@@ -163,11 +163,6 @@ export default {
     mounted() {
         if (!process.client) return;
         
-        console.log('[History] mounted called', { 
-            gsap: typeof gsap !== 'undefined',
-            ScrollTrigger: typeof ScrollTrigger !== 'undefined'
-        });
-        
         this.currentTrigger = null;
         this.activatedYears = [];
         this.activatedTriggers = [];
@@ -177,13 +172,11 @@ export default {
             console.error('[History] GSAP or ScrollTrigger not loaded! Retrying...');
             setTimeout(() => {
                 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                    console.log('[History] GSAP loaded on retry');
                     this.initHistory();
                 } else {
                     console.error('[History] GSAP still not loaded after retry');
                     setTimeout(() => {
                         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                            console.log('[History] GSAP loaded on second retry');
                             this.initHistory();
                         } else {
                             console.error('[History] GSAP failed to load');
@@ -198,19 +191,15 @@ export default {
         
         this.$nextTick(() => {
             setTimeout(() => {
-                console.log('[History] mounted, initializing...');
                 this.initHistory();
             }, 100);
         });
     },
     activated() {
         if (!process.client) return;
-        
-        console.log('[History] activated called - component reactivated');
-        
+                
         // 초기화
         if (this.scrollTriggerInstance) {
-            console.log('[History] Killing existing ScrollTrigger and reinitializing');
             try {
                 this.scrollTriggerInstance.kill(true);
                 this.scrollTriggerInstance = null;
@@ -231,9 +220,7 @@ export default {
     },
     beforeDestroy() {
         if (!process.client) return;
-        
-        console.log('[History] beforeDestroy called - cleaning up');
-        
+                
         if (this.scrollTriggerInstance) {
             try {
                 this.scrollTriggerInstance.kill();
@@ -250,16 +237,13 @@ export default {
     methods: {
         reinitializeHistory(retryCount = 0) {
             if (!process.client) return;
-            
-            console.log('[History] reinitializeHistory called, retry:', retryCount);
-            
+                        
             if (retryCount > 5) {
                 console.error('[History] Max retry count reached, aborting reinitialize');
                 return;
             }
             
             if (this.scrollTriggerInstance) {
-                console.log('[History] Killing ScrollTrigger immediately...');
                 try { this.scrollTriggerInstance.kill(); } catch (e) {}
                 this.scrollTriggerInstance = null;
             }
@@ -290,7 +274,6 @@ export default {
                         return;
                     }
                     
-                    console.log('[History] State cleared, re-positioning elements...');
                     this.positionYears();
                     
                     setTimeout(() => {
@@ -300,8 +283,6 @@ export default {
                             this.initDotAnimation();
                             setTimeout(() => {
                                 ScrollTrigger.refresh();
-                                console.log('[History] ScrollTrigger refreshed');
-                                console.log('[History] Re-initialization complete');
                             }, 500);
                         }, 300);
                     }, 300);
@@ -310,15 +291,12 @@ export default {
         },
         initHistory() {
             if (!process.client) return;
-            
-            console.log('[History] initHistory called');
-            
+                        
             this.$nextTick(() => {
                 setTimeout(() => {
                     this.positionYears();
                     this.positionTriggers();
                     this.initDotAnimation();
-                    console.log('[History] Initialization complete');
                 }, 300);
             });
         },
@@ -474,9 +452,7 @@ export default {
                                 ? point.x + xOffset
                                 : point.x + xOffset - 240;
                             const imageY = point.y - 16 + titleHeight + (textHeight > 0 ? textHeight + 4 + 16 : 16);
-                            
-                            // console.log(`[History] Trigger ${trigger.id} image Y:`, imageY, 'titleHeight:', titleHeight, 'textHeight:', textHeight);
-                            
+                                                        
                             gsap.set(triggerImage[0], {
                                 attr: { 
                                     x: imageX, 
@@ -658,9 +634,7 @@ export default {
         },
         initDotAnimation() {
             if (!process.client) return;
-            
-            console.log('[History] initDotAnimation called');
-            
+                        
             const dot = this.$refs.dot;
             const path = this.$refs.path;
             const history = this.$refs.history;
@@ -674,9 +648,7 @@ export default {
                 return;
             }
             
-            const pathLength = path.getTotalLength();
-            console.log('[History] Path length:', pathLength);
-            
+            const pathLength = path.getTotalLength();            
             const startPoint = path.getPointAtLength(0);
             gsap.set(dot, {
                 attr: { cx: startPoint.x, cy: startPoint.y }
@@ -688,9 +660,7 @@ export default {
                     'stroke-dashoffset': pathLength
                 }
             });
-            
-            console.log('[History] Creating ScrollTrigger animation');
-            
+                        
             // 기존 타임라인 제거
             const existingTimelines = gsap.globalTimeline.getChildren();
             existingTimelines.forEach(tl => {
@@ -703,14 +673,6 @@ export default {
             const historySection = document.querySelector('section.history');
             const selectedSection = document.querySelector('section.selected');
             const triggerElement = historySection || history;
-            
-            console.log('[History] Trigger element:', {
-                isSection: !!historySection,
-                element: triggerElement,
-                historyElement: history,
-                sectionFound: !!historySection,
-                selectedSection: !!selectedSection
-            });
             
             if (!historySection) {
                 console.warn('[History] section.history not found, using history element as fallback');
@@ -729,16 +691,7 @@ export default {
                             const viewportCenter = window.innerHeight / 2;
                             const historyCenterStart = historyTop - viewportCenter;
                             const calculatedStart = Math.max(selectedEnd, historyCenterStart);
-                            
-                            console.log('[History] Calculated start:', {
-                                selectedEnd,
-                                historyTop,
-                                historyCenterStart,
-                                calculatedStart,
-                                currentScrollY: window.scrollY,
-                                viewportCenter
-                            });
-                            
+                          
                             return calculatedStart;
                         }
                         return 'top center';
@@ -752,9 +705,7 @@ export default {
                     onUpdate: (self) => {
                         const progress = self.progress;
                         const point = path.getPointAtLength(pathLength * progress);
-                        
-                        // console.log('[History] onUpdate - progress:', progress.toFixed(3), 'scrollY:', window.scrollY);
-                        
+                                                
                         gsap.set(dot, {
                             attr: { cx: point.x, cy: point.y }
                         });
@@ -768,30 +719,12 @@ export default {
                         this.checkTriggerProximity(progress);
                         this.checkYearProximity(progress);
                     },
-                    onEnter: () => {
-                        console.log('[History] ScrollTrigger onEnter');
-                    },
-                    onLeave: () => {
-                        console.log('[History] ScrollTrigger onLeave');
-                    },
-                    onEnterBack: () => {
-                        console.log('[History] ScrollTrigger onEnterBack');
-                    },
-                    onLeaveBack: () => {
-                        console.log('[History] ScrollTrigger onLeaveBack');
-                    }
                 }
             });
             
             tl.to({}, { duration: 1 });
             
             this.scrollTriggerInstance = tl.scrollTrigger;
-            console.log('[History] ScrollTrigger created successfully', {
-                trigger: history,
-                scrollTrigger: !!this.scrollTriggerInstance,
-                start: this.scrollTriggerInstance?.start,
-                end: this.scrollTriggerInstance?.end
-            });
         }
     }
 }

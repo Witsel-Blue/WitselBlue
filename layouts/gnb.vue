@@ -125,38 +125,30 @@ export default {
         '$route.path'(newPath) {
             this.$nextTick(() => {
                 setTimeout(() => {
-                    console.log('[GNB] Route changed to:', newPath);
-            this.updateGnbColor(newPath);
-            this.updateMenuButtonColor();
+                    this.updateGnbColor(newPath);
+                    this.updateMenuButtonColor();
                 }, 300);
             });
         }
     },
     methods: {
         handleRemountPager() {
-            console.log('[GNB] handleRemountPager called, removing Pager');
             this.showPager = false;
             this.$nextTick(() => {
-                console.log('[GNB] Re-creating Pager');
                 this.showPager = true;
             });
         },
         initFadeIn() {
-            console.log('[GNB] initFadeIn called');
             const normalizedPath = this.$route.path.replace(/\/$/, '');
             const isHome = normalizedPath === '' || normalizedPath === '/ko';
-            console.log('[GNB] isHome:', isHome);
             
             if (isHome) {
                 const showIntro = this.$store.state.showIntro;
-                console.log('[GNB] showIntro from store:', showIntro);
                 
                 if (showIntro === true) {
-                    console.log('[GNB] Setting initial opacity to 0');
                     const gnbEl = this.$refs.gnb;
                     if (gnbEl) {
                         gnbEl.style.opacity = '0';
-                        console.log('[GNB] GNB opacity set to 0');
                     }
                     
                     window.addEventListener('fade-in-gnb', this.handleFadeIn, { once: true });
@@ -164,10 +156,8 @@ export default {
             }
         },
         handleFadeIn() {
-            console.log('[GNB] handleFadeIn called');
             const gnbEl = this.$refs.gnb;
             if (gnbEl && this.$gsap) {
-                console.log('[GNB] Fading in GNB');
                 this.$gsap.to(gnbEl, { opacity: 1, duration: 0.8, ease: 'power2.out' });
             } else {
                 console.log('[GNB] Cannot fade in - gnbEl:', gnbEl, 'gsap:', this.$gsap);
@@ -178,7 +168,6 @@ export default {
             this.updateMenuButtonColor();
         },
         linkClick(path) {
-            console.log('[gnb] linkClick called with path:', path);
             if (!path) return;
             this.open = false;
             const currentLocale = this.$i18n.locale;
@@ -211,7 +200,6 @@ export default {
                 } else {
                     this.$router.push(localizedPath);
                     if (path === '/') {
-                        console.log('[gnb] Dispatching reset-home-bg event');
                         if (!isMobile) {
                             this.$nextTick(() => {
                                 this.scrollToTop();
@@ -329,7 +317,6 @@ export default {
             const isHomePath = normalizedPath === '' || normalizedPath === '/ko';
 
             if (!bumper && isHomePath && retryCount < 10) {
-                console.log('[GNB] bumper not found, retrying...', retryCount);
                 setTimeout(() => {
                     this.initGnbColorScroll(menus, langButtons, retryCount + 1);
                 }, 200);
@@ -337,7 +324,6 @@ export default {
             }
 
             if (!bumper) {
-                console.log('[GNB] bumper not found after retries, using default color');
                 menus.forEach(m => {
                     const a = (m.$el?.querySelector('a')) || m.querySelector?.('a') || m;
                     if (a) a.style.color = '#3E3C3C';
@@ -361,8 +347,6 @@ export default {
                 const rect = bumper.getBoundingClientRect();
                 useWhite = rect.top > 0;
             }
-
-            console.log('[GNB] initGnbColorScroll - scrollY:', window.scrollY, 'useWhite:', useWhite, 'path:', path);
 
             const menuColor = useWhite ? '#f7f7f7' : '#3E3C3C';
 

@@ -44,9 +44,7 @@ export default {
         };
     },
     mounted() {
-        if (process.client) {
-            console.log('[TextStagger] mounted, triggerMode:', this.triggerMode);
-            
+        if (process.client) {            
             // 초기화
             this.animated = false;
             this.bottomTriggered = false;
@@ -56,7 +54,6 @@ export default {
             }
             
             this.$nextTick(() => {
-                console.log('[TextStagger] Initializing animation');
                 this.initAnimation();
                 window.addEventListener('scroll', this.checkPosition);
                 window.addEventListener('resize', this.checkPosition);
@@ -64,12 +61,6 @@ export default {
                 const scrollPosition = window.scrollY + window.innerHeight;
                 const docHeight = document.documentElement.scrollHeight;
                 const isBottom = scrollPosition >= docHeight - 1;
-                console.log('[TextStagger] Initial state:', {
-                    scrollPosition,
-                    docHeight,
-                    isBottom,
-                    scrollY: window.scrollY
-                });
             });
         }
     },

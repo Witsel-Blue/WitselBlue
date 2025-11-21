@@ -28,7 +28,6 @@ export default {
     },
     methods: {
         handleResizeAfterIntro() {
-            console.log('[MainP5] handleResizeAfterIntro called');
             if (this.p5Instance) {
                 setTimeout(() => {
                     if (this.p5Instance.windowResized) {
@@ -235,9 +234,7 @@ export default {
                     const rect = container.elt.getBoundingClientRect();
                     const width = rect.width || window.innerWidth;
                     const height = rect.height || window.innerHeight;
-                    
-                    console.log('[MainP5] setup - canvas size:', { width, height });
-                    
+                                        
                     s.createCanvas(width, height);
                     s.noCursor();
                     s.updateScale();
@@ -269,9 +266,7 @@ export default {
                     const rect = container.elt.getBoundingClientRect();
                     const width = rect.width || window.innerWidth;
                     const height = rect.height || window.innerHeight;
-                    
-                    console.log('[MainP5] windowResized - new canvas size:', { width, height });
-                    
+                                        
                     s.resizeCanvas(width, height);
                     s.updateScale();
                 };

@@ -67,12 +67,10 @@ export default {
         },
         showPageTransition() {
             const show = this.$store.state.showPageTransition;
-            console.log('[default.vue] showPageTransition computed:', show);
             return show;
         },
         pageTransitionTitle() {
             const title = this.$store.state.pageTransitionTitle;
-            console.log('[default.vue] pageTransitionTitle computed:', title);
             return title;
         },
     },
@@ -82,7 +80,6 @@ export default {
         
         // Intro가 표시될 때 스크롤 막기
         if (this.$store.state.showIntro) {
-            console.log('[default] Intro showing, disabling scroll');
             document.body.style.overflow = 'hidden';
             document.body.style.height = '100vh';
             document.documentElement.style.overflow = 'hidden';
@@ -96,7 +93,6 @@ export default {
             
             this.$nextTick(() => {
                 if (this.$store.state.showIntro) {
-                    console.log('[default] Route changed, Intro showing, disabling scroll');
                     document.body.style.overflow = 'hidden';
                     document.body.style.height = '100vh';
                     document.documentElement.style.overflow = 'hidden';
@@ -115,13 +111,11 @@ export default {
     },
     methods: {
         handleIntroEnd() {
-            console.log('[default] handleIntroEnd called');
             this.$store.commit('setShowIntro', false);
             this.hasVisitedHome = true;
             sessionStorage.setItem('introShown', 'true');
             
             this.$nextTick(() => {
-                console.log('[default] Dispatching intro-end event');
                 window.dispatchEvent(new Event('intro-end'));
             });
         },
