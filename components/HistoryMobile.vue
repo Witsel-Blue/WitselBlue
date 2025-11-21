@@ -1,10 +1,9 @@
 <template>
     <div id='history' ref='history'>
-        <svg ref='svg' width='592' height='1198' viewBox='0 0 592 1198' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <svg ref='svg' width='389' height='2104' viewBox='0 0 389 2104' fill='none' xmlns='http://www.w3.org/2000/svg'>            
+            <!-- 진행된 path -->
+            <path ref='path' id='history-path' d='M108.651 1C201.662 162.096 332.509 166.025 332.509 316.905C332.509 467.785 73.9691 529.081 73.9691 775.047C73.9691 1021.01 388 914.925 388 1336.92C388 1758.91 46 1762.5 1 2103' stroke='#3E3C3C' stroke-width='3' stroke-linecap='round'/>
             
-            <!-- 배경 path  -->
-            <path ref='pathBg' id='history-path-bg' d='M140 1C287.5 103.5 495 106 495 202C495 298 85.0003 337 85.0003 493.5C85.0003 650 583 582.5 583 851C583 1119.5 278 1032 1.00024 1194' stroke='#EDEDED' stroke-width='2' stroke-linecap='round'/>
-
             <!-- 연도 텍스트 -->
             <g v-for='year in years' :key='year.id' :ref='`yearGroup${year.id}`'>
                 <text 
@@ -21,10 +20,7 @@
                     {{ year.label }}
                 </text>
             </g>
-            
-            <!-- 진행된 path -->
-            <path ref='path' id='history-path' d='M140 1C287.5 103.5 495 106 495 202C495 298 85.0003 337 85.0003 493.5C85.0003 650 583 582.5 583 851C583 1119.5 278 1032 1.00024 1194' stroke='#3E3C3C' stroke-width='2' stroke-linecap='round'/>
-            
+
             <!-- 트리거: Circle, Title, Text -->
             <g v-for='trigger in triggers' :key='`trigger-${trigger.id}`'>
                 <circle 
@@ -57,7 +53,7 @@
                 <foreignObject 
                     v-if='trigger.text'
                     :ref='`triggerText${trigger.id}`'
-                    width='280'
+                    width='240'
                     height='100'
                     x='0'
                     y='0'
@@ -128,22 +124,22 @@ export default {
         return {
             scrollTriggerInstance: null,
             triggerProgress: [
-                { id: 1, progress: 0.05, anchor: 'right', image: require('@/assets/img/home/history1.png') },
-                { id: 2, progress: 0.2, anchor: 'left', image: require('@/assets/img/home/history2.png') },
+                { id: 1, progress: 0.02, anchor: 'right', image: require('@/assets/img/home/history1.png') },
+                { id: 2, progress: 0.17, anchor: 'left', image: require('@/assets/img/home/history2.png') },
                 { id: 3, progress: 0.36, anchor: 'right', image: require('@/assets/img/home/history3.png') },
-                { id: 4, progress: 0.54, anchor: 'left', image: require('@/assets/img/home/history4.png') },
-                { id: 5, progress: 0.64, anchor: 'left', image: require('@/assets/img/home/history5.png') },
-                { id: 6, progress: 0.78, anchor: 'left', image: require('@/assets/img/home/history6.png') },
+                { id: 4, progress: 0.53, anchor: 'left', image: require('@/assets/img/home/history4.png') },
+                { id: 5, progress: 0.67, anchor: 'left', image: require('@/assets/img/home/history5.png') },
+                { id: 6, progress: 0.87, anchor: 'right', image: require('@/assets/img/home/history6.png') },
                 { id: 7, progress: 1, anchor: 'right', image: require('@/assets/img/home/history7.png') }
             ],
             years: [
                 { id: 1, progress: 0, label: '2010' },
                 { id: 2, progress: 0.15, label: '2018' },
-                { id: 3, progress: 0.32, label: '2020' },
-                { id: 4, progress: 0.46, label: '2021' },
-                { id: 5, progress: 0.6, label: '2022' },
-                { id: 6, progress: 0.72, label: '2024' },
-                { id: 7, progress: 0.88, label: '2025' }
+                { id: 3, progress: 0.33, label: '2020' },
+                { id: 4, progress: 0.47, label: '2021' },
+                { id: 5, progress: 0.57, label: '2022' },
+                { id: 6, progress: 0.83, label: '2024' },
+                { id: 7, progress: 0.93, label: '2025' }
             ],
             currentTrigger: null,
             activatedYears: [],
@@ -152,7 +148,7 @@ export default {
     },
     computed: {
         triggers() {
-            const i18nTriggers = this.$t('history.triggers');
+            const i18nTriggers = this.$t('history.triggers_mb');
             return this.triggerProgress.map((item, index) => ({
                 ...item,
                 title: i18nTriggers[index]?.title || '',
@@ -308,7 +304,7 @@ export default {
                         } else if (retryCount < 10) {
                             setTimeout(() => checkAndInit(retryCount + 1), 100);
                         } else {
-                            console.error('[History] Elements not found after retries');
+                            console.error('[HistoryMobile] Elements not found after retries');
                         }
                     };
                     
@@ -386,7 +382,7 @@ export default {
                         ? point.x + xOffset
                         : point.x + xOffset - 240;
                     gsap.set(triggerTitle[0], {
-                        attr: { x: foreignX, y: point.y - 12 },
+                        attr: { x: foreignX, y: point.y - 22 },
                         opacity: 0
                     });
                 }
@@ -395,7 +391,7 @@ export default {
                 if (triggerText && triggerText[0]) {
                     const foreignX = trigger.anchor === 'right' 
                         ? point.x + xOffset
-                        : point.x + xOffset - 280;
+                        : point.x + xOffset - 240;
                     gsap.set(triggerText[0], {
                         attr: { x: foreignX, y: point.y + 12 },
                         opacity: 0
@@ -446,7 +442,7 @@ export default {
                         if (triggerText && triggerText[0]) {
                             const foreignX = trigger.anchor === 'right' 
                                 ? point.x + xOffset
-                                : point.x + xOffset - 280;
+                                : point.x + xOffset - 240;
                             const textY = point.y - 16 + titleHeight + 4;
                             
                             if (triggerTextContent && triggerTextContent[0]) {
@@ -731,7 +727,7 @@ export default {
                                 const svgRect = svg.getBoundingClientRect();
                                 const svgHeight = svgRect.height;
                                 
-                                const lastTriggerYPercent = lastTriggerPoint.y / 1198; // viewBox height: 1198
+                                const lastTriggerYPercent = lastTriggerPoint.y / 2104; // viewBox height: 2104
                                 const lastTriggerY = lastTriggerYPercent * svgHeight;
                                 
                                 const svgTop = svgRect.top + window.scrollY - historyTop;
@@ -790,9 +786,6 @@ export default {
         display: block;
         overflow: visible;
     }
-    #history-path-bg {
-        opacity: 0;
-    }
 
     #moving-dot {
         cursor: pointer;
@@ -803,7 +796,7 @@ export default {
         user-select: none;
         fill: $gray2;
         font-family: 'TanPearl';
-        font-size: 1.6rem;
+        font-size: 2.4rem;
     }
     
     .trigger-circle {
@@ -814,7 +807,7 @@ export default {
     .trigger-title {
         pointer-events: none;
         user-select: none;
-        font-size: 1.2rem;
+        font-size: 1.6rem;
         font-weight: 600;
         font-family: 'Diphylleia', 'Hahmlet';
         color: $black1;
@@ -825,7 +818,7 @@ export default {
     .trigger-text {
         pointer-events: none;
         user-select: none;
-        font-size: 0.8rem;
+        font-size: 1rem;
         font-weight: 400;
         color: $black1;
         line-height: 1.2;
@@ -847,25 +840,6 @@ export default {
         max-height: 100%;
         object-fit: contain;
         border-radius: 8px;
-    }
-}
-
-@media (max-width: 768px) {
-    #history {
-        svg {
-            height: 140%;
-        }
-        
-        .year-text {
-            font-size: 2rem;
-        }
-        .trigger-title {
-            font-size: 2.4rem;
-            word-break: keep-all;
-        }
-        .trigger-text {
-            display: none;
-        }
     }
 }
 </style>

@@ -98,7 +98,8 @@
                     <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_history') }}
                     </h1> -->
-                    <History v-if='showHistory' />
+                    <History v-if='showHistory && !isMobile' />
+                    <HistoryMobile v-if='showHistory && isMobile' />
                     <div class='bumper'></div>
                 </div>
             </section>
@@ -126,6 +127,7 @@ import TextRotating from '@/components/TextRotating.vue';
 import TextStagger from '@/components/TextStagger.vue';
 import RandomSkillCard from '@/components/RandomSkillCard.vue';
 import History from '@/components/History.vue';
+import HistoryMobile from '@/components/HistoryMobile.vue';
 import Wave from '@/components/Wave.vue';
 
 if (process.client) {
@@ -147,6 +149,7 @@ export default {
         TextStagger,
         RandomSkillCard,
         History,
+        HistoryMobile,
         Wave,
     },
     data() {
@@ -178,10 +181,13 @@ export default {
             useVhFix: false,
             homeBgSt: null,
             showHistory: true,
+            isMobile: false,
         }
     },
     mounted() {
         this.setVhFix();
+        this.checkMobile();
+        window.addEventListener('resize', this.handleResize);
         // window.addEventListener('resize', this.setVhFix);
 
         this.handleResetBgScroll = () => {
@@ -253,6 +259,7 @@ export default {
     },
     beforeDestroy() {        
         window.removeEventListener('resize', this.setVhFix);
+        window.removeEventListener('resize', this.handleResize);
         window.removeEventListener('reset-home-bg', this.handleResetBgScroll);
         
         if (typeof ScrollTrigger !== 'undefined') {
@@ -670,6 +677,14 @@ export default {
             const basePath = `/${mapping[item.category]}/${item.slug}`;
             const currentLocale = this.$i18n.locale;
             return currentLocale === 'en' ? basePath : `/${currentLocale}${basePath}`;
+        },
+        checkMobile() {
+            if (process.client) {
+                this.isMobile = window.innerWidth <= 425;
+            }
+        },
+        handleResize() {
+            this.checkMobile();
         },
         setVhFix() {
             const ua = navigator.userAgent.toLowerCase();

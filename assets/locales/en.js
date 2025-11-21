@@ -66,6 +66,43 @@ export default {
                 title: 'Freelance Work and Study',
                 text: 'Worked indivually on Damgon Research, portfolio & studied python, typescript, etc.',
             }
+        ],
+        triggers_mb: [
+            { 
+                id: 1, 
+                title: 'Sungshin Women\'s University',
+                text: 'Graduated Global Medical Science Department',
+            },
+            { 
+                id: 2, 
+                title: 'Music Producing',
+                text: 'Electronic music producing, mixset creation, crew activities',
+            },
+            { 
+                id: 3, 
+                title: 'SBS Academy Web Design',
+                text: 'Learned general planning, design, publishing, etc. of web development',
+            },
+            { 
+                id: 4, 
+                title: 'Skunkworks Studio',
+                text: 'Frontend developer activities from startup web agency company.',
+            },
+            { 
+                id: 5, 
+                title: 'Interactive Developer',
+                text: 'Studied touchdesigner, three.js, p5.js, etc.',
+            },
+            { 
+                id: 6, 
+                title: 'Lisn Design',
+                text: 'Participated in Samsung Card Monimo App Development',
+            },
+            { 
+                id: 7, 
+                title: 'Freelance Work and Study',
+                text: 'Worked indivually on Damgon Research, portfolio & studied python, typescript, etc.',
+            }
         ]
     },
     footer: {
