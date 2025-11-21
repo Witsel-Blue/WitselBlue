@@ -696,7 +696,18 @@ export default {
                         }
                         return 'top center';
                     },
-                    end: 'bottom center',
+                    end: () => {
+                        // SVG 끝이 화면 중앙에 올 때 끝나도록 계산
+                        const historySection = document.querySelector('section.history');
+                        if (historySection) {
+                            const historyRect = historySection.getBoundingClientRect();
+                            const historyTop = historyRect.top + window.scrollY;
+                            const historyHeight = historyRect.height;
+                            const viewportCenter = window.innerHeight / 2;
+                            return historyTop + historyHeight - viewportCenter;
+                        }
+                        return 'bottom center';
+                    },
                     scrub: 1,
                     markers: false,
                     invalidateOnRefresh: true,

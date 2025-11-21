@@ -99,6 +99,7 @@
                         {{ $t('home.subTitle_history') }}
                     </h1>
                     <History v-if='showHistory' />
+                    <div class='bumper'></div>
                 </div>
             </section>
         </div>
