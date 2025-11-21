@@ -128,22 +128,22 @@ export default {
         return {
             scrollTriggerInstance: null,
             triggerProgress: [
-                { id: 1, progress: 0.06, anchor: 'right', image: require('@/assets/img/home/history1.png') },
+                { id: 1, progress: 0.05, anchor: 'right', image: require('@/assets/img/home/history1.png') },
                 { id: 2, progress: 0.2, anchor: 'left', image: require('@/assets/img/home/history2.png') },
-                { id: 3, progress: 0.38, anchor: 'right', image: require('@/assets/img/home/history3.png') },
-                { id: 4, progress: 0.55, anchor: 'left', image: require('@/assets/img/home/history4.png') },
-                { id: 5, progress: 0.68, anchor: 'left', image: require('@/assets/img/home/history5.png') },
-                { id: 6, progress: 0.82, anchor: 'left', image: require('@/assets/img/home/history6.png') },
+                { id: 3, progress: 0.36, anchor: 'right', image: require('@/assets/img/home/history3.png') },
+                { id: 4, progress: 0.54, anchor: 'left', image: require('@/assets/img/home/history4.png') },
+                { id: 5, progress: 0.64, anchor: 'left', image: require('@/assets/img/home/history5.png') },
+                { id: 6, progress: 0.78, anchor: 'left', image: require('@/assets/img/home/history6.png') },
                 { id: 7, progress: 1, anchor: 'right', image: require('@/assets/img/home/history7.png') }
             ],
             years: [
                 { id: 1, progress: 0, label: '2010' },
                 { id: 2, progress: 0.15, label: '2018' },
-                { id: 3, progress: 0.3, label: '2020' },
-                { id: 4, progress: 0.44, label: '2021' },
-                { id: 5, progress: 0.62, label: '2022' },
-                { id: 6, progress: 0.75, label: '2024' },
-                { id: 7, progress: 0.92, label: '2025' }
+                { id: 3, progress: 0.32, label: '2020' },
+                { id: 4, progress: 0.46, label: '2021' },
+                { id: 5, progress: 0.6, label: '2022' },
+                { id: 6, progress: 0.72, label: '2024' },
+                { id: 7, progress: 0.88, label: '2025' }
             ],
             currentTrigger: null,
             activatedYears: [],
@@ -466,8 +466,8 @@ export default {
             });
         },
         checkTriggerProximity(progress) {
-            const thresholdEarly = 0.05; // title, circle용
-            const threshold = 0.04; // text, image용
+            const thresholdEarly = 0; // title, circle용
+            const threshold = 0.09; // text, image용
             
             this.triggers.forEach(trigger => {
                 const triggerEl = this.$refs[`trigger${trigger.id}`];
@@ -521,7 +521,12 @@ export default {
             });
             
             const nearTrigger = this.triggers.find(trigger => {
-                return Math.abs(progress - trigger.progress) < threshold;
+                // 마지막 trigger (progress === 1)의 경우 특별 처리
+                if (trigger.progress === 1) {
+                    return progress >= trigger.progress - 0.01;
+                }
+                // 일반 trigger: trigger 후 0.01 progress 지난 후부터 나타남
+                return progress >= trigger.progress + 0.01 && progress < trigger.progress + threshold;
             });
             
             if (nearTrigger && nearTrigger.id !== this.currentTrigger) {
@@ -614,8 +619,8 @@ export default {
                         gsap.to(yearEl[0], {
                             opacity: 1,
                             scale: 1,
-                            duration: 0.3,
-                            ease: 'back.out(1.7)',
+                            duration: 0.2,
+                            ease: 'back.out(1.6)',
                             transformOrigin: 'center center'
                         });
                     }
@@ -625,7 +630,7 @@ export default {
                         gsap.to(yearEl[0], {
                             opacity: 0,
                             scale: 0,
-                            duration: 0.3,
+                            duration: 0.2,
                             ease: 'power2.out',
                             transformOrigin: 'center center'
                         });
@@ -698,13 +703,29 @@ export default {
                         return 'top center';
                     },
                     end: () => {
-                        // SVG 끝이 화면 중앙에 올 때 끝나도록 계산
                         const historySection = document.querySelector('section.history');
-                        if (historySection) {
+                        if (historySection && path) {
                             const historyRect = historySection.getBoundingClientRect();
                             const historyTop = historyRect.top + window.scrollY;
-                            const historyHeight = historyRect.height;
                             const viewportCenter = window.innerHeight / 2;
+                            const pathLength = path.getTotalLength();
+                            const lastTriggerPoint = path.getPointAtLength(pathLength);
+                            
+                            const svg = this.$refs.svg;
+                            if (svg) {
+                                const svgRect = svg.getBoundingClientRect();
+                                const svgHeight = svgRect.height;
+                                
+                                const lastTriggerYPercent = lastTriggerPoint.y / 1198; // viewBox height: 1198
+                                const lastTriggerY = lastTriggerYPercent * svgHeight;
+                                
+                                const svgTop = svgRect.top + window.scrollY - historyTop;
+                                const lastTriggerAbsoluteY = historyTop + svgTop + lastTriggerY;
+                                
+                                return lastTriggerAbsoluteY - viewportCenter;
+                            }
+                            
+                            const historyHeight = historyRect.height;
                             return historyTop + historyHeight - viewportCenter;
                         }
                         return 'bottom center';
@@ -744,6 +765,7 @@ export default {
 
 <style lang='scss' scoped>
 @use '@/assets/scss/base/variables.scss' as *;
+
 #history {
     position: relative;
     
@@ -752,6 +774,9 @@ export default {
         height: auto;
         display: block;
         overflow: visible;
+    }
+    #history-path-bg {
+        opacity: 0;
     }
 
     #moving-dot {
@@ -798,12 +823,10 @@ export default {
         pointer-events: none;
         transition: opacity 0.2s ease;
     }
-    
     .trigger-image-wrapper {
         width: 100%;
         height: 100%;
     }
-    
     .trigger-image {
         max-width: 100%;
         max-height: 100%;
@@ -817,6 +840,7 @@ export default {
         svg {
             height: 140%;
         }
+        
         .year-text {
             font-size: 2rem;
         }

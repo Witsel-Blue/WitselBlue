@@ -95,9 +95,9 @@
             </section>
             <section class='history' ref='history'>
                 <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
+                    <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_history') }}
-                    </h1>
+                    </h1> -->
                     <History v-if='showHistory' />
                     <div class='bumper'></div>
                 </div>
