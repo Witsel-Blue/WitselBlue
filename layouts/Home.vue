@@ -181,7 +181,7 @@ export default {
     },
     mounted() {
         this.setVhFix();
-        window.addEventListener('resize', this.setVhFix);
+        // window.addEventListener('resize', this.setVhFix);
 
         this.handleResetBgScroll = () => {
             this.$nextTick(() => {

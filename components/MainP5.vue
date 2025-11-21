@@ -23,7 +23,19 @@ export default {
     beforeDestroy() {
         window.removeEventListener('fade-in-gnb', this.handleResizeAfterIntro);
         if (this.p5Instance) {
-            this.p5Instance.remove();
+            try {
+                this.p5Instance.remove();
+            } catch (e) {
+                console.error('[MainP5] Error removing p5 instance:', e);
+            }
+            const container = this.$refs.p5Container;
+            if (container) {
+                const canvas = container.querySelector('canvas');
+                if (canvas) {
+                    canvas.remove();
+                }
+            }
+            this.p5Instance = null;
         }
     },
     methods: {
@@ -37,6 +49,23 @@ export default {
             }
         },
         async initP5() {
+            // 이미 인스턴스가 있으면 제거
+            if (this.p5Instance) {
+                try {
+                    this.p5Instance.remove();
+                } catch (e) {
+                    console.error('[MainP5] Error removing existing p5 instance:', e);
+                }
+                const container = this.$refs.p5Container;
+                if (container) {
+                    const canvas = container.querySelector('canvas');
+                    if (canvas) {
+                        canvas.remove();
+                    }
+                }
+                this.p5Instance = null;
+            }
+
             const p5 = (await import('p5')).default;
 
             const sketch = (s) => {

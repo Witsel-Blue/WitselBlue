@@ -6,7 +6,7 @@ export default [
             ko: '담곤 연구소',
         },
         desc: {
-            duration: { start: '2025.07', end: '2025.10', },
+            duration: { start: '2025.05', end: '2025.8', },
             client: {
                 en: 'Damgon Research',
                 ko: '담곤 연구소',
@@ -73,7 +73,7 @@ export default [
             ko: '나의 포트폴리오',
         },
         desc: {
-            duration: { start: '2024.11, 2025.09', end: '2025.10' },
+            duration: { start: '2024.11, 2025.09', end: '2025.11' },
             stack: {
                 en: 'Vue2 / Nuxt / SCSS / javascript',
                 ko: 'Vue2 / Nuxt / SCSS / 자바스크립트',

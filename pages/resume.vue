@@ -61,7 +61,12 @@ export default {
 @use '@/assets/scss/base/variables.scss' as *;
     
 #resume {
-    background-color: $white2;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $gray1;
     -webkit-touch-callout: none;
     user-select: none;
     -moz-user-select: none;
