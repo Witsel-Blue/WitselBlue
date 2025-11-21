@@ -2,7 +2,7 @@
     <div id='card-flip' class='card'>
         <div class='card-inner'>
             <div class='card-front'>
-                <img :src='item.images?.thumb' />
+                <img :src='item.images?.thumb' loading='lazy' />
             </div>
             <div class='card-back'>
                 <span>

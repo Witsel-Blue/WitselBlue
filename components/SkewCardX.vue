@@ -10,6 +10,7 @@
                     <div class='res-box'>
                         <img 
                             :src='img' 
+                            loading='lazy'
                             oncontextmenu='return false;'
                             ondragstart='return false;'
                         />
@@ -17,7 +18,7 @@
                 </div>
             </div>
         </Nuxt-link>
-        <img :src='img' v-else-if='img' />
+        <img :src='img' v-else-if='img' loading='lazy' />
     </div>
 </template>
 

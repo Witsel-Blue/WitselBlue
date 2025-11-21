@@ -95,6 +95,7 @@
                             :src='trigger.image'
                             class='trigger-image'
                             alt=''
+                            loading='lazy'
                         />
                     </div>
                 </foreignObject>

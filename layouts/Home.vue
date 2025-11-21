@@ -45,7 +45,7 @@
                             :key='idx'
                             :class='{ active: activeHoverImgs[idx] }'
                             :style='{ top: img.y, left: img.x }'>
-                            <img :src='img.src' alt='preview' />
+                            <img :src='img.src' alt='preview' loading='lazy' />
                         </li>
                     </ul>
                 </div>

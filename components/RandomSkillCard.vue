@@ -17,7 +17,7 @@
             >
                 <div class='card-inner' :class='{ flipped: skill.flipped }'>
                     <div class='card-front'>
-                        <img :src='skill.logo' />
+                        <img :src='skill.logo' loading='lazy' />
                     </div>
                     <div class='card-back'>
                         <h3>{{ skill.title[$i18n.locale] }}</h3>

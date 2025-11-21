@@ -7,13 +7,13 @@
         <client-only>
             <swiper :options='swiperOptions'>
                 <swiper-slide>
-                    <img src='@/assets/img/resume.png'>
+                    <img src='@/assets/img/resume.png' loading='eager'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src='@/assets/img/CareerDescription1.png'>
+                    <img src='@/assets/img/CareerDescription1.png' loading='lazy'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src='@/assets/img/CareerDescription2.png'>
+                    <img src='@/assets/img/CareerDescription2.png' loading='lazy'>
                 </swiper-slide>
             </swiper>
             <div class='navigation prev mouse-hover1'>
