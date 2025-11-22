@@ -93,14 +93,27 @@
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
+            <section class='cover' ref='cover'>
+                <div class='inner'>
+                    <div class='paw-wrap'>
+                        <!-- <img src='@/assets/img/home/paw.svg' alt='paw' /> -->
+                    </div>
+                    <TextShifting :text="'how did I get here?'" class='mouse-hover1' />
+                    <!-- <h3 ref='coverTitle' class='cover-title'>how did I get here?</h3> -->
+                </div>
+            </section>
             <section class='history' ref='history'>
                 <div class='inner'>
                     <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_history') }}
                     </h1> -->
-                    <History v-if='showHistory && !isMobile' />
-                    <HistoryMobile v-if='showHistory && isMobile' />
-                    <div class='bumper'></div>
+                    <div class='anim'>
+                        <div class='start'>scroll to<br />start!</div>
+                        <History v-if='showHistory && !isMobile' />
+                        <HistoryMobile v-if='showHistory && isMobile' />
+                        <div class='bumper'></div>
+                        <div class='end'>what's next?</div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -147,7 +160,6 @@ export default {
         TextMarquee,
         TextRotating,
         TextStagger,
-        RandomSkillCard,
         History,
         HistoryMobile,
         Wave,
@@ -185,6 +197,7 @@ export default {
             homeBgSt: null,
             showHistory: true,
             isMobile: false,
+            lottiePlayed: false,
         }
     },
     mounted() {

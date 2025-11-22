@@ -316,20 +316,85 @@
         }
     }
 
-    .history {
-        .subtitle {
-            margin-bottom: 4rem;
+    .cover {
+        padding: 10vh 0 20vh;
+        text-align: center;
+        #lottie {
+            width: 100%;
         }
-        #history {
-            padding-top: 1.6rem;
+        .cover-title {
+            font-family: 'TanPearl';
+            font-size: 3rem;
+            font-weight: normal;
         }
-        .bumper {
-            height: 320px;
+        .text-shifting::v-deep {
+            span {
+                font-family: 'TanPearl';
+                font-size: 3rem;
+                font-weight: normal;
+
+                &.space {
+                    height: auto;
+                    display: inline-block;
+                }
+            }
         }
     }
 
+    .history {
+        .anim {
+            position: relative;
+            margin-top: calc(32px + 10vh);
+            padding-top: 24px;
+            .start {
+                text-align: center;
+                font-size: 1.6rem;
+                line-height: 1;
+                font-family: 'Diphylleia';
+                position: absolute;
+                top: 0;
+                left: 16%;
+                transform: translateY(-100%) rotate(-8deg);
+                animation: blink 2s infinite;
+            }
+            .subtitle {
+                margin-bottom: 4rem;
+            }
+            #history {
+                padding-top: 1.6rem;
+            }
+            .bumper {
+                height: 320px;
+            }
+            .end {
+                font-family: 'TanPearl';
+                font-size: 2rem;
+                text-align: right;
+                animation: blink 2s infinite;
+            }
+        }
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            12.5% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            25%, 75% {
+                opacity: 1;
+            }
+            87.5% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    }
 }
-
 
 // mobile
 @media all and (max-width: $mobile) {
@@ -471,7 +536,24 @@
             }
         }
 
+        .cover {
+            .text-shifting::v-deep {
+                span {
+                    line-height: 1.2;
+                    &:nth-child(10) {
+                        height: 0;
+                        display: block;
+                    }
+                }
+            }
+        }
+
         .history {
+            .anim {
+                .start {
+                    left: 10%;
+                }
+            }
             .bumper {
                 height: 280px;
             }
