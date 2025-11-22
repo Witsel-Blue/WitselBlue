@@ -290,7 +290,7 @@ export default {
                 }, 1000);
             });
         },
-        initHistory() {
+        initHistory() { 
             if (!process.client) return;
                         
             this.$nextTick(() => {
@@ -818,7 +818,7 @@ export default {
         font-weight: 600;
         font-family: 'Diphylleia', 'Hahmlet';
         color: $black1;
-        line-height: 1.2;
+        line-height: 1;
         word-wrap: break-word;
         overflow-wrap: break-word;
     }

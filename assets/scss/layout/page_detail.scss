@@ -242,6 +242,12 @@
             }
         }
     }
+    .video {
+        padding-top: 0;
+        video {
+            width: 100%;
+        }
+    }
 }
 
 
@@ -265,7 +271,7 @@
             }
             .title {
                 bottom: initial;
-                top: 33vh;
+                top: 34vh;
                 p {
                     font-size: 1rem;
                 }
@@ -295,7 +301,7 @@
             height: auto;
             .title {
                 bottom: initial;
-                top: 33vh;
+                top: 34vh;
             }
              .def {
                 height: auto !important;
@@ -305,7 +311,14 @@
         .showcase {
             height: auto;
             .iframe {
-                height: 60vh;
+                height: 80vh;
+            }
+        }
+        .codeviewer {
+            pre {
+                code {
+                    height: 40vh;
+                }
             }
         }
     }

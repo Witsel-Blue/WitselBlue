@@ -29,6 +29,9 @@ export default [
         player : [
             `<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A1062039115&color=%232c2a2a&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>`
         ],
+        video: {
+            url: require('@/assets/img/archive/music/mindshaft.mp4'),
+        },
     },
     {
         slug: 'blue',

@@ -56,6 +56,17 @@
                 </div>
             </section>
 
+            <section class='video' v-if='music.video'>
+                <div class='inner'>
+                    <video 
+                        :src='music.video.url' 
+                        controls 
+                        controlsList='nodownload'
+                        @contextmenu.prevent
+                    ></video>
+                </div>
+            </section>
+
             <section class='setlist' v-if='music.setlist'>
                 <div class='inner txt-c'>
                     <p v-for='set in music.setlist'>

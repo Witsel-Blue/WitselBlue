@@ -15,9 +15,9 @@ export default {
             a: 0,
             isBackspacing: false,
             textArray: [],
-            speedForward: 100, // 타이핑 속도
-            speedWait: 800, // 타이핑 완료 후 대기시간
-            speedBackspace: 10, // 백스페이스 속도
+            speedForward: 90, // 타이핑 속도
+            speedWait: 780, // 타이핑 완료 후 대기시간
+            speedBackspace: 20, // 백스페이스 속도
         };
     },
     computed: {

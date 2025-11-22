@@ -129,7 +129,7 @@ export default {
                 { id: 3, progress: 0.36, anchor: 'right', image: require('@/assets/img/home/history3.png') },
                 { id: 4, progress: 0.53, anchor: 'left', image: require('@/assets/img/home/history4.png') },
                 { id: 5, progress: 0.67, anchor: 'left', image: require('@/assets/img/home/history5.png') },
-                { id: 6, progress: 0.87, anchor: 'right', image: require('@/assets/img/home/history6.png') },
+                { id: 6, progress: 0.88, anchor: 'right', image: require('@/assets/img/home/history6.png') },
                 { id: 7, progress: 1, anchor: 'right', image: require('@/assets/img/home/history7.png') }
             ],
             years: [
@@ -139,7 +139,7 @@ export default {
                 { id: 4, progress: 0.47, label: '2021' },
                 { id: 5, progress: 0.57, label: '2022' },
                 { id: 6, progress: 0.83, label: '2024' },
-                { id: 7, progress: 0.93, label: '2025' }
+                { id: 7, progress: 0.94, label: '2025' }
             ],
             currentTrigger: null,
             activatedYears: [],
@@ -807,13 +807,12 @@ export default {
     .trigger-title {
         pointer-events: none;
         user-select: none;
-        font-size: 1.6rem;
+        font-size: 2rem;
         font-weight: 600;
         font-family: 'Diphylleia', 'Hahmlet';
         color: $black1;
-        line-height: 1.2;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        line-height: 1;
+        word-break: keep-all;
     }
     .trigger-text {
         pointer-events: none;
@@ -822,9 +821,8 @@ export default {
         font-weight: 400;
         color: $black1;
         line-height: 1.2;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
         padding-top: 4px;
+        word-break: keep-all;
     }
     
     .trigger-image-container {

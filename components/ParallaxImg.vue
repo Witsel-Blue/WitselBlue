@@ -268,7 +268,7 @@ export default {
         object-fit: cover;
         top: 0;
         width: 100%;
-        height: 110%;
+        height: 150%;
     }
 }
 

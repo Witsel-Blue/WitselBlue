@@ -168,7 +168,10 @@ export default {
             ],
             selected: [
                 { ...projectsData[2], category: 'projects' },
+                { ...projectsData[4], category: 'projects' },
+                { ...archiveDevData[4], category: 'development' },
                 { ...archiveDevData[0], category: 'development' },
+                { ...archiveMusicData[0], category: 'music' },
                 { ...archiveMusicData[2], category: 'music' },
             ],
             selectedST: null,
