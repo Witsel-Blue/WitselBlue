@@ -322,20 +322,15 @@
         #lottie {
             width: 100%;
         }
-        .cover-title {
-            font-family: 'TanPearl';
-            font-size: 3rem;
-            font-weight: normal;
-        }
-        .text-shifting::v-deep {
-            span {
+        #text-typing::v-deep {
+            h1 {
                 font-family: 'TanPearl';
                 font-size: 3rem;
+                line-height: 1.2;
                 font-weight: normal;
-
-                &.space {
-                    height: auto;
-                    display: inline-block;
+                &.cursor::after {
+                    height: 3rem;
+                    width: 2px;
                 }
             }
         }
@@ -367,10 +362,19 @@
                 height: 320px;
             }
             .end {
-                font-family: 'TanPearl';
-                font-size: 2rem;
                 text-align: right;
-                animation: blink 2s infinite;
+                #text-typing::v-deep {
+                    h1 {
+                        font-family: 'basic_font';
+                        font-size: 2rem;
+                        font-weight: normal;
+                        &.cursor::after {
+                            height: 1.6rem;
+                            width: 2px;
+                            margin-left: 0.5rem;
+                        }
+                    }
+                }
             }
         }
         @keyframes blink {

@@ -98,8 +98,8 @@
                     <div class='paw-wrap'>
                         <!-- <img src='@/assets/img/home/paw.svg' alt='paw' /> -->
                     </div>
-                    <TextShifting :text="'how did I get here?'" class='mouse-hover1' />
-                    <!-- <h3 ref='coverTitle' class='cover-title'>how did I get here?</h3> -->
+                    <TextTyping ref='coverTyping' text='how did I get here?' :backspace='false' :autoplay='false' />
+                    <!-- <TextShifting :text="'how did I get here?'" class='mouse-hover1' /> -->
                 </div>
             </section>
             <section class='history' ref='history'>
@@ -112,7 +112,9 @@
                         <History v-if='showHistory && !isMobile' />
                         <HistoryMobile v-if='showHistory && isMobile' />
                         <div class='bumper'></div>
-                        <div class='end'>what's next?</div>
+                        <div class='end' ref='end'>
+                            <TextTyping ref='endTyping' text="what's next?" :backspace='false' :autoplay='false' />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -139,6 +141,7 @@ import TextMarquee from '@/components/TextMarquee.vue';
 import TextRotating from '@/components/TextRotating.vue';
 import TextStagger from '@/components/TextStagger.vue';
 import RandomSkillCard from '@/components/RandomSkillCard.vue';
+import TextTyping from '@/components/TextTyping.vue';
 import History from '@/components/History.vue';
 import HistoryMobile from '@/components/HistoryMobile.vue';
 import Wave from '@/components/Wave.vue';
@@ -160,6 +163,8 @@ export default {
         TextMarquee,
         TextRotating,
         TextStagger,
+        RandomSkillCard,
+        TextTyping,
         History,
         HistoryMobile,
         Wave,
@@ -198,10 +203,11 @@ export default {
             showHistory: true,
             isMobile: false,
             lottiePlayed: false,
+            typingSTs: [],
         }
     },
     mounted() {
-        this.setVhFix();
+        // this.setVhFix();
         this.checkMobile();
         window.addEventListener('resize', this.handleResize);
         // window.addEventListener('resize', this.setVhFix);
@@ -274,7 +280,7 @@ export default {
         });
     },
     beforeDestroy() {        
-        window.removeEventListener('resize', this.setVhFix);
+        // window.removeEventListener('resize', this.setVhFix);
         window.removeEventListener('resize', this.handleResize);
         window.removeEventListener('reset-home-bg', this.handleResetBgScroll);
         
@@ -298,6 +304,12 @@ export default {
         if (this.selectedST) {
             try { this.selectedST.kill(true); } catch (e) {}
             this.selectedST = null;
+        }
+        if (this.typingSTs && this.typingSTs.length > 0) {
+            this.typingSTs.forEach(st => {
+                try { st.kill(true); } catch (e) {}
+            });
+            this.typingSTs = [];
         }
         if (this.observer) {
             try { this.observer.disconnect(); } catch (e) {}
@@ -403,6 +415,7 @@ export default {
             this.$nextTick(() => {
                 setTimeout(() => {
                     this.initFadeIn();
+                    this.initTypingAnimations();
                 }, 100);
             });
         },
@@ -661,6 +674,43 @@ export default {
                     ScrollTrigger.refresh();
                 }, 300);
             });
+        },
+        initTypingAnimations() {
+            if (typeof ScrollTrigger === 'undefined') {
+                return;
+            }
+
+            // cover 섹션의 TextTyping
+            if (this.$refs.coverTyping) {
+                const coverST = ScrollTrigger.create({
+                    trigger: this.$refs.cover,
+                    start: 'top center',
+                    onEnter: () => {
+                        if (this.$refs.coverTyping) {
+                            this.$refs.coverTyping.startTyping();
+                        }
+                        coverST.kill();
+                    },
+                    once: true
+                });
+                this.typingSTs.push(coverST);
+            }
+
+            // end div의 TextTyping
+            if (this.$refs.endTyping && this.$refs.end) {
+                const endST = ScrollTrigger.create({
+                    trigger: this.$refs.end,
+                    start: 'top center',
+                    onEnter: () => {
+                        if (this.$refs.endTyping) {
+                            this.$refs.endTyping.startTyping();
+                        }
+                        endST.kill();
+                    },
+                    once: true
+                });
+                this.typingSTs.push(endST);
+            }
         },
         smoothScrollTo(targetY, duration = 800, callback) {
             const startY = window.scrollY;

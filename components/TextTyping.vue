@@ -1,31 +1,53 @@
 <template>
     <div id='text-typing'>
-        <div class='output' ref='output'>
-            <h1 :class='{ cursor: true, ko: isKorean }'>{{ headerText }}</h1>
-        </div>
+        <h1 :class='{ cursor: true, ko: isKorean }'>{{ displayText }}</h1>
     </div>
 </template>
 
 <script>
 export default {
+    props: {
+        text: {
+            type: String,
+            default: 'Hello World'
+        },
+        speedForward: {
+            type: Number,
+            default: 90 // 타이핑 속도
+        },
+        speedWait: {
+            type: Number,
+            default: 780 // 타이핑 완료 후 대기시간
+        },
+        speedBackspace: {
+            type: Number,
+            default: 20 // 백스페이스 속도
+        },
+        backspace: {
+            type: Boolean,
+            default: true // 백스페이스 기능 사용 여부
+        },
+        autoplay: {
+            type: Boolean,
+            default: true // 자동 재생 여부
+        },
+        isKorean: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
-            headerText: '',
+            displayText: '',
             i: 0,
             a: 0,
             isBackspacing: false,
             textArray: [],
-            speedForward: 90, // 타이핑 속도
-            speedWait: 780, // 타이핑 완료 후 대기시간
-            speedBackspace: 20, // 백스페이스 속도
         };
     },
     computed: {
         typingText() {
-            return 'Hello World';
-        },
-        isKorean() {
-            return false;
+            return this.text;
         }
     },
     watch: {
@@ -35,16 +57,18 @@ export default {
                 if (newText) {
                     this.textArray = [newText];
                     this.resetAnimation();
-                    this.$nextTick(() => {
-                        this.startTyping();
-                    });
+                    if (this.autoplay) {
+                        this.$nextTick(() => {
+                            this.startTyping();
+                        });
+                    }
                 }
             }
         }
     },
     methods: {
         resetAnimation() {
-            this.headerText = '';
+            this.displayText = '';
             this.i = 0;
             this.a = 0;
             this.isBackspacing = false;
@@ -58,17 +82,21 @@ export default {
             const aString = this.textArray[this.a];
             if (!this.isBackspacing) {
                 if (this.i < aString.length) {
-                    this.headerText += aString.charAt(this.i);
+                    this.displayText += aString.charAt(this.i);
                     this.i++;
                     setTimeout(this.typeWriter, this.speedForward);
                 } else if (this.i === aString.length) {
-                    this.isBackspacing = true;
-                    setTimeout(this.typeWriter, this.speedWait);
+                    if (this.backspace) {
+                        this.isBackspacing = true;
+                        setTimeout(this.typeWriter, this.speedWait);
+                    } else {
+                        this.$emit('typing-complete');
+                    }
                 }
             } else {
                 // 백스페이스 모드
-                if (this.headerText.length > 0) {
-                    this.headerText = this.headerText.substring(0, this.headerText.length - 1);
+                if (this.displayText.length > 0) {
+                    this.displayText = this.displayText.substring(0, this.displayText.length - 1);
                     setTimeout(this.typeWriter, this.speedBackspace);
                 } else {
                     this.isBackspacing = false;
@@ -83,28 +111,13 @@ export default {
 <style lang='scss' scoped>
 @use '@/assets/scss/base/variables.scss' as *;
 
-.output {
-    text-align: center;
-    color: $white1;
-    h1 {
-        font-size: 4rem;
-        line-height: 1;
-        font-family: 'TanPearl', 'YUniverse';
-        word-break: keep-all;
-        
-        &.ko {
-            font-size: 5rem;
-        }
-    }
-}
-
 .cursor::after {
     content: '';
     display: inline-block;
     margin-left: 1rem;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(62, 60, 60, 0.5);
     animation-name: blink;
-    animation-duration: 0.5s;
+    animation-duration: 0.8s;
     animation-iteration-count: infinite;
 }
 h1.cursor::after {
@@ -129,13 +142,11 @@ h1.cursor::after {
 
 // mobile
 @media all and (max-width: $mobile) {
-    .output {
-        h1 {
-            font-size: 3rem;
+    h1 {
+        font-size: 3rem;
             
-            &.ko {
-                font-size: 4rem;
-            }
+        &.ko {
+            font-size: 4rem;
         }
     }
 }

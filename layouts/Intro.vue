@@ -1,7 +1,7 @@
 <template>
     <div class='intro' v-show='visible'>
-        <div class='inner-s'>
-            <TextTyping />
+        <div class='inner'>
+            <TextTyping text='Hello World' />
         </div>
     </div>
 </template>
@@ -43,12 +43,38 @@ export default {
     z-index: 9999;
     transition: opacity 0.4s;
     background: $grad-blue;
+
+    #text-typing::v-deep {
+        text-align: center;
+        color: $white1;
+        h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+            font-family: 'TanPearl', 'YUniverse';
+            word-break: keep-all;
+            &.ko {
+                font-size: 5rem;
+            }
+            &.cursor::after {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+    }
 }
 
 // mobile
 @media all and (max-width: $mobile) {
     .inner-s {
         width: 60%;
+    }
+
+    #text-typing::v-deep {
+        h1 {
+            font-size: 3rem;    
+            &.ko {
+                font-size: 4rem;
+            }
+        }
     }
 }
 </style>
