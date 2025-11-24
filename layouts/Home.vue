@@ -57,9 +57,10 @@
             </div>
             <section class='skills' ref='skills'>
                 <div class='inner'>
-                    <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
+                    <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
                         {{ $t('home.subTitle_skills') }}
-                    </h1>
+                    </h1> -->
+                    <TextTyping ref='skillsTyping' text='what am i good at?' :backspace='false' :autoplay='false' />
                     <RandomSkillCard />
                 </div>
             </section>
@@ -678,6 +679,22 @@ export default {
         initTypingAnimations() {
             if (typeof ScrollTrigger === 'undefined') {
                 return;
+            }
+
+            // skills 섹션의 TextTyping
+            if (this.$refs.skillsTyping) {
+                const skillsST = ScrollTrigger.create({
+                    trigger: this.$refs.skills,
+                    start: 'top center',
+                    onEnter: () => {
+                        if (this.$refs.skillsTyping) {
+                            this.$refs.skillsTyping.startTyping();
+                        }
+                        skillsST.kill();
+                    },
+                    once: true
+                });
+                this.typingSTs.push(skillsST);
             }
 
             // cover 섹션의 TextTyping

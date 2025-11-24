@@ -436,7 +436,7 @@ export default {
         background-size: contain;
         height: 80vh;
         padding: 0;
-        margin: 0;
+        // margin: 0;
     }
                 
     .skill-cards-wrapper {

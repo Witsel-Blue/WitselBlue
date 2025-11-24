@@ -224,6 +224,20 @@
         background-color: $gray1;
         .inner {
             position:relative;
+
+            #text-typing::v-deep {
+                text-align: center;
+                h1 {
+                    font-family: 'Bagel', 'Bagel_kr';
+                    font-size: 4rem;
+                    line-height: 1;
+                    font-weight: normal;
+                    &.cursor::after {
+                        height: 3rem;
+                        width: 2px;
+                    }
+                }
+            }
         }
     }
 
@@ -317,16 +331,16 @@
     }
 
     .cover {
-        padding: 10vh 0 20vh;
+        padding: 20vh 0;
         text-align: center;
         #lottie {
             width: 100%;
         }
         #text-typing::v-deep {
             h1 {
-                font-family: 'TanPearl';
-                font-size: 3rem;
-                line-height: 1.2;
+                font-family: 'Bagel', 'Bagel_kr';
+                font-size: 4rem;
+                line-height: 1;
                 font-weight: normal;
                 &.cursor::after {
                     height: 3rem;
@@ -365,8 +379,9 @@
                 text-align: right;
                 #text-typing::v-deep {
                     h1 {
-                        font-family: 'basic_font';
-                        font-size: 2rem;
+                        font-family: 'Bagel', 'Bagel_kr';
+                        font-size: 2.4rem;
+                        line-height: 1;
                         font-weight: normal;
                         &.cursor::after {
                             height: 1.6rem;
@@ -513,6 +528,18 @@
                     padding-top: 5vh;
                     margin-bottom: 0;
                 }
+                #text-typing::v-deep {
+                    h1 {
+                        font-size: 3rem;
+                        width: 72%;
+                        min-height: 6rem;
+                        margin: 0 auto;
+                        &.cursor::after {
+                            height: 2rem;
+                            margin-left: 0.5rem;
+                        }
+                    }
+                }
             }
         }
 
@@ -541,12 +568,15 @@
         }
 
         .cover {
-            .text-shifting::v-deep {
-                span {
-                    line-height: 1.2;
-                    &:nth-child(10) {
-                        height: 0;
-                        display: block;
+            #text-typing::v-deep {
+                h1 {
+                    font-size: 3rem;
+                    width: 72%;
+                    min-height: 6rem;
+                    margin: 0 auto;
+                    &.cursor::after {
+                        height: 2rem;
+                        margin-left: 0.5rem;
                     }
                 }
             }
@@ -556,10 +586,20 @@
             .anim {
                 .start {
                     left: 10%;
+                    font-size: 1.2rem;
                 }
             }
             .bumper {
                 height: 280px;
+            }
+            .end {
+                #text-typing::v-deep {
+                    h1 {
+                        &.cursor::after {
+                            margin-left: 0.4rem;
+                        }
+                    }
+                }
             }
         }
 

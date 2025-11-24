@@ -49,7 +49,7 @@ export default {
         color: $white1;
         h1 {
             font-size: 4rem;
-            line-height: 1.2;
+            line-height: 1.4;
             font-family: 'TanPearl', 'YUniverse';
             word-break: keep-all;
             &.ko {
