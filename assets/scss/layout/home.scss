@@ -224,7 +224,6 @@
         background-color: $gray1;
         .inner {
             position:relative;
-
             #text-typing::v-deep {
                 text-align: center;
                 h1 {
@@ -237,6 +236,12 @@
                         width: 2px;
                     }
                 }
+            }
+            .subtext {
+                font-family: 'Diphylleia';
+                text-align: center;
+                font-size: 0.8rem;
+                margin-top: 16px;;
             }
         }
     }
@@ -331,7 +336,7 @@
     }
 
     .cover {
-        padding: 20vh 0;
+        padding: 40vh 0 20vh;
         text-align: center;
         #lottie {
             width: 100%;
@@ -353,16 +358,16 @@
     .history {
         .anim {
             position: relative;
-            margin-top: calc(32px + 10vh);
-            padding-top: 24px;
+            margin-top: 32px;
+            padding-top: 16px;
             .start {
                 text-align: center;
-                font-size: 1.6rem;
+                font-size: 1rem;
                 line-height: 1;
                 font-family: 'Diphylleia';
                 position: absolute;
                 top: 0;
-                left: 16%;
+                left: 18%;
                 transform: translateY(-100%) rotate(-8deg);
                 animation: blink 2s infinite;
             }
@@ -585,8 +590,8 @@
         .history {
             .anim {
                 .start {
-                    left: 10%;
-                    font-size: 1.2rem;
+                    left: 12%;
+                    font-size: 0.8rem;
                 }
             }
             .bumper {

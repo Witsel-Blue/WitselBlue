@@ -51,23 +51,6 @@
                 </div>
                 <TextMarquee text='witselblue' />
             </section>
-            <div class='divider'>
-                <!-- <img src='@/assets/img/divider.svg' /> -->
-                 <Wave />
-            </div>
-            <section class='skills' ref='skills'>
-                <div class='inner'>
-                    <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
-                        {{ $t('home.subTitle_skills') }}
-                    </h1> -->
-                    <TextTyping ref='skillsTyping' text='what am i good at?' :backspace='false' :autoplay='false' />
-                    <RandomSkillCard />
-                </div>
-            </section>
-            <div class='divider rev'>
-                <!-- <img src='@/assets/img/divider.svg' /> -->
-                 <Wave />
-            </div>
             <section class='selected' ref='selected' id='selected'>
                 <ul class='container' ref='comp'>
                     <li
@@ -94,6 +77,24 @@
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
+            <div class='divider'>
+                <!-- <img src='@/assets/img/divider.svg' /> -->
+                 <Wave />
+            </div>
+            <section class='skills' ref='skills'>
+                <div class='inner'>
+                    <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
+                        {{ $t('home.subTitle_skills') }}
+                    </h1> -->
+                    <TextTyping ref='skillsTyping' text='what am i good at?' :backspace='false' :autoplay='false' />
+                    <p class='subtext'>find out picking up cards!</p>
+                    <RandomSkillCard />
+                </div>
+            </section>
+            <div class='divider rev'>
+                <!-- <img src='@/assets/img/divider.svg' /> -->
+                 <Wave />
+            </div>
             <section class='cover' ref='cover'>
                 <div class='inner'>
                     <div class='paw-wrap'>
@@ -187,9 +188,9 @@ export default {
             selected: [
                 { ...projectsData[2], category: 'projects' },
                 { ...projectsData[4], category: 'projects' },
-                { ...archiveDevData[4], category: 'development' },
+                // { ...archiveDevData[4], category: 'development' },
                 { ...archiveDevData[0], category: 'development' },
-                { ...archiveMusicData[0], category: 'music' },
+                // { ...archiveMusicData[0], category: 'music' },
                 { ...archiveMusicData[2], category: 'music' },
             ],
             selectedST: null,
