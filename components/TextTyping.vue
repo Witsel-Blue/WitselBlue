@@ -22,10 +22,10 @@ export default {
     },
     computed: {
         typingText() {
-            return this.$t('intro.textTyping');
+            return 'Hello World';
         },
         isKorean() {
-            return this.$i18n.locale === 'ko';
+            return false;
         }
     },
     watch: {
