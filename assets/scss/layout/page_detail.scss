@@ -243,10 +243,13 @@
         }
     }
     .video {
-        padding-top: 0;
+        padding: 0;
         video {
             width: 100%;
         }
+    }
+    .about {
+        text-align: center;
     }
 }
 

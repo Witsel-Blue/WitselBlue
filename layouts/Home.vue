@@ -97,11 +97,7 @@
             </div>
             <section class='cover' ref='cover'>
                 <div class='inner'>
-                    <div class='paw-wrap'>
-                        <!-- <img src='@/assets/img/home/paw.svg' alt='paw' /> -->
-                    </div>
                     <TextTyping ref='coverTyping' text='how did I get here?' :backspace='false' :autoplay='false' />
-                    <!-- <TextShifting :text="'how did I get here?'" class='mouse-hover1' /> -->
                 </div>
             </section>
             <section class='history' ref='history'>

@@ -7,13 +7,13 @@
         <client-only>
             <swiper :options='swiperOptions'>
                 <swiper-slide>
-                    <img src='@/assets/img/resume.png' loading='eager'>
+                    <img :src='resumeImage' loading='eager'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src='@/assets/img/CareerDescription1.png' loading='lazy'>
+                    <img :src='careerDescription1Image' loading='lazy'>
                 </swiper-slide>
                 <swiper-slide>
-                    <img src='@/assets/img/CareerDescription2.png' loading='lazy'>
+                    <img :src='careerDescription2Image' loading='lazy'>
                 </swiper-slide>
             </swiper>
             <div class='navigation prev mouse-hover1'>
@@ -36,6 +36,20 @@
 
 <script>
 export default {
+    computed: {
+        resumeImage() {
+            const suffix = this.$i18n.locale === 'ko' ? '_ko' : '';
+            return require(`@/assets/img/resume${suffix}.png`);
+        },
+        careerDescription1Image() {
+            const suffix = this.$i18n.locale === 'ko' ? '_ko' : '';
+            return require(`@/assets/img/CareerDescription1${suffix}.png`);
+        },
+        careerDescription2Image() {
+            const suffix = this.$i18n.locale === 'ko' ? '_ko' : '';
+            return require(`@/assets/img/CareerDescription2${suffix}.png`);
+        }
+    },
     data() {
         return {
             swiperOptions: {

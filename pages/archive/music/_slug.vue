@@ -74,6 +74,13 @@
                     </p>
                 </div>
             </section>
+
+            <section class='about' v-if='music.content'>
+                <div class='inner'>
+                    <p v-html='music.content.about[$i18n.locale]'></p>
+                </div>
+            </section>
+
         </div>
 
     </div>

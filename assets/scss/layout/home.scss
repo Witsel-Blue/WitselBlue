@@ -219,33 +219,6 @@
         }
     }
 
-    .skills {
-        padding: 10vh 0 15vh;
-        background-color: $gray1;
-        .inner {
-            position:relative;
-            #text-typing::v-deep {
-                text-align: center;
-                h1 {
-                    font-family: 'Bagel', 'Bagel_kr';
-                    font-size: 4rem;
-                    line-height: 1;
-                    font-weight: normal;
-                    &.cursor::after {
-                        height: 3rem;
-                        width: 2px;
-                    }
-                }
-            }
-            .subtext {
-                font-family: 'Diphylleia';
-                text-align: center;
-                font-size: 0.8rem;
-                margin-top: 16px;;
-            }
-        }
-    }
-
     .selected {
         padding: 0 !important;
         position: relative;
@@ -331,6 +304,33 @@
                         gap: 16px;
                     }
                 }
+            }
+        }
+    }
+    
+    .skills {
+        padding: 10vh 0 15vh;
+        background-color: $gray1;
+        .inner {
+            position:relative;
+            #text-typing::v-deep {
+                text-align: center;
+                h1 {
+                    font-family: 'Bagel', 'Bagel_kr';
+                    font-size: 4rem;
+                    line-height: 1;
+                    font-weight: normal;
+                    &.cursor::after {
+                        height: 3rem;
+                        width: 2px;
+                    }
+                }
+            }
+            .subtext {
+                font-family: 'Diphylleia';
+                text-align: center;
+                font-size: 0.8rem;
+                margin-top: 16px;;
             }
         }
     }

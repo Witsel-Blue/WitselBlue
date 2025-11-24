@@ -32,6 +32,12 @@ export default [
         video: {
             url: require('@/assets/img/archive/music/mindshaft.mp4'),
         },
+        content: {
+            about: {
+                en: 'Idea, video, photo and<br class="mb"> ambient sound source by Junq,<br> music producing by WitselBlue.<br><br>Inspired by famous gay club<br class="mb"> Mineshaft in NYC, <br> Junq connected the club to<br class="mb"> mind meditation travel with music.<br>I tried to embody music like <br class="mb">a club sound heard from afar<br>but also used natural sounds to tell <br class="mb">it\'s connected to mind traveling.',
+                ko: '아이디어, 비디오, 사진, 앰비언트 사운드 by Junq,<br> 음악 프로듀싱 by 비첼블루.<br><br>뉴욕의 유명한 게이클럽인<br class="mb"> 마인섀프트에서 영감을 받아<br>음악을 통해 마인섀프트와 <br class="mb">마음 명상 여행을 연결했습니다.<br>음악을 멀리서 들리는 <br class="mb">클럽 사운드처럼 구현하려 시도했지만<br>내추럴한 악기도 사용하여 <br class="mb">명상과 연결되도록 했습니다.'
+            }
+        }
     },
     {
         slug: 'blue',

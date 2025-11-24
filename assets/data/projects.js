@@ -119,8 +119,8 @@ export default [
         },
         content: {
             about: {
-                en:  'This is a 2025 version portfolio site<br class="mb"> built with Vue and Nuxt.<br> It utilizes libraries like GSAP and AOS,<br>and the main visuals are<br class="mb"> built by using p5.js.<br>The full code is available on GitHub, <br class="mb">so check it out!',
-                ko: 'vue와 nuxt로 구축한<br class="mb"> 2025년 버전 포트폴리오 사이트입니다.<br>GSAP, AOS 등의 라이브러리를 이용하였고,<br>메인비주얼은 p5.js를 사용했습니다.<br>GitHub에 전체 코드를 올려두었으니<br class="mb"> 확인해 보세요!',
+                en:  'This is a 2025 version portfolio site<br class="mb"> built with Vue and Nuxt. <br>Main idea is blank note and cards, <br>and both English and Korean<br class="mb"> are supported.<br>The full code is available on GitHub, <br class="mb">so check it out!',
+                ko: 'vue와 nuxt로 구축한<br class="mb"> 2025년 버전 포트폴리오 사이트입니다.<br>전체적인 아이디어는 백지 노트와 카드이고, <br>영문, 한글 지원이 가능합니다. <br>GitHub에 전체 코드를 올려두었으니<br class="mb"> 확인해 보세요!',
             }
 
         }
@@ -182,8 +182,8 @@ export default [
         },
         content: {
             about: {
-                en: 'Financial Services app<br>planned by Samsung Life Insurance, Fire Insurance and Samsung Card.<br> Developed under security system in collaboration with multiple teams.<br> Managed components and over 1,400 pages, including<br class="mb"> the card main page.',
-                ko: '삼성생명, 삼성화재, 삼성카드,<br class="mb"> 삼성증권에서 만든 금융 서비스 앱<br> 여러 팀과 협력하여<br class="mb">인터넷 사용 없이 보안 시스템 아래에서 개발<br>컴포넌트와 1400여개 페이지 관리,<br class="mb"> 카드 메인 페이지 담당',
+                en: 'Financial Services app<br>planned by Samsung Life Insurance, <br class="mb">Fire Insurance and Samsung Card.<br> Developed under security system <br class="mb">in collaboration with multiple teams. <br>Managed & renewed all components and <br class="mb">1,400+ pages with 5 team memebers.<br class="mb"> Renewed the card main page.',
+                ko: '삼성생명, 삼성화재, 삼성카드,<br class="mb"> 삼성증권에서 만든 금융 서비스 앱.<br> 여러 팀과 협력하여 <br class="mb">인터넷 사용 없이 보안 시스템 아래에서 개발.<br>5명의 팀원과 함께<br class="mb"> 모든 컴포넌트와 1400여개 페이지 관리 및 리뉴얼. <br>카드 메인 페이지 담당.',
             }
         }
     },
@@ -246,7 +246,7 @@ export default [
         },
         content: {
             about: {
-                en: 'An online space <br class="mb">which can leave messages<br> commemorating the 10th anniversary of <br class="mb">the Sewol Ferry Disaster.<br> Main visuals implemented using libraries like Scrollmagic<br class="mb"> and Tweenmax.',
+                en: 'An online space <br class="mb">which can leave messages<br> commemorating the 10th anniversary of <br class="mb">the Sewol Ferry Disaster.<br> Main visuals implemented using libraries <br class="mb">like Scrollmagic and Tweenmax.',
                 ko: '세월호참사 10주기를 기념하여<br class="mb"> 메세지를 남길 수 있는 공간<br> Scrollmagic, Tweenmax 등의<br class="mb"> 라이브러리를 이용하여 메인비주얼 구현',
             }
         },
@@ -310,7 +310,7 @@ export default [
         },
         content: {
             about: {
-                en: 'Banks Foundation for Young Entrepreneurs, DCAMP site renewal.<br>Responsible for the entire<br class="mb"> frontend of the site.<br>You can search and apply for programs DCAMP provides.<br>English site and personal membership window exists.',
+                en: 'Banks Foundation for <br class="mb">Young Entrepreneurs, <br class="mb">DCAMP site renewal.<br>Responsible for the entire<br class="mb"> frontend of the site.<br>You can search and apply for <br class="mb">programs DCAMP provides.<br>English site and <br class="mb">personal membership window exists.',
                 ko: '은행권청년창업재단 디캠프 사이트 리뉴얼.<br> 사이트 전체 프론트엔드 담당<br>디캠프가 제공하는 프로그램을<br class="mb"> 검색하고 신청할 수 있습니다.<br>영문사이트와 개인 멤버십<br class="mb"> 페이지가 따로 있습니다.',
             }
         },
@@ -376,7 +376,7 @@ export default [
         content: {
             about: {
                 en: 'The site operates various support<br class="mb"> programs helping dance artists.<br>You can apply support programs<br class="mb"> for health improvement <br class="mb">or career transition.<br>Checking latest news,<br class="mb"> donation functioning are also possible.',
-                ko: '무용예술인의 직업전환과 복지증진을 목표로<br class="mb"> 다양한 지원사업을 운영하고 있는 사이트.<br> 사이트 내에서 다양한 지원을 신청할 수 있고, 소식을 확인할 수 있습니다.<br> 후원기능이 있고, 간단한 <br class="mb">영문 페이지가 따로 존재합니다.', 
+                ko: '무용예술인의 직업전환과 복지증진을 목표로<br class="mb"> 다양한 지원사업을 운영하고 있는 사이트.<br> 사이트 내에서 다양한 지원을 신청할 수 있고,<br class="mb">  소식을 확인할 수 있습니다.<br> 후원기능이 있고, 간단한 <br class="mb">영문 페이지가 따로 존재합니다.', 
             },
             // detail: [
             //     '연혁 쪽 내비게이션과 스크롤 직접 제작, 영문사이트 포함',
