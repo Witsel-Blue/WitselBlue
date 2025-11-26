@@ -170,12 +170,20 @@ export default {
         const project = projectsData.find(p => p.slug === to.params.slug);
         const index = projectsData.findIndex(p => p.slug === to.params.slug);
         const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
+        const prevProject = { ...projectsData[(index - 1 + projectsData.length) % projectsData.length], category: 'projects' };
+        const prevPrevProject = { ...projectsData[(index - 2 + projectsData.length) % projectsData.length], category: 'projects' };
+        const nextNextProject = { ...projectsData[(index + 2) % projectsData.length], category: 'projects' };
+        const nextNextNextProject = { ...projectsData[(index + 3) % projectsData.length], category: 'projects' };
 
         next(vm => {
             vm.project = project;
             vm.$nextTick(() => {
                 vm.$store.commit('setDetailPage', true);
                 vm.$store.commit('setNextProject', nextProject);
+                vm.$store.commit('setPrevProject', prevProject);
+                vm.$store.commit('setPrevPrevProject', prevPrevProject);
+                vm.$store.commit('setNextNextProject', nextNextProject);
+                vm.$store.commit('setNextNextNextProject', nextNextNextProject);
             });
         });
     },
@@ -209,6 +217,10 @@ export default {
         const project = projectsData.find(p => p.slug === to.params.slug);
         const index = projectsData.findIndex(p => p.slug === to.params.slug);
         const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
+        const prevProject = { ...projectsData[(index - 1 + projectsData.length) % projectsData.length], category: 'projects' };
+        const prevPrevProject = { ...projectsData[(index - 2 + projectsData.length) % projectsData.length], category: 'projects' };
+        const nextNextProject = { ...projectsData[(index + 2) % projectsData.length], category: 'projects' };
+        const nextNextNextProject = { ...projectsData[(index + 3) % projectsData.length], category: 'projects' };
 
         this.project = project;
 
@@ -219,6 +231,10 @@ export default {
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);
             this.$store.commit('setNextProject', nextProject);
+            this.$store.commit('setPrevProject', prevProject);
+            this.$store.commit('setPrevPrevProject', prevPrevProject);
+            this.$store.commit('setNextNextProject', nextNextProject);
+            this.$store.commit('setNextNextNextProject', nextNextNextProject);
             
             // 스크롤이 0인지 재확인
             setTimeout(() => {

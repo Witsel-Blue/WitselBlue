@@ -9,10 +9,7 @@
                     <p class='work'>{{ item.tags?.work[$i18n.locale] }}</p>
                     <nuxt-link v-if='item'
                         class='mouse-hover1'
-                        :to="item.category === 'projects' ? `/projects/${item.slug}` :
-                            item.category === 'archive_dev' ? `/archive/dev/${item.slug}` :
-                            item.category === 'archive_music' ? `/archive/music/${item.slug}` :
-                            '/'"
+                        :to="getLocalizedPath(item)"
                     >
                         <TextShifting :text='item.title[$i18n.locale]' :key='item.slug' />
                     </nuxt-link>
@@ -38,6 +35,21 @@ export default {
         item: {
             type: Object,
             default: () => ({ images: {}, tags: {} }),
+        },
+    },
+    methods: {
+        getLocalizedPath(item) {
+            let path = '/';
+            if (item.category === 'projects') {
+                path = `/projects/${item.slug}`;
+            } else if (item.category === 'archive_dev') {
+                path = `/archive/dev/${item.slug}`;
+            } else if (item.category === 'archive_music') {
+                path = `/archive/music/${item.slug}`;
+            }
+            
+            // nuxt-i18n의 localePath를 사용하여 현재 locale에 맞는 경로 반환
+            return this.localePath(path);
         },
     },
 };

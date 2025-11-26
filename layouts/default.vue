@@ -17,8 +17,20 @@
         <DetailFooter
             v-if="showDetailFooter"
             :next-project="nextProject"
+            :prev-project="prevProject"
+            :prev-prev-project="prevPrevProject"
+            :next-next-project="nextNextProject"
+            :next-next-next-project="nextNextNextProject"
             :next-archive-dev="nextArchiveDev"
+            :prev-archive-dev="prevArchiveDev"
+            :prev-prev-archive-dev="prevPrevArchiveDev"
+            :next-next-archive-dev="nextNextArchiveDev"
+            :next-next-next-archive-dev="nextNextNextArchiveDev"
             :next-archive-music="nextArchiveMusic"
+            :prev-archive-music="prevArchiveMusic"
+            :prev-prev-archive-music="prevPrevArchiveMusic"
+            :next-next-archive-music="nextNextArchiveMusic"
+            :next-next-next-archive-music="nextNextNextArchiveMusic"
         />
     </div>
 </template>
@@ -56,11 +68,47 @@ export default {
         nextProject() {
             return this.$store.state.nextProject;
         },
+        prevProject() {
+            return this.$store.state.prevProject;
+        },
+        prevPrevProject() {
+            return this.$store.state.prevPrevProject;
+        },
+        nextNextProject() {
+            return this.$store.state.nextNextProject;
+        },
+        nextNextNextProject() {
+            return this.$store.state.nextNextNextProject;
+        },
         nextArchiveDev() {
             return this.$store.state.nextArchiveDev;
         },
+        prevArchiveDev() {
+            return this.$store.state.prevArchiveDev;
+        },
+        prevPrevArchiveDev() {
+            return this.$store.state.prevPrevArchiveDev;
+        },
+        nextNextArchiveDev() {
+            return this.$store.state.nextNextArchiveDev;
+        },
+        nextNextNextArchiveDev() {
+            return this.$store.state.nextNextNextArchiveDev;
+        },
         nextArchiveMusic() {
             return this.$store.state.nextArchiveMusic;
+        },
+        prevArchiveMusic() {
+            return this.$store.state.prevArchiveMusic;
+        },
+        prevPrevArchiveMusic() {
+            return this.$store.state.prevPrevArchiveMusic;
+        },
+        nextNextArchiveMusic() {
+            return this.$store.state.nextNextArchiveMusic;
+        },
+        nextNextNextArchiveMusic() {
+            return this.$store.state.nextNextNextArchiveMusic;
         },
         showCursorLottie() {
             return this.$store.state.cursor.showLottie || false;

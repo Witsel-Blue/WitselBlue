@@ -111,12 +111,20 @@ export default {
         const dev = archiveDevData.find(p => p.slug === to.params.slug);
         const index = archiveDevData.findIndex(p => p.slug === to.params.slug);
         const nextArchiveDev = { ...archiveDevData[(index + 1) % archiveDevData.length], category: 'archive_dev' };
+        const prevArchiveDev = { ...archiveDevData[(index - 1 + archiveDevData.length) % archiveDevData.length], category: 'archive_dev' };
+        const prevPrevArchiveDev = { ...archiveDevData[(index - 2 + archiveDevData.length) % archiveDevData.length], category: 'archive_dev' };
+        const nextNextArchiveDev = { ...archiveDevData[(index + 2) % archiveDevData.length], category: 'archive_dev' };
+        const nextNextNextArchiveDev = { ...archiveDevData[(index + 3) % archiveDevData.length], category: 'archive_dev' };
 
         next(vm => {
             vm.dev = dev;
             vm.$nextTick(() => {
             vm.$store.commit('setDetailPage', true);
             vm.$store.commit('setNextArchiveDev', nextArchiveDev);
+            vm.$store.commit('setPrevArchiveDev', prevArchiveDev);
+            vm.$store.commit('setPrevPrevArchiveDev', prevPrevArchiveDev);
+            vm.$store.commit('setNextNextArchiveDev', nextNextArchiveDev);
+            vm.$store.commit('setNextNextNextArchiveDev', nextNextNextArchiveDev);
             });
         });
     },
@@ -145,6 +153,10 @@ export default {
         const dev = archiveDevData.find(p => p.slug === to.params.slug);
         const index = archiveDevData.findIndex(p => p.slug === to.params.slug);
         const nextArchiveDev = { ...archiveDevData[(index + 1) % archiveDevData.length], category: 'archive_dev' };
+        const prevArchiveDev = { ...archiveDevData[(index - 1 + archiveDevData.length) % archiveDevData.length], category: 'archive_dev' };
+        const prevPrevArchiveDev = { ...archiveDevData[(index - 2 + archiveDevData.length) % archiveDevData.length], category: 'archive_dev' };
+        const nextNextArchiveDev = { ...archiveDevData[(index + 2) % archiveDevData.length], category: 'archive_dev' };
+        const nextNextNextArchiveDev = { ...archiveDevData[(index + 3) % archiveDevData.length], category: 'archive_dev' };
 
         this.dev = dev;
 
@@ -153,6 +165,10 @@ export default {
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);
             this.$store.commit('setNextArchiveDev', nextArchiveDev);
+            this.$store.commit('setPrevArchiveDev', prevArchiveDev);
+            this.$store.commit('setPrevPrevArchiveDev', prevPrevArchiveDev);
+            this.$store.commit('setNextNextArchiveDev', nextNextArchiveDev);
+            this.$store.commit('setNextNextNextArchiveDev', nextNextNextArchiveDev);
             
             setTimeout(() => {
                 if (process.client) {

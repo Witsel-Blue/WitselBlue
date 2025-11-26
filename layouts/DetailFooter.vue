@@ -11,9 +11,60 @@
                 </h1>
             </div>
             <div class='bottom'>
-                <CardFlip v-if='nextProject' :item='nextProject'/>
-                <CardFlip v-if='nextArchiveDev' :item='nextArchiveDev' />
-                <CardFlip v-if='nextArchiveMusic' :item='nextArchiveMusic' />
+                <client-only>
+                    <swiper 
+                        ref='swiper'
+                        :options='swiperOptions'
+                        class='card-swiper'
+                        @slideChange='onSlideChange'
+                    >
+                        <swiper-slide v-if='prevPrevProject' data-slide-index='0'>
+                            <CardFlip :item='prevPrevProject' :class="{ active: isActive(0) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='prevPrevArchiveDev' data-slide-index='0'>
+                            <CardFlip :item='prevPrevArchiveDev' :class="{ active: isActive(0) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='prevPrevArchiveMusic' data-slide-index='0'>
+                            <CardFlip :item='prevPrevArchiveMusic' :class="{ active: isActive(0) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='prevProject' data-slide-index='1'>
+                            <CardFlip :item='prevProject' :class="{ active: isActive(1) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='prevArchiveDev' data-slide-index='1'>
+                            <CardFlip :item='prevArchiveDev' :class="{ active: isActive(1) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='prevArchiveMusic' data-slide-index='1'>
+                            <CardFlip :item='prevArchiveMusic' :class="{ active: isActive(1) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextProject' data-slide-index='2'>
+                            <CardFlip :item='nextProject' :class="{ active: isActive(2) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextArchiveDev' data-slide-index='2'>
+                            <CardFlip :item='nextArchiveDev' :class="{ active: isActive(2) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextArchiveMusic' data-slide-index='2'>
+                            <CardFlip :item='nextArchiveMusic' :class="{ active: isActive(2) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextNextProject' data-slide-index='3'>
+                            <CardFlip :item='nextNextProject' :class="{ active: isActive(3) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextNextArchiveDev' data-slide-index='3'>
+                            <CardFlip :item='nextNextArchiveDev' :class="{ active: isActive(3) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextNextArchiveMusic' data-slide-index='3'>
+                            <CardFlip :item='nextNextArchiveMusic' :class="{ active: isActive(3) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextNextNextProject' data-slide-index='4'>
+                            <CardFlip :item='nextNextNextProject' :class="{ active: isActive(4) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextNextNextArchiveDev' data-slide-index='4'>
+                            <CardFlip :item='nextNextNextArchiveDev' :class="{ active: isActive(4) }" />
+                        </swiper-slide>
+                        <swiper-slide v-if='nextNextNextArchiveMusic' data-slide-index='4'>
+                            <CardFlip :item='nextNextNextArchiveMusic' :class="{ active: isActive(4) }" />
+                        </swiper-slide>
+                    </swiper>
+                </client-only>
                 <div class='view-all'>
                     <ButtonRound
                         :link="{
@@ -53,7 +104,39 @@ export default {
             type: Object,
             default: null,
         },
+        prevProject: {
+            type: Object,
+            default: null,
+        },
+        prevPrevProject: {
+            type: Object,
+            default: null,
+        },
+        nextNextProject: {
+            type: Object,
+            default: null,
+        },
+        nextNextNextProject: {
+            type: Object,
+            default: null,
+        },
         nextArchiveDev: {
+            type: Object,
+            default: null,
+        },
+        prevArchiveDev: {
+            type: Object,
+            default: null,
+        },
+        prevPrevArchiveDev: {
+            type: Object,
+            default: null,
+        },
+        nextNextArchiveDev: {
+            type: Object,
+            default: null,
+        },
+        nextNextNextArchiveDev: {
             type: Object,
             default: null,
         },
@@ -61,10 +144,43 @@ export default {
             type: Object,
             default: null,
         },
+        prevArchiveMusic: {
+            type: Object,
+            default: null,
+        },
+        prevPrevArchiveMusic: {
+            type: Object,
+            default: null,
+        },
+        nextNextArchiveMusic: {
+            type: Object,
+            default: null,
+        },
+        nextNextNextArchiveMusic: {
+            type: Object,
+            default: null,
+        },
     },
     data() {
         return {
             useVhFix: false,
+            activeIndex: 2,
+            swiperOptions: {
+                loop: false,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                grabCursor: true,
+                loopedSlides: 1,
+                loopAdditionalSlides: 1,
+                initialSlide: 2,
+                on: {
+                    slideChange: () => {
+                        if (this.$refs.swiper && this.$refs.swiper.$swiper) {
+                            this.activeIndex = this.$refs.swiper.$swiper.realIndex;
+                        }
+                    }
+                }
+            }
         }
     },
     computed: {
@@ -77,6 +193,13 @@ export default {
         isArchiveMusicPage() {
             return !!this.nextArchiveMusic;
         },
+        totalSlides() {
+            let count = 0;
+            if (this.prevProject || this.prevArchiveDev || this.prevArchiveMusic) count++;
+            if (this.nextProject || this.nextArchiveDev || this.nextArchiveMusic) count++;
+            if (this.nextNextProject || this.nextNextArchiveDev || this.nextNextArchiveMusic) count++;
+            return count;
+        },
     },
     mounted() {
         this.setVhFix();
@@ -84,13 +207,24 @@ export default {
         this.$nextTick(() => {
             this.bgScroll();
             window.addEventListener('scroll', this.bgScroll);
+            if (this.$refs.swiper && this.$refs.swiper.$swiper) {
+                this.activeIndex = this.$refs.swiper.$swiper.realIndex;
+            }
         });
     },
-    beforeDestroy() {
-        window.removeEventListener('resize', this.setVhFix);
-        window.removeEventListener('scroll', this.bgScroll);
-    },
     methods: {
+        onSlideChange() {
+            if (this.$refs.swiper && this.$refs.swiper.$swiper) {
+                this.activeIndex = this.$refs.swiper.$swiper.realIndex;
+            }
+        },
+        isActive(slideIndex) {
+            if (this.$refs.swiper && this.$refs.swiper.$swiper) {
+                const realIndex = this.$refs.swiper.$swiper.realIndex;
+                return realIndex === slideIndex;
+            }
+            return slideIndex === 2;
+        },
         bgScroll() {
             const footerBg = this.$refs.bg;
             const title = this.$refs.title;
@@ -133,7 +267,11 @@ export default {
                 document.documentElement.style.removeProperty('--vh');
             }
         },
-    }
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.setVhFix);
+        window.removeEventListener('scroll', this.bgScroll);
+    },
 }
 </script>
 
@@ -198,6 +336,38 @@ export default {
         flex-direction: column;
         align-items: center;
         gap: 32px;
+        
+        .card-swiper {
+            width: 100%;
+            padding: 0 10vw;
+            cursor: none !important;
+            overflow: visible;
+
+            .swiper-wrapper {
+                .swiper-slide {
+                    width: auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: transform 0.2s ease;
+
+                    &.swiper-slide-active {
+                        #card-flip {
+                            transform: scale(1);
+                            opacity: 1;
+                            transition: all 0.2s ease;
+                            margin: 0 16px;
+                        }
+                    }
+                
+                    #card-flip {
+                        transform: scale(0.8);
+                        opacity: 0.8;
+                        transition: all 0.2s ease;
+                    }
+                }
+            }
+        }
     }
 }
 
