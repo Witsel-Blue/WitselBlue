@@ -37,6 +37,19 @@ export default {
             }
             this.p5Instance = null;
         }
+        
+        // body나 main에 잘못 생성된 캔버스 정리
+        if (typeof document !== 'undefined') {
+            const bodyCanvas = document.body.querySelector('canvas.p5Canvas');
+            if (bodyCanvas && bodyCanvas.id === 'defaultCanvas0') {
+                const parent = bodyCanvas.parentElement;
+                if (parent && parent.tagName === 'MAIN') {
+                    parent.remove();
+                } else if (parent === document.body) {
+                    bodyCanvas.remove();
+                }
+            }
+        }
     },
     methods: {
         handleResizeAfterIntro() {
@@ -66,9 +79,30 @@ export default {
                 this.p5Instance = null;
             }
 
+            // body에 잘못 생성된 캔버스 정리
+            if (typeof document !== 'undefined') {
+                const bodyCanvas = document.body.querySelector('canvas.p5Canvas');
+                if (bodyCanvas && bodyCanvas.id === 'defaultCanvas0') {
+                    const mainElement = document.body.querySelector('main');
+                    if (mainElement && mainElement.contains(bodyCanvas)) {
+                        bodyCanvas.remove();
+                        mainElement.remove();
+                    } else if (bodyCanvas && !bodyCanvas.closest('#__nuxt')) {
+                        bodyCanvas.remove();
+                    }
+                }
+            }
+
+            if (!this.$refs.p5Container) {
+                console.error('[MainP5] Container ref not available');
+                return;
+            }
+
             const p5 = (await import('p5')).default;
+            const containerRef = this.$refs.p5Container;
 
             const sketch = (s) => {
+                const containerElement = containerRef;
                 let scaleFactor = 1;
                 let trailBatches = [];
                 let isMobile = false;
@@ -255,16 +289,39 @@ export default {
                 };
 
                 s.setup = function () {
-                    const container = s.select('.p5-wrapper');
-                    if (!container || !container.elt) {
-                        console.error('[MainP5] Container not found');
+                    // 컨테이너 확인
+                    if (!containerElement) {
+                        console.error('[MainP5] Container not found in setup');
                         return;
                     }
+
+                    const container = s.select('.p5-wrapper');
+                    if (!container || !container.elt || container.elt !== containerElement) {
+                        console.error('[MainP5] Container mismatch in setup');
+                        return;
+                    }
+                    
                     const rect = container.elt.getBoundingClientRect();
                     const width = rect.width || window.innerWidth;
                     const height = rect.height || window.innerHeight;
                                         
                     s.createCanvas(width, height);
+                    
+                    // 생성된 캔버스가 올바른 위치에 있는지 확인 및 수정
+                    if (s.canvas && s.canvas.elt) {
+                        const canvas = s.canvas.elt;
+                        const parent = canvas.parentElement;
+                        
+                        if (parent === document.body || (parent && parent.tagName === 'MAIN')) {
+                            if (parent && parent.tagName === 'MAIN') {
+                                parent.remove();
+                            }
+                            containerElement.appendChild(canvas);
+                        } else if (parent !== containerElement) {
+                            containerElement.appendChild(canvas);
+                        }
+                    }
+                    
                     s.noCursor();
                     s.updateScale();
                     
@@ -301,7 +358,30 @@ export default {
                 };
             };
 
-            this.p5Instance = new p5(sketch, this.$refs.p5Container);
+            if (!containerRef) {
+                console.error('[MainP5] Cannot create p5 instance: container not available');
+                return;
+            }
+
+            this.p5Instance = new p5(sketch, containerRef);
+            
+            // 생성 후 캔버스 위치 확인 및 수정
+            this.$nextTick(() => {
+                if (this.p5Instance && this.p5Instance.canvas) {
+                    const canvas = this.p5Instance.canvas.elt || this.p5Instance.canvas;
+                    if (canvas && containerRef) {
+                        const parent = canvas.parentElement;
+                        if (parent === document.body || (parent && parent.tagName === 'MAIN')) {
+                            if (parent && parent.tagName === 'MAIN') {
+                                parent.remove();
+                            }
+                            containerRef.appendChild(canvas);
+                        } else if (parent !== containerRef) {
+                            containerRef.appendChild(canvas);
+                        }
+                    }
+                }
+            });
         }
     }
 };
