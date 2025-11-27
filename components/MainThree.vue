@@ -3,8 +3,7 @@
 </template>
   
 <script>
-import * as THREE from 'three';
-    
+let THREE = null;
 let camera, scene, renderer, spheres = [];
 let mouseX = 0, mouseY = 0;
 let windowHalfX = 0;
@@ -17,12 +16,23 @@ export default {
     name: 'MainThree',
     data: function() {
         return {
-            
+            threeLoaded: false
         }
     },
-    mounted() {
-        this.init();
-        this.animate();
+    async mounted() {
+        // Three.js 동적 로드
+        if (process.client) {
+            try {
+                THREE = await import('three');
+                this.threeLoaded = true;
+                this.$nextTick(() => {
+                    this.init();
+                    this.animate();
+                });
+            } catch (error) {
+                console.error('[MainThree] Failed to load Three.js:', error);
+            }
+        }
     },
     beforeDestroy() {
         this.cleanup();
@@ -30,7 +40,7 @@ export default {
     methods: {
         init() {
             // 클라이언트 사이드에서만 실행
-            if (typeof window === 'undefined') return;
+            if (typeof window === 'undefined' || !THREE) return;
             
             // 모바일 디바이스 감지
             isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
@@ -163,6 +173,8 @@ export default {
         },
         
         animate() {
+            if (!THREE || !renderer || !scene || !camera) return;
+            
             requestAnimationFrame(this.animate);
             
             // 카메라 위치 조정 (마우스 또는 디바이스 기울기)

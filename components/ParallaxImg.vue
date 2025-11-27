@@ -5,6 +5,8 @@
                 <img
                     :src='currentSrc'
                     class='img'
+                    loading='lazy'
+                    decoding='async'
                     oncontextmenu='return false;'
                     ondragstart='return false;'
                 >

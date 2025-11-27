@@ -7,12 +7,21 @@ export default {
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { hid: 'description', name: 'description', content: '' },
+            { hid: 'description', name: 'description', content: 'Witsel Blue Portfolio - Frontend Developer Portfolio' },
             { name: 'format-detection', content: 'telephone=no' },
             // 색상 설정 (모바일 브라우저 상단바)
             { name: 'theme-color', content: '#f7f7f7' },
             { name: 'apple-mobile-web-app-capable', content: 'yes' },
             { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+            // Open Graph
+            { property: 'og:type', content: 'website' },
+            { property: 'og:title', content: 'Witsel Blue Portfolio' },
+            { property: 'og:description', content: 'Frontend Developer Portfolio' },
+            { property: 'og:image', content: '/web-app-manifest-512x512.png' },
+            // Twitter Card
+            { name: 'twitter:card', content: 'summary_large_image' },
+            { name: 'twitter:title', content: 'Witsel Blue Portfolio' },
+            { name: 'twitter:description', content: 'Frontend Developer Portfolio' },
         ],
         link: [
             // 기본 파비콘
@@ -49,7 +58,9 @@ export default {
                 x: 0,
                 y: 0,
             }
-        }
+        },
+        // 성능 최적화: prefetch 설정
+        prefetchLinks: true
     },
 
     plugins: [
@@ -89,10 +100,54 @@ export default {
                 implementation: require('sass'),
             }
         },
-        extend(config, { isServer }) {
+        // 번들 최적화
+        optimization: {
+            splitChunks: {
+                layouts: true,
+                pages: true,
+                commons: true
+            }
+        },
+        // 압축 설정
+        terser: {
+            terserOptions: {
+                compress: {
+                    drop_console: process.env.NODE_ENV === 'production'
+                }
+            }
+        },
+        // 분석 도구 (개발 시에만)
+        analyze: process.env.ANALYZE === 'true',
+        extend(config, { isServer, isClient }) {
             if (isServer) {
                 global.TextEncoder = require('util').TextEncoder;
                 global.TextDecoder = require('util').TextDecoder;
+            }
+            // 클라이언트 번들 최적화
+            if (isClient) {
+                config.optimization = config.optimization || {};
+                config.optimization.splitChunks = {
+                    chunks: 'all',
+                    cacheGroups: {
+                        default: false,
+                        vendors: false,
+                        // 큰 라이브러리 분리
+                        vendor: {
+                            name: 'vendor',
+                            chunks: 'all',
+                            test: /node_modules\/(three|gsap|p5|lottie-web|swiper)/,
+                            priority: 20
+                        },
+                        // 공통 코드
+                        common: {
+                            name: 'common',
+                            minChunks: 2,
+                            chunks: 'all',
+                            priority: 10,
+                            reuseExistingChunk: true
+                        }
+                    }
+                };
             }
         }
     },
@@ -123,7 +178,63 @@ export default {
             short_name: 'WB',
             theme_color: '#f7f7f7',
             background_color: '#f7f7f7',
+        },
+        // Service Worker 최적화
+        workbox: {
+            runtimeCaching: [
+                {
+                    urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+                    handler: 'CacheFirst',
+                    strategyOptions: {
+                        cacheName: 'google-fonts',
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                        }
+                    }
+                },
+                {
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+                    handler: 'CacheFirst',
+                    strategyOptions: {
+                        cacheName: 'images',
+                        expiration: {
+                            maxEntries: 100,
+                            maxAgeSeconds: 60 * 60 * 24 * 30 // 30일
+                        }
+                    }
+                },
+                {
+                    urlPattern: /\.(?:js|css)$/,
+                    handler: 'StaleWhileRevalidate',
+                    strategyOptions: {
+                        cacheName: 'static-resources'
+                    }
+                }
+            ]
         }
+    },
+    
+    // 성능 최적화
+    render: {
+        // 리소스 힌트
+        resourceHints: true,
+        // HTTP/2 Server Push
+        http2: {
+            push: true
+        },
+        // 압축
+        compressor: {
+            threshold: 1024
+        }
+    },
+    
+    // 추가 최적화 설정
+    loading: false, // Nuxt 기본 로딩 인디케이터 비활성화 (커스텀 사용)
+    
+    // 성능 모니터링
+    performance: {
+        hints: 'warning',
+        maxEntrypointSize: 512000, // 500KB
+        maxAssetSize: 512000 // 500KB
     }
-
 }

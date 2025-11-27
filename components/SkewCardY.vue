@@ -11,6 +11,7 @@
                         <img 
                             :src='img' 
                             loading='lazy'
+                            decoding='async'
                             oncontextmenu='return false;'
                             ondragstart='return false;'
                         />
@@ -18,7 +19,7 @@
                 </div>
             </div>
         </Nuxt-link>
-        <img :src='img' v-else-if='img' loading='lazy' />
+        <img :src='img' v-else-if='img' loading='lazy' decoding='async' />
     </div>
 </template>
 

@@ -61,10 +61,10 @@
             <section class='img-gif bg' data-aos='fade-up' v-if='project.images.gif'>
                 <div class='inner'>
                     <div class='device_pc' data-aos='fade-up'>
-                        <img src='@/assets/img/device-laptop.png' class='device' loading='lazy'>
+                        <img src='@/assets/img/device-laptop.png' class='device' loading='lazy' decoding='async'>
                         <div class='res-box-wrap'>
                             <div class='res-box'>
-                                <img :src='project.images.gif' class='img' loading='lazy' />
+                                <img :src='project.images.gif' class='img' loading='lazy' decoding='async' />
                             </div>
                         </div>
                     </div>
@@ -73,9 +73,9 @@
 
             <section class='img-pc' v-if='project.images.pc1'>
                 <div class='inner'>
-                    <img :src='project.images.pc1' data-aos='fade-up' loading='lazy'>
-                    <img v-if='project.images.pc2' :src='project.images.pc2' data-aos='fade-up' loading='lazy'>
-                    <img v-if='project.images.pc3' :src='project.images.pc3' data-aos='fade-up' loading='lazy'>
+                    <img :src='project.images.pc1' data-aos='fade-up' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc2' :src='project.images.pc2' data-aos='fade-up' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc3' :src='project.images.pc3' data-aos='fade-up' loading='lazy' decoding='async'>
                 </div>
             </section>
 
@@ -83,13 +83,13 @@
                 <div class='inner'>
                     <ul class='device_mb'>
                         <li data-aos='fade-up'>
-                            <img :src='project.images.mb1' class='img' loading='lazy'>
+                            <img :src='project.images.mb1' class='img' loading='lazy' decoding='async'>
                         </li>
                         <li data-aos='fade-up'>
-                            <img :src='project.images.mb2' class='img' loading='lazy'>
+                            <img :src='project.images.mb2' class='img' loading='lazy' decoding='async'>
                         </li>
                         <li data-aos='fade-up'>
-                            <img :src='project.images.mb3' class='img' loading='lazy'>
+                            <img :src='project.images.mb3' class='img' loading='lazy' decoding='async'>
                         </li>
                     </ul>
                 </div>
@@ -125,9 +125,9 @@
 
             <section class='img-pc2' v-if='project.images.pc4'>
                 <div class='inner'>
-                    <img :src='project.images.pc4' data-aos='fade-up' loading='lazy'>
-                    <img v-if='project.images.pc5' :src='project.images.pc5' data-aos='fade-up' loading='lazy'>
-                    <img v-if='project.images.pc6' :src='project.images.pc6' data-aos='fade-up' loading='lazy'>
+                    <img :src='project.images.pc4' data-aos='fade-up' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc5' :src='project.images.pc5' data-aos='fade-up' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc6' :src='project.images.pc6' data-aos='fade-up' loading='lazy' decoding='async'>
                 </div>
             </section>
             
