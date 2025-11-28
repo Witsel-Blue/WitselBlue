@@ -40,12 +40,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href='www.linkedin.com/in/witselblue' target='_blank' class='mouse-hover3'>
+                            <a href='https://www.linkedin.com/in/witselblue/' target='_blank' class='mouse-hover3'>
                                 {{ $t('footer.subLists.btn2') }}
                             </a>
                         </li>
                         <li>
-                            <a href='https://witselblue.slack.com/team/U0830TL3ZDW' target='_blank' class='mouse-hover3'>
+                            <a href='https://open.kakao.com/o/s1ei023h' target='_blank' class='mouse-hover3'>
                                 {{ $t('footer.subLists.btn3') }}
                             </a>
                         </li>

@@ -113,7 +113,7 @@ export default {
         subLists: {
             btn1: 'GitHub',
             btn2: 'LinkedIn',
-            btn3: 'Slack',
+            btn3: 'Kakao',
         },
     },
     detailFooter: {

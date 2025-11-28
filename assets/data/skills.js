@@ -61,7 +61,7 @@ export default [
             ko: '프레임워크',
         },
         logo: require('@/assets/img/skills/drupal.png'),
-        rate: 4,
+        rate: 3,
         flipped: false,
     },
     {
@@ -101,7 +101,7 @@ export default [
             ko: '라이브러리',
         },
         logo: require('@/assets/img/skills/gsap.png'),
-        rate: 4,
+        rate: 5,
         flipped: false,
     },
     {
@@ -127,7 +127,7 @@ export default [
             ko: '라이브러리',
         },
         logo: require('@/assets/img/skills/threejs.png'),
-        rate: 3,
+        rate: 4,
         flipped: false,
     },
     {
@@ -206,7 +206,7 @@ export default [
             ko: '언어',
         },
         logo: require('@/assets/img/skills/typescript.png'),
-        rate: 3,
+        rate: 4,
         flipped: false,
     },
     {
@@ -432,5 +432,4 @@ export default [
         rate: 4,
         flipped: false,
     },
-
 ]

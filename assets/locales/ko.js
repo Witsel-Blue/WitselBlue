@@ -25,7 +25,7 @@ export default {
             { 
                 id: 1, 
                 title: '성신여대 졸업',
-                text: '글로벌의과학과 졸업',
+                text: '글로벌의과학과(Global Medical Science) 졸업',
             },
             { 
                 id: 2, 
@@ -92,7 +92,7 @@ export default {
             { 
                 id: 7, 
                 title: '개인 작업 및 공부',
-                text: '담곤 연구소 홈페이지, 포트폴리오 작업 및 python, typescript 등 공부',
+                text: '담곤 연구소 홈페이지, 포트폴리오 등 작업 및 python, typescript 등 공부',
             }
         ]
     },
@@ -110,9 +110,9 @@ export default {
             btn2: '이력서 보기',
         },
         subLists: {
-            btn1: 'GitHub',
-            btn2: 'LinkedIn',
-            btn3: 'Slack',
+            btn1: '깃허브',
+            btn2: '링크드인',
+            btn3: '오픈 카카오톡',
         },
     },
     detailFooter: {
