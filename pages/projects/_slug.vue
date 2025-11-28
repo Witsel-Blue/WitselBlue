@@ -171,6 +171,10 @@ export default {
         const index = projectsData.findIndex(p => p.slug === to.params.slug);
 
         next(vm => {
+            // 다른 카테고리 데이터 클리어
+            vm.$store.commit('clearArchiveDev');
+            vm.$store.commit('clearArchiveMusic');
+            
             vm.project = project;
             vm.$nextTick(() => {
                 vm.$store.commit('setDetailPage', true);
@@ -208,6 +212,10 @@ export default {
         next();
         
         this.$nextTick(() => {
+            // 다른 카테고리 데이터 클리어
+            this.$store.commit('clearArchiveDev');
+            this.$store.commit('clearArchiveMusic');
+            
             this.$store.commit('setDetailPage', true);
             this.$store.commit('setAllProjects', projectsData);
             this.$store.commit('setCurrentProjectIndex', index);

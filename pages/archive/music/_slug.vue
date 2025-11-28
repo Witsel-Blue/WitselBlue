@@ -119,6 +119,10 @@ export default {
         const index = archiveMusicData.findIndex(p => p.slug === to.params.slug);
 
         next(vm => {
+            // 다른 카테고리 데이터 클리어
+            vm.$store.commit('clearProjects');
+            vm.$store.commit('clearArchiveDev');
+            
             vm.music = music;
             vm.$nextTick(() => {
                 vm.$store.commit('setDetailPage', true);
@@ -157,6 +161,10 @@ export default {
         next();
         
         this.$nextTick(() => {
+            // 다른 카테고리 데이터 클리어
+            this.$store.commit('clearProjects');
+            this.$store.commit('clearArchiveDev');
+            
             this.$store.commit('setDetailPage', true);
             this.$store.commit('setAllArchiveMusic', archiveMusicData);
             this.$store.commit('setCurrentArchiveMusicIndex', index);

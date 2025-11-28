@@ -51,7 +51,7 @@ export const mutations = {
     },
     // Archive Dev
     setAllArchiveDev(state, archives) {
-        state.allArchiveDev = archives.map(a => ({ ...a, category: 'archiveDev' }));
+        state.allArchiveDev = archives.map(a => ({ ...a, category: 'archive_dev' }));
     },
     setCurrentArchiveDevIndex(state, index) {
         state.currentArchiveDevIndex = index;
@@ -62,7 +62,7 @@ export const mutations = {
     },
     // Archive Music
     setAllArchiveMusic(state, archives) {
-        state.allArchiveMusic = archives.map(a => ({ ...a, category: 'archiveMusic' }));
+        state.allArchiveMusic = archives.map(a => ({ ...a, category: 'archive_music' }));
     },
     setCurrentArchiveMusicIndex(state, index) {
         state.currentArchiveMusicIndex = index;

@@ -43,13 +43,7 @@
                                 ? '/archive/music'
                                 : null
                         }"
-                        :text="isProjectPage
-                            ? $t('detailFooter.projects')
-                            : isArchiveDevPage
-                            ? $t('detailFooter.dev')
-                            : isArchiveMusicPage
-                            ? $t('detailFooter.music')
-                            : ''"
+                        :text="getButtonText()"
                     />
                 </div>
             </div>
@@ -95,35 +89,78 @@ export default {
             };
         },
         allItems() {
+            let items = [];
             if (this.isProjectPage) {
-                return this.$store.state.allProjects || [];
+                items = this.$store.state.allProjects || [];
             } else if (this.isArchiveDevPage) {
-                return this.$store.state.allArchiveDev || [];
+                items = this.$store.state.allArchiveDev || [];
             } else if (this.isArchiveMusicPage) {
-                return this.$store.state.allArchiveMusic || [];
+                items = this.$store.state.allArchiveMusic || [];
             }
-            return [];
+            
+            // 현재 페이지의 slug와 일치하는 아이템 제외
+            const currentSlug = this.$route.params.slug;
+            if (currentSlug) {
+                items = items.filter(item => item.slug !== currentSlug);
+            }
+            
+            return items;
         },
         nextItemIndex() {
+            const currentSlug = this.$route.params.slug;
+            if (!currentSlug || this.allItems.length === 0) return 0;
+            
+            // 원본 리스트 가져오기
+            let allItemsWithCurrent = [];
+            let currentIndex = -1;
+            
             if (this.isProjectPage) {
-                const currentIndex = this.$store.state.currentProjectIndex;
-                const total = this.allItems.length;
-                return total > 0 ? (currentIndex + 1) % total : 0;
+                allItemsWithCurrent = this.$store.state.allProjects || [];
+                currentIndex = allItemsWithCurrent.findIndex(item => item.slug === currentSlug);
             } else if (this.isArchiveDevPage) {
-                const currentIndex = this.$store.state.currentArchiveDevIndex;
-                const total = this.allItems.length;
-                return total > 0 ? (currentIndex + 1) % total : 0;
+                allItemsWithCurrent = this.$store.state.allArchiveDev || [];
+                currentIndex = allItemsWithCurrent.findIndex(item => item.slug === currentSlug);
             } else if (this.isArchiveMusicPage) {
-                const currentIndex = this.$store.state.currentArchiveMusicIndex;
-                const total = this.allItems.length;
-                return total > 0 ? (currentIndex + 1) % total : 0;
+                allItemsWithCurrent = this.$store.state.allArchiveMusic || [];
+                currentIndex = allItemsWithCurrent.findIndex(item => item.slug === currentSlug);
             }
+            
+            if (currentIndex === -1 || allItemsWithCurrent.length === 0) return 0;
+            
+            // 원본 리스트에서 다음 아이템 찾기
+            const nextIndex = (currentIndex + 1) % allItemsWithCurrent.length;
+            const nextItem = allItemsWithCurrent[nextIndex];
+            
+            // 다음 아이템이 자기 자신이면 그 다음으로
+            if (nextItem && nextItem.slug === currentSlug) {
+                const nextNextIndex = (currentIndex + 2) % allItemsWithCurrent.length;
+                const nextNextItem = allItemsWithCurrent[nextNextIndex];
+                if (nextNextItem) {
+                    const filteredIndex = this.allItems.findIndex(item => item.slug === nextNextItem.slug);
+                    return filteredIndex >= 0 ? filteredIndex : 0;
+                }
+                return 0;
+            }
+            
+            // 필터링된 리스트에서 다음 아이템의 인덱스 찾기
+            if (nextItem) {
+                const filteredIndex = this.allItems.findIndex(item => item.slug === nextItem.slug);
+                return filteredIndex >= 0 ? filteredIndex : 0;
+            }
+            
             return 0;
         },
         isProjectPage() {
+            if ((this.$store.state.allArchiveDev && this.$store.state.allArchiveDev.length > 0) ||
+                (this.$store.state.allArchiveMusic && this.$store.state.allArchiveMusic.length > 0)) {
+                return false;
+            }
             return this.$store.state.allProjects && this.$store.state.allProjects.length > 0;
         },
         isArchiveDevPage() {
+            if (this.$store.state.allArchiveMusic && this.$store.state.allArchiveMusic.length > 0) {
+                return false;
+            }
             return this.$store.state.allArchiveDev && this.$store.state.allArchiveDev.length > 0;
         },
         isArchiveMusicPage() {
@@ -153,6 +190,16 @@ export default {
         },
     },
     methods: {
+        getButtonText() {
+            if (this.isProjectPage) {
+                return this.$t('detailFooter.projects');
+            } else if (this.isArchiveDevPage) {
+                return this.$t('detailFooter.dev');
+            } else if (this.isArchiveMusicPage) {
+                return this.$t('detailFooter.music');
+            }
+            return '';
+        },
         onSlideChange() {
             if (this.$refs.swiper && this.$refs.swiper.$swiper) {
                 this.activeIndex = this.$refs.swiper.$swiper.realIndex;
