@@ -1,6 +1,16 @@
 export const state = () => ({
     isNoUIPage: false,
     isDetailPage: false,
+    // Projects
+    allProjects: [],
+    currentProjectIndex: -1,
+    // Archive Dev
+    allArchiveDev: [],
+    currentArchiveDevIndex: -1,
+    // Archive Music
+    allArchiveMusic: [],
+    currentArchiveMusicIndex: -1,
+    // Legacy props (deprecated, will be removed)
     nextProject: null,
     prevProject: null,
     prevPrevProject: null,
@@ -28,6 +38,40 @@ export const mutations = {
     setDetailPage(state, value) {
         state.isDetailPage = value;
     },
+    // Projects
+    setAllProjects(state, projects) {
+        state.allProjects = projects.map(p => ({ ...p, category: 'projects' }));
+    },
+    setCurrentProjectIndex(state, index) {
+        state.currentProjectIndex = index;
+    },
+    clearProjects(state) {
+        state.allProjects = [];
+        state.currentProjectIndex = -1;
+    },
+    // Archive Dev
+    setAllArchiveDev(state, archives) {
+        state.allArchiveDev = archives.map(a => ({ ...a, category: 'archiveDev' }));
+    },
+    setCurrentArchiveDevIndex(state, index) {
+        state.currentArchiveDevIndex = index;
+    },
+    clearArchiveDev(state) {
+        state.allArchiveDev = [];
+        state.currentArchiveDevIndex = -1;
+    },
+    // Archive Music
+    setAllArchiveMusic(state, archives) {
+        state.allArchiveMusic = archives.map(a => ({ ...a, category: 'archiveMusic' }));
+    },
+    setCurrentArchiveMusicIndex(state, index) {
+        state.currentArchiveMusicIndex = index;
+    },
+    clearArchiveMusic(state) {
+        state.allArchiveMusic = [];
+        state.currentArchiveMusicIndex = -1;
+    },
+    // Legacy mutations (deprecated)
     setNextProject(state, project) {
         state.nextProject = project;
     },

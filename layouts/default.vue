@@ -16,21 +16,6 @@
         <Footer v-if="showFooter" />
         <DetailFooter
             v-if="showDetailFooter"
-            :next-project="nextProject"
-            :prev-project="prevProject"
-            :prev-prev-project="prevPrevProject"
-            :next-next-project="nextNextProject"
-            :next-next-next-project="nextNextNextProject"
-            :next-archive-dev="nextArchiveDev"
-            :prev-archive-dev="prevArchiveDev"
-            :prev-prev-archive-dev="prevPrevArchiveDev"
-            :next-next-archive-dev="nextNextArchiveDev"
-            :next-next-next-archive-dev="nextNextNextArchiveDev"
-            :next-archive-music="nextArchiveMusic"
-            :prev-archive-music="prevArchiveMusic"
-            :prev-prev-archive-music="prevPrevArchiveMusic"
-            :next-next-archive-music="nextNextArchiveMusic"
-            :next-next-next-archive-music="nextNextNextArchiveMusic"
         />
     </div>
 </template>
@@ -63,7 +48,9 @@ export default {
         },
         showDetailFooter() {
             const s = this.$store.state;
-            return s.isDetailPage && (s.nextProject || s.nextArchiveDev || s.nextArchiveMusic) && !s.isNoUIPage;
+            return s.isDetailPage && 
+                   (s.allProjects?.length > 0 || s.allArchiveDev?.length > 0 || s.allArchiveMusic?.length > 0) && 
+                   !s.isNoUIPage;
         },
         nextProject() {
             return this.$store.state.nextProject;

@@ -117,21 +117,13 @@ export default {
     beforeRouteEnter(to, from, next) {
         const music = archiveMusicData.find(p => p.slug === to.params.slug);
         const index = archiveMusicData.findIndex(p => p.slug === to.params.slug);
-        const nextArchiveMusic = { ...archiveMusicData[(index + 1) % archiveMusicData.length], category: 'archive_music' };
-        const prevArchiveMusic = { ...archiveMusicData[(index - 1 + archiveMusicData.length) % archiveMusicData.length], category: 'archive_music' };
-        const prevPrevArchiveMusic = { ...archiveMusicData[(index - 2 + archiveMusicData.length) % archiveMusicData.length], category: 'archive_music' };
-        const nextNextArchiveMusic = { ...archiveMusicData[(index + 2) % archiveMusicData.length], category: 'archive_music' };
-        const nextNextNextArchiveMusic = { ...archiveMusicData[(index + 3) % archiveMusicData.length], category: 'archive_music' };
 
         next(vm => {
             vm.music = music;
             vm.$nextTick(() => {
                 vm.$store.commit('setDetailPage', true);
-                vm.$store.commit('setNextArchiveMusic', nextArchiveMusic);
-                vm.$store.commit('setPrevArchiveMusic', prevArchiveMusic);
-                vm.$store.commit('setPrevPrevArchiveMusic', prevPrevArchiveMusic);
-                vm.$store.commit('setNextNextArchiveMusic', nextNextArchiveMusic);
-                vm.$store.commit('setNextNextNextArchiveMusic', nextNextNextArchiveMusic);
+                vm.$store.commit('setAllArchiveMusic', archiveMusicData);
+                vm.$store.commit('setCurrentArchiveMusicIndex', index);
             });
         });
     },
@@ -159,11 +151,6 @@ export default {
         
         const music = archiveMusicData.find(p => p.slug === to.params.slug);
         const index = archiveMusicData.findIndex(p => p.slug === to.params.slug);
-        const nextArchiveMusic = { ...archiveMusicData[(index + 1) % archiveMusicData.length], category: 'archive_music' };
-        const prevArchiveMusic = { ...archiveMusicData[(index - 1 + archiveMusicData.length) % archiveMusicData.length], category: 'archive_music' };
-        const prevPrevArchiveMusic = { ...archiveMusicData[(index - 2 + archiveMusicData.length) % archiveMusicData.length], category: 'archive_music' };
-        const nextNextArchiveMusic = { ...archiveMusicData[(index + 2) % archiveMusicData.length], category: 'archive_music' };
-        const nextNextNextArchiveMusic = { ...archiveMusicData[(index + 3) % archiveMusicData.length], category: 'archive_music' };
 
         this.music = music;
 
@@ -171,11 +158,8 @@ export default {
         
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);
-            this.$store.commit('setNextArchiveMusic', nextArchiveMusic);
-            this.$store.commit('setPrevArchiveMusic', prevArchiveMusic);
-            this.$store.commit('setPrevPrevArchiveMusic', prevPrevArchiveMusic);
-            this.$store.commit('setNextNextArchiveMusic', nextNextArchiveMusic);
-            this.$store.commit('setNextNextNextArchiveMusic', nextNextNextArchiveMusic);
+            this.$store.commit('setAllArchiveMusic', archiveMusicData);
+            this.$store.commit('setCurrentArchiveMusicIndex', index);
             
             setTimeout(() => {
                 if (process.client) {

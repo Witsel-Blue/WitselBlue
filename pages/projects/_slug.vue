@@ -169,37 +169,25 @@ export default {
     beforeRouteEnter(to, from, next) {
         const project = projectsData.find(p => p.slug === to.params.slug);
         const index = projectsData.findIndex(p => p.slug === to.params.slug);
-        const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
-        const prevProject = { ...projectsData[(index - 1 + projectsData.length) % projectsData.length], category: 'projects' };
-        const prevPrevProject = { ...projectsData[(index - 2 + projectsData.length) % projectsData.length], category: 'projects' };
-        const nextNextProject = { ...projectsData[(index + 2) % projectsData.length], category: 'projects' };
-        const nextNextNextProject = { ...projectsData[(index + 3) % projectsData.length], category: 'projects' };
 
         next(vm => {
             vm.project = project;
             vm.$nextTick(() => {
                 vm.$store.commit('setDetailPage', true);
-                vm.$store.commit('setNextProject', nextProject);
-                vm.$store.commit('setPrevProject', prevProject);
-                vm.$store.commit('setPrevPrevProject', prevPrevProject);
-                vm.$store.commit('setNextNextProject', nextNextProject);
-                vm.$store.commit('setNextNextNextProject', nextNextNextProject);
+                vm.$store.commit('setAllProjects', projectsData);
+                vm.$store.commit('setCurrentProjectIndex', index);
             });
         });
     },
-    beforeRouteUpdate(to, from, next) {
-        console.log('[_slug] beforeRouteUpdate - start');
-        
+    beforeRouteUpdate(to, from, next) {        
         // 1. 스크롤을 맨 위로 이동 (가장 먼저)
         if (process.client) {
             window.scrollTo({ top: 0, behavior: 'instant' });
-            console.log('[_slug] Scroll set to 0');
         }
         
         // 2. 모든 ScrollTrigger 제거
         if (process.client && ScrollTrigger) {
             ScrollTrigger.getAll().forEach(st => st.kill());
-            console.log('[_slug] All ScrollTriggers killed');
         }
         
         // 3. 모든 ParallaxImg의 transform 초기화
@@ -211,45 +199,28 @@ export default {
                     gsap.set(img, { clearProps: 'all' });
                 }
             });
-            console.log('[_slug] ParallaxImg transforms cleared');
         }
         
         const project = projectsData.find(p => p.slug === to.params.slug);
         const index = projectsData.findIndex(p => p.slug === to.params.slug);
-        const nextProject = { ...projectsData[(index + 1) % projectsData.length], category: 'projects' };
-        const prevProject = { ...projectsData[(index - 1 + projectsData.length) % projectsData.length], category: 'projects' };
-        const prevPrevProject = { ...projectsData[(index - 2 + projectsData.length) % projectsData.length], category: 'projects' };
-        const nextNextProject = { ...projectsData[(index + 2) % projectsData.length], category: 'projects' };
-        const nextNextNextProject = { ...projectsData[(index + 3) % projectsData.length], category: 'projects' };
 
         this.project = project;
-
-        // next()를 먼저 호출하여 라우트 변경 완료
         next();
         
-        // 라우트 변경 후 DOM 업데이트 대기
         this.$nextTick(() => {
             this.$store.commit('setDetailPage', true);
-            this.$store.commit('setNextProject', nextProject);
-            this.$store.commit('setPrevProject', prevProject);
-            this.$store.commit('setPrevPrevProject', prevPrevProject);
-            this.$store.commit('setNextNextProject', nextNextProject);
-            this.$store.commit('setNextNextNextProject', nextNextNextProject);
+            this.$store.commit('setAllProjects', projectsData);
+            this.$store.commit('setCurrentProjectIndex', index);
             
-            // 스크롤이 0인지 재확인
             setTimeout(() => {
                 if (process.client) {
                     window.scrollTo({ top: 0, behavior: 'instant' });
-                    console.log('[_slug] Scroll confirmed at 0, current scrollY:', window.scrollY);
                 }
             }, 300);
             
-            // ScrollTrigger refresh - ParallaxImg가 생성된 후
             setTimeout(() => {
                 if (process.client && ScrollTrigger) {
-                    console.log('[_slug] beforeRouteUpdate - refreshing all ScrollTriggers');
                     ScrollTrigger.refresh();
-                    console.log('[_slug] Current ScrollTriggers count:', ScrollTrigger.getAll().length);
                 }
             }, 1500);
         });
