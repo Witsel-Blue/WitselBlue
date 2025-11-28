@@ -22,6 +22,8 @@
                             v-for='(item, index) in allItems' 
                             :key='`${item.category}-${item.slug}-${index}`'
                             :data-slide-index='index'
+                            :class="getSlideClass(index)"
+                            :style="getSlideStyle(index)"
                         >
                             <CardFlip 
                                 :item='item' 
@@ -78,6 +80,11 @@ export default {
                 slidesPerView: 'auto',
                 grabCursor: true,
                 initialSlide: this.nextItemIndex,
+                mousewheel: {
+                    enabled: true,
+                    sensitivity: 1,
+                    releaseOnEdges: true,
+                },
                 on: {
                     slideChange: () => {
                         if (this.$refs.swiper && this.$refs.swiper.$swiper) {
@@ -129,6 +136,7 @@ export default {
         this.$nextTick(() => {
             this.bgScroll();
             window.addEventListener('scroll', this.bgScroll);
+            this.activeIndex = this.nextItemIndex;
             this.updateSwiperInitialSlide();
         });
     },
@@ -156,6 +164,69 @@ export default {
                 return realIndex === slideIndex;
             }
             return slideIndex === this.nextItemIndex;
+        },
+        getSlideClass(slideIndex) {
+            const diff = slideIndex - this.activeIndex;
+            if (diff === 0) return 'slide-center';
+            if (diff === 1) return 'slide-right-1';
+            if (diff === -1) return 'slide-left-1';
+            if (diff === 2) return 'slide-right-2';
+            if (diff === -2) return 'slide-left-2';
+            if (diff > 2) return 'slide-right-far';
+            if (diff < -2) return 'slide-left-far';
+            return '';
+        },
+        getSlideStyle(slideIndex) {
+            const diff = slideIndex - this.activeIndex;
+            
+            if (diff === 0) {
+                // 정중앙
+                return {
+                    transform: 'scale(1) rotate(0deg)',
+                    opacity: '1',
+                    zIndex: '1',
+                    filter: 'brightness(1)',
+                };
+            } else {
+                const absDiff = Math.abs(diff);
+                
+                // 중앙 기준 4번째부터 끝까지는 opacity 0
+                if (absDiff >= 4) {
+                    return {
+                        opacity: '0',
+                        zIndex: '-1',
+                    };
+                }
+                
+                const scale = Math.max(0.6, 0.8 - (absDiff - 3) * 0.05);
+                const rotate = diff > 0 ? `${absDiff * 2}deg` : `-${absDiff * 2}deg`;
+                const translateYPercent = 10 + (absDiff - 1) * 5;
+                const translateYOffset = absDiff <= 2 ? 16 : 8;
+                
+                if (diff > 0) {
+                    // 오른쪽
+                    const translateX = absDiff === 3 
+                        ? 'calc(100% - 218px - 5%)'
+                        : `calc(${absDiff * 100}% - ${218 * absDiff}px)`;
+                    return {
+                        transform: `translate3d(${translateX}, calc(${translateYPercent}% - ${translateYOffset}px), -100px) rotateZ(${rotate}) scale(${scale})`,
+                        opacity: `${Math.max(0.5, 0.6 - (absDiff - 3) * 0.1)}`,
+                        zIndex: '-1',
+                        filter: 'brightness(0.9)',
+                    };
+                } else {
+                    // 왼쪽
+                    const translateX = absDiff === 3 
+                        ? 'calc(-100% + 218px + 5%)'
+                        : `calc(-${absDiff * 100}% + ${218 * absDiff}px)`;
+                    return {
+                        transform: `translate3d(${translateX}, calc(${translateYPercent}% - ${translateYOffset}px), -100px) rotateZ(${rotate}) scale(${scale})`,
+                        opacity: `${Math.max(0.5, 0.6 - (absDiff - 3) * 0.1)}`,
+                        zIndex: '-1',
+                        filter: 'brightness(0.9)',
+                    };
+                }
+            }
         },
         updateSwiperInitialSlide() {
             if (this.$refs.swiper && this.$refs.swiper.$swiper && this.allItems.length > 0) {
@@ -281,26 +352,23 @@ export default {
             cursor: none !important;
             overflow: visible;
 
-            .swiper-wrapper {
+            ::v-deep .swiper-wrapper {
                 .swiper-slide {
-                    width: auto;
+                    width: 218px;
+                    height: 272px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    transition: transform 0.2s ease;
+                    transition: transform 0.2s ease, z-index 0.2s ease;
+                    position: relative;
 
                     &.swiper-slide-active {
-                        #card-flip {
-                            transform: scale(1);
-                            opacity: 1;
-                            transition: all 0.2s ease;
-                            margin: 0 16px;
-                        }
+                        margin: 0 16px;
                     }
-                
+
                     #card-flip {
-                        transform: scale(0.8);
-                        opacity: 0.8;
+                        width: 100%;
+                        height: 100%;
                         transition: all 0.2s ease;
                     }
                 }
@@ -325,8 +393,8 @@ export default {
         left: 0;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.1s;
-        transition-delay: 0.1s;
+        transition: all 0.2s;
+        transition-delay: 0.2s;
 
         width: 100%;
         height: 100%;
@@ -355,8 +423,8 @@ export default {
         .back {
             opacity: 1;
             visibility: visible;
-            transition: all 0.1s;
-            transition-delay: 0.1s;
+            transition: all 0.2s;
+            transition-delay: 0.2s;
         }
     }
 }
