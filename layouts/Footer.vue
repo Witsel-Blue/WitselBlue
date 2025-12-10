@@ -45,8 +45,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href='https://open.kakao.com/o/s1ei023h' target='_blank' class='mouse-hover3'>
+                            <a href='https://www.upwork.com/freelancers/~01d456b520c37be02f' target='_blank' class='mouse-hover3'>
                                 {{ $t('footer.subLists.btn3') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href='https://open.kakao.com/o/s1ei023h' target='_blank' class='mouse-hover3'>
+                                {{ $t('footer.subLists.btn4') }}
                             </a>
                         </li>
                     </ul>

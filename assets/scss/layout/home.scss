@@ -145,13 +145,16 @@
             left: 24%;
             span {
                 font-size: 0.8rem;
+                line-height: 1.2;
                 display: block;
                 transform: rotate(16deg);
-                font-family: 'Diphylleia';
+                font-family: 'Diphylleia', 'YUniverse';
                 position: absolute;
-                top: -16px;
-                left: 12px;
-                width: 100%;
+                top: -32px;
+                left: 0;
+                width: 120%;
+                word-break: keep-all;
+                text-align: center;
             }
             #lottie {
                 transform: rotate(180deg);
@@ -327,9 +330,10 @@
                 }
             }
             .subtext {
-                font-family: 'Diphylleia';
+                font-family: 'Diphylleia', 'YUniverse';
                 text-align: center;
                 font-size: 0.8rem;
+                line-height: 1;
                 margin-top: 16px;;
             }
         }
@@ -361,13 +365,15 @@
             margin-top: 32px;
             padding-top: 16px;
             .start {
+                width: 80px;
                 text-align: center;
                 font-size: 1rem;
-                line-height: 1;
-                font-family: 'Diphylleia';
+                line-height: 1.2;
+                word-break: keep-all;
+                font-family: 'Diphylleia', 'YUniverse';
                 position: absolute;
                 top: 0;
-                left: 18%;
+                left: 16%;
                 transform: translateY(-100%) rotate(-8deg);
                 animation: blink 2s infinite;
             }
@@ -491,7 +497,8 @@
                 span {
                     font-size: 0.8rem;
                     width: 120%;
-                    left: 8px;
+                    top: -16px;
+                    left: 4px;
                 }
             }
             .text {
@@ -590,7 +597,8 @@
         .history {
             .anim {
                 .start {
-                    left: 12%;
+                    width: 60px;
+                    left: 16%;
                     font-size: 0.8rem;
                 }
             }

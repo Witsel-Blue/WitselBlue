@@ -18,8 +18,14 @@ export default {
             'who can <span class="mouse-hover1">create</span> new experiences',
             'beyond just obtaining information.'
         ],
+        arrowText: {
+            pc: 'hover mouse on bold texts!',
+            mb: 'click texts!',
+        },
         subTitle_skills: 'Skills',
+        skillsText: 'find out picking up cards!',
         subTitle_history: 'History',
+        historyText: 'scroll to start!',
     },
     randomSkillCards: {
         categories: ['Framework', 'Library', 'Language', 'Design', 'Environment'],
@@ -113,7 +119,8 @@ export default {
         subLists: {
             btn1: 'GitHub',
             btn2: 'LinkedIn',
-            btn3: 'Kakao',
+            btn3: 'Upwork',
+            btn4: 'KakaoTalk',
         },
     },
     detailFooter: {

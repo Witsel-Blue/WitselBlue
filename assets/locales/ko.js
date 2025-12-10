@@ -17,8 +17,14 @@ export default {
             '다양한 방법으로 사용자가 <span class="mouse-hover1 ko">경험</span>할 수 있는',
             '사이트를 만드는 <br class="mb"><span class="mouse-hover1 ko"><b>웹 공간 설계자</b></span>가 제 목표입니다.',
         ],
+        arrowText: {
+            pc: '굵은 글씨에 마우스를 대보세요!',
+            mb: '텍스트 클릭!',
+        },
         subTitle_skills: '기술 스택',
+        skillsText: '카드를 뒤집어 확인해보세요!',
         subTitle_history: '히스토리',
+        historyText: '스크롤을 내려보세요!',
     },
     history: {
         triggers: [
@@ -112,7 +118,8 @@ export default {
         subLists: {
             btn1: '깃허브',
             btn2: '링크드인',
-            btn3: '오픈 카카오톡',
+            btn3: '업워크',
+            btn4: '오픈 카카오톡',
         },
     },
     detailFooter: {

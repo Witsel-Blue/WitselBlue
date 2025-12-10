@@ -25,8 +25,8 @@
                         <ParallaxImg :src='profile.img' />
                     </div>
                     <div class='arrow'>
-                        <span class='pc'>hover texts!</span>
-                        <span class='mb'>click texts!</span>
+                        <span class='pc'>{{ $t('home.arrowText.pc') }}</span>
+                        <span class='mb'>{{ $t('home.arrowText.mb') }}</span>
                         <Lottie :animationData='Arrow' />
                     </div>
                     <div class='text'>
@@ -87,7 +87,7 @@
                         {{ $t('home.subTitle_skills') }}
                     </h1> -->
                     <TextTyping ref='skillsTyping' text='what am i good at?' :backspace='false' :autoplay='false' />
-                    <p class='subtext'>find out picking up cards!</p>
+                    <p class='subtext'>{{ $t('home.skillsText') }}</p>
                     <RandomSkillCard />
                 </div>
             </section>
@@ -106,7 +106,7 @@
                         {{ $t('home.subTitle_history') }}
                     </h1> -->
                     <div class='anim'>
-                        <div class='start'>scroll to<br />start!</div>
+                        <div class='start'>{{ $t('home.historyText') }}</div>
                         <History v-if='showHistory && !isMobile' />
                         <HistoryMobile v-if='showHistory && isMobile' />
                         <div class='bumper'></div>
