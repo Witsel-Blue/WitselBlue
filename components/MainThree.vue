@@ -24,10 +24,8 @@ const SPHERE_COUNT = 10;
 export default {
     name: 'MainThree',
     props: {
-        // 환경맵 EXR 경로 (옵션)
         envExr: {
             type: String,
-            // 기본값: /img/home/env.exr (static 폴더 기준)
             default: '/img/home/env.exr'
         }
     },
@@ -113,8 +111,6 @@ export default {
                         texture => {
                             const envMap = pmremGenerator.fromEquirectangular(texture).texture;
                             scene.environment = envMap;
-                            // 필요 시 배경도 환경맵으로 사용하려면 아래 주석을 해제
-                            // scene.background = envMap;
                             texture.dispose();
                             pmremGenerator.dispose();
                             pmremGenerator = null;
@@ -122,7 +118,6 @@ export default {
                         undefined,
                         err => {
                             console.error('EXR load failed:', err);
-                            // 에러 발생 시 PMREM 제너레이터 정리
                             if (pmremGenerator) {
                                 pmremGenerator.dispose();
                                 pmremGenerator = null;
@@ -145,19 +140,19 @@ export default {
             const geo3 = new THREE.SphereGeometry(1, 32, 24);
 
             const mat = new THREE.MeshStandardMaterial({
-                color: 0x7c7878,
+                color: 0xf7f7f7,
                 metalness: 1.0,
                 roughness: 0.3
             });
             const mat2 = new THREE.MeshStandardMaterial({
-                color: 0x7c7878,
+                color: 0xf7f7f7,
                 metalness: 1,
                 roughness: 0.5
             });
             const mat3 = new THREE.MeshStandardMaterial({
-                color: 0x2c2a2a,
+                color: 0xf7f7f7,
                 metalness: 1,
-                roughness: 0.1
+                roughness: 0.2
             });
 
             for (let i = 0; i < SPHERE_COUNT; i++) {

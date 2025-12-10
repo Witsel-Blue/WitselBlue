@@ -176,8 +176,8 @@ html, a, button {
 .cursor-circle {
     position: fixed;
     pointer-events: none;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     z-index: 101;
     border: 2px solid $black1;

@@ -13,7 +13,7 @@
                         />
                     </client-only>
                 </div>
-                <div class='title' data-aos='fade-up'>
+                <div class='title'>
                     <p>{{ dev.tags.work[$i18n.locale] }}</p>
                     <a
                         v-if='dev.link'
@@ -31,7 +31,6 @@
                     <div class='inner'>
                         <p
                             v-if='dev.content.about'
-                            data-aos='fade-up'
                             class='txt-c' 
                             v-html='dev.content.about[$i18n.locale]'
                         ></p>
@@ -64,7 +63,6 @@
             <section class='viewcode' v-if='dev.link'>
                 <ButtonRound
                     v-if='dev.link'
-                    data-aos='fade-up'
                     class='txt-c'
                     :link='{ ...dev.link, text: dev.link.text[$i18n.locale] }'
                 />

@@ -13,7 +13,7 @@
                         />
                     </client-only>
                 </div>
-                <div class='title' data-aos='fade-up'>
+                <div class='title'>
                     <p>{{ project.tags.work[$i18n.locale] }}</p>
                     <a
                         v-if='project.link'
@@ -30,7 +30,7 @@
                     <div class='inner'>
                          <ul>
                             <li v-if='project.desc.agency || project.desc.client'>
-                                <dl data-aos='fade-up'>
+                                <dl>
                                     <dt>Team<span v-if='project.desc.client'> / Client</span></dt>
                                     <dd>
                                         {{ project.desc.agency[$i18n.locale] }}
@@ -39,7 +39,7 @@
                                 </dl>
                             </li>
                             <li v-if='project.desc.duration'>
-                                <dl data-aos='fade-up'>
+                                <dl>
                                     <dt>Work Period</dt>
                                     <dd>
                                         {{ project.desc.duration.start }}
@@ -48,7 +48,7 @@
                                 </dl>
                             </li>
                             <li v-if='project.desc.stack'>
-                                <dl data-aos='fade-up'>
+                                <dl>
                                     <dt>Main Stack</dt>
                                     <dd>{{ project.desc.stack[$i18n.locale] }}</dd>
                                 </dl>
@@ -62,22 +62,20 @@
                 <div class='inner'>
                     <p
                         v-if='project.content.about'
-                        data-aos='fade-up'
                         class='txt-c' 
                         v-html='project.content.about[$i18n.locale]'
                     ></p>
                     <ButtonRound
                         v-if='project.link && project.link.href'
-                        data-aos='fade-up'
                         class='txt-c'
                         :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
                     />
                 </div>
             </section>
 
-            <section class='img-gif bg' data-aos='fade-up' v-if='project.images.gif'>
+            <section class='img-gif bg' v-if='project.images.gif'>
                 <div class='inner'>
-                    <div class='device_pc' data-aos='fade-up'>
+                    <div class='device_pc'>
                         <img src='@/assets/img/device-laptop.png' class='device' loading='lazy' decoding='async'>
                         <div class='res-box-wrap'>
                             <div class='res-box'>
@@ -90,22 +88,22 @@
 
             <section class='img-pc' v-if='project.images.pc1'>
                 <div class='inner'>
-                    <img :src='project.images.pc1' data-aos='fade-up' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc2' :src='project.images.pc2' data-aos='fade-up' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc3' :src='project.images.pc3' data-aos='fade-up' loading='lazy' decoding='async'>
+                    <img :src='project.images.pc1' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc2' :src='project.images.pc2' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc3' :src='project.images.pc3' loading='lazy' decoding='async'>
                 </div>
             </section>
 
-            <section class='img-mb bg' data-aos='fade-up' v-if='project.images.mb1'>
+            <section class='img-mb bg' v-if='project.images.mb1'>
                 <div class='inner'>
                     <ul class='device_mb'>
-                        <li data-aos='fade-up'>
+                        <li>
                             <img :src='project.images.mb1' class='img' loading='lazy' decoding='async'>
                         </li>
-                        <li data-aos='fade-up'>
+                        <li>
                             <img :src='project.images.mb2' class='img' loading='lazy' decoding='async'>
                         </li>
-                        <li data-aos='fade-up'>
+                        <li>
                             <img :src='project.images.mb3' class='img' loading='lazy' decoding='async'>
                         </li>
                     </ul>
@@ -114,9 +112,9 @@
 
             <section class='img-pc2' v-if='project.images.pc4'>
                 <div class='inner'>
-                    <img :src='project.images.pc4' data-aos='fade-up' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc5' :src='project.images.pc5' data-aos='fade-up' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc6' :src='project.images.pc6' data-aos='fade-up' loading='lazy' decoding='async'>
+                    <img :src='project.images.pc4' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc5' :src='project.images.pc5' loading='lazy' decoding='async'>
+                    <img v-if='project.images.pc6' :src='project.images.pc6' loading='lazy' decoding='async'>
                 </div>
             </section>
 
@@ -129,29 +127,26 @@
                         <li 
                             v-for='(item, index) in project.content.detail1[$i18n.locale]' :key='index'
                             v-html='item'
-                            data-aos='fade-up'
                         >
                         </li>
                     </ul>
-                    <h3 v-if='project.content.detail2' data-aos='fade-up'>
+                    <h3 v-if='project.content.detail2'>
                         {{ project.content.detail2_title[$i18n.locale] }}
                     </h3>
                     <ul>
                         <li 
                             v-for='(item, index) in project.content.detail2[$i18n.locale]' :key='index'
                             v-html='item'
-                            data-aos='fade-up'
                         >
                         </li>
                     </ul>
-                    <h3 v-if='project.content.detail3' data-aos='fade-up'>
+                    <h3 v-if='project.content.detail3'>
                         {{ project.content.detail3_title[$i18n.locale] }}
                     </h3>
                     <ul>
                         <li 
                             v-for='(item, index) in project.content.detail3[$i18n.locale]' :key='index'
                             v-html='item'
-                            data-aos='fade-up'
                         >
                         </li>
                     </ul>

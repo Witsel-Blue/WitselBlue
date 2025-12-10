@@ -21,7 +21,7 @@
             <div class='bumper' ref='bumper'></div>
             <section class='profile' ref='profile'>
                 <div class='inner'>
-                    <div data-aos='fade-up'>
+                    <div>
                         <ParallaxImg :src='profile.img' />
                     </div>
                     <div class='arrow'>

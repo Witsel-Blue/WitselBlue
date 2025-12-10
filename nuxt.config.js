@@ -65,7 +65,6 @@ export default {
 
     plugins: [
         { src: '@/plugins/gsap.client.js', ssr: false },
-        { src: '@/plugins/aos.client.js', ssr: false },
         { src: '@/plugins/p5.client.js', ssr: false },
         { src: '@/plugins/p5.speech.js', ssr: false },
         { src: '@/plugins/lottie.js', ssr: false },

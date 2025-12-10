@@ -1,7 +1,7 @@
 <template>
-    <div id='parallax-img' data-aos-disable>
+    <div id='parallax-img'>
         <div class='parallax-wrap'>
-            <div class='parallax-cont' data-aos='fade-up'>
+            <div class='parallax-cont'>
                 <img
                     :src='currentSrc'
                     class='img'

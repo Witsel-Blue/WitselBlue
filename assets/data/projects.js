@@ -212,7 +212,7 @@ export default [
                 en: [
                     'Built the entire website with Vue + Nuxt, optimizing rendering and routing.',
                     'Developed 27+ reusable UI components for consistent and scalable structure.',
-                    'Implemented Three.js, GSAP, p5.js, Lottie, AOS for rich interactive effects.',
+                    'Implemented Three.js, GSAP, p5.js, Lottie for rich interactive effects.',
                     'Designed and coded the Projects, Dev Archive, and Music Archive pages from scratch.',
                     'Created custom transition animations between pages.',
                     'Built responsive layouts for desktop, tablet, and mobile.',
@@ -222,7 +222,7 @@ export default [
                 ko: [
                     'Vue와 Nuxt를 사용하여 전체 웹사이트 구축, 렌더링과 라우팅을 최적화.',
                     '27개 이상의 재사용 가능한 UI 컴포넌트를 개발하여 일관되고 확장 가능한 구조를 구축.',
-                    'Three.js, GSAP, p5.js, Lottie, AOS를 사용하여 풍부한 인터랙티브 효과를 구현.',
+                    'Three.js, GSAP, p5.js, Lottie를 사용하여 풍부한 인터랙티브 효과를 구현.',
                     '프로젝트, 개발, 음악 페이지를 처음부터 설계하고 개발.',
                     '페이지 간 커스텀 트랜지션 애니메이션을 생성.',
                     '데스크탑, 태블릿, 모바일 반응형 레이아웃을 구축.',

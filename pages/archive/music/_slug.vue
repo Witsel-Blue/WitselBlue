@@ -13,7 +13,7 @@
                         />
                     </client-only>
                 </div>
-                <div class='title' data-aos='fade-up'>
+                <div class='title'>
                     <p>{{ music.tags.work[$i18n.locale] }}</p>
                     <a
                         v-if='music.link'
@@ -30,19 +30,18 @@
                 <div class='def'>
                     <div class='inner'>
                         <p>
-                            <span data-aos='fade-up' v-if='music.tags.genre'>
+                            <span v-if='music.tags.genre'>
                                 #{{ music.tags.genre[$i18n.locale] }}
                             </span>
-                            <span data-aos='fade-up' v-if='music.tags.genre2'>
+                            <span v-if='music.tags.genre2'>
                                 #{{ music.tags.genre2[$i18n.locale] }}
                             </span>
-                            <span data-aos='fade-up' v-if='music.tags.genre3'>
+                            <span v-if='music.tags.genre3'>
                                 #{{ music.tags.genre3[$i18n.locale] }}
                             </span>
                         </p>
                          <ButtonRound
                             v-if='music.link'
-                            data-aos='fade-up'
                             class='txt-c'
                             :link='{ ...music.link, text: music.link.text[$i18n.locale] }'
                         />
