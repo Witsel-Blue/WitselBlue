@@ -32,17 +32,6 @@ export default {
     overflow: hidden;
 }
 
-#MainThree {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-
 #star-bg {
     position: absolute;
     top: 0;
@@ -57,6 +46,10 @@ export default {
     height: 120%;
     margin: -20vh auto 0;
     background: radial-gradient(circle, #f7f7f7 0%, transparent 60%);
-    opacity: 0.4;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 </style>

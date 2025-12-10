@@ -140,6 +140,7 @@ export default {
     height: 100vh;
     overflow: hidden;
     background: $grad-blue;
+    position: relative;
 }
 
 .footer-bg {

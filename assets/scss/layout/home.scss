@@ -2,6 +2,19 @@
 @import '@/assets/scss/layout/layout.scss';
 
 #home {
+    position: relative;
+
+    &::after {
+        content: '';
+        width: 100%;
+        height: 80px;
+        background: linear-gradient(0deg,rgba(247, 247, 247, 1) 0%, rgba(247, 247, 247, 0) 100%);;
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        z-index: 1;
+    }
+
     .subtitle {
         font-size: 3rem;
         line-height: 1;
@@ -13,6 +26,9 @@
         margin-top: 10vh;
         width: 100vw;
         transform: rotate(180deg);
+        .wave-container {
+            margin-bottom: -1px;
+        }
         img {
             width: 100%;
             max-width: 100%;
@@ -314,6 +330,8 @@
     .skills {
         padding: 10vh 0 15vh;
         background-color: $gray1;
+        position: relative;
+        z-index: 2;
         .inner {
             position:relative;
             #text-typing::v-deep {
@@ -346,6 +364,7 @@
             width: 100%;
         }
         #text-typing::v-deep {
+            position: relative;
             h1 {
                 font-family: 'Bagel', 'Bagel_kr';
                 font-size: 4rem;
@@ -388,6 +407,8 @@
             }
             .end {
                 text-align: right;
+                position: relative;
+                z-index: 2;
                 #text-typing::v-deep {
                     h1 {
                         font-family: 'Bagel', 'Bagel_kr';

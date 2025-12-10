@@ -4,33 +4,50 @@
   
 <script>
 let THREE = null;
-let camera, scene, renderer, spheres = [];
-let mouseX = 0, mouseY = 0;
-let windowHalfX = 0;
-let windowHalfY = 0;
-let deviceOrientationX = 0;
-let deviceOrientationY = 0;
-let isMobile = false;
-  
+let EXRLoader = null;
+
+let renderer = null;
+let scene = null;
+let camera = null;
+let pmremGenerator = null;
+let container = null;
+
+let spheres = [];
+let mouse = { x: 0, y: 0 };
+let animationId = null;
+let angle = 0;
+
+const ORBIT_RADIUS = 60;
+const ORBIT_HEIGHT = 0;
+const SPHERE_COUNT = 10;
+
 export default {
     name: 'MainThree',
-    data: function() {
-        return {
-            threeLoaded: false
+    props: {
+        // 환경맵 EXR 경로 (옵션)
+        envExr: {
+            type: String,
+            // 기본값: /img/home/env.exr (static 폴더 기준)
+            default: '/img/home/env.exr'
         }
     },
+    data() {
+        return {
+            threeLoaded: false
+        };
+    },
     async mounted() {
-        // Three.js 동적 로드
         if (process.client) {
             try {
                 THREE = await import('three');
+                ({ EXRLoader } = await import('three/examples/jsm/loaders/EXRLoader.js'));
                 this.threeLoaded = true;
                 this.$nextTick(() => {
                     this.init();
                     this.animate();
                 });
             } catch (error) {
-                console.error('[MainThree] Failed to load Three.js:', error);
+                console.error('[MainThree] Failed to load Three.js modules:', error);
             }
         }
     },
@@ -38,209 +55,289 @@ export default {
         this.cleanup();
     },
     methods: {
+        resolveEnvPath() {
+            if (!this.envExr) return '';
+            if (this.envExr.startsWith('http')) return this.envExr;
+            if (this.envExr.startsWith('/')) return this.envExr;
+            return `/${this.envExr}`;
+        },
+
         init() {
-            // 클라이언트 사이드에서만 실행
             if (typeof window === 'undefined' || !THREE) return;
-            
-            // 모바일 디바이스 감지
-            isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-                      ('ontouchstart' in window) || 
-                      (navigator.maxTouchPoints > 0);
-            
-            // 윈도우 크기 초기화
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            
-            // 씬 생성
-            scene = new THREE.Scene();
-            
-            // 카메라 생성
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-            camera.position.z = 500;
-            
-            // 렌더러 생성
-            const container = document.getElementById('MainThree');
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            container = document.getElementById('MainThree');
+            if (!container) return;
+
+            // 렌더러
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setClearColor(0x000000, 0);
+            renderer.outputColorSpace = THREE.SRGBColorSpace;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.0;
             container.appendChild(renderer.domElement);
-            
+
+            // 씬
+            scene = new THREE.Scene();
+            scene.background = null;
+
+            // 카메라
+            camera = new THREE.PerspectiveCamera(
+                45,
+                container.clientWidth / container.clientHeight,
+                0.1,
+                1000
+            );
+            camera.position.set(0, 0, 60);
+
+            // 조명
+            scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.0));
+            const dir = new THREE.DirectionalLight(0xffffff, 1.5);
+            dir.position.set(10, 20, 30);
+            scene.add(dir);
+
+            // 환경맵
+            if (EXRLoader) {
+                const envPath = this.resolveEnvPath();
+                if (!envPath) {
+                    console.warn('[MainThree] envExr 경로가 없습니다. 환경맵을 로드하지 않습니다.');
+                } else {
+                    pmremGenerator = new THREE.PMREMGenerator(renderer);
+                    pmremGenerator.compileEquirectangularShader();
+
+                    const exrLoader = new EXRLoader();
+                    exrLoader.setDataType(THREE.FloatType);
+
+                    exrLoader.load(
+                        envPath,
+                        texture => {
+                            const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+                            scene.environment = envMap;
+                            // 필요 시 배경도 환경맵으로 사용하려면 아래 주석을 해제
+                            // scene.background = envMap;
+                            texture.dispose();
+                            pmremGenerator.dispose();
+                            pmremGenerator = null;
+                        },
+                        undefined,
+                        err => {
+                            console.error('EXR load failed:', err);
+                            // 에러 발생 시 PMREM 제너레이터 정리
+                            if (pmremGenerator) {
+                                pmremGenerator.dispose();
+                                pmremGenerator = null;
+                            }
+                        }
+                    );
+                }
+            }
+
             this.createSpheres();
             this.setupEventListeners();
         },
-        
-        createSpheres() {
-            const geometry = new THREE.SphereGeometry(2, 16, 16);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0xffffff,
-                transparent: true,
-                opacity: 0.8
-            });
-            
-            // 100개의 구체를 랜덤하게 배치
-            for (let i = 0; i < 100; i++) {
-                const sphere = new THREE.Mesh(geometry, material);
-                
-                // 랜덤 위치
-                sphere.position.x = (Math.random() - 0.5) * 1000;
-                sphere.position.y = (Math.random() - 0.5) * 1000;
-                sphere.position.z = (Math.random() - 0.5) * 1000;
-                
-                // 랜덤 크기
-                const scale = Math.random() * 0.5 + 0.5;
-                sphere.scale.setScalar(scale);
-                
-                // 랜덤 회전 속도 저장
-                sphere.userData = {
-                    rotationSpeed: {
-                        x: (Math.random() - 0.5) * 0.02,
-                        y: (Math.random() - 0.5) * 0.02,
-                        z: (Math.random() - 0.5) * 0.02
-                    }
-                };
-                
-                spheres.push(sphere);
-                scene.add(sphere);
-            }
-        },
-        
-        setupEventListeners() {
-            // 마우스 이벤트 (데스크톱)
-            document.addEventListener('mousemove', this.onMouseMove, false);
-            window.addEventListener('resize', this.onWindowResize, false);
-            
-            // 디바이스 오리엔테이션 이벤트 (모바일/태블릿)
-            if (isMobile) {
-                console.log('Mobile device detected, setting up device orientation...');
-                
-                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    console.log('iOS 13+ detected, permission required');
-                    const requestPermission = () => {
-                        console.log('Requesting device orientation permission...');
-                        DeviceOrientationEvent.requestPermission()
-                            .then(response => {
-                                console.log('Permission response:', response);
-                                if (response === 'granted') {
-                                    window.addEventListener('deviceorientation', this.onDeviceOrientation, false);
-                                    console.log('Device orientation event listener added');
-                                }
-                            })
-                            .catch(err => {
-                                console.error('Permission request failed:', err);
-                            });
-                    };
-                    document.addEventListener('touchstart', requestPermission, { once: true });
-                } else {
-                    // Android나 구형 iOS
-                    console.log('Android or old iOS detected, adding listener directly');
-                    window.addEventListener('deviceorientation', this.onDeviceOrientation, false);
-                }
-            }
-        },
-        
-        onMouseMove(event) {
-            if (!isMobile) {
-                mouseX = (event.clientX - windowHalfX) * 0.1;
-                mouseY = (event.clientY - windowHalfY) * 0.1;
-            }
-        },
-        
-        onDeviceOrientation(event) {
-            if (isMobile && event.beta !== null && event.gamma !== null) {
 
-                deviceOrientationY = Math.max(-30, Math.min(30, event.gamma)) * 2;
-                deviceOrientationX = Math.max(-30, Math.min(30, event.beta - 45)) * 2;
-                
-                console.log('DeviceOrientation:', {
-                    beta: event.beta,
-                    gamma: event.gamma,
-                    targetX: deviceOrientationX,
-                    targetY: deviceOrientationY
+        createSpheres() {
+            if (!THREE) return;
+
+            const spheresLocal = [];
+            const geo = new THREE.SphereGeometry(2, 32, 24);
+            const geo2 = new THREE.SphereGeometry(3.6, 32, 24);
+            const geo3 = new THREE.SphereGeometry(1, 32, 24);
+
+            const mat = new THREE.MeshStandardMaterial({
+                color: 0x7c7878,
+                metalness: 1.0,
+                roughness: 0.3
+            });
+            const mat2 = new THREE.MeshStandardMaterial({
+                color: 0x7c7878,
+                metalness: 1,
+                roughness: 0.5
+            });
+            const mat3 = new THREE.MeshStandardMaterial({
+                color: 0x2c2a2a,
+                metalness: 1,
+                roughness: 0.1
+            });
+
+            for (let i = 0; i < SPHERE_COUNT; i++) {
+                const pos = new THREE.Vector3(
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20
+                );
+
+                let mesh;
+                if (i === 0 || i === 1 || i === 2) {
+                    mesh = new THREE.Mesh(geo, mat.clone());
+                } else if (i === 3) {
+                    mesh = new THREE.Mesh(geo2, mat3.clone());
+                } else if (i === 4 || i === 5) {
+                    mesh = new THREE.Mesh(geo, mat3.clone());
+                } else {
+                    mesh = new THREE.Mesh(geo3, mat2.clone());
+                }
+
+                mesh.position.copy(pos);
+                scene.add(mesh);
+
+                spheresLocal.push({
+                    mesh,
+                    origin: pos.clone(),
+                    velocity: new THREE.Vector3()
                 });
             }
+
+            spheres = spheresLocal;
         },
-        
-        onWindowResize() {
-            if (typeof window === 'undefined') return;
-            
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            
-            camera.aspect = window.innerWidth / window.innerHeight;
+
+        setupEventListeners() {
+            window.addEventListener('pointermove', this.onPointerMove, false);
+            window.addEventListener('resize', this.onResize, false);
+        },
+
+        onPointerMove(event) {
+            if (!container) return;
+            const width = container.clientWidth || window.innerWidth;
+            const height = container.clientHeight || window.innerHeight;
+            mouse.x = (event.clientX / width) * 2 - 1;
+            mouse.y = -(event.clientY / height) * 2 + 1;
+        },
+
+        onResize() {
+            if (!camera || !renderer || !container) return;
+            camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(container.clientWidth, container.clientHeight);
         },
-        
+
+        getMouseWorld() {
+            if (!THREE || !camera) return new THREE.Vector3();
+            const tmpV = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+            tmpV.unproject(camera);
+            const dir = tmpV.sub(camera.position).normalize();
+            const t = -camera.position.z / dir.z;
+            return camera.position.clone().add(dir.multiplyScalar(t));
+        },
+
         animate() {
             if (!THREE || !renderer || !scene || !camera) return;
-            
-            requestAnimationFrame(this.animate);
-            
-            // 카메라 위치 조정 (마우스 또는 디바이스 기울기)
-            let targetX, targetY;
-            
-            if (isMobile) {
-                // 모바일: 디바이스 기울기 사용
-                targetX = deviceOrientationY;
-                targetY = -deviceOrientationX;
-            } else {
-                // 데스크톱: 마우스 위치 사용
-                targetX = mouseX;
-                targetY = -mouseY;
-            }
-            
-            camera.position.x += (targetX - camera.position.x) * 0.05;
-            camera.position.y += (targetY - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-            
-            // 구체들 회전
-            spheres.forEach(sphere => {
-                sphere.rotation.x += sphere.userData.rotationSpeed.x;
-                sphere.rotation.y += sphere.userData.rotationSpeed.y;
-                sphere.rotation.z += sphere.userData.rotationSpeed.z;
+
+            animationId = requestAnimationFrame(() => this.animate());
+
+            angle += 0.002;
+            camera.position.x = Math.cos(angle) * ORBIT_RADIUS;
+            camera.position.z = Math.sin(angle) * ORBIT_RADIUS;
+            camera.position.y = ORBIT_HEIGHT;
+            camera.lookAt(0, 0, 0);
+
+            const mouseWorld = this.getMouseWorld();
+
+            spheres.forEach(s => {
+                const dir = new THREE.Vector3().subVectors(s.mesh.position, mouseWorld);
+                const dist = dir.length();
+                dir.normalize();
+
+                const forceMag = Math.max(0, 20 - dist) * 0.02;
+                const force = dir.multiplyScalar(forceMag);
+
+                s.velocity.add(force);
+                s.velocity.multiplyScalar(0.9);
+
+                s.mesh.position.add(s.velocity);
+
+                const back = new THREE.Vector3()
+                    .subVectors(s.origin, s.mesh.position)
+                    .multiplyScalar(0.02);
+                s.velocity.add(back);
             });
-            
-            renderer.render(scene, camera);
-        },
-        
-        cleanup() {
-            if (typeof window === 'undefined') return;
-            
-            document.removeEventListener('mousemove', this.onMouseMove, false);
-            window.removeEventListener('resize', this.onWindowResize, false);
-            window.removeEventListener('deviceorientation', this.onDeviceOrientation, false);
-            document.removeEventListener('touchstart', this.requestPermission, false);
-            
-            if (renderer) {
-                renderer.dispose();
-                const container = document.getElementById('MainThree');
-                if (container && container.contains(renderer.domElement)) {
-                    container.removeChild(renderer.domElement);
+
+            for (let i = 0; i < spheres.length; i++) {
+                for (let j = i + 1; j < spheres.length; j++) {
+                    const s1 = spheres[i];
+                    const s2 = spheres[j];
+                    const pos1 = s1.mesh.position;
+                    const pos2 = s2.mesh.position;
+
+                    const dir = new THREE.Vector3().subVectors(pos2, pos1);
+                    const dist = dir.length();
+                    if (dist === 0) continue;
+
+                    const r1 = s1.mesh.geometry.parameters.radius;
+                    const r2 = s2.mesh.geometry.parameters.radius;
+                    const minDist = r1 + r2;
+
+                    if (dist < minDist) {
+                        dir.normalize();
+                        const overlap = (minDist - dist) * 0.5;
+
+                        pos1.addScaledVector(dir, -overlap);
+                        pos2.addScaledVector(dir, overlap);
+
+                        const v1 = s1.velocity;
+                        const v2 = s2.velocity;
+                        const relativeVelocity = new THREE.Vector3().subVectors(v1, v2);
+                        const sepVel = relativeVelocity.dot(dir);
+
+                        if (sepVel < 0) {
+                            const impulse = dir.clone().multiplyScalar(sepVel * -0.5);
+                            v1.add(impulse);
+                            v2.addScaledVector(impulse, -1);
+                        }
+                    }
                 }
             }
-            
-            if (scene) {
-                spheres.forEach(sphere => {
-                    scene.remove(sphere);
-                    if (sphere.geometry) sphere.geometry.dispose();
-                    if (sphere.material) sphere.material.dispose();
+
+            renderer.render(scene, camera);
+        },
+
+        cleanup() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            window.removeEventListener('pointermove', this.onPointerMove, false);
+            window.removeEventListener('resize', this.onResize, false);
+
+            if (scene && spheres.length) {
+                spheres.forEach(s => {
+                    scene.remove(s.mesh);
+                    if (s.mesh.geometry) s.mesh.geometry.dispose();
+                    if (s.mesh.material) s.mesh.material.dispose();
                 });
                 spheres = [];
             }
+
+            if (pmremGenerator) {
+                pmremGenerator.dispose();
+                pmremGenerator = null;
+            }
+
+            if (renderer) {
+                renderer.dispose();
+                if (container && renderer.domElement && container.contains(renderer.domElement)) {
+                    container.removeChild(renderer.domElement);
+                }
+                renderer = null;
+            }
+
+            scene = null;
+            camera = null;
+            container = null;
         }
     }
-}
+};
 </script>
 
 <style scoped>
 #MainThree {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
 }
 </style>

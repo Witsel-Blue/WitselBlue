@@ -392,7 +392,7 @@ export default {
 
         .button {
             padding: 8px 12px;
-            background-color: rgba(237, 237, 237, 0.8);
+            background-color: rgba(237, 237, 237, 0.4);
             
             .circle::before {
                 background-color: $black1;
