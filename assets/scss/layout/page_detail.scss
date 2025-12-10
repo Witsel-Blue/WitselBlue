@@ -8,13 +8,18 @@
 .page_detail {
     section {
         &:not(.main) {
-            padding: 10vh 0;
+            padding-top: 10vh;
+        }
+        &.about {
+            padding-top: 0;
         }
         &:last-of-type:not(.bg) {
             padding-bottom: 0;
         }
         &.bg {
             background-color: $gray1;
+            margin-top: 10vh;
+            padding: 10vh 0;
         }
     }
 
@@ -145,7 +150,32 @@
     }
 
     .detail {
-        text-align: center;
+        h3 {
+            margin-bottom: 16px;
+            word-break: keep-all;
+            text-align: center;
+
+            &:not(:first-child) {
+                margin-top: 5vh;
+            }
+        }
+        ul {
+            text-align: center;
+
+            li {
+                word-break: keep-all;
+
+                &::before {
+                    content: '•';
+                    display: inline;
+                    margin-right: 4px;
+                }
+
+                &:not(:first-child) {
+                    margin-top: 4px;
+                }
+            }
+        }
     }
 }
 
@@ -261,12 +291,6 @@
     }
 
     .page_detail {
-        section:not(.main) {
-            padding: 10vh 0;
-        }
-        section.bg:nth-of-type(2) {
-            margin-top: 10vh;
-        }
         .main {
             height: auto;
             .mainvisual {
@@ -294,6 +318,13 @@
         .about {
             #button-round::v-deep {
                 margin-top: 10vh;
+            }
+        }
+        .detail {
+            ul {
+                li:not(:first-child) {
+                    margin-top: 8px;
+                }
             }
         }
     }

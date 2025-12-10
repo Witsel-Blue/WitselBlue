@@ -58,6 +58,23 @@
                 </div>
             </section>
 
+            <section class='about'>
+                <div class='inner'>
+                    <p
+                        v-if='project.content.about'
+                        data-aos='fade-up'
+                        class='txt-c' 
+                        v-html='project.content.about[$i18n.locale]'
+                    ></p>
+                    <ButtonRound
+                        v-if='project.link && project.link.href'
+                        data-aos='fade-up'
+                        class='txt-c'
+                        :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
+                    />
+                </div>
+            </section>
+
             <section class='img-gif bg' data-aos='fade-up' v-if='project.images.gif'>
                 <div class='inner'>
                     <div class='device_pc' data-aos='fade-up'>
@@ -95,39 +112,49 @@
                 </div>
             </section>
 
-            <section class='about'>
-                <div class='inner'>
-                    <p
-                        v-if='project.content.about'
-                        data-aos='fade-up'
-                        class='txt-c' 
-                        v-html='project.content.about[$i18n.locale]'
-                    ></p>
-                    <ButtonRound
-                        v-if='project.link && project.link.href'
-                        data-aos='fade-up'
-                        class='txt-c'
-                        :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
-                    />
-                </div>
-            </section>
-
-            <section class='detail' v-if='project.content.detail' >
-                <div class='inner'>
-                    <p 
-                        v-for='(item, index) in project.content.detail' :key='index'
-                        v-html='item'
-                        data-aos='fade-up'
-                    >
-                    </p>
-                </div>
-            </section>
-
             <section class='img-pc2' v-if='project.images.pc4'>
                 <div class='inner'>
                     <img :src='project.images.pc4' data-aos='fade-up' loading='lazy' decoding='async'>
                     <img v-if='project.images.pc5' :src='project.images.pc5' data-aos='fade-up' loading='lazy' decoding='async'>
                     <img v-if='project.images.pc6' :src='project.images.pc6' data-aos='fade-up' loading='lazy' decoding='async'>
+                </div>
+            </section>
+
+            <section class='detail' v-if='project.content.detail1' >
+                <div class='inner'>
+                    <h3 v-if='project.content.detail1'>
+                        {{ project.content.detail1_title[$i18n.locale] }}
+                    </h3>
+                    <ul>
+                        <li 
+                            v-for='(item, index) in project.content.detail1[$i18n.locale]' :key='index'
+                            v-html='item'
+                            data-aos='fade-up'
+                        >
+                        </li>
+                    </ul>
+                    <h3 v-if='project.content.detail2' data-aos='fade-up'>
+                        {{ project.content.detail2_title[$i18n.locale] }}
+                    </h3>
+                    <ul>
+                        <li 
+                            v-for='(item, index) in project.content.detail2[$i18n.locale]' :key='index'
+                            v-html='item'
+                            data-aos='fade-up'
+                        >
+                        </li>
+                    </ul>
+                    <h3 v-if='project.content.detail3' data-aos='fade-up'>
+                        {{ project.content.detail3_title[$i18n.locale] }}
+                    </h3>
+                    <ul>
+                        <li 
+                            v-for='(item, index) in project.content.detail3[$i18n.locale]' :key='index'
+                            v-html='item'
+                            data-aos='fade-up'
+                        >
+                        </li>
+                    </ul>
                 </div>
             </section>
             
