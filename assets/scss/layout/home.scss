@@ -24,7 +24,9 @@
 
     .divider {
         margin-top: 10vh;
-        width: 100vw;
+        width: 80vw;
+        max-width: $pc;
+        margin: 0 auto;
         transform: rotate(180deg);
         .wave-container {
             margin-bottom: -1px;
@@ -328,6 +330,9 @@
     }
     
     .skills {
+        width: 80%;
+        max-width: $pc;
+        margin: 0 auto;
         padding: 10vh 0 15vh;
         background-color: $gray1;
         position: relative;
@@ -379,6 +384,7 @@
     }
 
     .history {
+        padding-bottom: 5vh;
         .anim {
             position: relative;
             margin-top: 32px;
@@ -391,8 +397,8 @@
                 word-break: keep-all;
                 font-family: 'Diphylleia', 'YUniverse';
                 position: absolute;
-                top: 0;
-                left: 16%;
+                top: -16px;
+                left: 12%;
                 transform: translateY(-100%) rotate(-8deg);
                 animation: blink 2s infinite;
             }
@@ -619,7 +625,7 @@
             .anim {
                 .start {
                     width: 60px;
-                    left: 16%;
+                    left: 8%;
                     font-size: 0.8rem;
                 }
             }

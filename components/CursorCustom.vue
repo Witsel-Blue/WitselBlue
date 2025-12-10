@@ -179,7 +179,7 @@ html, a, button {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    z-index: 101;
+    z-index: 1000;
     border: 2px solid $black1;
     transition: width 0.2s, height 0.2s;
 
@@ -210,8 +210,8 @@ html, a, button {
     }
 
     &.hover2 {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         border: none;
         background: rgb(202, 202, 202);
         mix-blend-mode: difference;
@@ -219,8 +219,8 @@ html, a, button {
     }
 
     &.hover3 {
-        width: 40px;
-        height: 40px;
+        width: 56px;
+        height: 56px;
         transition: width 0.2s, height 0.2s;
     }
 

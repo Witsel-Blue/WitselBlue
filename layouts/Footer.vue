@@ -1,5 +1,5 @@
 <template>
-    <div id='footer' ref='footer' :class="{ 'use-vh-fix': useVhFix }">
+    <div id='footer' ref='footer' :class="{ 'use-vh-fix': useVhFix, 'is-home': isHomePage }">
         <div ref='bg' class='footer-bg'></div>
         <div class='footer'>
             <div class='top'>
@@ -68,6 +68,12 @@ export default {
     components: {
         ButtonRound,
     },
+    computed: {
+        isHomePage() {
+            const homePaths = ['/', '/ko'];
+            return homePaths.includes(this.$route.path);
+        }
+    },
     data() {
         return {
             useVhFix: false,
@@ -93,7 +99,9 @@ export default {
 
             const winH = window.innerHeight;
             const scrollY = window.scrollY;
-            const footerTop = footerBg.offsetTop;
+            // getBoundingClientRect를 사용하여 viewport 기준 위치 계산
+            const rect = footerBg.getBoundingClientRect();
+            const footerTop = scrollY + rect.top;
             const scrollStart = footerTop - (winH * 2 / 3);
 
             let r = 0;
@@ -141,6 +149,10 @@ export default {
     overflow: hidden;
     background: $grad-blue;
     position: relative;
+    
+    &.is-home {
+        z-index: 10;
+    }
 }
 
 .footer-bg {

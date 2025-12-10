@@ -97,15 +97,16 @@
                 </foreignObject>
             </g>
             
-            <!-- Moving Dot -->
-            <circle 
-                ref='dot' 
-                id='moving-dot'
-                r='4'
-                fill='#3E3C3C'
-            />
-            
         </svg>
+        
+        <!-- Moving Dot -->
+        <div 
+            ref='dot' 
+            id='moving-dot'
+            class='dot-lottie-wrapper'
+        >
+            <Lottie ref='lottie' :animationData='Rocket' :loop='true' :autoplay='false' />
+        </div>
     </div>
 </template>
 
@@ -113,6 +114,8 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { MotionPathPlugin } from 'gsap/dist/MotionPathPlugin';
+import Lottie from '@/components/Lottie.vue';
+import Rocket from '@/assets/lottie/rocket.json';
 
 if (process.client) {
     gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
@@ -120,8 +123,12 @@ if (process.client) {
 
 export default {
     name: 'History',
+    components: {
+        Lottie
+    },
     data() {
         return {
+            Rocket,
             scrollTriggerInstance: null,
             triggerProgress: [
                 { id: 1, progress: 0.02, anchor: 'right', image: require('@/assets/img/home/history1.png') },
@@ -562,13 +569,6 @@ export default {
                 
                 this.currentTrigger = nearTrigger.id;
                 
-                // Dot
-                gsap.to(this.$refs.dot, {
-                    attr: { r: 12 },
-                    duration: 0.2,
-                    ease: 'back.out(1.6)'
-                });
-                
                 // image
                 const currentImage = this.$refs[`triggerImage${nearTrigger.id}`];
                 if (currentImage && currentImage[0]) {
@@ -610,13 +610,6 @@ export default {
                 }
                 
                 this.currentTrigger = null;
-                
-                // Dot
-                gsap.to(this.$refs.dot, {
-                    attr: { r: 4 },
-                    duration: 0.2,
-                    ease: 'power2.out'
-                });
             }
         },
         checkYearProximity(progress) {
@@ -667,8 +660,21 @@ export default {
             
             const pathLength = path.getTotalLength();            
             const startPoint = path.getPointAtLength(0);
+            
+            // SVG 좌표를 실제 픽셀 좌표로 변환
+            const svg = this.$refs.svg;
+            const svgRect = svg.getBoundingClientRect();
+            const historyRect = history.getBoundingClientRect();
+            const svgViewBox = svg.viewBox.baseVal;
+            const scaleX = svgRect.width / svgViewBox.width;
+            const scaleY = svgRect.height / svgViewBox.height;
+            
+            const pixelX = (startPoint.x * scaleX) + (svgRect.left - historyRect.left);
+            const pixelY = (startPoint.y * scaleY) + (svgRect.top - historyRect.top);
+            
             gsap.set(dot, {
-                attr: { cx: startPoint.x, cy: startPoint.y }
+                left: pixelX - 60, // div width/2로 중앙 정렬 (120px / 2)
+                top: pixelY - 60   // div height/2로 중앙 정렬 (120px / 2)
             });
             
             gsap.set(path, {
@@ -677,6 +683,14 @@ export default {
                     'stroke-dashoffset': pathLength
                 }
             });
+            
+            // 초기 상태에서 로띠 일시정지
+            const lottie = this.$refs.lottie;
+            if (lottie) {
+                this.$nextTick(() => {
+                    lottie.pause();
+                });
+            }
                         
             // 기존 타임라인 제거
             const existingTimelines = gsap.globalTimeline.getChildren();
@@ -749,9 +763,21 @@ export default {
                     onUpdate: (self) => {
                         const progress = self.progress;
                         const point = path.getPointAtLength(pathLength * progress);
+                        
+                        // SVG 좌표를 실제 픽셀 좌표로 변환
+                        const svg = this.$refs.svg;
+                        const svgRect = svg.getBoundingClientRect();
+                        const historyRect = history.getBoundingClientRect();
+                        const svgViewBox = svg.viewBox.baseVal;
+                        const scaleX = svgRect.width / svgViewBox.width;
+                        const scaleY = svgRect.height / svgViewBox.height;
+                        
+                        const pixelX = (point.x * scaleX) + (svgRect.left - historyRect.left);
+                        const pixelY = (point.y * scaleY) + (svgRect.top - historyRect.top);
                                                 
                         gsap.set(dot, {
-                            attr: { cx: point.x, cy: point.y }
+                            left: pixelX - 60, // div width/2로 중앙 정렬 (120px / 2)
+                            top: pixelY - 60   // div height/2로 중앙 정렬 (120px / 2)
                         });
                         
                         gsap.set(path, {
@@ -759,6 +785,16 @@ export default {
                                 'stroke-dashoffset': pathLength * (1 - progress)
                             }
                         });
+                        
+                        // 로띠 재생/일시정지 제어 (맨 위와 맨 끝에서는 일시정지)
+                        const lottie = this.$refs.lottie;
+                        if (lottie) {
+                            if (progress > 0 && progress < 1) {
+                                lottie.play();
+                            } else {
+                                lottie.pause();
+                            }
+                        }
                         
                         this.checkTriggerProximity(progress);
                         this.checkYearProximity(progress);
@@ -788,7 +824,25 @@ export default {
     }
 
     #moving-dot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 120px;
+        height: 120px;
         cursor: pointer;
+        transform-origin: center center;
+        pointer-events: none;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(90deg);
+        
+        ::v-deep #lottie {
+            width: 100% !important;
+            height: 100% !important;
+            display: block !important;
+        }
     }
     
     .year-text {
