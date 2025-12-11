@@ -65,8 +65,8 @@ export default [
                 ko: '담곤 연구소를 위한<br class="mb"> 곤충 연구 웹사이트입니다.<br>React와 Next.js를 사용하여 개발하였고, <br> admin 페이지를 통해<br class="mb"> 글을 등록, 관리할 수 있습니다.<br>Supbase와 Vecel을 통해 데이터 관리 및<br class="mb"> 배포까지 진행하였습니다.',
             },
             detail1_title: {
-                en: 'Requirements → What problems needed solving',
-                ko: '요구사항 → 문제 해결 방법',
+                en: 'Requirements',
+                ko: '요구사항',
             },
             detail1: {
                 en: [
@@ -83,8 +83,8 @@ export default [
                 ],
             },
             detail2_title: {
-                en: 'My work (Actions)',
-                ko: '내 작업 (행동)',
+                en: 'My work',
+                ko: '작업',
             },
             detail2: {
                 en: [
@@ -187,8 +187,8 @@ export default [
                 ko: 'vue와 nuxt로 구축한<br class="mb"> 2025년 버전 포트폴리오 사이트입니다.<br>전체적인 아이디어는 백지 노트와 카드이고, <br>영문, 한글 지원이 가능합니다. <br>GitHub에 전체 코드를 올려두었으니<br class="mb"> 확인해 보세요!',
             },
             detail1_title: {
-                en: 'Requirements → What problems needed solving',
-                ko: '요구사항 → 문제 해결 방법',
+                en: 'Requirements',
+                ko: '요구사항',
             },
             detail1: {
                 en: [
@@ -205,8 +205,8 @@ export default [
                 ],
             },
             detail2_title: {
-                en: 'My work (Actions)',
-                ko: '내 작업 (행동)',
+                en: 'My work',
+                ko: '작업',
             },
             detail2: {
                 en: [
@@ -309,8 +309,8 @@ export default [
                 ko: '삼성생명, 삼성화재, 삼성카드,<br class="mb"> 삼성증권에서 만든 금융 서비스 앱.<br> 여러 팀과 협력하여 <br class="mb">인터넷 사용 없이 보안 시스템 아래에서 개발.<br>5명의 팀원과 함께<br class="mb"> 모든 컴포넌트와 1400여개 페이지 관리 및 리뉴얼. <br>카드 메인 페이지 담당.',
             },
             detail1_title: {
-                en: 'Requirements → What problems needed solving',
-                ko: '요구사항 → 문제 해결 방법',
+                en: 'Requirements',
+                ko: '요구사항',
             },
             detail1: {
                 en: [
@@ -327,8 +327,8 @@ export default [
                 ],
             },
             detail2_title: {
-                en: 'My work (Actions)',
-                ko: '내 작업 (행동)',
+                en: 'My work',
+                ko: '작업',
             },
             detail2: {
                 en: [
@@ -496,8 +496,8 @@ export default [
                 ko: '은행권청년창업재단 디캠프 사이트 리뉴얼.<br> 사이트 전체 프론트엔드 담당<br>디캠프가 제공하는 프로그램을<br class="mb"> 검색하고 신청할 수 있습니다.<br>영문사이트와 개인 멤버십<br class="mb"> 페이지가 따로 있습니다.',
             },
             detail1_title: {
-                en: 'Requirements → What problems needed solving',
-                ko: '요구사항 → 문제 해결 방법',
+                en: 'Requirements',
+                ko: '요구사항',
             },
             detail1: {
                 en: [
@@ -516,8 +516,8 @@ export default [
                 ],
             },
             detail2_title: {
-                en: 'My work (Actions)',
-                ko: '내 작업 (행동)',
+                en: 'My work',
+                ko: '작업',
             },
             detail2: {
                 en: [
@@ -620,8 +620,8 @@ export default [
                 ko: '무용예술인의 직업전환과 복지증진을 목표로<br class="mb"> 다양한 지원사업을 운영하고 있는 사이트.<br> 사이트 내에서 다양한 지원을 신청할 수 있고,<br class="mb">  소식을 확인할 수 있습니다.<br> 후원기능이 있고, 간단한 <br class="mb">영문 페이지가 따로 존재합니다.', 
             },
             detail1_title: {
-                en: 'Requirements → What problems needed solving',
-                ko: '요구사항 → 문제 해결 방법',
+                en: 'Requirements',
+                ko: '요구사항',
             },
             detail1: {
                 en: [
@@ -640,8 +640,8 @@ export default [
                 ],
             },
             detail2_title: {
-                en: 'My work (Actions)',
-                ko: '내 작업 (행동)',
+                en: 'My work',
+                ko: '작업',
             },
             detail2: {
                 en: [
@@ -875,9 +875,7 @@ export default [
                 en: 'An introduction and registeration site <br class="mb">for walking donation event<br> sponsored by Oxfam Korea.<br>Scroll animation with SVG <br class="mb">at home scren.<br>Team stamps are awarded based on <br class="mb">mission completion.',
                 ko: '옥스팜코리아에서 주최한 걷기 기부<br class="mb"> 소개 및 참가신청 사이트.<br> 스크롤에 따라 SVG 라인이 그려지는<br class="mb"> 애니메이션 구현.<br>미션에 따라 팀의 스탬프가 인증됩니다.',
             },
-            // detail: [
-            //     '이미지형 폰트를 반응형으로 사용',
-            // ]
+
         },
     },
     {

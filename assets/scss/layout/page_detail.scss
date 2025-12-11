@@ -149,30 +149,36 @@
         }
     }
 
-    .detail {
-        h3 {
-            margin-bottom: 16px;
-            word-break: keep-all;
-            text-align: center;
+    [class*='detail'] {
 
-            &:not(:first-child) {
-                margin-top: 5vh;
-            }
+        &.detail1 {
+            margin: 10vh 0;
+        }
+
+        .inner,
+        &.detail1 {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2.5vw;
+        }
+
+        h3 {
+            font-size: 1rem;
+            word-break: keep-all;
         }
         ul {
-            text-align: center;
 
             li {
                 word-break: keep-all;
 
-                &::before {
-                    content: '•';
-                    display: inline;
-                    margin-right: 4px;
-                }
+                // &::before {
+                //     content: '•';
+                //     display: inline;
+                //     margin-right: 4px;
+                // }
 
                 &:not(:first-child) {
-                    margin-top: 4px;
+                    margin-top: 8px;
                 }
             }
         }
@@ -258,14 +264,16 @@
         }
     }
     .player {
+        padding-top: 0;
+        
         .iframe {
             &:not(:first-child) {
-                margin-top: 32px;
+                margin-top: 5vh;
             }
         }
     }
     .setlist {
-        padding-top: 0;
+
         p {
             &:not(:first-child) {
                 margin-top: 4px;
@@ -273,13 +281,14 @@
         }
     }
     .video {
-        padding: 0;
+
         video {
             width: 100%;
         }
     }
     .about {
         text-align: center;
+        padding-top: 10vh;
     }
 }
 
@@ -316,16 +325,26 @@
             }
         }
         .about {
+            padding-top: 10vh !important;
+
             #button-round::v-deep {
                 margin-top: 10vh;
             }
         }
-        .detail {
+        [class*='detail'] {
+            .inner,
+            &.detail1 {
+                grid-template-columns: 1fr 2fr;
+                gap: 5vw;
+            }
             ul {
                 li:not(:first-child) {
-                    margin-top: 8px;
+                    margin-top: 16px;
                 }
             }
+        }
+        .device_mb {
+            gap: 5vw;
         }
     }
 
@@ -343,6 +362,7 @@
             }
         }
         .showcase {
+            margin-top: calc(10vh - 10vw);
             height: auto;
             .iframe {
                 height: 80vh;
@@ -359,7 +379,7 @@
 
     #archive_music_detail {
         .def {
-            padding-bottom: 0 !important;
+            padding-bottom: 10vh !important;
         }
     }
 

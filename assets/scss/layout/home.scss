@@ -22,27 +22,6 @@
         width: 100%;
     }
 
-    .divider {
-        margin-top: 10vh;
-        width: 80vw;
-        max-width: $pc;
-        margin: 0 auto;
-        transform: rotate(180deg);
-        .wave-container {
-            margin-bottom: -1px;
-        }
-        img {
-            width: 100%;
-            max-width: 100%;
-            margin-bottom: -1px;
-            margin-top: -1px;
-        }
-        &.rev {
-            transform: rotate(0deg);
-            margin-top: 0;
-        }
-    }
-
     #main {
         position: relative;
         width: 100%;
@@ -333,12 +312,33 @@
         width: 80%;
         max-width: $pc;
         margin: 0 auto;
-        padding: 10vh 0 15vh;
-        background-color: $gray1;
         position: relative;
         z-index: 2;
-        .inner {
+
+        .divider {
+            margin-top: 10vh;
+            margin: 0 auto;
+            transform: rotate(180deg);
+            .wave-container {
+                margin-bottom: -1px;
+            }
+            img {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: -1px;
+                margin-top: -1px;
+            }
+            &.rev {
+                transform: rotate(0deg);
+                margin-top: 0;
+            }
+        }
+
+        .content {
+            padding: 10vh 0 15vh;
             position:relative;
+            background-color: $gray1;
+
             #text-typing::v-deep {
                 text-align: center;
                 h1 {
@@ -397,8 +397,8 @@
                 word-break: keep-all;
                 font-family: 'Diphylleia', 'YUniverse';
                 position: absolute;
-                top: -16px;
-                left: 12%;
+                top: -8px;
+                left: 120px;
                 transform: translateY(-100%) rotate(-8deg);
                 animation: blink 2s infinite;
             }
@@ -412,6 +412,7 @@
                 height: 320px;
             }
             .end {
+                padding-top: 10vh;
                 text-align: right;
                 position: relative;
                 z-index: 2;

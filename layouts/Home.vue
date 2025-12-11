@@ -21,10 +21,10 @@
             <div class='bumper' ref='bumper'></div>
             <section class='profile' ref='profile'>
                 <div class='inner'>
-                    <div>
+                    <div v-scroll-animate='{ once: false }'>
                         <ParallaxImg :src='profile.img' />
                     </div>
-                    <div class='arrow'>
+                    <div class='arrow' v-scroll-animate='{ start: "top 50%", once: false, x: -80, y: 0 }'>
                         <span class='pc'>{{ $t('home.arrowText.pc') }}</span>
                         <span class='mb'>{{ $t('home.arrowText.mb') }}</span>
                         <Lottie :animationData='Arrow' />
@@ -77,34 +77,28 @@
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
-            <div class='divider'>
-                <!-- <img src='@/assets/img/divider.svg' /> -->
-                 <Wave />
-            </div>
-            <section class='skills' ref='skills'>
-                <div class='inner'>
-                    <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
-                        {{ $t('home.subTitle_skills') }}
-                    </h1> -->
+            <section class='skills' ref='skills' v-scroll-animate>
+                <div class='divider'>
+                    <Wave />
+                </div>
+                <div class='content'>
                     <TextTyping ref='skillsTyping' text='what am i good at?' :backspace='false' :autoplay='false' />
-                    <p class='subtext'>{{ $t('home.skillsText') }}</p>
-                    <RandomSkillCard />
+                    <p class='subtext' v-scroll-animate='{ start: "top 50%" }'>{{ $t('home.skillsText') }}</p>
+                    <div v-scroll-animate='{ start: "top 50%" }'>
+                        <RandomSkillCard />
+                    </div>
+                </div>
+                <div class='divider rev'>
+                    <Wave />
                 </div>
             </section>
-            <div class='divider rev'>
-                <!-- <img src='@/assets/img/divider.svg' /> -->
-                 <Wave />
-            </div>
-            <section class='cover' ref='cover'>
+            <section class='cover' ref='cover' v-scroll-animate='{ once: false }'>
                 <div class='inner'>
                     <TextTyping ref='coverTyping' text='how did I get here?' :backspace='false' :autoplay='false' />
                 </div>
             </section>
             <section class='history' ref='history'>
                 <div class='inner'>
-                    <!-- <h1 class='subtitle ft-bagel txt-c' data-aos='fade-up'>
-                        {{ $t('home.subTitle_history') }}
-                    </h1> -->
                     <div class='anim'>
                         <div class='start'>{{ $t('home.historyText') }}</div>
                         <History v-if='showHistory && !isMobile' />
@@ -695,10 +689,10 @@ export default {
             }
 
             // cover 섹션의 TextTyping
-            if (this.$refs.coverTyping) {
+            if (this.$refs.coverTyping && this.$refs.coverTyping.$el) {
                 const coverST = ScrollTrigger.create({
-                    trigger: this.$refs.cover,
-                    start: 'top center',
+                    trigger: this.$refs.coverTyping.$el,
+                    start: 'center center',
                     onEnter: () => {
                         if (this.$refs.coverTyping) {
                             this.$refs.coverTyping.startTyping();

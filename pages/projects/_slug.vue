@@ -14,7 +14,9 @@
                     </client-only>
                 </div>
                 <div class='title'>
-                    <p>{{ project.tags.work[$i18n.locale] }}</p>
+                    <p v-scroll-animate='{ start: "top 100%"}'>
+                        {{ project.tags.work[$i18n.locale] }}
+                    </p>
                     <a
                         v-if='project.link'
                         class='mouse-hover1'
@@ -22,6 +24,7 @@
                         :href='project.link.href'
                         @mouseenter='showCursorImage(true)'
                         @mouseleave='showCursorImage(false)'
+                        v-scroll-animate='{ start: "top 100%"}'
                     >
                         <TextShifting :text='localizedTitle' />
                     </a>
@@ -29,7 +32,7 @@
                 <div class='desc' v-if='project.desc'>
                     <div class='inner'>
                          <ul>
-                            <li v-if='project.desc.agency || project.desc.client'>
+                            <li v-if='project.desc.agency || project.desc.client' v-scroll-animate='{ start: "top 100%"}'>
                                 <dl>
                                     <dt>Team<span v-if='project.desc.client'> / Client</span></dt>
                                     <dd>
@@ -38,7 +41,7 @@
                                     </dd>
                                 </dl>
                             </li>
-                            <li v-if='project.desc.duration'>
+                            <li v-if='project.desc.duration' v-scroll-animate='{ start: "top 100%"}'>
                                 <dl>
                                     <dt>Work Period</dt>
                                     <dd>
@@ -47,7 +50,7 @@
                                     </dd>
                                 </dl>
                             </li>
-                            <li v-if='project.desc.stack'>
+                            <li v-if='project.desc.stack' v-scroll-animate='{ start: "top 100%"}'>
                                 <dl>
                                     <dt>Main Stack</dt>
                                     <dd>{{ project.desc.stack[$i18n.locale] }}</dd>
@@ -64,18 +67,20 @@
                         v-if='project.content.about'
                         class='txt-c' 
                         v-html='project.content.about[$i18n.locale]'
+                        v-scroll-animate
                     ></p>
                     <ButtonRound
                         v-if='project.link && project.link.href'
                         class='txt-c'
                         :link='{ ...project.link, text: project.link.text[$i18n.locale] }'
+                        v-scroll-animate
                     />
                 </div>
             </section>
 
-            <section class='img-gif bg' v-if='project.images.gif'>
+            <section class='img-gif bg' v-if='project.images.gif' v-scroll-animate>
                 <div class='inner'>
-                    <div class='device_pc'>
+                    <div class='device_pc' v-scroll-animate>
                         <img src='@/assets/img/device-laptop.png' class='device' loading='lazy' decoding='async'>
                         <div class='res-box-wrap'>
                             <div class='res-box'>
@@ -88,23 +93,54 @@
 
             <section class='img-pc' v-if='project.images.pc1'>
                 <div class='inner'>
-                    <img :src='project.images.pc1' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc2' :src='project.images.pc2' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc3' :src='project.images.pc3' loading='lazy' decoding='async'>
+                    <img :src='project.images.pc1' loading='lazy' decoding='async' v-scroll-animate>
+
+                    <div class='detail1' v-if='project.content.detail1'>
+                        <h3 v-if='project.content.detail1' v-scroll-animate>
+                            {{ project.content.detail1_title[$i18n.locale] }}
+                        </h3>
+                        <ul>
+                            <li 
+                                v-for='(item, index) in project.content.detail1[$i18n.locale]' :key='index'
+                                v-html='item'
+                                v-scroll-animate
+                            >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <img v-if='project.images.pc2' :src='project.images.pc2' loading='lazy' decoding='async' v-scroll-animate>
+                    <img v-if='project.images.pc3' :src='project.images.pc3' loading='lazy' decoding='async' v-scroll-animate>
                 </div>
             </section>
 
-            <section class='img-mb bg' v-if='project.images.mb1'>
+            <section class='detail2' v-if='project.content.detail2'>
+                <div class='inner'>
+                    <h3 v-if='project.content.detail2' v-scroll-animate>
+                        {{ project.content.detail2_title[$i18n.locale] }}
+                    </h3>
+                    <ul>
+                        <li 
+                            v-for='(item, index) in project.content.detail2[$i18n.locale]' :key='index'
+                            v-html='item'
+                            v-scroll-animate
+                        >
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class='img-mb bg' v-if='project.images.mb1' v-scroll-animate>
                 <div class='inner'>
                     <ul class='device_mb'>
                         <li>
-                            <img :src='project.images.mb1' class='img' loading='lazy' decoding='async'>
+                            <img :src='project.images.mb1' class='img' loading='lazy' decoding='async' v-scroll-animate>
                         </li>
                         <li>
-                            <img :src='project.images.mb2' class='img' loading='lazy' decoding='async'>
+                            <img :src='project.images.mb2' class='img' loading='lazy' decoding='async' v-scroll-animate>
                         </li>
                         <li>
-                            <img :src='project.images.mb3' class='img' loading='lazy' decoding='async'>
+                            <img :src='project.images.mb3' class='img' loading='lazy' decoding='async' v-scroll-animate>
                         </li>
                     </ul>
                 </div>
@@ -112,41 +148,22 @@
 
             <section class='img-pc2' v-if='project.images.pc4'>
                 <div class='inner'>
-                    <img :src='project.images.pc4' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc5' :src='project.images.pc5' loading='lazy' decoding='async'>
-                    <img v-if='project.images.pc6' :src='project.images.pc6' loading='lazy' decoding='async'>
+                    <img :src='project.images.pc4' loading='lazy' decoding='async' v-scroll-animate>
+                    <img v-if='project.images.pc5' :src='project.images.pc5' loading='lazy' decoding='async' v-scroll-animate>
+                    <img v-if='project.images.pc6' :src='project.images.pc6' loading='lazy' decoding='async' v-scroll-animate>
                 </div>
             </section>
 
-            <section class='detail' v-if='project.content.detail1' >
+            <section class='detail3' v-if='project.content.detail3'>
                 <div class='inner'>
-                    <h3 v-if='project.content.detail1'>
-                        {{ project.content.detail1_title[$i18n.locale] }}
-                    </h3>
-                    <ul>
-                        <li 
-                            v-for='(item, index) in project.content.detail1[$i18n.locale]' :key='index'
-                            v-html='item'
-                        >
-                        </li>
-                    </ul>
-                    <h3 v-if='project.content.detail2'>
-                        {{ project.content.detail2_title[$i18n.locale] }}
-                    </h3>
-                    <ul>
-                        <li 
-                            v-for='(item, index) in project.content.detail2[$i18n.locale]' :key='index'
-                            v-html='item'
-                        >
-                        </li>
-                    </ul>
-                    <h3 v-if='project.content.detail3'>
+                    <h3 v-if='project.content.detail3' v-scroll-animate>
                         {{ project.content.detail3_title[$i18n.locale] }}
                     </h3>
                     <ul>
                         <li 
                             v-for='(item, index) in project.content.detail3[$i18n.locale]' :key='index'
                             v-html='item'
+                            v-scroll-animate
                         >
                         </li>
                     </ul>

@@ -88,6 +88,7 @@ export default {
         { src: '@/plugins/lottie.js', ssr: false },
         { src: '@/plugins/vue-awesome-swiper.js', ssr: false },
         { src: '@/plugins/highlight.js', ssr: false },
+        { src: '@/plugins/scroll-animate.client.js', ssr: false },
     ],
 
     components: true,

@@ -63,6 +63,12 @@
 
 <script>
 import ButtonRound from '@/components/ButtonRound.vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+if (process.client) {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 export default {
     components: {
@@ -77,6 +83,7 @@ export default {
     data() {
         return {
             useVhFix: false,
+            titleST: null,
         }
     },
     mounted() {
@@ -85,21 +92,35 @@ export default {
         this.$nextTick(() => {
             this.bgScroll();
             window.addEventListener('scroll', this.bgScroll);
+            
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                setTimeout(() => {
+                    this.initTitleAnimation();
+                }, 100);
+            } else {
+                setTimeout(() => {
+                    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                        this.initTitleAnimation();
+                    }
+                }, 300);
+            }
         });
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.setVhFix);
         window.removeEventListener('scroll', this.bgScroll);
+        if (this.titleST) {
+            this.titleST.kill();
+            this.titleST = null;
+        }
     },
     methods: {
         bgScroll() {
             const footerBg = this.$refs.bg;
-            const title = this.$refs.title;
-            if (!footerBg || !title) return;
+            if (!footerBg) return;
 
             const winH = window.innerHeight;
             const scrollY = window.scrollY;
-            // getBoundingClientRect를 사용하여 viewport 기준 위치 계산
             const rect = footerBg.getBoundingClientRect();
             const footerTop = scrollY + rect.top;
             const scrollStart = footerTop - (winH * 2 / 3);
@@ -110,14 +131,10 @@ export default {
                 const h = -(scrollY - footerTop);
                 const x = footerTop - scrollStart;
                 r = (h / x) * 100;
-                title.classList.add('active');
             } else if (scrollY + winH >= footerTop) {
                 const h = -(scrollY - footerTop);
                 const x = footerTop - scrollStart;
                 r = (h / x) * 100;
-                title.classList.add('active');
-            } else {
-                title.classList.remove('active');
             }
 
             footerBg.style.borderRadius = `0 0 ${r}% ${r}%`;
@@ -135,6 +152,60 @@ export default {
             } else {
                 document.documentElement.style.removeProperty('--vh');
             }
+        },
+        initTitleAnimation() {
+            if (!process.client) return;
+            
+            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                console.warn('[Footer] GSAP or ScrollTrigger not loaded');
+                return;
+            }
+            
+            if (!this.$refs.title) {
+                console.warn('[Footer] title ref not found');
+                return;
+            }
+            
+            if (this.titleST) {
+                this.titleST.kill();
+                this.titleST = null;
+            }
+
+            this.titleST = ScrollTrigger.create({
+                trigger: this.$refs.title,
+                start: 'center 80%',
+                onEnter: () => {
+                    this.triggerFlipAnimation();
+                },
+                onEnterBack: () => {
+                    this.triggerFlipAnimation();
+                },
+                once: false,
+                markers: false
+            });
+            
+            ScrollTrigger.refresh();
+        },
+        triggerFlipAnimation() {
+            if (!this.$refs.title) return;
+            
+            const title = this.$refs.title;
+            const spans = title.querySelectorAll('span');
+            
+            title.classList.remove('active');
+            
+            spans.forEach(span => {
+                span.style.animation = 'none';
+            });
+            
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    spans.forEach(span => {
+                        span.style.animation = '';
+                    });
+                    title.classList.add('active');
+                });
+            });
         },
     }
 }

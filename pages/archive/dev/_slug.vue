@@ -14,7 +14,9 @@
                     </client-only>
                 </div>
                 <div class='title'>
-                    <p>{{ dev.tags.work[$i18n.locale] }}</p>
+                    <p v-scroll-animate='{ start: "top 100%"}'>
+                        {{ dev.tags.work[$i18n.locale] }}
+                    </p>
                     <a
                         v-if='dev.link'
                         class='mouse-hover1'
@@ -22,6 +24,7 @@
                         :href='dev.link.href'
                         @mouseenter='showCursorImage(true)'
                         @mouseleave='showCursorImage(false)'
+                        v-scroll-animate='{ start: "top 100%"}'
                     >
                         <TextShifting :text='localizedTitle' />
                     </a>
@@ -33,12 +36,13 @@
                             v-if='dev.content.about'
                             class='txt-c' 
                             v-html='dev.content.about[$i18n.locale]'
+                            v-scroll-animate='{ start: "top 100%"}'
                         ></p>
                     </div>
                 </div>
             </section>
 
-            <section class='showcase'>
+            <section class='showcase' v-scroll-animate>
                 <div class='inner'>
                     <iframe class='iframe mouse-none'
                         v-if='dev.slug'
@@ -50,7 +54,7 @@
                 </div>
             </section>
 
-            <section class='codeviewer' v-if='dev.content.snippet'>
+            <section class='codeviewer' v-if='dev.content.snippet' v-scroll-animate>
                 <div class='inner'>
                     <pre>
                         <code ref='codeBlock'>
@@ -65,6 +69,7 @@
                     v-if='dev.link'
                     class='txt-c'
                     :link='{ ...dev.link, text: dev.link.text[$i18n.locale] }'
+                    v-scroll-animate
                 />
             </section>
 

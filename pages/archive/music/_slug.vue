@@ -14,7 +14,9 @@
                     </client-only>
                 </div>
                 <div class='title'>
-                    <p>{{ music.tags.work[$i18n.locale] }}</p>
+                    <p v-scroll-animate='{ start: "top 100%"}'>
+                        {{ music.tags.work[$i18n.locale] }}
+                    </p>
                     <a
                         v-if='music.link'
                         class='mouse-hover1'
@@ -22,6 +24,7 @@
                         :href='music.link.href'
                         @mouseenter='showCursorImage(true)'
                         @mouseleave='showCursorImage(false)'
+                        v-scroll-animate='{ start: "top 100%"}'
                     >
                         <TextShifting :text='localizedTitle' />
                     </a>
@@ -29,7 +32,7 @@
                 </div>
                 <div class='def'>
                     <div class='inner'>
-                        <p>
+                        <p v-scroll-animate='{ start: "top 100%"}'>
                             <span v-if='music.tags.genre'>
                                 #{{ music.tags.genre[$i18n.locale] }}
                             </span>
@@ -44,6 +47,7 @@
                             v-if='music.link'
                             class='txt-c'
                             :link='{ ...music.link, text: music.link.text[$i18n.locale] }'
+                            v-scroll-animate='{ start: "top 100%"}'
                         />
                     </div>
                 </div>
@@ -51,7 +55,7 @@
 
             <section class='player' v-if='music.player'>
                 <div class='inner'>
-                    <div v-for='(track, index) in music.player' :key='index' v-html='track' class='iframe mouse-none'></div>
+                    <div v-for='(track, index) in music.player' :key='index' v-html='track' class='iframe mouse-none' v-scroll-animate></div>
                 </div>
             </section>
 
@@ -62,13 +66,14 @@
                         controls 
                         controlsList='nodownload'
                         @contextmenu.prevent
+                        v-scroll-animate
                     ></video>
                 </div>
             </section>
 
             <section class='setlist' v-if='music.setlist'>
                 <div class='inner txt-c'>
-                    <p v-for='set in music.setlist'>
+                    <p v-for='set in music.setlist' v-scroll-animate>
                         <span>{{ set }}</span>
                     </p>
                 </div>
@@ -76,7 +81,7 @@
 
             <section class='about' v-if='music.content'>
                 <div class='inner'>
-                    <p v-html='music.content.about[$i18n.locale]'></p>
+                    <p v-html='music.content.about[$i18n.locale]' v-scroll-animate></p>
                 </div>
             </section>
 
