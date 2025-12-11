@@ -300,11 +300,10 @@ export default {
     width: 100%;
     height: 60vh;
     margin: 5vh auto;
-    padding: 5vh 0 0;
 }
 .skill-cards-wrapper {
     position: relative;
-    width: 80%;
+    width: 100%;
     height: 100%;
     margin: auto;
 }
@@ -434,9 +433,9 @@ export default {
     .tray {
         background: url('@/assets/img/home/tray_mb.png') no-repeat 50% 50%;
         background-size: contain;
-        height: 80vh;
+        height: 72vh;
         padding: 0;
-        // margin: 0;
+        margin: 0;
     }
                 
     .skill-cards-wrapper {

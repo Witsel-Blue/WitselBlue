@@ -357,7 +357,7 @@
                 text-align: center;
                 font-size: 0.8rem;
                 line-height: 1;
-                margin-top: 16px;;
+                margin-top: 32px;
             }
         }
     }
@@ -562,18 +562,12 @@
         }
 
         .skills {
-            .inner {
-                width: 100%;
-                .subtitle {
-                    padding-top: 5vh;
-                    margin-bottom: 0;
-                }
+            .content {
+                padding: 10vh 0;
+                
                 #text-typing::v-deep {
                     h1 {
                         font-size: 3rem;
-                        width: 72%;
-                        min-height: 6rem;
-                        margin: 0 auto;
                         &.cursor::after {
                             height: 2rem;
                             margin-left: 0.5rem;
