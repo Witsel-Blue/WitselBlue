@@ -34,7 +34,25 @@ export default {
 
             // 안드로이드/크롬 PWA용 아이콘
             { rel: 'manifest', href: '/manifest.json' },
-        ]
+        ],
+        script: [
+            // Google Analytics
+            {
+                src: 'https://www.googletagmanager.com/gtag/js?id=G-X8D8EMGB2L',
+                async: true
+            },
+            {
+                innerHTML: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-X8D8EMGB2L');
+                `,
+                type: 'text/javascript',
+                charset: 'UTF-8'
+            }
+        ],
+        __dangerouslyDisableSanitizers: ['script']
     },
 
     css: [
