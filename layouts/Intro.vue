@@ -16,13 +16,56 @@ export default {
     data() {
         return {
             visible: true,
+            loadTimeout: null,
+            loadHandler: null,
+            mountedTime: null,
+            minDisplayTime: 3000,
         }
     },
     mounted() {
-        setTimeout(() => {
+        this.mountedTime = Date.now();
+        
+        const finishIntro = () => {
+            if (!this.visible) return;
+            
+            const elapsed = Date.now() - this.mountedTime;
+            const remaining = this.minDisplayTime - elapsed;
+            
+            if (remaining > 0) {
+                setTimeout(finishIntro, remaining);
+                return;
+            }
+            
             this.visible = false;
             this.$emit('end');
-        }, 2500);
+            if (this.loadHandler) {
+                window.removeEventListener('load', this.loadHandler);
+                this.loadHandler = null;
+            }
+            if (this.loadTimeout) {
+                clearTimeout(this.loadTimeout);
+                this.loadTimeout = null;
+            }
+        };
+
+        // 이미 로딩이 끝났다면 최소 표시 시간 확인 후 종료
+        if (document.readyState === 'complete') {
+            finishIntro();
+        } else {
+            this.loadHandler = finishIntro;
+            window.addEventListener('load', this.loadHandler);
+            this.loadTimeout = setTimeout(finishIntro, 8000);
+        }
+    },
+    beforeDestroy() {
+        if (this.loadHandler) {
+            window.removeEventListener('load', this.loadHandler);
+            this.loadHandler = null;
+        }
+        if (this.loadTimeout) {
+            clearTimeout(this.loadTimeout);
+            this.loadTimeout = null;
+        }
     }
 }
 </script>

@@ -77,7 +77,7 @@
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
-            <section class='skills' ref='skills' v-scroll-animate>
+            <section class='skills' ref='skills' v-scroll-animate='{ opacity: 1 }'>
                 <div class='divider'>
                     <Wave />
                 </div>
