@@ -1,12 +1,149 @@
 export default [
     {
+        slug: 'cusme',
+        title: {
+            en: 'Cusme Studio',
+            ko: '커스미 스튜디오',
+        },
+        desc: {
+            duration: { start: '2026.01', end: '2026.04' },
+            client: {
+                en: 'Higgs Company',
+                ko: '힉스',
+            },
+            agency: {
+                en: 'Higgs Company',
+                ko: '힉스',
+            },
+            stack: {
+                en: 'React / Next / SCSS / three.js / GSAP / Lottie',
+                ko: 'React / Next / SCSS / three.js / GSAP / Lottie',
+            },
+        },
+        tags: {
+            work: {
+                en: 'development',
+                ko: '전체개발',
+            },
+            scope: {
+                en: 'teamwork',
+                ko: '팀워크',
+            },
+            env: {
+                en: 'react',
+                ko: '리액트',
+            },
+            platform: {
+                en: 'web',
+                ko: '웹',
+            },
+        },
+        link: {
+            href: 'https://cusme-front.vercel.app/dashboard',
+            target: '_blank',
+            text: {
+                en: 'visit site',
+                ko: '사이트 방문',
+            },
+        },
+        images: {
+            thumb: require('@/assets/img/projects/cusme_thumb.png'),
+            mainvisual: require('@/assets/img/projects/cusme_main.png'),
+            pc1: require('@/assets/img/projects/cusme_pc1.png'),
+            pc2: require('@/assets/img/projects/cusme_pc2.png'),
+            pc3: require('@/assets/img/projects/cusme_pc3.png'),
+            mb1: require('@/assets/img/projects/cusme_mb1.png'),
+            mb2: require('@/assets/img/projects/cusme_mb2.png'),
+            mb3: require('@/assets/img/projects/cusme_mb3.png'),
+            pc4: require('@/assets/img/projects/cusme_pc4.png'),
+            pc5: require('@/assets/img/projects/cusme_pc5.png'),
+            pc6: require('@/assets/img/projects/cusme_pc6.png'),
+        },
+        content: {
+            about: {
+                en: 'A 3D shoe customization site developed using three.js. <br>Within three months, I independently handled and delivered the entire studio build, <br>including business and development direction proposals, planning, design, frontend development, <br>asset production including 3D modeling, training new hires, and establishing the workflow process.',
+                ko: 'three.js를 사용하여 개발한 3D 신발 커스터마이징 사이트입니다. <br>3개월 내 사업 및 개발 방향 제안, 기획, 디자인, 프론트엔드 개발, <br>3D 모델링 포함 에셋 제작, 신입 교육 및 작업 프로세스 정립 등 <br>스튜디오 전체 개발을 1인 담당 및 진행했습니다.',
+            },
+            detail1_title: {
+                en: 'Requirements',
+                ko: '요구사항',
+            },
+            detail1: {
+                en: [
+                    'A 3D shoe customization site where users can customize shoes to their preference.',
+                    'A dashboard page where members can manage their customized projects.',
+                    'A feature to view customized models in a 3D viewer and capture photos.',
+                    'An onboarding guide feature that helps users use the tool more easily.',
+                    'An AI chat feature that assists customization and integrates with the 3D customization tool.',
+                ],
+                ko: [
+                    '사용자가 원하는 신발을 커스터마이징 할 수 있는 3D 신발 커스터마이징 사이트.',
+                    '회원일 시 커스터마이징한 프로젝트를 관리할 수 있는 대시보드 페이지.',
+                    '커스터마이징한 모델링을 3D 뷰어에서 확인 및 사진 촬영 기능.',
+                    '온보딩 가이드로 사용자가 쉽게 툴을 사용할 수 있도록 도와주는 기능.',
+                    'AI 채팅을 통해 커스터마이징을 도와주는 기능 및 3D 커스터마이징 툴과 연결.',
+                ],
+            },
+            detail2_title: {
+                en: 'My work',
+                ko: '작업',
+            },
+            detail2: {
+                en: [
+                    'Built the overall website foundation using React, Next.js, and TypeScript.',
+                    'Established work guidelines, trained new hires, and handled deployments.',
+                    'Solely led development direction proposals, planning, design, frontend development, 3D modeling, and logo production.',
+                    'Created test 3D models in Blender and separated model parts.',
+                    'Developed a 3D viewer and integrated it with the 3D customization tool.',
+                    'Developed an onboarding guide using tooltips.',
+                    'Integrated an AI chat feature to assist customization.',
+                    'Implemented photo capture and sharing features for completed 3D models.',
+                    'Simplified the Blender and three.js integration process and documented the guide.'
+                ],
+                ko: [
+                    'React, Next.js, TypeScript를 사용하여 웹사이트 전체 베이스 구축.',
+                    '작업 진행 가이드 정립 및 신입 교육, 배포 진행.',
+                    '개발 방향 제안, 기획, 디자인, 프론트엔드 개발, 3D 모델링 및 로고 제작 등 1인 진행.',
+                    '테스팅 용 3D 모델링 블렌더 작업 및 파츠 분리 작업.',
+                    '3D 뷰어 개발 및 3D 커스터마이징 툴과 연결.',
+                    '툴팁을 이용한 온보딩 가이드 개발.',
+                    'AI 채팅을 통해 커스터마이징을 도와주는 기능 연결.',
+                    '완성된 3D 모델링 사진 촬영 및 공유 기능.',
+                    '블렌더 및 three.js 연결 간소화 및 가이드 작성.'
+                ],
+            },
+            detail3_title: {
+                en: 'Result',
+                ko: '결과',
+            },
+            detail3: {
+                en: [
+                    'Built a 3D shoe customization site that users can customize with ease.',
+                    'Built a dashboard page where members can manage their customized projects.',
+                    'Implemented features to view customized models in a 3D viewer and capture photos.',
+                    'Built an onboarding guide feature to help users customize more easily.',
+                    'Implemented an AI chat feature that assists customization and connects with the 3D customization tool.',
+                    'Implemented photo capture and sharing features for completed 3D models.',
+                ],
+                ko: [
+                    '사용자가 쉽게 커스터마이징 할 수 있는 3D 신발 커스터마이징 사이트를 구축.',
+                    '회원일 시 커스터마이징한 프로젝트를 관리할 수 있는 대시보드 페이지를 구축.',
+                    '커스터마이징한 모델링을 3D 뷰어에서 확인 및 사진 촬영 기능을 구축.',
+                    '온보딩 가이드로 사용자가 쉽게 커스터마이징 할 수 있도록 도와주는 기능을 구축.',
+                    'AI 채팅을 통해 커스터마이징을 도와주는 기능 및 3D 커스터마이징 툴과 연결을 구축.',
+                    '완성된 3D 모델링 사진 촬영 및 공유 기능을 구축.',
+                ],
+            }
+        },
+    },
+    {
         slug: 'damgon',
         title: {
             en: 'Damgon Research',
             ko: '담곤 연구소',
         },
         desc: {
-            duration: { start: '2025.05', end: '2025.8', },
+            duration: { start: '2025.05', end: '2025.08', },
             client: {
                 en: 'Damgon Research',
                 ko: '담곤 연구소',

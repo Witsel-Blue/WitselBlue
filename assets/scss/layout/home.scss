@@ -63,6 +63,7 @@
                 font-size: 1.6rem;
                 position: absolute;
                 bottom: calc(16vh + 5rem + 2vh);
+                // top: calc(50vh - 2.5rem - 1rem);
                 font-family: 'basic_font', 'Hahmlet';
                 color: $white2;
                 user-select: none;
@@ -73,6 +74,7 @@
             #text-scroll::v-deep {
                 position: absolute;
                 bottom: calc(16vh);
+                // top: calc(50vh - 2.5rem);
                 span {
                     font-family: 'Bagel', 'Bagel_kr';
                     font-size: 5rem;
@@ -309,7 +311,7 @@
     }
     
     .skills {
-        width: 80%;
+        width: 90%;
         max-width: $pc;
         margin: 0 auto;
         position: relative;

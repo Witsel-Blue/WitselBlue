@@ -2,10 +2,13 @@
     <div id='mainvisual'>
         <client-only>
             <MainP5 />
-            <MainThree />
+            <!-- <MainThree /> -->
         </client-only>
         <StarBg />
         <div class='grad' />
+        <client-only>
+            <ThreeBg />
+        </client-only>
     </div>
 </template>
   
@@ -13,6 +16,7 @@
 import MainThree from '@/components/MainThree.vue';
 import MainP5 from '@/components/MainP5.vue';
 import StarBg from '@/components/StarBg.vue';
+import ThreeBg from '@/components/ThreeBg.vue';
 
 export default {
     name: 'Mainvisual',
@@ -20,6 +24,7 @@ export default {
         MainThree,
         MainP5,
         StarBg,
+        ThreeBg,
     },
 }
 </script>

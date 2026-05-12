@@ -70,7 +70,7 @@ export default {
             { 
                 id: 7, 
                 title: 'Freelance Work and Study',
-                text: 'Worked indivually on Damgon Research, portfolio & studied python, typescript, etc.',
+                text: 'Worked indivually on projects & prepared for Awwards.',
             }
         ],
         triggers_mb: [
@@ -107,7 +107,7 @@ export default {
             { 
                 id: 7, 
                 title: 'Freelance Work and Study',
-                text: 'Worked indivually on Damgon Research, portfolio & studied python, typescript, etc.',
+                text: 'Worked indivually on projects & prepared for Awwards.',
             }
         ]
     },

@@ -61,7 +61,7 @@ export default {
             { 
                 id: 7, 
                 title: '프리랜스 개인 작업 및 공부',
-                text: '담곤 연구소 홈페이지, 포트폴리오 작업 및 python, typescript 등 공부',
+                text: '프로젝트 개별적 진행 및 Awwards 준비',
             }
         ],
         triggers_mb: [
@@ -98,7 +98,7 @@ export default {
             { 
                 id: 7, 
                 title: '개인 작업 및 공부',
-                text: '담곤 연구소 홈페이지, 포트폴리오 등 작업 및 python, typescript 등 공부',
+                text: '프로젝트 개별적 진행 및 Awwards 준비',
             }
         ]
     },

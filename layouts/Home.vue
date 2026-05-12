@@ -21,10 +21,10 @@
             <div class='bumper' ref='bumper'></div>
             <section class='profile' ref='profile'>
                 <div class='inner'>
-                    <div v-scroll-animate='{ once: false }'>
+                    <div v-scroll-animate>
                         <ParallaxImg :src='profile.img' />
                     </div>
-                    <div class='arrow' v-scroll-animate='{ start: "top 50%", once: false, x: -80, y: 0 }'>
+                    <div class='arrow' v-scroll-animate='{ start: "top 50%", x: -40, y: 0 }'>
                         <span class='pc'>{{ $t('home.arrowText.pc') }}</span>
                         <span class='mb'>{{ $t('home.arrowText.mb') }}</span>
                         <Lottie :animationData='Arrow' />
@@ -77,7 +77,7 @@
                 </ul>
                 <TextRotating text='selected' fontSize='4rem' />
             </section>
-            <section class='skills' ref='skills' v-scroll-animate='{ opacity: 1 }'>
+            <section class='skills' ref='skills' v-scroll-animate='{ opacity: 1, y: 200 }'>
                 <div class='divider'>
                     <Wave />
                 </div>
@@ -100,7 +100,9 @@
             <section class='history' ref='history'>
                 <div class='inner'>
                     <div class='anim'>
-                        <div class='start'>{{ $t('home.historyText') }}</div>
+                        <div class='start'>
+                            {{ $t('home.historyText') }}
+                        </div>
                         <History v-if='showHistory && !isMobile' />
                         <HistoryMobile v-if='showHistory && isMobile' />
                         <div class='bumper'></div>
@@ -176,8 +178,9 @@ export default {
                 { src: require('@/assets/img/home/profile_img3.png'), x: '100%', y: '56%' },
             ],
             selected: [
-                { ...projectsData[2], category: 'projects' },
-                { ...projectsData[4], category: 'projects' },
+                { ...projectsData[0], category: 'projects' },
+                { ...projectsData[3], category: 'projects' },
+                { ...projectsData[5], category: 'projects' },
                 // { ...archiveDevData[4], category: 'development' },
                 { ...archiveDevData[0], category: 'development' },
                 // { ...archiveMusicData[0], category: 'music' },
