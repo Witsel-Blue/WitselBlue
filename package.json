@@ -5,16 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "npm-run-all --parallel dev:v2025 dev:v2026",
-    "dev:v2026": "cd apps/v2026 && nuxt",
+    "dev:v2026": "nuxt --rootDir apps/v2026",
     "dev:v2025": "cd apps/v2025 && PORT=3001 nuxt",
     "build": "npm-run-all build:v2026 build:v2025",
-    "build:v2026": "cd apps/v2026 && nuxt build",
+    "build:v2026": "nuxt build --rootDir apps/v2026",
     "build:v2025": "cd apps/v2025 && nuxt build",
     "build:analyze": "cd apps/v2025 && ANALYZE=true nuxt build",
-    "start": "cd apps/v2026 && nuxt start",
+    "start": "nuxt start --rootDir apps/v2026",
     "start:v2025": "cd apps/v2025 && nuxt start",
     "generate": "npm-run-all generate:v2026 generate:v2025",
-    "generate:v2026": "cd apps/v2026 && nuxt generate",
+    "generate:v2026": "nuxt generate --rootDir apps/v2026",
     "generate:v2025": "cd apps/v2025 && nuxt generate"
   },
   "dependencies": {
