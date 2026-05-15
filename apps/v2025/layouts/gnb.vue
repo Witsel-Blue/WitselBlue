@@ -427,5 +427,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-    @import '/assets/scss/layout/gnb.scss';
+    @import '@/assets/scss/layout/gnb.scss';
 </style>
