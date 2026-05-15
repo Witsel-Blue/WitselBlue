@@ -1,0 +1,96 @@
+@use '@/assets/scss/base/variables.scss' as *;
+
+* {
+    margin:0; 
+    padding:0; 
+    box-sizing: border-box;
+    font-family: 'basic_font', 'basic_font_kr', sans-serif;
+}
+
+html {
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: $white;
+    
+    &:focus {
+        outline: none;
+    }
+}
+
+::selection {
+    background-color: $white;
+    color: $black_bg;
+}
+
+li { 
+    list-style-type: none; 
+}
+
+dl {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    color: $white;
+}
+
+img {
+    width: 100%;
+    margin: auto;
+    display: block;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+
+.mt-0 {
+    margin-top: 0;
+}
+.mt-4 {
+    margin-top: 4px;
+}
+.mt-8 {
+    margin-top: 8px;
+}
+.mt-16 {
+    margin-top: 16px;
+}
+.mt-24 {
+    margin-top: 24px;
+}
+.mt-32 {
+    margin-top: 32px;
+}
+.mt-40 {
+    margin-top: 40px;
+}
+
+// pc mb
+.pc {
+    display: block !important;
+}
+.mb {
+    display: none !important;
+}
+
+@media all and (max-width: $mobile) {
+    .pc {
+        display: none !important;
+    }
+    .mb {
+        display: block !important;
+    }
+}

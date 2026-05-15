@@ -28,53 +28,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.home {
-    max-width: 40rem;
-}
 
-.badge {
-    display: inline-block;
-    margin: 0 0 1rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    background: rgba(91, 140, 255, 0.15);
-    color: #9db7ff;
-}
-
-h1 {
-    margin: 0 0 0.75rem;
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    font-weight: 650;
-}
-
-.lead {
-    margin: 0 0 1.5rem;
-    line-height: 1.6;
-    opacity: 0.92;
-}
-
-.actions {
-    margin: 0 0 1.5rem;
-    padding-left: 1.1rem;
-}
-
-.link {
-    font-weight: 600;
-}
-
-.hint {
-    margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.55;
-    opacity: 0.72;
-
-    code {
-        font-size: 0.9em;
-        padding: 0.1em 0.35em;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.06);
-    }
-}
 </style>
