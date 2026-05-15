@@ -5,6 +5,10 @@ export default [
             en: 'Cusme Studio',
             ko: '커스미 스튜디오',
         },
+        summary: {
+            en: '3D shoe customizing tool',
+            ko: '3D 구두 커스터마이징 툴',
+        },
         desc: {
             duration: { start: '2026.01', end: '2026.04' },
             client: {
@@ -49,6 +53,7 @@ export default [
         images: {
             thumb: require('@/assets/img/projects/cusme_thumb.png'),
             mainvisual: require('@/assets/img/projects/cusme_main.png'),
+            mainvisual_mb: require('@/assets/img/projects/cusme_main_mb.png'),
             pc1: require('@/assets/img/projects/cusme_pc1.png'),
             pc2: require('@/assets/img/projects/cusme_pc2.png'),
             pc3: require('@/assets/img/projects/cusme_pc3.png'),
@@ -141,6 +146,10 @@ export default [
         title: {
             en: 'Damgon Research',
             ko: '담곤 연구소',
+        },
+        summary: {
+            en: 'Insect research data site',
+            ko: '글 관리가 가능한 곤충 연구 자료 사이트',
         },
         desc: {
             duration: { start: '2025.05', end: '2025.08', },
@@ -273,6 +282,10 @@ export default [
             en: 'MyPortfolio',
             ko: '나의 포트폴리오',
         },
+        summary: {
+            en: 'Interactive web portfolio',
+            ko: '인터렉티브 프론트엔드 포트폴리오',
+        },
         desc: {
             duration: { start: '2024.11, 2025.09', end: '2025.11' },
             stack: {
@@ -390,6 +403,10 @@ export default [
         title: {
             en: 'Monimo',
             ko: '모니모',
+        },
+        summary: {
+            en: 'Financial app renewal',
+            ko: '금융앱 리뉴얼 프로젝트',
         },
         desc: {
             duration: { start: '2024.07', end: '2024.10' },
@@ -511,6 +528,10 @@ export default [
             en: '4·16 Online Memorial',
             ko: '4·16 온라인 기억공간',
         },
+        summary: {
+            en: 'Online memorial site',
+            ko: '세월호참사 온라인 추모 사이트',
+        },
         desc: {
             duration: { start: '2022.04', },
             client: {
@@ -575,6 +596,10 @@ export default [
         title: {
             en: 'DCAMP',
             ko: '디캠프',
+        },
+        summary: {
+            en: 'Startup support platform',
+            ko: '스타트업 지원 플랫폼',
         },
         desc: {
             duration: { start: '2022.01', end: '2022.03', },
@@ -700,6 +725,10 @@ export default [
             en: 'DCDC',
             ko: '전문무용수지원센터',
         },
+        summary: {
+            en: 'Platform supporting dancers',
+            ko: '무용수 지원 플랫폼',
+        },
         desc: {
             duration: { start: '2021.11', end: '2021.12', },
             client: {
@@ -822,6 +851,10 @@ export default [
             en: 'KACE',
             ko: 'KACE',
         },
+        summary: {
+            en: 'Community education platform',
+            ko: '지역 교육 플랫폼',
+        },
         desc: {
             duration: { start: '2021.09', end: '2021.10', },
             client: {
@@ -892,6 +925,10 @@ export default [
             en: 'RNJOB',
             ko: 'RNJOB',
         },
+        summary: {
+            en: 'Career support app for nurses',
+            ko: '간호사를 위한 커리어 지원 앱',
+        },
         desc: {
             duration: { start: '2021.07', end: '', },
             client: {
@@ -954,6 +991,10 @@ export default [
         title: {
             en: 'Oxfam Virtual Walker',
             ko: '옥스팜 버추얼 워커',
+        },
+        summary: {
+            en: 'Walking donation application site',
+            ko: '걷기 기부 신청 사이트',
         },
         desc: {
             duration: { start: '2021.08', end: '2021.09', },
@@ -1020,6 +1061,10 @@ export default [
         title: {
             en: 'Cabin.net',
             ko: '캐빈닷넷',
+        },
+        summary: {
+            en: 'Platform introducing economy products',
+            ko: '사회적경제 상품 소개 플랫폼',
         },
         desc: {
             duration: { start: '2021.05', end: '2021.07', },

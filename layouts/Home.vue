@@ -71,6 +71,7 @@
                                 >
                                     <TextShifting :text='list.title[$i18n.locale]' :key='list.slug'></TextShifting>
                                 </Nuxt-link>
+                                <p class='summary' v-if='list.summary'>{{ list.summary[$i18n.locale] || list.summary.en }}</p>
                             </div>
                         </div>
                     </li>

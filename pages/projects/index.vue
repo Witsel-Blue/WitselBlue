@@ -72,6 +72,9 @@
                             :to=item.path>
                             <TextShifting :text='item.title[$i18n.locale]' :key='item.slug' />
                         </NuxtLink>
+                        <div class='summary' v-if='item.summary'>
+                            <p>{{ item.summary[$i18n.locale] || item.summary.en }}</p>
+                        </div>
                         <div class='tags'>
                             <p v-for='(value, key) in item.tags' :key='key' v-if='key !== "work"'>
                                 #{{ value[$i18n.locale] }}
