@@ -12,6 +12,14 @@ module.exports = {
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             { hid: 'description', name: 'description', content: 'WitselBlue 2026' },
+            { name: 'theme-color', content: '#232221' },
+        ],
+        link: [
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+            { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' },
+            { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+            { rel: 'manifest', href: '/site.webmanifest' },
         ],
     },
 

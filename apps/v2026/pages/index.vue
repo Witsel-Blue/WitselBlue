@@ -11,11 +11,6 @@ export default {
     components: {
         Mainvisual,
     },
-    methods: {
-        openV2025() {
-            window.location.assign(`${window.location.origin}/v2025/`)
-        },
-    },
 }
 </script>
 
