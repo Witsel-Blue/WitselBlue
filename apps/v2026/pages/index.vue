@@ -1,15 +1,15 @@
 <template>
     <main class='home'>
-        <Intro />
+        <Mainvisual />
     </main>
 </template>
 
 <script>
-import Intro from '@/components/Intro.vue';
+import Mainvisual from '@/components/home/Mainvisual.vue';
 
 export default {
     components: {
-        Intro,
+        Mainvisual,
     },
     methods: {
         openV2025() {

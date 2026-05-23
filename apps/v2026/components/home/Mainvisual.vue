@@ -1,15 +1,24 @@
 <template>
     <div id='intro'>
         <canvas ref='canvas' @click='onCanvasClick'></canvas>
-        <p v-if='!exploded && ready' class='hint'>
+        <p class='hint' v-if='!exploded && ready'>
             <span>click the shell</span><br />
             거친 현실(껍데기)을 깨부수고,<br /> 그 안의 본질적인 아름다움(자개/기술)을 꺼내어 보세요.
         </p>
+        <div class='title' v-if='exploded'>
+            <Logo />
+            <h1>WitselBlue</h1>
+        </div>
     </div>
 </template>
 
 <script>
+import Logo from '@/components/svg/logo.vue'
+
 export default {
+    components: {
+        Logo,
+    },
     data() {
         return {
             exploded: false,
@@ -456,6 +465,25 @@ export default {
     }
     50% {
         opacity: 0.1;
+    }
+}
+
+.title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    svg {
+        width: auto;
+        height: 20vh;
+        margin-bottom: 5vh;
+    }
+
+    h1 {
+        font-size: 4rem;
+        line-height: 1;
     }
 }
 </style>
