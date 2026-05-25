@@ -8,10 +8,9 @@
             :class='{ visible: show1, "fade-out": clickCount >= 2 }'
         >
             <TextShifting
-                text='Break the harsh reality (seashell),'
+                :text="$t('intro.textShift1')"
                 :playing='play1'
             />
-            <!-- 거친 현실(껍데기)을 깨부수고, -->
         </div>
 
         <div
@@ -20,20 +19,19 @@
             :class='{ visible: show2 }'
         >
             <TextShifting
-                text='and extract the inherent beauty (nacre/technology) within.'
+                :text="$t('intro.textShift2')"
                 :playing='play2'
             />
-            <!-- 그 안의 본질적인 아름다움(자개/기술)을 꺼내어 보세요. -->
         </div>
 
         <p class='hint' v-if='!exploded && ready'>
-            click the shell
+            {{ $t('intro.hint') }}
         </p>
         <div class='title' v-if='exploded'>
             <Logo />
-            <h2>frontend developer</h2>
-            <h1>WitselBlue</h1>
-            <p>inspired by nacre artistry</p>
+            <h2>{{ $t('home.mainSub') }}</h2>
+            <h1>{{ $t('home.mainTitle') }}</h1>
+            <p>{{ $t('home.mainText') }}</p>
         </div>
     </div>
 </template>
@@ -581,7 +579,7 @@ export default {
 
     .hint {
         position: absolute;
-        bottom: 2rem;
+        bottom: 5vw;
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.75rem;
@@ -609,6 +607,7 @@ export default {
             margin-top: 1.5rem;
             font-size: 1.5rem;
             font-weight: 400;
+            font-family: $ft-basic, $ft-hahmlet;
             letter-spacing: 0.1em;
             user-select: none;
         }
@@ -616,7 +615,7 @@ export default {
         h1 {
             margin-top: 0.5rem;
             font-size: 4rem;
-            font-family: $ft-tanpearl;
+            font-family: $ft-tanpearl, $ft-bagel;
             letter-spacing: 0.1em;
             user-select: none;
         }
@@ -640,6 +639,51 @@ export default {
     }
     50% {
         opacity: 0.2;
+    }
+}
+</style>
+
+<style lang='scss'>
+.lang-ko {
+    #mainvisual {
+        .content__item {
+            &--1 {
+                span:nth-child(10),
+                span:nth-child(24) {
+                    display: inline-block;
+                }
+
+                span:nth-child(12) {
+                    display: block;
+                }
+            }
+
+            &--2 {
+                span:nth-child(16),
+                span:nth-child(32),
+                span:nth-child(51) {
+                    display: inline-block;
+                }
+
+                span:nth-child(10),
+                span:nth-child(23) {
+                    display: block;
+                }
+            }
+        }
+
+        .title {
+            h1 {
+                line-height: 1;
+                font-size: 6rem;
+                letter-spacing: 0;
+            }
+
+            p {
+                margin-top: 1rem;
+                font-size: 1rem;
+            }
+        }
     }
 }
 </style>

@@ -31,7 +31,21 @@ module.exports = {
         ? [{ src: path.resolve(__dirname, 'plugins/dev-unregister-sw.client.js'), ssr: false }]
         : [],
 
-    modules: isDev ? ['@nuxtjs/proxy'] : [],
+    modules: isDev ? ['@nuxtjs/proxy', 'nuxt-i18n'] : ['nuxt-i18n'],
+
+    i18n: {
+        locales: [
+            { code: 'en', file: 'en.js' },
+            { code: 'ko', file: 'ko.js' },
+        ],
+        defaultLocale: 'en',
+        lazy: true,
+        langDir: path.resolve(__dirname, 'locales') + '/',
+        strategy: 'prefix_except_default',
+        vueI18n: {
+            fallbackLocale: 'en',
+        },
+    },
 
     proxy: isDev
         ? {

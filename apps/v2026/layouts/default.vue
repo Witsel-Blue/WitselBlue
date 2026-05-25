@@ -1,17 +1,20 @@
 <template>
-    <div id='app'>
+    <div id='app' :class="{ 'lang-ko': $i18n.locale === 'ko' }">
         <!-- <div class='ripple-target'> -->
             <Nuxt />
+            <LanguageMenu />
         <!-- </div>
         <MouseRipple /> -->
     </div>
 </template>
 
 <script>
-// import MouseRipple from '@/components/MouseRipple.vue';
+import LanguageMenu from '@/components/LanguageMenu.vue';
+import MouseRipple from '@/components/MouseRipple.vue';
 
 export default {
     components: {
+        LanguageMenu,
         MouseRipple,
     },
 };
@@ -35,5 +38,12 @@ export default {
     -webkit-filter: url(#mouse-ripple-filter);
     will-change: filter;
     isolation: isolate;
+}
+
+#language-menu {
+    position: fixed;
+    top: 2.5vw;
+    right: 2.5vw;
+    z-index: 10;
 }
 </style>
