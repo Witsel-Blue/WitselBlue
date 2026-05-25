@@ -113,7 +113,7 @@ export default {
             pmrem.dispose();
 
             // Camera
-            this.camera = new THREE.PerspectiveCamera(60, w / h, 0.05, 100);
+            this.camera = new THREE.PerspectiveCamera(60, w / h, 0.05, 200);
             this.camera.position.set(0, 0, 6);
 
             // Lighting
@@ -377,11 +377,11 @@ export default {
                     this.camSphTarget.theta -= -Math.PI * 0.40;
                     this.camSphTarget.phi   -= Math.PI * 0.20;
                 }
-
+                this.playcrack();
                 this.$nextTick(() => requestAnimationFrame(() => { this.show1 = true; }));
                 setTimeout(() => { this.play1 = true; }, FADE_MS);
-                this.playcrack();
             } else if (this.clickCount === 2) {
+                this.playcrack();
                 if (this.camSphTarget) {
                     this.camSphTarget.theta -= -Math.PI * 0.80;
                     this.camSphTarget.phi   -= Math.PI * 0.20;
@@ -389,7 +389,6 @@ export default {
 
                 this.$nextTick(() => requestAnimationFrame(() => { this.show2 = true; }));
                 setTimeout(() => { this.play2 = true; }, FADE_MS);
-                this.playcrack();
             } else {
                 this.exploded = true;
                 this.explode();
