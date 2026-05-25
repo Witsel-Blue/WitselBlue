@@ -35,7 +35,7 @@ export default {
 
 
 
-<style lang='scss'>
+<style lang='scss' scoped>
 @use '@/assets/scss/base/variables.scss' as *;
     
 #language-menu {
@@ -44,17 +44,20 @@ export default {
     justify-content: flex-end;
     gap: 4px;
     position: fixed;
-    top: 2vh;
+    top: 2.5vw;
     left: 5vw;
-    z-index: 10;
+    z-index: 11;
         
     button {
         font-size: 0.8rem;
-        color: $white;
         opacity: 0.5;
 
         .text-shifting {
             display: inline-block;
+
+            ::v-deep span {
+                color: $black;
+            }
         }
 
         &:not(:last-child)::after {
@@ -62,7 +65,7 @@ export default {
             display: inline-block;
             width: 1px;
             height: 0.6rem;
-            background-color: $white;
+            background-color: $black;
             margin: 0 8px;
             opacity: 0.5;
         }

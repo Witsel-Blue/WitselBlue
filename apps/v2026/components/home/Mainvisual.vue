@@ -27,6 +27,7 @@
         <p class='hint' v-if='!exploded && ready'>
             {{ $t('intro.hint') }}
         </p>
+
         <div class='title' v-if='exploded'>
             <Logo />
             <h2>{{ $t('home.mainSub') }}</h2>
@@ -66,6 +67,9 @@ export default {
         this.animId = null;
         this.model = null;
         this.modelSize = null;
+        this.shellBaseRot = { x: 0, y: 0 };
+        this.shellRot = { x: 0, y: 0 };
+        this.shellTargetRot = { x: 0, y: 0 };
         this.shards = [];
         this.crackAudio = null;
         this.initThree();
@@ -77,6 +81,7 @@ export default {
         if (this.renderer) this.renderer.dispose();
         window.removeEventListener('resize', this.onResize);
         if (this.$refs.canvas) this.$refs.canvas.removeEventListener('mousemove', this.onMouseMove);
+        if (this.$refs.canvas) this.$refs.canvas.removeEventListener('mouseleave', this.onMouseLeave);
     },
 
     methods: {
@@ -242,6 +247,10 @@ export default {
                 this.camSphTarget = this.camSph.clone();
 
                 this.modelSize = size;
+                this.shellBaseRot = {
+                    x: this.model.rotation.x,
+                    y: this.model.rotation.y,
+                };
                 this.scene.add(this.model);
                 this.ready = true;
                 this.animate();
@@ -249,6 +258,7 @@ export default {
 
             window.addEventListener('resize', this.onResize);
             canvas.addEventListener('mousemove', this.onMouseMove);
+            canvas.addEventListener('mouseleave', this.onMouseLeave);
         },
 
         makeShardGeo() {
@@ -469,6 +479,15 @@ export default {
                 s.rotation.z += ud.spin.z;
             }
 
+            // exploded 이전에만 조개 모델을 마우스 반대 방향으로 살짝 회전
+            if (this.model && !this.exploded) {
+                const ROT_LERP = 0.08;
+                this.shellRot.x += (this.shellTargetRot.x - this.shellRot.x) * ROT_LERP;
+                this.shellRot.y += (this.shellTargetRot.y - this.shellRot.y) * ROT_LERP;
+                this.model.rotation.x = this.shellBaseRot.x + this.shellRot.x;
+                this.model.rotation.y = this.shellBaseRot.y + this.shellRot.y;
+            }
+
             if (this.blurMat) {
                 const u = this.blurMat.uniforms;
                 if (this.targetRadial !== undefined)
@@ -494,10 +513,21 @@ export default {
                 -((event.clientY - rect.top) / rect.height) * 2 + 1,
             );
 
+            // 마우스 위치와 반대 방향으로 미세 회전 (좌측에 마우스 -> 모델은 우측으로)
+            this.shellTargetRot.y = -mouse.x * 0.16;
+            this.shellTargetRot.x = -mouse.y * 0.08;
+
             const raycaster = new this.three.Raycaster();
             raycaster.setFromCamera(mouse, this.camera);
             const hits = raycaster.intersectObject(this.model, true);
             canvas.style.cursor = hits.length > 0 ? 'pointer' : 'default';
+        },
+
+        onMouseLeave() {
+            if (this.exploded) return;
+            this.shellTargetRot.x = 0;
+            this.shellTargetRot.y = 0;
+            if (this.$refs.canvas) this.$refs.canvas.style.cursor = 'default';
         },
 
         onResize() {
@@ -672,6 +702,10 @@ export default {
             }
         }
 
+        .hint {
+            font-size: 0.9rem;
+        }
+
         .title {
             h1 {
                 line-height: 1;
@@ -681,7 +715,7 @@ export default {
 
             p {
                 margin-top: 1rem;
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
         }
     }

@@ -1,20 +1,20 @@
 <template>
     <div id='app' :class="{ 'lang-ko': $i18n.locale === 'ko' }">
         <!-- <div class='ripple-target'> -->
+            <GNB />
             <Nuxt />
-            <LanguageMenu />
         <!-- </div>
         <MouseRipple /> -->
     </div>
 </template>
 
 <script>
-import LanguageMenu from '@/components/LanguageMenu.vue';
+import GNB from '@/layouts/GNB.vue';
 import MouseRipple from '@/components/MouseRipple.vue';
 
 export default {
     components: {
-        LanguageMenu,
+        GNB,
         MouseRipple,
     },
 };
@@ -26,7 +26,7 @@ export default {
 #app {
     min-height: 100vh;
     box-sizing: border-box;
-    background-color: $black_bg;
+    background-color: $black;
     color: $white;
 }
 </style>

@@ -1,4 +1,8 @@
 export default {
+    gnb: {
+        nav1: 'Home',
+        nav2: 'Archive',
+    },
     intro: {
         textShift1: 'Break the harsh reality (seashell),',
         textShift2: 'and extract the inherent beauty (nacre/technology) within.',
