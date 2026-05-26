@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import Mainvisual from '@/components/home/Mainvisual.vue';
+    import Mainvisual from '@/components/home/Mainvisual.vue';
 
-export default {
-    components: {
-        Mainvisual,
-    },
-}
+    export default {
+        components: {
+            Mainvisual,
+        },
+    }
 </script>
 
 <style lang='scss' scoped>

@@ -1,12 +1,14 @@
 <template>
     <div id='language-menu'>
-        <button @click="changeLocale('en')"
+        <button
             :class="['mouse-hover2', { active: currentLocale === 'en' }]"
+            @click="changeLocale('en')"
         >
             <TextShifting :text='"ENG"' />
         </button>
-        <button @click="changeLocale('ko')" 
-            :class="['mouse-hover2', { active: currentLocale === 'ko' }]"
+        <button
+            :class="['mouse-hover2', { active: currentLocale === 'ko' }]" 
+            @click="changeLocale('ko')"
         >
             <TextShifting :text='"KO"' />
         </button>
@@ -14,23 +16,23 @@
 </template>
 
 <script>
-import TextShifting from '@/components/TextShifting.vue';
+    import TextShifting from '@/components/TextShifting.vue';
 
-export default {
-    components: {
-        TextShifting,
-    },
-    computed: {
-        currentLocale() {
-            return this.$i18n.locale;
-        }
-    },
-    methods: {
-        changeLocale(locale) {
-            this.$router.push(this.switchLocalePath(locale));
+    export default {
+        components: {
+            TextShifting,
         },
-    },
-}
+        computed: {
+            currentLocale() {
+                return this.$i18n.locale;
+            }
+        },
+        methods: {
+            changeLocale(locale) {
+                this.$router.push(this.switchLocalePath(locale));
+            },
+        },
+    }
 </script>
 
 

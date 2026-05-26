@@ -33,13 +33,19 @@
     "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@nuxtjs/proxy": "^2.1.0",
     "@types/p5": "^1.7.6",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-vue": "^9.33.0",
     "npm-run-all": "^4.1.5",
     "nuxt-gsap-module": "^2.0.0",
     "sass": "^1.90.0",
     "sass-loader": "^10.5.2",
+    "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^2.0.26"
   }
 }

@@ -12,48 +12,48 @@
 </template>
 
 <script>
-export default {
-    props: {
-        text: {
-            type: String,
-            required: true,
-        },
-        playing: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    data() {
-        return {
-            textArray: [],
-            animKey: 0,
-        };
-    },
-    watch: {
-        text: {
-            immediate: true,
-            handler() {
-                this.splitTexts();
+    export default {
+        props: {
+            text: {
+                type: String,
+                required: true,
+            },
+            playing: {
+                type: Boolean,
+                default: false,
             },
         },
-        playing(val) {
-            if (val) this.animKey++;
+        data() {
+            return {
+                textArray: [],
+                animKey: 0,
+            };
         },
-    },
-    mounted() {
-        this.splitTexts();
-    },
-    methods: {
-        splitTexts() {
-            const str = String(this.text || '');
-            this.textArray = str.split('').map((ch, index) => ({
-                char: ch === ' ' ? '\u00A0' : ch,
-                id: index + 1,
-                isSpace: ch === ' ',
-            }));
+        watch: {
+            text: {
+                immediate: true,
+                handler() {
+                    this.splitTexts();
+                },
+            },
+            playing(val) {
+                if (val) this.animKey++;
+            },
         },
-    },
-};
+        mounted() {
+            this.splitTexts();
+        },
+        methods: {
+            splitTexts() {
+                const str = String(this.text || '');
+                this.textArray = str.split('').map((ch, index) => ({
+                    char: ch === ' ' ? '\u00A0' : ch,
+                    id: index + 1,
+                    isSpace: ch === ' ',
+                }));
+            },
+        },
+    };
 </script>
 
 

@@ -1,23 +1,18 @@
 <template>
     <div id='app' :class="{ 'lang-ko': $i18n.locale === 'ko' }">
-        <!-- <div class='ripple-target'> -->
-            <GNB />
-            <Nuxt />
-        <!-- </div>
-        <MouseRipple /> -->
+        <GNB />
+        <Nuxt />
     </div>
 </template>
 
 <script>
-import GNB from '@/layouts/GNB.vue';
-import MouseRipple from '@/components/MouseRipple.vue';
-
-export default {
-    components: {
-        GNB,
-        MouseRipple,
-    },
-};
+    import GNB from '@/layouts/GNB.vue';
+    
+    export default {
+        components: {
+            GNB,
+        },
+    };
 </script>
 
 <style lang='scss' scoped>

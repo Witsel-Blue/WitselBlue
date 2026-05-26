@@ -18,7 +18,7 @@ export default {
             'and <span class="mouse-hover1">scalable</span> clean codes.',
             'My aim is to be <br class="mb">a <span class="mouse-hover1 ft-pacifico"><b>frontend developer</b></span>',
             'who can <span class="mouse-hover1">create</span> new experiences',
-            'beyond just obtaining information.'
+            'beyond just obtaining information.',
         ],
     },
-}
+};

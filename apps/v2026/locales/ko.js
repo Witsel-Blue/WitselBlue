@@ -20,4 +20,4 @@ export default {
             '사이트를 만드는 <br class="mb"><span class="mouse-hover1 ko"><b>웹 공간 설계자</b></span>가 제 목표입니다.',
         ],
     },
-}
+};
