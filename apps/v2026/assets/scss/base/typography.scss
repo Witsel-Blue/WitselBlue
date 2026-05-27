@@ -24,6 +24,15 @@
     unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
 }
 
+// 공용 - GoogleVariable (variable: weight, width)
+@font-face {
+    font-family: 'GoogleVariable';
+    font-style: normal;
+    font-weight: 100 900;
+    font-stretch: 25% 151%;
+    src: url('@/assets/fonts/GoogleSansFlex-VariableFont.ttf') format('truetype');
+}
+
 // 공용
 @font-face {
     font-family: 'Bagel';
@@ -122,9 +131,12 @@
     unicode-range: U+AC00-D7A3;
 }
 
-
 /* ----- FONT FAMILY ----- */
 // 공용
+.ft-google-variable {
+    font-family: 'GoogleVariable', sans-serif;
+}
+
 .ft-diphylleia {
     font-family: 'Diphylleia';
 }

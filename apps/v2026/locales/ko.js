@@ -1,8 +1,4 @@
 export default {
-    gnb: {
-        nav1: '홈',
-        nav2: '아카이브',
-    },
     intro: {
         textShift1: '거친 현실(껍데기)을 깨부수고,',
         textShift2: '그 안의 본질적인 아름다움(자개/기술)을 꺼내어 보세요.',

@@ -59,6 +59,7 @@
 
             ::v-deep span {
                 color: $black;
+                user-select: none;
             }
         }
 

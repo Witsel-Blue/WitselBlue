@@ -7,35 +7,76 @@
 
         <div class='menu-cont'>
             <LanguageMenu />
+            <ul class='menu-list'>
+                <li
+                    v-for='(item, index) in menuItems'
+                    :key='item.to'
+                    class='menu-item'
+                    :class='{
+                        stagger: staggeredIndexes.includes(index),
+                        dimmed: hoveredIndex !== null && hoveredIndex !== index,
+                    }'
+                    @mouseenter='hoveredIndex = index'
+                    @mouseleave='hoveredIndex = null'
+                >
+                    <NuxtLink :to='item.to'>
+                        <p v-html='item.label' />
+                    </NuxtLink>
+                </li>
+            </ul>
+            <p class='copyright'>©{{ new Date().getFullYear() }} witselblue</p>
         </div>
-        <ul class='menu-list'>
-            <li class='menu-item'>
-                <NuxtLink to='/'>{{ $t('gnb.nav1') }}</NuxtLink>
-            </li>
-            <li class='menu-item'>
-                <NuxtLink to='/archive'>{{ $t('gnb.nav2') }}</NuxtLink>
-            </li>
-        </ul>
     </div>
 </template>
 
 <script>
     import LanguageMenu from '@/components/LanguageMenu.vue';
-    import TextStagger from '@/components/TextStagger.vue';
 
     export default {
         components: {
             LanguageMenu,
-            TextStagger,
         },
         data() {
             return {
                 isOpen: false,
+                hoveredIndex: null,
+                staggeredIndexes: [],
+                staggerTimers: [],
+                menuItems: [
+                    { to: '/', label: 'H<span>o</span>me' },
+                    { to: '/archive', label: 'Arc<span>h</span>ive' },
+                    { to: '/contact', label: 'Co<span>n</span>tact' },
+                ],
             };
+        },
+        watch: {
+            isOpen(open) {
+                this.clearStaggerTimers();
+                this.staggeredIndexes = [];
+
+                if (!open) return;
+
+                const menuHeightDelay = 200;
+                const staggerStep = 200;
+
+                this.menuItems.forEach((_, index) => {
+                    const timer = setTimeout(() => {
+                        this.staggeredIndexes = [...this.staggeredIndexes, index];
+                    }, menuHeightDelay + index * staggerStep);
+                    this.staggerTimers.push(timer);
+                });
+            },
+        },
+        beforeDestroy() {
+            this.clearStaggerTimers();
         },
         methods: {
             toggleOpen() {
                 this.isOpen = !this.isOpen;
+            },
+            clearStaggerTimers() {
+                this.staggerTimers.forEach((timer) => clearTimeout(timer));
+                this.staggerTimers = [];
             },
         },
     };
@@ -78,16 +119,79 @@
             backdrop-filter: blur(16px);
             height: 0;
             overflow: hidden;
-            transition: height 0.4s ease;
-        }
+            transition: height 0.4s ease-in;
 
-        .menu-list {
-            display: none;
-            position: absolute;
-            bottom: 25vh;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+            .menu-list {
+                margin-top: 50vh;
+                transform: translateY(-50%);
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                justify-content: center;
+
+                li {
+                    width: fit-content;
+                    overflow: hidden;
+
+                    &:nth-child(2n) a {
+                        transform: translateY(150%) rotate(8deg);
+                    }
+
+                    &:nth-child(2n+1) a {
+                        transform: translateY(150%) rotate(-8deg);
+                    }
+
+                    &.stagger a {
+                        transform: translateY(0) rotate(0) !important;
+                        transition: transform 0.4s ease;
+                    }
+
+                    &.dimmed a {
+                        opacity: 0.2;
+                        filter: blur(4px);
+                        transition: all 0.4s ease;
+                    }
+
+                    a {
+                        display: inline-block;
+                        width: fit-content;
+                        color: $black;
+                        font-size: 5rem;
+                        font-weight: 700;
+                        letter-spacing: 0.2em;
+                        text-transform: uppercase;
+                        opacity: 1;
+                        filter: blur(0);
+                        transition: all 0.4s ease;
+
+                        p {
+                            font-family: $ft-google-variable;
+                            font-stretch: 110%;
+                            transition: all 0.4s ease;
+
+                            ::v-deep span {
+                                font-family: $ft-google-variable;
+                                display: inline-block;
+                            }
+                        }
+
+                        &:hover p::v-deep span {
+                            font-stretch: 200%;
+                            transition: font-stretch 0.4s ease;
+                        }
+                    }
+                }
+            }
+
+            .copyright {
+                position: absolute;
+                bottom: 2.5vw;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 0.9rem;
+                color: $black;
+                user-select: none;
+            }
         }
 
         &.open {
@@ -112,19 +216,6 @@
                 transition: height 0.4s ease;
             }
 
-            .menu-list {
-                display: block;
-                z-index: 11;
-
-                li {
-                    a {
-                        color: $black;
-                        font-size: 5rem;
-                        font-weight: bold;
-                        transition: all 0.4s ease;
-                    }
-                }
-            }
         }
     }
 </style>
