@@ -1,8 +1,11 @@
 <template>
     <div id='gnb' :class='{ open: isOpen }'>
         <button class='menu-btn' @click='toggleOpen'>
-            <span class='line' />
-            <span class='line' />
+            <div class='line-wrap'>
+                <span class='line' />
+                <span class='line' />
+            </div>
+            <p class='menu-btn-text'>{{ isOpen ? 'close' : 'menu' }}</p>
         </button>
 
         <div class='menu-cont'>
@@ -92,18 +95,49 @@
             left: 2.5vw;
             z-index: 10;
             display: flex;
-            width: 24px;
-            height: 1rem;
-            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            gap: 1rem;
 
-            .line {
-                display: block;
-                width: 100%;
-                height: 1px;
-                background-color: $white;
-                transition: transform 0.4s ease;
+            .line-wrap {
+                width: 24px;
+                height: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+
+                .line {
+                    display: block;
+                    width: 100%;
+                    height: 1px;
+                    background-color: $white;
+                    transition: transform 0.4s ease;
+                }
+            }
+
+            .menu-btn-text {
+                font-size: 0.75rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+            }
+
+            &:hover {
+                .line {
+                    &:first-child {
+                        animation: anim 0.4s ease-in;
+                    }
+                    &:last-child {
+                        animation: anim 0.4s ease-in;
+                        animation-delay: 0.2s;
+                    }
+                }
+
+                .menu-btn-text {
+                    opacity: 1;
+                    transition: opacity 0.4s ease;
+                }
             }
         }
 
@@ -196,17 +230,35 @@
 
         &.open {
             .menu-btn {
-                justify-content: center;
+                .line-wrap {
+                    justify-content: center;
 
-                .line {
-                    background-color: $black;
-                    transition: transform 0.4s ease;
+                    .line {
+                        background-color: $black;
+                        transition: transform 0.4s ease;
 
-                    &:first-child {
-                        transform: rotate(45deg);
+                        &:first-child {
+                            transform: rotate(45deg);
+                        }
+                        &:last-child {
+                            transform: rotate(-45deg);
+                        }
                     }
-                    &:last-child {
-                        transform: rotate(-45deg);
+                }
+
+                .menu-btn-text {
+                    color: $black;
+                }
+
+                &:hover {
+                    .line {
+                        &:first-child {
+                            animation: anim2 0.4s ease-in;
+                        }
+                        &:last-child {
+                            animation: anim3 0.4s ease-in;
+                            animation-delay: 0.2s;
+                        }
                     }
                 }
             }
@@ -216,6 +268,36 @@
                 transition: height 0.4s ease;
             }
 
+        }
+    }
+
+    @keyframes anim {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(0);
+        }
+    }
+
+    @keyframes anim2 {
+        0%,
+        100% {
+            transform: rotate(45deg) scale(1);
+        }
+        50% {
+            transform: rotate(45deg) scale(0);
+        }
+    }
+
+    @keyframes anim3 {
+        0%,
+        100% {
+            transform: rotate(-45deg) scale(1);
+        }
+        50% {
+            transform: rotate(-45deg) scale(0);
         }
     }
 </style>
