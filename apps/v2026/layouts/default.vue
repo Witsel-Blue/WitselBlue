@@ -1,16 +1,36 @@
 <template>
-    <div id='app' :class="{ 'lang-ko': $i18n.locale === 'ko' }">
-        <GNB />
+    <div
+        id='app'
+        :class="{
+            'lang-ko': $i18n.locale === 'ko',
+            'intro-only': !introDone,
+        }"
+    >
+        <GNB v-show='introDone' />
         <Nuxt />
     </div>
 </template>
 
 <script>
     import GNB from '@/layouts/GNB.vue';
-    
+
     export default {
         components: {
             GNB,
+        },
+        data() {
+            return {
+                introDone: false,
+            };
+        },
+        mounted() {
+            this.onIntroState = (done) => {
+                this.introDone = done;
+            };
+            this.$root.$on('mainvisual-intro-state', this.onIntroState);
+        },
+        beforeDestroy() {
+            this.$root.$off('mainvisual-intro-state', this.onIntroState);
         },
     };
 </script>
@@ -23,6 +43,11 @@
     box-sizing: border-box;
     background-color: $black;
     color: $white;
+
+    &.intro-only {
+        height: 100vh;
+        overflow: hidden;
+    }
 }
 </style>
 

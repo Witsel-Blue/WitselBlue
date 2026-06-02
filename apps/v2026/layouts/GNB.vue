@@ -22,7 +22,7 @@
                     @mouseenter='hoveredIndex = index'
                     @mouseleave='hoveredIndex = null'
                 >
-                    <NuxtLink :to='item.to'>
+                    <NuxtLink :to='item.to' @click.native.prevent='onMenuClick(item)'>
                         <p v-html='item.label' />
                     </NuxtLink>
                 </li>
@@ -77,6 +77,16 @@
             toggleOpen() {
                 this.isOpen = !this.isOpen;
             },
+            onMenuClick(item) {
+                this.isOpen = false;
+
+                if (this.$route.path === item.to) {
+                    if (item.to === '/');
+                    return;
+                }
+
+                this.$router.push(item.to);
+            },
             clearStaggerTimers() {
                 this.staggerTimers.forEach((timer) => clearTimeout(timer));
                 this.staggerTimers = [];
@@ -120,7 +130,8 @@
                 letter-spacing: 0.2em;
                 text-transform: uppercase;
                 opacity: 0;
-                transition: opacity 0.4s ease;
+                visibility: hidden;
+                transition: all 0.4s ease;
             }
 
             &:hover {
@@ -136,7 +147,8 @@
 
                 .menu-btn-text {
                     opacity: 1;
-                    transition: opacity 0.4s ease;
+                    visibility: visible;
+                    transition: all 0.4s ease;
                 }
             }
         }
@@ -149,8 +161,8 @@
             left: 0;
             width: 100%;
             z-index: 9;
-            mix-blend-mode: difference;
-            backdrop-filter: blur(16px);
+            /* mix-blend-mode: difference; */
+            /* backdrop-filter: blur(16px); */
             height: 0;
             overflow: hidden;
             transition: height 0.4s ease-in;

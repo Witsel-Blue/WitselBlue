@@ -28,7 +28,11 @@
             {{ $t('intro.hint') }}
         </p>
 
-        <div v-if='exploded' class='title'>
+        <div
+            v-if='exploded'
+            class='title'
+            :style='titleScrollStyle'
+        >
             <Logo />
             <h2>{{ $t('home.mainSub') }}</h2>
             <h1>{{ $t('home.mainTitle') }}</h1>
@@ -55,7 +59,22 @@
                 show2: false,
                 play1: false,
                 play2: false,
+                scrollProgress: 0,
             };
+        },
+
+        computed: {
+            titleScrollStyle() {
+                const p = this.scrollProgress;
+                const t = p * p * (3 - 2 * p);
+                const scale = 1 - t;
+                const opacity = 1 - t;
+                return {
+                    opacity,
+                    transform: `translate(-50%, -50%) scale(${scale})`,
+                    pointerEvents: opacity > 0.02 ? 'auto' : 'none',
+                };
+            },
         },
 
         mounted() {
@@ -72,7 +91,11 @@
             this.shellTargetRot = { x: 0, y: 0 };
             this.shards = [];
             this.crackAudio = null;
+            this.textTargetsBuilt = false;
+            this.gatherFlakeRadius = 0;
+            this.maskTexture = null;
             this.initThree();
+            this.$nextTick(() => this.syncIntroState());
         },
 
         beforeDestroy() {
@@ -80,6 +103,7 @@
             if (this.controls) this.controls.dispose();
             if (this.renderer) this.renderer.dispose();
             window.removeEventListener('resize', this.onResize);
+            window.removeEventListener('scroll', this.onScroll);
             if (this.$refs.canvas) this.$refs.canvas.removeEventListener('mousemove', this.onMouseMove);
             if (this.$refs.canvas) this.$refs.canvas.removeEventListener('mouseleave', this.onMouseLeave);
         },
@@ -146,10 +170,8 @@
                 this.controls.enableZoom = false;
                 this.controls.enablePan = false;
 
-                // ── Post-processing 셋업 ──────────────────────────────────────
-                // 씬을 depth texture 포함 RenderTarget에 렌더 후,
-                // 풀스크린 quad 셰이더로 ① 방사형 블러 + ② Z 앞쪽 블러 적용
 
+                // 방사형 블러 + Z 블러
                 const depthTex = new THREE.DepthTexture(w, h);
                 depthTex.type = THREE.UnsignedShortType;
 
@@ -170,6 +192,10 @@
                         near: { value: 0.1 },
                         far: { value: 100.0 },
                         focusViewZ: { value: -6.0 },
+                        tMask: { value: null },
+                        maskMin: { value: new THREE.Vector2(0, 0) },
+                        maskSize: { value: new THREE.Vector2(1, 1) },
+                        maskStrength: { value: 0.0 },
                     },
                     vertexShader: `
                     varying vec2 vUv;
@@ -187,6 +213,10 @@
                     uniform float near;
                     uniform float far;
                     uniform float focusViewZ;
+                    uniform sampler2D tMask;
+                    uniform vec2 maskMin;
+                    uniform vec2 maskSize;
+                    uniform float maskStrength;
                     varying vec2 vUv;
 
                     float depthToViewZ(float depth) {
@@ -214,7 +244,19 @@
                             vec2 offset = vec2(cos(angle), sin(angle)) * totalR;
                             color += texture2D(tColor, clamp(vUv + offset, 0.0, 1.0));
                         }
-                        gl_FragColor = color / float(N);
+                        vec4 outc = color / float(N);
+
+                        // 글자 모양 마스크: 글자 영역 밖을 잘라 외곽선을 또렷하게
+                        if (maskStrength > 0.0) {
+                            vec2 muv = (vUv - maskMin) / maskSize;
+                            float inside =
+                                step(0.0, muv.x) * step(muv.x, 1.0) *
+                                step(0.0, muv.y) * step(muv.y, 1.0);
+                            float m = texture2D(tMask, muv).a * inside;
+                            outc *= mix(1.0, m, maskStrength);
+                        }
+
+                        gl_FragColor = outc;
                     }
                 `,
                     depthTest: false,
@@ -242,7 +284,7 @@
 
                     this.blurMat.uniforms.focusViewZ.value = -this.camera.position.z;
 
-                    // 카메라 Spherical 초기화 (트위닝용)
+                    // 카메라 Spherical 초기화
                     this.camSph = new THREE.Spherical().setFromVector3(this.camera.position);
                     this.camSphTarget = this.camSph.clone();
 
@@ -257,6 +299,7 @@
                 });
 
                 window.addEventListener('resize', this.onResize);
+                window.addEventListener('scroll', this.onScroll, { passive: true });
                 canvas.addEventListener('mousemove', this.onMouseMove);
                 canvas.addEventListener('mouseleave', this.onMouseLeave);
             },
@@ -288,10 +331,11 @@
             explode() {
                 const THREE = this.three;
                 const size = this.modelSize;
-                const SHARD_COUNT = 110;
+                const SHARD_COUNT = 320;
 
                 for (let i = 0; i < SHARD_COUNT; i++) {
                     const geo = this.makeShardGeo();
+                    geo.computeBoundingSphere();
 
                     const mat = new THREE.MeshPhysicalMaterial({
                         color: 0xe8e4dc,
@@ -301,6 +345,7 @@
                         iridescenceIOR: 1.8,
                         iridescenceThicknessRange: [80, 500],
                         envMapIntensity: 2.5,
+                        transparent: true,
                     });
 
                     const mesh = new THREE.Mesh(geo, mat);
@@ -337,6 +382,7 @@
                     mesh.userData.floatAmp = 0.0008 + Math.random() * 0.001;
                     mesh.userData.floatSpeed = 0.4 + Math.random() * 0.5;
                     mesh.userData.frame = 0;
+                    mesh.userData.geoRadius = geo.boundingSphere ? geo.boundingSphere.radius : 0.08;
 
                     this.scene.add(mesh);
                     this.shards.push(mesh);
@@ -355,7 +401,21 @@
                 this.controls.enabled = false;
 
                 const canvas = this.$refs.canvas;
-                if (canvas) canvas.style.cursor = 'initial';
+                if (canvas) {
+                    canvas.style.cursor = 'initial';
+                    canvas.style.pointerEvents = 'none';
+                }
+
+                this.syncIntroState();
+                this.$nextTick(() => this.onScroll());
+            },
+
+            syncIntroState() {
+                this.$root.$emit('mainvisual-intro-state', this.exploded);
+                if (!this.exploded) {
+                    this.scrollProgress = 0;
+                    window.scrollTo(0, 0);
+                }
             },
 
             onCanvasClick(event) {
@@ -378,16 +438,14 @@
 
                 this.clickCount++;
 
-                const FADE_MS = 700;
-
                 if (this.clickCount === 1) {
                     if (this.camSphTarget) {
                         this.camSphTarget.theta -= -Math.PI * 0.40;
                         this.camSphTarget.phi   -= Math.PI * 0.20;
                     }
                     this.playcrack();
-                    this.$nextTick(() => requestAnimationFrame(() => { this.show1 = true; }));
-                    setTimeout(() => { this.play1 = true; }, FADE_MS);
+                    this.show1 = true;
+                    this.play1 = true;
                 } else if (this.clickCount === 2) {
                     this.playcrack();
                     if (this.camSphTarget) {
@@ -395,8 +453,8 @@
                         this.camSphTarget.phi   -= Math.PI * 0.20;
                     }
 
-                    this.$nextTick(() => requestAnimationFrame(() => { this.show2 = true; }));
-                    setTimeout(() => { this.play2 = true; }, FADE_MS);
+                    this.show2 = true;
+                    this.play2 = true;
                 } else {
                     this.exploded = true;
                     this.explode();
@@ -458,8 +516,86 @@
                     );
                 }
 
+                const gathering =
+                    this.exploded && this.textTargetsBuilt && this.scrollProgress > 0;
+                const gp = this.scrollProgress;
+                const gatherEase = gp * gp * (3 - 2 * gp);
+
+                // 마스크 박스 위치
+                let centerX = 0;
+                let centerY = 0;
+                if (gathering) {
+                    const half = this.gatherVisibleH / 2;
+                    const aspect = this.camera.aspect;
+                    const h2 =
+                        this._profileH2 ||
+                        (this._profileH2 = document.querySelector('#profile h2'));
+                    let nx = 0;
+                    let ny = 0;
+                    if (h2) {
+                        const r = h2.getBoundingClientRect();
+                        nx = ((r.left + r.width / 2) / window.innerWidth) * 2 - 1;
+                        ny = -((r.top + r.height / 2) / window.innerHeight) * 2 + 1;
+                    }
+                    centerX = nx * half * aspect;
+                    centerY = ny * half;
+                }
+
+                const tv = this._scratchVec || (this._scratchVec = new this.three.Vector3());
+
+                // 마스크 박스
+                if (this.blurMat && this.maskTexture) {
+                    const u = this.blurMat.uniforms;
+                    if (gathering) {
+                        const fd = this.gatherFocusDist;
+                        tv.set(centerX - this.textHalfX, centerY - this.textHalfY, -fd);
+                        this.camera.localToWorld(tv).project(this.camera);
+                        const ax = tv.x * 0.5 + 0.5;
+                        const ay = tv.y * 0.5 + 0.5;
+                        tv.set(centerX + this.textHalfX, centerY + this.textHalfY, -fd);
+                        this.camera.localToWorld(tv).project(this.camera);
+                        const bx = tv.x * 0.5 + 0.5;
+                        const by = tv.y * 0.5 + 0.5;
+                        u.maskMin.value.set(Math.min(ax, bx), Math.min(ay, by));
+                        u.maskSize.value.set(Math.abs(bx - ax), Math.abs(by - ay));
+                        // gatherEase가 거의 1(조각 완전히 모임)된 뒤에만 마스크
+                        const maskIn = Math.max(0, Math.min(1, (gatherEase - 0.995) / 0.005));
+                        u.maskStrength.value = maskIn * maskIn * (3 - 2 * maskIn);
+                    } else {
+                        u.maskStrength.value = 0;
+                    }
+                }
+
                 for (const s of this.shards) {
                     const ud = s.userData;
+
+                    if (gathering) {
+                        if (!ud.anchorPos) {
+                            ud.anchorPos = s.position.clone();
+                            ud.anchorQuat = s.quaternion.clone();
+                        }
+                        tv.set(
+                            centerX + ud.textLocal.x,
+                            centerY + ud.textLocal.y,
+                            -this.gatherFocusDist,
+                        );
+                        this.camera.localToWorld(tv);
+                        s.position.lerpVectors(ud.anchorPos, tv, gatherEase);
+                        s.quaternion.copy(ud.anchorQuat).slerp(this.textQuat, gatherEase);
+                        const targetScale = this.gatherFlakeRadius
+                            ? this.gatherFlakeRadius / ud.geoRadius
+                            : 0.3;
+                        s.scale.setScalar(1 + (targetScale - 1) * gatherEase);
+                        continue;
+                    }
+
+                    if (ud.anchorPos) {
+                        ud.anchorPos = null;
+                        ud.anchorQuat = null;
+                    }
+                    if (s.scale.x !== 1) s.scale.setScalar(1);
+                    if (s.material.opacity !== 1) s.material.opacity = 1;
+
                     ud.frame++;
 
                     const speed = ud.vel.length();
@@ -479,7 +615,7 @@
                     s.rotation.z += ud.spin.z;
                 }
 
-                // exploded 이전에만 조개 모델을 마우스 반대 방향으로 살짝 회전
+                // exploded 이전 조개 모델 마우스 회전
                 if (this.model && !this.exploded) {
                     const ROT_LERP = 0.08;
                     this.shellRot.x += (this.shellTargetRot.x - this.shellRot.x) * ROT_LERP;
@@ -488,10 +624,16 @@
                     this.model.rotation.y = this.shellBaseRot.y + this.shellRot.y;
                 }
 
+                // 블러 제거
+                if (this.exploded) {
+                    this.targetRadial = 1 - this.scrollProgress;
+                    this.targetFront = 1 - this.scrollProgress;
+                }
+
                 if (this.blurMat) {
                     const u = this.blurMat.uniforms;
                     if (this.targetRadial !== undefined)
-                        u.radialAmt.value += (this.targetRadial - u.radialAmt.value) * 0.001;
+                        u.radialAmt.value += (this.targetRadial - u.radialAmt.value) * 0.02;
                     if (this.targetFront !== undefined)
                         u.frontAmt.value += (this.targetFront - u.frontAmt.value) * 0.1;
                 }
@@ -513,9 +655,9 @@
                     -((event.clientY - rect.top) / rect.height) * 2 + 1,
                 );
 
-                // 마우스 위치와 반대 방향으로 미세 회전 (좌측에 마우스 -> 모델은 우측으로)
-                this.shellTargetRot.y = -mouse.x * 0.16;
-                this.shellTargetRot.x = -mouse.y * 0.08;
+                // 마우스 위치와 반대 방향으로 미세 회전
+                this.shellTargetRot.y = -mouse.x * 0.2;
+                this.shellTargetRot.x = -mouse.y * 0.2;
 
                 const raycaster = new this.three.Raycaster();
                 raycaster.setFromCamera(mouse, this.camera);
@@ -528,6 +670,111 @@
                 this.shellTargetRot.x = 0;
                 this.shellTargetRot.y = 0;
                 if (this.$refs.canvas) this.$refs.canvas.style.cursor = 'default';
+            },
+
+            onScroll() {
+                if (!this.exploded) return;
+
+                const vh = window.innerHeight;
+                const start = vh * 0.2;
+                const end = vh; // Profile 섹션이 화면 중앙에 올 때 완성
+                const y = window.scrollY || window.pageYOffset || 0;
+
+                let p = (y - start) / (end - start);
+                p = Math.max(0, Math.min(1, p));
+                this.scrollProgress = p;
+
+                if (p > 0 && !this.textTargetsBuilt) this.buildTextTargets();
+            },
+
+            buildTextTargets() {
+                const THREE = this.three;
+                if (!THREE || !this.camera || this.shards.length === 0) return;
+
+                const word = 'Profile';
+                const fontSize = 180;
+                const cv = document.createElement('canvas');
+                const ctx = cv.getContext('2d');
+
+                ctx.font = `700 ${fontSize}px Arial, sans-serif`;
+                const tw = Math.ceil(ctx.measureText(word).width);
+                cv.width = tw + 60;
+                cv.height = Math.ceil(fontSize * 1.5);
+
+                ctx.font = `700 ${fontSize}px Arial, sans-serif`;
+                ctx.fillStyle = '#fff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(word, cv.width / 2, cv.height / 2);
+
+                const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
+
+                // 글자 픽셀 수집
+                const filled = [];
+                for (let y = 0; y < cv.height; y++) {
+                    for (let x = 0; x < cv.width; x++) {
+                        if (img[(y * cv.width + x) * 4 + 3] > 128) filled.push([x, y]);
+                    }
+                }
+                if (filled.length === 0) return;
+
+                // 균일 격자 샘플링
+                const targetCount = this.shards.length;
+                const cell = Math.max(2, Math.sqrt(filled.length / targetCount));
+                const cellMap = new Map();
+                for (const [x, y] of filled) {
+                    const key = `${Math.floor(x / cell)},${Math.floor(y / cell)}`;
+                    if (!cellMap.has(key)) cellMap.set(key, [x, y]);
+                }
+                const pts = Array.from(cellMap.values());
+
+                for (let i = pts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pts[i], pts[j]] = [pts[j], pts[i]];
+                }
+                if (pts.length === 0) return;
+
+                const focusDist = this.camera.position.length();
+                const fovRad = (this.camera.fov * Math.PI) / 180;
+                const visibleH = 2 * focusDist * Math.tan(fovRad / 2);
+                const worldPerPx = visibleH / window.innerHeight;
+
+                // 실제 #profile 크기에 맞춰 월드 텍스트 높이 산정
+                const h2 = document.querySelector('#profile h2');
+                let worldHeight;
+                if (h2) {
+                    const fontPx = parseFloat(getComputedStyle(h2).fontSize) || 64;
+                    worldHeight = fontPx * worldPerPx * (cv.height / fontSize);
+                } else {
+                    worldHeight = visibleH * 0.3;
+                }
+                const pxToWorld = worldHeight / cv.height;
+
+                // 글자 획을 빈틈없이 메우도록 셀보다 약간 크게 (마스크가 가장자리 정리)
+                this.gatherFlakeRadius = pxToWorld * cell * 2;
+                this.gatherFocusDist = focusDist;
+                this.gatherVisibleH = visibleH;
+                this.textQuat = this.camera.quaternion.clone();
+
+                // 글자 모양 알파 마스크 텍스처 (조각이 모이는 영역과 동일한 cv 좌표계)
+                const maskTex = new THREE.CanvasTexture(cv);
+                maskTex.minFilter = THREE.LinearFilter;
+                maskTex.magFilter = THREE.LinearFilter;
+                maskTex.needsUpdate = true;
+                this.maskTexture = maskTex;
+                this._maskCanvas = cv;
+                if (this.blurMat) this.blurMat.uniforms.tMask.value = maskTex;
+                this.textHalfX = (cv.width / 2) * pxToWorld;
+                this.textHalfY = (cv.height / 2) * pxToWorld;
+
+                this.shards.forEach((s, i) => {
+                    const [x, y] = pts[i % pts.length];
+                    const localX = (x - cv.width / 2) * pxToWorld;
+                    const localY = -(y - cv.height / 2) * pxToWorld;
+                    s.userData.textLocal = new THREE.Vector3(localX, localY, 0);
+                });
+
+                this.textTargetsBuilt = true;
             },
 
             onResize() {
@@ -554,6 +801,9 @@
     height: 100vh;
 
     canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         display: block;
@@ -622,11 +872,13 @@
     }
 
     .title {
-        position: absolute;
+        position: fixed;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        z-index: 2;
         text-align: center;
+        transform-origin: center center;
+        will-change: transform, opacity;
 
         svg {
             width: auto;
