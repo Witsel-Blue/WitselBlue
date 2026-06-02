@@ -160,12 +160,15 @@
             top: 0;
             left: 0;
             width: 100%;
+            height: 100%;
+            border-radius: 50vw;
             z-index: 9;
-            /* mix-blend-mode: difference; */
-            /* backdrop-filter: blur(16px); */
-            height: 0;
+            transform: translateY(-100%);
+            mix-blend-mode: difference;
+            backdrop-filter: blur(16px);
             overflow: hidden;
-            transition: height 0.4s ease-in;
+            will-change: transform;
+            transition: transform 0.4s ease;
 
             .menu-list {
                 margin-top: 50vh;
@@ -241,12 +244,15 @@
         }
 
         &.open {
+            .menu-cont {
+                transform: translateY(0);
+            }
+
             .menu-btn {
                 .line-wrap {
                     justify-content: center;
 
                     .line {
-                        background-color: $black;
                         transition: transform 0.4s ease;
 
                         &:first-child {
@@ -256,10 +262,6 @@
                             transform: rotate(-45deg);
                         }
                     }
-                }
-
-                .menu-btn-text {
-                    color: $black;
                 }
 
                 &:hover {
@@ -273,11 +275,6 @@
                         }
                     }
                 }
-            }
-
-            .menu-cont {
-                height: 100%;
-                transition: height 0.4s ease;
             }
 
         }

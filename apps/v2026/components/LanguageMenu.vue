@@ -43,7 +43,7 @@
 #language-menu {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 4px;
     position: fixed;
     top: 2.5vw;

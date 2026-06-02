@@ -31,12 +31,16 @@
         <div
             v-if='exploded'
             class='title'
-            :style='titleScrollStyle'
         >
-            <Logo />
-            <h2>{{ $t('home.mainSub') }}</h2>
-            <h1>{{ $t('home.mainTitle') }}</h1>
-            <p>{{ $t('home.mainText') }}</p>
+            <div :style='titleScrollStyle' class='title__content'>
+                <Logo />
+                <h2>{{ $t('home.mainSub') }}</h2>
+                <h1>{{ $t('home.mainTitle') }}</h1>
+                <p>{{ $t('home.mainText') }}</p>
+            </div>
+            <button type='button' class='scroll-down' @click='scrollToProfile'>
+                scroll down
+            </button>
         </div>
     </div>
 </template>
@@ -672,6 +676,15 @@
                 if (this.$refs.canvas) this.$refs.canvas.style.cursor = 'default';
             },
 
+            scrollToProfile() {
+                const profile = document.querySelector('#profile');
+                if (profile) {
+                    profile.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
+                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            },
+
             onScroll() {
                 if (!this.exploded) return;
 
@@ -691,7 +704,7 @@
                 const THREE = this.three;
                 if (!THREE || !this.camera || this.shards.length === 0) return;
 
-                const word = 'Profile';
+                const word = 'PROFILE';
                 const fontSize = 180;
                 const cv = document.createElement('canvas');
                 const ctx = cv.getContext('2d');
@@ -872,44 +885,62 @@
     }
 
     .title {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        z-index: 2;
-        text-align: center;
-        transform-origin: center center;
-        will-change: transform, opacity;
+        .title__content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            text-align: center;
+            transform-origin: center center;
+            will-change: transform, opacity;
 
-        svg {
-            width: auto;
-            height: 20vh;
+            svg {
+                width: auto;
+                height: 20vh;
+            }
+
+            h2 {
+                margin-top: 1.5rem;
+                font-size: 1.5rem;
+                font-weight: 400;
+                font-family: $ft-basic, $ft-hahmlet;
+                letter-spacing: 0.1em;
+                user-select: none;
+            }
+
+            h1 {
+                margin-top: 0.5rem;
+                font-size: 4rem;
+                font-family: $ft-tanpearl, $ft-bagel;
+                letter-spacing: 0.1em;
+                user-select: none;
+            }
+
+            p { 
+                font-size: 0.75rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                text-align: center;
+                opacity: 0.4;
+                animation: blink 2s ease-in-out infinite;
+                user-select: none;
+            }
         }
 
-        h2 {
-            margin-top: 1.5rem;
-            font-size: 1.5rem;
-            font-weight: 400;
-            font-family: $ft-basic, $ft-hahmlet;
-            letter-spacing: 0.1em;
-            user-select: none;
-        }
-
-        h1 {
-            margin-top: 0.5rem;
-            font-size: 4rem;
-            font-family: $ft-tanpearl, $ft-bagel;
-            letter-spacing: 0.1em;
-            user-select: none;
-        }
-
-        p { 
+        .scroll-down {
+            position: absolute;
+            bottom: 5vw;
+            left: 50%;
+            z-index: 3;
+            transform: translateX(-50%);
             font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             text-align: center;
-            opacity: 0.4;
-            animation: blink 2s ease-in-out infinite;
-            user-select: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: inherit;
         }
     }
 }
