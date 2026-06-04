@@ -39,7 +39,7 @@
                 <p>{{ $t('home.mainText') }}</p>
             </div>
             <button type='button' class='scroll-down' @click='scrollToProfile'>
-                scroll down
+                <TextShifting text='scroll down' />
             </button>
         </div>
     </div>
@@ -335,14 +335,14 @@
             explode() {
                 const THREE = this.three;
                 const size = this.modelSize;
-                const SHARD_COUNT = 320;
+                const SHARD_COUNT = 400;
 
                 for (let i = 0; i < SHARD_COUNT; i++) {
                     const geo = this.makeShardGeo();
                     geo.computeBoundingSphere();
 
                     const mat = new THREE.MeshPhysicalMaterial({
-                        color: 0xe8e4dc,
+                        color: 0xece8da,
                         roughness: 0.06,
                         metalness: 0.0,
                         iridescence: 1.0,
@@ -700,25 +700,38 @@
                 if (p > 0 && !this.textTargetsBuilt) this.buildTextTargets();
             },
 
-            buildTextTargets() {
+            async buildTextTargets() {
                 const THREE = this.three;
                 if (!THREE || !this.camera || this.shards.length === 0) return;
 
-                const word = 'PROFILE';
+                const word = 'Mother-of-pearl radiates different colors';
+                const word2 = 'depending on the angle of light.';
                 const fontSize = 180;
+                const lineHeight = 1;
+                const fontFamily = 'basic_font';
+                const canvasFont = `700 ${fontSize}px ${fontFamily}`;
                 const cv = document.createElement('canvas');
                 const ctx = cv.getContext('2d');
 
-                ctx.font = `700 ${fontSize}px Arial, sans-serif`;
-                const tw = Math.ceil(ctx.measureText(word).width);
-                cv.width = tw + 60;
-                cv.height = Math.ceil(fontSize * 1.5);
+                if (document.fonts && document.fonts.load) {
+                    await document.fonts.load(canvasFont);
+                }
 
-                ctx.font = `700 ${fontSize}px Arial, sans-serif`;
-                ctx.fillStyle = '#fff';
+                ctx.font = canvasFont;
+                const tw1 = Math.ceil(ctx.measureText(word).width);
+                const tw2 = Math.ceil(ctx.measureText(word2).width);
+                const tw = Math.max(tw1, tw2);
+                const linePx = fontSize * lineHeight;
+                cv.width = tw + 60;
+                cv.height = Math.ceil(linePx * 2 + fontSize * 0.2);
+
+                ctx.font = canvasFont;
+                ctx.fillStyle = '#ece8da';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(word, cv.width / 2, cv.height / 2);
+                const cx = cv.width / 2;
+                ctx.fillText(word, cx, linePx * 0.5);
+                ctx.fillText(word2, cx, linePx * 1.5);
 
                 const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
 
@@ -941,6 +954,11 @@
             background: none;
             border: none;
             color: inherit;
+
+            ::v-deep .text-shifting span {
+                display: inline-block;
+                min-width: 8px;
+            }
         }
     }
 }
