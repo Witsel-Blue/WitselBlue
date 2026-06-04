@@ -1,16 +1,19 @@
 <template>
     <main class='home' :class='{ "intro-only": !exploded }'>
+        <HomePagination v-if='exploded' />
         <Mainvisual />
         <Profile v-if='exploded' />
     </main>
 </template>
 
 <script>
+    import HomePagination from '@/components/home/HomePagination.vue';
     import Mainvisual from '@/components/home/Mainvisual.vue';
     import Profile from '@/components/home/Profile.vue';
 
     export default {
         components: {
+            HomePagination,
             Mainvisual,
             Profile,
         },

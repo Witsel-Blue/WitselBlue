@@ -143,6 +143,9 @@
                 this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
                 pmrem.dispose();
 
+                // 자개 텍스처 미리 로딩
+                this.getNacreTexture();
+
                 // Camera
                 this.camera = new THREE.PerspectiveCamera(60, w / h, 0.05, 200);
                 this.camera.position.set(0, 0, 6);
@@ -308,6 +311,36 @@
                 canvas.addEventListener('mouseleave', this.onMouseLeave);
             },
 
+            getNacreTexture() {
+                const THREE = this.three;
+                if (this._nacreTex) return this._nacreTex;
+                const tex = new THREE.TextureLoader().load('/img/nacre.png');
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                this._nacreTex = tex;
+                return tex;
+            },
+
+            // ExtrudeGeometry UV를 shape 경계 기준 0~1로 리맵 (텍스처가 면에 꽉 차도록)
+            remapGeoUV(geo) {
+                const pos = geo.attributes.position;
+                const uv = geo.attributes.uv;
+                if (!pos || !uv) return;
+                geo.computeBoundingBox();
+                const bb = geo.boundingBox;
+                const sx = bb.max.x - bb.min.x || 1;
+                const sy = bb.max.y - bb.min.y || 1;
+                for (let i = 0; i < pos.count; i++) {
+                    uv.setXY(
+                        i,
+                        (pos.getX(i) - bb.min.x) / sx,
+                        (pos.getY(i) - bb.min.y) / sy,
+                    );
+                }
+                uv.needsUpdate = true;
+            },
+
             makeShardGeo() {
                 const THREE = this.three;
                 const shape = new THREE.Shape();
@@ -336,19 +369,43 @@
                 const THREE = this.three;
                 const size = this.modelSize;
                 const SHARD_COUNT = 400;
+                const baseTex = this.getNacreTexture();
 
                 for (let i = 0; i < SHARD_COUNT; i++) {
                     const geo = this.makeShardGeo();
                     geo.computeBoundingSphere();
+                    this.remapGeoUV(geo);
 
+                    // 자개 텍스처에서 조각마다 다른 영역을 샘플링 (clone은 .source 공유)
+                    const tex = baseTex.clone();
+                    tex.needsUpdate = true;
+                    const zoom = 0.22 + Math.random() * 0.16;
+                    tex.repeat.set(zoom, zoom);
+                    tex.offset.set(
+                        Math.random() * (1 - zoom),
+                        Math.random() * (1 - zoom),
+                    );
+                    tex.rotation = Math.random() * Math.PI * 2;
+                    tex.center.set(0.5, 0.5);
+
+                    // 텍스처 위에 래커 광택 + 은은한 간섭색만 얹음
                     const mat = new THREE.MeshPhysicalMaterial({
-                        color: 0xece8da,
-                        roughness: 0.06,
+                        map: tex,
+                        color: 0xffffff,
+                        roughness: 0.22,
                         metalness: 0.0,
-                        iridescence: 1.0,
-                        iridescenceIOR: 1.8,
-                        iridescenceThicknessRange: [80, 500],
-                        envMapIntensity: 2.5,
+                        iridescence: 0.9,
+                        iridescenceIOR: 1.4,
+                        iridescenceThicknessRange: [
+                            180 + Math.random() * 120,
+                            420 + Math.random() * 320,
+                        ],
+                        clearcoat: 1.0,
+                        clearcoatRoughness: 0.1,
+                        sheen: 0.5,
+                        sheenRoughness: 0.4,
+                        sheenColor: new THREE.Color(0xffffff),
+                        envMapIntensity: 1.4,
                         transparent: true,
                     });
 
@@ -531,13 +588,13 @@
                 if (gathering) {
                     const half = this.gatherVisibleH / 2;
                     const aspect = this.camera.aspect;
-                    const h2 =
-                        this._profileH2 ||
-                        (this._profileH2 = document.querySelector('#profile h2'));
+                    const shapeAnchor =
+                        this._shapeAnchor ||
+                        (this._shapeAnchor = document.querySelector('#profile .shape-anchor'));
                     let nx = 0;
                     let ny = 0;
-                    if (h2) {
-                        const r = h2.getBoundingClientRect();
+                    if (shapeAnchor) {
+                        const r = shapeAnchor.getBoundingClientRect();
                         nx = ((r.left + r.width / 2) / window.innerWidth) * 2 - 1;
                         ny = -((r.top + r.height / 2) / window.innerHeight) * 2 + 1;
                     }
@@ -700,46 +757,49 @@
                 if (p > 0 && !this.textTargetsBuilt) this.buildTextTargets();
             },
 
+            loadShapeImage() {
+                if (this._shapeImg) return Promise.resolve(this._shapeImg);
+                return new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.crossOrigin = 'anonymous';
+                    image.onload = () => {
+                        this._shapeImg = image;
+                        resolve(image);
+                    };
+                    image.onerror = reject;
+                    image.src = require('@/assets/img/home/profile_nacre.png');
+                });
+            },
+
             async buildTextTargets() {
                 const THREE = this.three;
                 if (!THREE || !this.camera || this.shards.length === 0) return;
 
-                const word = 'Mother-of-pearl radiates different colors';
-                const word2 = 'depending on the angle of light.';
-                const fontSize = 180;
-                const lineHeight = 1;
-                const fontFamily = 'basic_font';
-                const canvasFont = `700 ${fontSize}px ${fontFamily}`;
-                const cv = document.createElement('canvas');
-                const ctx = cv.getContext('2d');
-
-                if (document.fonts && document.fonts.load) {
-                    await document.fonts.load(canvasFont);
+                let image;
+                try {
+                    image = await this.loadShapeImage();
+                } catch {
+                    return;
                 }
+                // 비동기 로딩 중 다른 호출이 이미 완성했을 수 있음
+                if (this.textTargetsBuilt) return;
 
-                ctx.font = canvasFont;
-                const tw1 = Math.ceil(ctx.measureText(word).width);
-                const tw2 = Math.ceil(ctx.measureText(word2).width);
-                const tw = Math.max(tw1, tw2);
-                const linePx = fontSize * lineHeight;
-                cv.width = tw + 60;
-                cv.height = Math.ceil(linePx * 2 + fontSize * 0.2);
-
-                ctx.font = canvasFont;
-                ctx.fillStyle = '#ece8da';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                const cx = cv.width / 2;
-                ctx.fillText(word, cx, linePx * 0.5);
-                ctx.fillText(word2, cx, linePx * 1.5);
+                // 샘플링용 캔버스 (성능 위해 축소)
+                const SAMPLE = 320;
+                const imgAspect = image.width / image.height;
+                const cv = document.createElement('canvas');
+                cv.width = imgAspect >= 1 ? SAMPLE : Math.round(SAMPLE * imgAspect);
+                cv.height = imgAspect >= 1 ? Math.round(SAMPLE / imgAspect) : SAMPLE;
+                const ctx = cv.getContext('2d');
+                ctx.drawImage(image, 0, 0, cv.width, cv.height);
 
                 const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
 
-                // 글자 픽셀 수집
+                // 불투명 픽셀(=그림 실루엣) 수집
                 const filled = [];
                 for (let y = 0; y < cv.height; y++) {
                     for (let x = 0; x < cv.width; x++) {
-                        if (img[(y * cv.width + x) * 4 + 3] > 128) filled.push([x, y]);
+                        if (img[(y * cv.width + x) * 4 + 3] > 80) filled.push([x, y]);
                     }
                 }
                 if (filled.length === 0) return;
@@ -765,24 +825,23 @@
                 const visibleH = 2 * focusDist * Math.tan(fovRad / 2);
                 const worldPerPx = visibleH / window.innerHeight;
 
-                // 실제 #profile 크기에 맞춰 월드 텍스트 높이 산정
-                const h2 = document.querySelector('#profile h2');
+                // #profile .shape-anchor 박스 크기에 맞춰 월드 높이 산정
+                const shapeAnchor = document.querySelector('#profile .shape-anchor');
                 let worldHeight;
-                if (h2) {
-                    const fontPx = parseFloat(getComputedStyle(h2).fontSize) || 64;
-                    worldHeight = fontPx * worldPerPx * (cv.height / fontSize);
+                if (shapeAnchor && shapeAnchor.getBoundingClientRect().height > 4) {
+                    worldHeight = shapeAnchor.getBoundingClientRect().height * worldPerPx;
                 } else {
-                    worldHeight = visibleH * 0.3;
+                    worldHeight = visibleH * 0.45;
                 }
                 const pxToWorld = worldHeight / cv.height;
 
-                // 글자 획을 빈틈없이 메우도록 셀보다 약간 크게 (마스크가 가장자리 정리)
-                this.gatherFlakeRadius = pxToWorld * cell * 2;
+                // 조각 크기 (작을수록 디테일↑, 마스크가 가장자리 정리)
+                this.gatherFlakeRadius = pxToWorld * cell * 1.2;
                 this.gatherFocusDist = focusDist;
                 this.gatherVisibleH = visibleH;
                 this.textQuat = this.camera.quaternion.clone();
 
-                // 글자 모양 알파 마스크 텍스처 (조각이 모이는 영역과 동일한 cv 좌표계)
+                // 그림 실루엣 알파 마스크 (조각이 모이는 영역과 동일한 cv 좌표계)
                 const maskTex = new THREE.CanvasTexture(cv);
                 maskTex.minFilter = THREE.LinearFilter;
                 maskTex.magFilter = THREE.LinearFilter;

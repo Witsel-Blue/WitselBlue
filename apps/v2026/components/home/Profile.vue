@@ -1,7 +1,11 @@
 <template>
     <div id='profile'>
         <div class='inner'>
-            <h2 :style='{ opacity: shardMode ? 0 : 1 }' />
+            <div class='shape-anchor' :style='{ opacity: shardMode ? 0 : 1 }' />
+            <h2>
+                Mother of pearl radiates different colors <br />
+                depending on the angles of light.
+            </h2>
             <p>
                 My development philosophy is also similar to mother-of-pearl, <br />
                 which provides new experiences to users every time <br />
@@ -45,16 +49,26 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        
+        z-index: 1;
+
+        .shape-anchor {
+            position: absolute;
+            top: 8vh;
+            left: 8vw;
+            width: 32vh;
+            height: 32vh;
+        }
+
         h2 {
             text-align: center;
-            font-size: 4rem;
-            transition: opacity 0.2s ease;
+            font-family: 'tanpearl';
+            font-size: 3rem;
+            line-height: 1.4;
             z-index: 1;
         }
 
         p {
-            margin-top: 10vh;
+            margin-top: 2rem;
             text-align: center;
             font-size: 1.2rem;
             line-height: 1.5;
@@ -62,8 +76,8 @@
         }
 
         #button-round::v-deep {
-            text-align: center;
             margin-top: 2rem;
+            text-align: center;
         }
 
         #text_marquee::v-deep {
