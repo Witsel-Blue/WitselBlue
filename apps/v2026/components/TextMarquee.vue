@@ -1,8 +1,20 @@
 <template>
     <div id='text_marquee'>
         <div ref='inner' class='marquee_inner'>
-            <span v-for='n in repeatCount' :key='n'>{{ text }}</span>
-            <span v-for='n in repeatCount' :key='"dup-" + n'>{{ text }}</span>
+            <template v-if='image'>
+                <img
+                    v-for='n in repeatCount * 2'
+                    :key='n'
+                    :src='image'
+                    class='marquee_img'
+                    alt=''
+                    @load='onMediaLoad'
+                />
+            </template>
+            <template v-else>
+                <span v-for='n in repeatCount' :key='n'>{{ text }}</span>
+                <span v-for='n in repeatCount' :key='"dup-" + n'>{{ text }}</span>
+            </template>
         </div>
     </div>
 </template>
@@ -12,6 +24,7 @@
         name: 'TextMarquee',
         props: {
             text: { type: String, default: 'marquee' },
+            image: { type: String, default: '' },
             speed: { type: Number, default: 80 },
             repeatCount: { type: Number, default: 20 },
         },
@@ -58,6 +71,11 @@
                 const progressRatio = (this.pos % -this.unitWidth) / -this.unitWidth || 0;
                 this.computeSizes();
                 this.pos = -this.unitWidth * progressRatio;
+            },
+            onMediaLoad() {
+                this.computeSizes();
+                this.velocity = this.baseSpeedPx * this.dir;
+                this.targetVelocity = this.velocity;
             },
             handleScroll() {
                 const currentY = window.scrollY;
@@ -124,6 +142,14 @@
             font-weight: bold;
             color: $gray3;
             font-family: 'TanPearl';
+        }
+
+        .marquee_img {
+            display: inline-block;
+            vertical-align: middle;
+            height: 4rem;
+            width: auto;
+            padding: 0;
         }
     }
 }

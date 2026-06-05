@@ -11,9 +11,9 @@
                 which provides new experiences to users every time <br />
                 depending on the point where technology and senses meet.
             </p>
-            <ButtonRound :link='{ href: "/", text: "View Profile" }' />
+            <ButtonRound :link='{ href: "/", text: "About Me" }' />
         </div>
-        <TextMarquee text='witselblue' />
+        <TextMarquee :image='knot' />
     </div>
 </template>
 
@@ -30,6 +30,7 @@
         data() {
             return {
                 shardMode: true,
+                knot: require('@/assets/img/home/knot.svg'),
                 profile: {
                     img: require('@/assets/img/home/profile.png'),
                 },
@@ -53,13 +54,14 @@
 
         .shape-anchor {
             position: absolute;
-            top: 8vh;
-            left: 8vw;
-            width: 32vh;
-            height: 32vh;
+            top: 12vh;
+            left: 10vw;
+            width: 40vh;
+            height: 40vh;
         }
 
         h2 {
+            margin-top: 4rem;
             text-align: center;
             font-family: 'tanpearl';
             font-size: 3rem;

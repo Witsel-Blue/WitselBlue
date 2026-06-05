@@ -3,6 +3,7 @@
         <HomePagination v-if='exploded' />
         <Mainvisual />
         <Profile v-if='exploded' />
+        <Story v-if='exploded' />
     </main>
 </template>
 
@@ -10,12 +11,14 @@
     import HomePagination from '@/components/home/HomePagination.vue';
     import Mainvisual from '@/components/home/Mainvisual.vue';
     import Profile from '@/components/home/Profile.vue';
+    import Story from '@/components/home/Story.vue';
 
     export default {
         components: {
             HomePagination,
             Mainvisual,
             Profile,
+            Story,
         },
         data() {
             return {
