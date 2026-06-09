@@ -71,7 +71,7 @@
                 const rect = this.$el.getBoundingClientRect();
                 const vh = window.innerHeight;
                 const center = rect.top + rect.height / 2;
-                let p = (vh - center) / (vh * 0.5);
+                const p = (vh - center) / (vh * 0.5);
                 this.progress = Math.max(0, Math.min(1, p));
             };
             window.addEventListener('scroll', this.onScroll, { passive: true });
@@ -83,20 +83,25 @@
             window.removeEventListener('resize', this.onScroll);
         },
         methods: {
+            easeInOut(t) {
+                return t < 0.5
+                    ? 4 * t * t * t
+                    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            },
             itemReveal(index) {
-                const win = 0.5;
+                const win = 0.65;
                 const step = this.itemCount > 1 ? (1 - win) / (this.itemCount - 1) : 0;
                 const start = index * step;
                 let local = (this.progress - start) / win;
                 local = Math.max(0, Math.min(1, local));
-                return 1 - Math.pow(1 - local, 3);
+                return this.easeInOut(local);
             },
             lineStyle(index) {
                 const e = this.itemReveal(index);
                 return {
-                    opacity: e,
-                    transform: `translateY(${(1 - e) * 0.8}em)`,
-                    filter: `blur(${(1 - e) * 10}px)`,
+                    opacity: 0.18 + 0.82 * e,
+                    transform: `translateY(${(1 - e) * 0.7}em)`,
+                    filter: `blur(${(1 - e) * 14}px)`,
                 };
             },
         },
@@ -127,18 +132,23 @@
         h2 {
             margin-top: 4rem;
             text-align: center;
-            font-family: 'tanpearl';
-            font-size: 3rem;
-            line-height: 1.4;
-            z-index: 1;
+            
+            span {
+                font-family: 'tanpearl';
+                font-size: 3rem;
+                line-height: 1.4;
+            }
         }
 
         p {
             margin-top: 2rem;
             text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.5;
-            font-family: 'basic_font';
+            
+            span {
+                font-size: 1.2rem;
+                line-height: 1.5;
+                font-family: 'basic_font';
+            }
         }
 
         h2 span,

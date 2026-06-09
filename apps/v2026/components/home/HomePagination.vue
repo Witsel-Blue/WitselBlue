@@ -1,17 +1,15 @@
 <template>
-    <div id='home-pagination'>
+    <div id='home-pagination' :class='{ shown }' :style='posStyle'>
         <ul>
-            <li>
-                <button>
-                    01
+            <li
+                v-for='item in pagination'
+                :key='item.id'
+                :class='{ active: activeId === item.id }'
+            >
+                <button type='button' @click='go(item)'>
+                    {{ item.id }}
                 </button>
-                <p>profile</p>
-            </li>
-            <li>
-                <button>
-                    02
-                </button>
-                <p>story</p>
+                <p>{{ item.title }}</p>
             </li>
         </ul>
     </div>
@@ -22,28 +20,86 @@
         name: 'HomePagination',
         data() {
             return {
+                shown: false,
+                topPx: 0,
+                activeId: null,
+                centeredId: null,
                 pagination: [
                     {
-                        id: 1,
+                        id: '01',
                         title: 'profile',
-                        link: '/',
+                        target: 'profile',
                     },
                     {
-                        id: 2,
+                        id: '02',
                         title: 'story',
-                        link: '/story',
+                        target: 'story',
+                    },
+                    {
+                        id: '03',
+                        title: 'archive',
+                        target: 'archive',
                     }
                 ],
             }
         },
-        methods: {
-            scrollTo(id) {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
+        computed: {
+            posStyle() {
+                return { top: `${this.topPx}px` };
+            },
+        },
+        mounted() {
+            this.onScroll = () => {
+                const vh = window.innerHeight;
+                const mid = vh / 2;
+                const profile = document.getElementById('profile');
+                if (profile) {
+                    const rect = profile.getBoundingClientRect();
+                    const center = rect.top + rect.height / 2;
+                    this.shown = rect.top < vh;
+                    this.topPx = Math.max(center, mid);
                 }
-            }
-        }
+                this.updateActiveSection(mid);
+            };
+            window.addEventListener('scroll', this.onScroll, { passive: true });
+            window.addEventListener('resize', this.onScroll, { passive: true });
+            this.onScroll();
+        },
+        beforeDestroy() {
+            window.removeEventListener('scroll', this.onScroll);
+            window.removeEventListener('resize', this.onScroll);
+        },
+        methods: {
+            updateActiveSection(mid) {
+                let best = null;
+                let bestDist = Infinity;
+                this.pagination.forEach((item) => {
+                    const el = document.getElementById(item.target);
+                    if (!el) return;
+                    const r = el.getBoundingClientRect();
+                    const center = r.top + r.height / 2;
+                    const dist = Math.abs(center - mid);
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        best = item;
+                    }
+                });
+                if (best && bestDist < mid) {
+                    if (this.centeredId !== best.id) {
+                        this.centeredId = best.id;
+                        this.activeId = best.id;
+                        this.$root.$emit('section-active', best.target);
+                    }
+                }
+            },
+            go(item) {
+                this.activeId = item.id;
+                const element = document.getElementById(item.target);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            },
+        },
     };
 </script>
 
@@ -52,10 +108,21 @@
 
     #home-pagination {
         position: fixed;
-        top: 50%;
+        top: 0;
         left: 2.5vw;
         transform: translateY(-50%);
-        z-index: 100;
+        will-change: top;
+        z-index: 10;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+
+        &.shown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
 
         ul {
             display: flex;
@@ -75,12 +142,16 @@
 
                 button {
                     min-width: 20px;
+                    cursor: pointer;
                 }
 
                 p {
                     display: flex;
                     align-items: center;
                     gap: 8px;
+                    opacity: 0;
+                    transform: translateX(-8px);
+                    transition: opacity 0.4s ease, transform 0.4s ease;
 
                     &::before {
                         content: '';
@@ -88,6 +159,15 @@
                         height: 1px;
                         display: inline-block;
                         background-color: $white;
+                    }
+                }
+
+                &.active {
+                    opacity: 1;
+
+                    p {
+                        opacity: 1;
+                        transform: translateX(0);
                     }
                 }
             }

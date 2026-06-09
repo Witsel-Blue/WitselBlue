@@ -32,15 +32,15 @@
             v-if='exploded'
             class='title'
         >
-            <div :style='titleScrollStyle' class='title__content'>
-                <Logo />
+            <Logo ref='logoEl' class='title__logo' :style='logoScrollStyle' />
+            <div class='title__content__text' :style='titleScrollStyle'>
                 <h2>{{ $t('home.mainSub') }}</h2>
                 <h1>{{ $t('home.mainTitle') }}</h1>
                 <p>{{ $t('home.mainText') }}</p>
+                <button type='button' class='scroll-down' @click='scrollToProfile'>
+                    <TextShifting text='scroll down' />
+                </button>
             </div>
-            <button type='button' class='scroll-down' @click='scrollToProfile'>
-                <TextShifting text='scroll down' />
-            </button>
         </div>
     </div>
 </template>
@@ -64,19 +64,38 @@
                 play1: false,
                 play2: false,
                 scrollProgress: 0,
+                winH: typeof window !== 'undefined' ? window.innerHeight : 800,
+                logoTop0: 0,
             };
         },
 
         computed: {
             titleScrollStyle() {
                 const p = this.scrollProgress;
-                const t = p * p * (3 - 2 * p);
-                const scale = 1 - t;
+                const fp = Math.min(1, p / 0.4);
+                const t = fp * fp * (3 - 2 * fp);
+                const scale = 1 - t * 0.5;
                 const opacity = 1 - t;
                 return {
                     opacity,
-                    transform: `translate(-50%, -50%) scale(${scale})`,
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top center',
                     pointerEvents: opacity > 0.02 ? 'auto' : 'none',
+                };
+            },
+            logoScrollStyle() {
+                const p = this.scrollProgress;
+                const H = this.winH || 800;
+                const lp = Math.min(1, p / 0.55);
+                const t = lp * lp * (3 - 2 * lp);
+                const hStart = 0.2 * H; // 초기 20vh
+                const scaleEnd = 40 / hStart; // 최종 40px
+                const scale = 1 + (scaleEnd - 1) * t;
+                const topEnd = 0.025 * H;
+                const dy = (topEnd - this.logoTop0) * t;
+                return {
+                    transform: `translateY(${dy}px) scale(${scale})`,
+                    transformOrigin: 'top center',
                 };
             },
         },
@@ -519,7 +538,14 @@
                 } else {
                     this.exploded = true;
                     this.explode();
+                    this.$nextTick(() => this.measureLogo());
                 }
+            },
+
+            measureLogo() {
+                // 스크롤 0(그룹 중앙 정렬) 상태에서 로고의 초기 top 위치를 측정
+                const el = this.$refs.logoEl && this.$refs.logoEl.$el;
+                if (el) this.logoTop0 = el.getBoundingClientRect().top;
             },
 
             playcrack() {
@@ -863,6 +889,8 @@
             },
 
             onResize() {
+                this.winH = window.innerHeight;
+                if (this.scrollProgress < 0.01) this.$nextTick(() => this.measureLogo());
                 const canvas = this.$refs.canvas;
                 if (!canvas) return;
                 const w = canvas.clientWidth;
@@ -957,19 +985,30 @@
     }
 
     .title {
-        .title__content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 2;
-            text-align: center;
-            transform-origin: center center;
-            will-change: transform, opacity;
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        pointer-events: none;
 
-            svg {
-                width: auto;
-                height: 20vh;
-            }
+        .title__logo {
+            width: auto;
+            height: 20vh;
+            color: $white;
+            mix-blend-mode: difference;
+            transform-origin: top center;
+            will-change: transform;
+        }
+
+        .title__content__text {
+            z-index: 3;
+            text-align: center;
+            transform-origin: top center;
+            will-change: transform, opacity;
 
             h2 {
                 margin-top: 1.5rem;
@@ -988,7 +1027,7 @@
                 user-select: none;
             }
 
-            p { 
+            p {
                 font-size: 0.75rem;
                 letter-spacing: 0.2em;
                 text-transform: uppercase;
@@ -1000,11 +1039,8 @@
         }
 
         .scroll-down {
-            position: absolute;
-            bottom: 5vw;
-            left: 50%;
+            margin-top: 2.5rem;
             z-index: 3;
-            transform: translateX(-50%);
             font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
@@ -1013,6 +1049,7 @@
             background: none;
             border: none;
             color: inherit;
+            pointer-events: auto;
 
             ::v-deep .text-shifting span {
                 display: inline-block;

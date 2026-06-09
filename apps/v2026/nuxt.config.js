@@ -68,5 +68,18 @@ module.exports = {
                 implementation: require('sass'),
             },
         },
+        extend(config) {
+            config.module.rules.push({
+                test: /\.(glb|gltf)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[contenthash:7].[ext]',
+                        },
+                    },
+                ],
+            });
+        },
     },
 };

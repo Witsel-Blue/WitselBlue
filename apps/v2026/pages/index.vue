@@ -4,6 +4,7 @@
         <Mainvisual />
         <Profile v-if='exploded' />
         <Story v-if='exploded' />
+        <Archive v-if='exploded' />
     </main>
 </template>
 
@@ -12,6 +13,7 @@
     import Mainvisual from '@/components/home/Mainvisual.vue';
     import Profile from '@/components/home/Profile.vue';
     import Story from '@/components/home/Story.vue';
+    import Archive from '@/components/home/Archive.vue';
 
     export default {
         components: {
@@ -19,6 +21,7 @@
             Mainvisual,
             Profile,
             Story,
+            Archive,
         },
         data() {
             return {
