@@ -1,6 +1,8 @@
 <template>
     <div id='archive'>
-        <canvas ref='canvas' />
+        <div class='archive-sticky'>
+            <canvas ref='canvas' />
+        </div>
     </div>
 </template>
 
@@ -16,7 +18,7 @@
     // 옻칠(검정 광택) 노드
     const LACQUER_NODES = ['box-top', 'box_bottom'];
 
-    // 클릭 시 함께 열릴 뚜껑 구성 노드들 / 회전 기준점(경첩) / 축 / 각도
+    // 뚜껑 구성 노드
     const LID_PARTS = [
         'box-top',
         'box-top-inner',
@@ -25,9 +27,27 @@
         'top-butterfly',
         'top-leaf',
     ];
-    const LID_HINGE = 'box-top'; // 회전 기준점(블렌더 origin)이 있는 노드
-    const LID_OPEN_AXIS = 'x'; // 경첩 축에 맞게 'x' | 'y' | 'z'
-    const LID_OPEN_ANGLE = -Math.PI / 2; // 90deg, 방향 반대면 부호만 변경
+    const LID_HINGE = 'box-top'; // 회전 기준점
+    const LID_OPEN_AXIS = 'x';
+    const LID_OPEN_ANGLE = -Math.PI / 2;
+
+    // 스크롤 연출
+    const VIEW_FILL = 0.5;
+    const BOX_FROM_BOTTOM = 0.35; // 고정 위치
+    const SCROLL_ROT_AXIS = 'x';
+    const SCROLL_ROT_FROM = Math.PI / 2;
+    const SCROLL_ROT_TO = Math.PI / 8;
+
+    // 각 단계가 차지하는 스크롤 길이(화면 높이 vh 배수)
+    const ENTRANCE_VH = 1.0;
+    const ROT_VH = 1.0;
+    const HOLD_VH = 0.2;
+    const LID_VH = 1.2;
+    const PINNED_VH = ROT_VH + HOLD_VH + LID_VH;
+    const TRACK_VH = ENTRANCE_VH + PINNED_VH;
+    const ROT_END = ROT_VH / PINNED_VH;
+    const LID_START = (ROT_VH + HOLD_VH) / PINNED_VH;
+    const clamp01 = (v) => Math.max(0, Math.min(1, v));
     const NACRE_GROUPS = [
         {
             names: ['top-flower', 'side-flower'],
@@ -54,15 +74,13 @@
     export default {
         name: 'Archive',
         mounted() {
+            // 단계 길이 합으로 스크롤 트랙 높이 설정
+            this.$el.style.height = `${TRACK_VH * 100}vh`;
             this.initThree();
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.onResize);
-            const canvas = this.$refs.canvas;
-            if (canvas) {
-                canvas.removeEventListener('pointerdown', this.onPointerDown);
-                canvas.removeEventListener('pointerup', this.onPointerUp);
-            }
+            window.removeEventListener('scroll', this.onArchiveScroll);
             if (this.lidRaf) cancelAnimationFrame(this.lidRaf);
             if (this.controls) this.controls.dispose();
             if (this.renderer) this.renderer.dispose();
@@ -146,16 +164,26 @@
 
                     this.setupLid(model);
 
+                    // 스케일 1일 때 화면의 약 50%를 채우도록 카메라 거리 설정
                     const maxDim = Math.max(size.x, size.y, size.z);
-                    this.camera.position.set(0, 0, maxDim * 2.5);
+                    const fov = (this.camera.fov * Math.PI) / 180;
+                    const dist = maxDim / (2 * VIEW_FILL * Math.tan(fov / 2));
+                    this.camera.position.set(0, 0, dist);
                     this.camera.lookAt(0, 0, 0);
                     this.controls.update();
+
+                    const viewH = maxDim / VIEW_FILL;
+                    model.position.y -= (0.5 - BOX_FROM_BOTTOM) * viewH;
+
+                    // 스크롤 진행도로 스케일/회전 초기화
+                    this.onArchiveScroll();
                     this.renderScene();
                 });
 
-                canvas.addEventListener('pointerdown', this.onPointerDown);
-                canvas.addEventListener('pointerup', this.onPointerUp);
                 window.addEventListener('resize', this.onResize);
+                window.addEventListener('scroll', this.onArchiveScroll, {
+                    passive: true,
+                });
             },
 
             createTexture(url) {
@@ -251,7 +279,7 @@
                 );
             },
 
-            // 뚜껑 구성 노드들을 box-top origin 피벗에 매달아 함께 회전시킨다
+            // 뚜껑 노드 회전
             setupLid(model) {
                 const THREE = this.three;
 
@@ -268,17 +296,14 @@
 
                 model.updateMatrixWorld(true);
 
-                // box-top origin의 월드 좌표 = 회전 피벗
                 const hingeWorld = new THREE.Vector3();
                 hinge.getWorldPosition(hingeWorld);
 
-                // 모델(루트) 공간에 피벗 생성
                 const pivot = new THREE.Group();
                 model.add(pivot);
                 pivot.position.copy(model.worldToLocal(hingeWorld.clone()));
                 pivot.updateMatrixWorld(true);
 
-                // 구성 노드들을 피벗 아래로(월드 변환 유지)
                 LID_PARTS.forEach((name) => {
                     const node = model.getObjectByName(name);
                     if (node) pivot.attach(node);
@@ -289,56 +314,35 @@
                 this.lidOpen = false;
             },
 
-            onPointerDown(e) {
-                this.downX = e.clientX;
-                this.downY = e.clientY;
-            },
-            onPointerUp(e) {
-                // 드래그(카메라 회전)와 클릭 구분
-                const moved = Math.hypot(
-                    e.clientX - this.downX,
-                    e.clientY - this.downY,
-                );
-                if (moved > 5) return;
-                this.handleClick(e);
-            },
-            handleClick(e) {
-                if (!this.model || !this.lid) return;
-                const THREE = this.three;
-                const canvas = this.$refs.canvas;
-                const rect = canvas.getBoundingClientRect();
-                const ndc = new THREE.Vector2(
-                    ((e.clientX - rect.left) / rect.width) * 2 - 1,
-                    -((e.clientY - rect.top) / rect.height) * 2 + 1,
-                );
-                if (!this.raycaster) this.raycaster = new THREE.Raycaster();
-                this.raycaster.setFromCamera(ndc, this.camera);
-                const hits = this.raycaster.intersectObject(this.model, true);
-                if (hits.length === 0) return;
-                this.toggleLid();
-            },
-            toggleLid() {
-                this.lidOpen = !this.lidOpen;
-                this.lidTarget =
-                    this.lidClosed + (this.lidOpen ? LID_OPEN_ANGLE : 0);
-                this.animateLid();
-            },
-            animateLid() {
-                if (this.lidRaf) cancelAnimationFrame(this.lidRaf);
-                const step = () => {
-                    const cur = this.lid.rotation[LID_OPEN_AXIS];
-                    const next = cur + (this.lidTarget - cur) * 0.15;
-                    if (Math.abs(this.lidTarget - next) < 0.001) {
-                        this.lid.rotation[LID_OPEN_AXIS] = this.lidTarget;
-                        this.renderScene();
-                        this.lidRaf = null;
-                        return;
-                    }
-                    this.lid.rotation[LID_OPEN_AXIS] = next;
-                    this.renderScene();
-                    this.lidRaf = requestAnimationFrame(step);
-                };
-                step();
+            // 스크롤 진행도로 모델 스케일(진입) + 회전(top→side) + 뚜껑 열림 구동
+            onArchiveScroll() {
+                if (!this.model) return;
+                const rect = this.$el.getBoundingClientRect();
+                const vh = window.innerHeight;
+
+                // 진입 스케일
+                const entrance = clamp01((vh - rect.top) / vh);
+                this.model.scale.setScalar(entrance);
+
+                // 고정
+                const pinnedDist = Math.max(rect.height - vh, 1);
+                const pinned = clamp01(-rect.top / pinnedDist);
+
+                // side 회전
+                const rp = clamp01(pinned / ROT_END);
+                this.model.rotation[SCROLL_ROT_AXIS] =
+                    SCROLL_ROT_FROM + (SCROLL_ROT_TO - SCROLL_ROT_FROM) * rp;
+
+                // 뚜껑 열림
+                if (this.lid) {
+                    const lp = clamp01(
+                        (pinned - LID_START) / (1 - LID_START),
+                    );
+                    this.lid.rotation[LID_OPEN_AXIS] =
+                        this.lidClosed + LID_OPEN_ANGLE * lp;
+                }
+
+                this.renderScene();
             },
 
             renderScene() {
@@ -355,7 +359,7 @@
                 this.camera.aspect = w / h;
                 this.camera.updateProjectionMatrix();
                 this.renderer.setSize(w, h);
-                this.renderScene();
+                this.onArchiveScroll();
             },
         },
     };
@@ -363,8 +367,15 @@
 
 <style lang='scss' scoped>
     #archive {
+        position: relative;
         width: 100%;
-        height: 100vh;
+
+        .archive-sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+        }
 
         canvas {
             display: block;
