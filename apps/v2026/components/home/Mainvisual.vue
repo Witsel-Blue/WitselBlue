@@ -48,6 +48,7 @@
 <script>
     import TextShifting from '@/components/TextShifting.vue';
     import Logo from '@/components/svg/logo.vue'
+    import nacreShardUrl from '@/assets/model/texture/nacre_white.png';
 
     export default {
         components: {
@@ -333,7 +334,7 @@
             getNacreTexture() {
                 const THREE = this.three;
                 if (this._nacreTex) return this._nacreTex;
-                const tex = new THREE.TextureLoader().load('/img/nacre.png');
+                const tex = new THREE.TextureLoader().load(nacreShardUrl);
                 tex.colorSpace = THREE.SRGBColorSpace;
                 tex.wrapS = THREE.RepeatWrapping;
                 tex.wrapT = THREE.RepeatWrapping;

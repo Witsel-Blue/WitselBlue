@@ -9,7 +9,7 @@
                 <button type='button' @click='go(item)'>
                     {{ item.id }}
                 </button>
-                <p>{{ item.title }}</p>
+                <p><span>{{ item.title }}</span></p>
             </li>
         </ul>
     </div>
@@ -149,16 +149,21 @@
                     display: flex;
                     align-items: center;
                     gap: 8px;
-                    opacity: 0;
-                    transform: translateX(-8px);
-                    transition: opacity 0.4s ease, transform 0.4s ease;
 
                     &::before {
                         content: '';
-                        width: 24px;
+                        width: 0;
                         height: 1px;
                         display: inline-block;
                         background-color: $white;
+                        transition: width 0.4s ease;
+                    }
+
+                    span {
+                        opacity: 0;
+                        transform: translateX(-8px);
+                        transition: opacity 0.4s ease 0.4s,
+                            transform 0.4s ease 0.4s;
                     }
                 }
 
@@ -166,8 +171,14 @@
                     opacity: 1;
 
                     p {
-                        opacity: 1;
-                        transform: translateX(0);
+                        &::before {
+                            width: 24px;
+                        }
+
+                        span {
+                            opacity: 1;
+                            transform: translateX(0);
+                        }
                     }
                 }
             }
