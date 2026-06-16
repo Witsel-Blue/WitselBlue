@@ -279,12 +279,12 @@ export default [
     {
         slug: 'myportfolio',
         title: {
-            en: 'MyPortfolio',
-            ko: '나의 포트폴리오',
+            en: 'MyPortfolio v2025',
+            ko: '나의 포트폴리오 v2025',
         },
         summary: {
-            en: 'Interactive web portfolio',
-            ko: '인터렉티브 프론트엔드 포트폴리오',
+            en: 'Interactive web portfolio v2025',
+            ko: '인터렉티브 프론트엔드 포트폴리오 v2025',
         },
         desc: {
             duration: { start: '2024.11, 2025.09', end: '2025.11' },

@@ -32,29 +32,29 @@
         'top-butterfly',
         'top-leaf',
     ];
-    const LID_HINGE = 'box-top'; // 회전 기준점
+    const LID_HINGE = 'box-top';
     const LID_OPEN_AXIS = 'x';
     const LID_OPEN_ANGLE = -Math.PI / 2;
 
     // 스크롤 연출
     const VIEW_FILL = 0.5;
-    const BOX_FROM_BOTTOM = 0.35; // 고정 위치
+    const BOX_FROM_BOTTOM = 0.35;
     const SCROLL_ROT_AXIS = 'x';
     const SCROLL_ROT_FROM = Math.PI / 2;
     const SCROLL_ROT_TO = Math.PI / 8;
 
-    // 각 단계가 차지하는 스크롤 길이(화면 높이 vh 배수)
-    const ENTRANCE_VH = 1.0; // 진입 스케일
-    const ROT_VH = 1.0; // top→side 회전(스크롤 스크럽)
-    const HOLD_VH = 0.05; // 회전 후 바로 오픈되도록 최소 버퍼
-    const OPEN_VH = 0.3; // 오픈 후 머무는 구간(짧게 → 올릴 때 바로 닫힘)
+    // 스크롤 높이
+    const ENTRANCE_VH = 1.0;
+    const ROT_VH = 1.0;
+    const HOLD_VH = 0.05;
+    const OPEN_VH = 0.3;
     const PINNED_VH = ROT_VH + HOLD_VH + OPEN_VH;
     const TRACK_VH = ENTRANCE_VH + PINNED_VH;
-    const ROT_END = ROT_VH / PINNED_VH; // 회전 종료 지점
-    const OPEN_POINT = (ROT_VH + HOLD_VH) / PINNED_VH; // 뚜껑+조각 트리거 지점
+    const ROT_END = ROT_VH / PINNED_VH;
+    const OPEN_POINT = (ROT_VH + HOLD_VH) / PINNED_VH;
     const clamp01 = (v) => Math.max(0, Math.min(1, v));
 
-    // 흩어지는 핀: { idx: archive.js 항목 번호, model: 0=hairpin.glb, 1=hairpin2.glb }
+    // 떨잠: { idx: archive.js 항목 번호, model: 0=hairpin.glb, 1=hairpin2.glb }
     const SHARD_DEFS = [
         { idx: 9, model: 1 }, // oxfam
         { idx: 3, model: 0 }, // monimo
@@ -65,12 +65,38 @@
     const SHARD_THUMB_IDX = SHARD_DEFS.map((d) => d.idx);
     const SHARD_THUMBS = SHARD_THUMB_IDX.map((i) => archiveData[i].images.thumb);
     const SHARD_COUNT = SHARD_DEFS.length;
-    const SHARD_REL = 0.32; // 박스 최대치수 대비 핀 크기(클수록 큼)
-    // 핀이 thumb 면을 카메라로 향하도록 기본 회전(모델 방향에 맞게 조정)
+    const SHARD_REL = 0.32;
     const HAIRPIN_BASE_ROT = { x: 0, y: 0, z: 0 };
-    // 모델별 썸네일 텍스처 회전: [0]=hairpin.glb, [1]=hairpin2.glb
-    // ±90도면 cover 시 가로/세로 자동 보정됨
-    const THUMB_ROT = [-Math.PI / 2, 0];
+    const HAIRPIN_THUMB_ROT = -Math.PI * 0.25;
+    const HAIRPIN2_THUMB_ROT = 0;
+    const THUMB_ROT = [HAIRPIN_THUMB_ROT, HAIRPIN2_THUMB_ROT];
+    const HAIRPIN_FLOWER_ROT = -Math.PI / 2;
+    const HAIRPIN2_FLOWER_ROT = -Math.PI / 2;
+    const FLOWER_ROT = [HAIRPIN_FLOWER_ROT, HAIRPIN2_FLOWER_ROT];
+    const FLOWER_MIRROR = [true, false];
+    // flower 뒷면 텍스트 스타일
+    const FLOWER_TEXT_STYLE = {
+        titleSizeRatio: 0.1, // 제목 폰트 크기
+        titleWeight: 700,
+        titleFontFamily: "'Diphylleia', serif",
+        titleYRatio: 0.38, // 제목 Y 위치
+        titleMaxWidthRatio: 0.8, // 제목 최대 폭
+        titleLineHeightRatio: 1, // 제목 줄간격
+        titleLetterSpacingEm: 0.05, // 제목 자간
+        titleUppercase: false, // 제목 대문자 변환
+        linkSizeRatio: 0.05, // 링크 폰트 크기
+        linkWeight: 400,
+        linkFontFamily: 'sans-serif',
+        linkYRatio: 0.59, // 링크 Y 위치
+        linkUnderlineOffsetRatio: 0.6, // 링크 밑줄 오프셋
+        linkLetterSpacingEm: 0.2, // 링크 자간
+        linkUppercase: true, // 링크 대문자 변환
+    };
+    // scatter 화면 제약
+    const SCATTER_MAX_WIDTH_PX = 1400;
+    const SCATTER_MAX_WIDTH_RATIO_SMALL = 0.8;
+    const SCATTER_VIEW_MARGIN_PX = 8;
+    const IN_BOX_SCALE = 0.7;
     const NACRE_GROUPS = [
         {
             names: ['top-flower', 'side-flower'],
@@ -97,7 +123,7 @@
     export default {
         name: 'Archive',
         mounted() {
-            // 단계 길이 합으로 스크롤 트랙 높이 설정
+            // 스크롤 트랙 높이
             this.$el.style.height = `${TRACK_VH * 100}vh`;
             this.initThree();
         },
@@ -149,7 +175,7 @@
 
                 this.scene = new THREE.Scene();
 
-                // 환경맵(자개 광택/반사·이리데센스 표현에 필요)
+                // 환경맵 (자개 광택/반사·이리데센스 표현에 필요)
                 const pmrem = new THREE.PMREMGenerator(this.renderer);
                 this.scene.environment = pmrem.fromScene(
                     new RoomEnvironment(),
@@ -161,7 +187,7 @@
                 this.controls = new OrbitControls(this.camera, canvas);
                 this.controls.enablePan = false;
                 this.controls.enableZoom = false;
-                this.controls.enableRotate = false; // 마우스 회전 막기
+                this.controls.enableRotate = false;
 
                 const light = new THREE.DirectionalLight(0xffffff, 0.6);
                 light.position.set(3, 4, 5);
@@ -173,7 +199,6 @@
                     this.scene.environmentIntensity = 0.35;
                 }
 
-                // 핀(hairpin) 전용 씬 - 박스 위에 항상 덮어 그려 겹침 방지
                 this.shardScene = new THREE.Scene();
                 this.shardScene.environment = this.scene.environment;
                 if ('environmentIntensity' in this.shardScene) {
@@ -205,7 +230,6 @@
 
                     this.setupLid(model);
 
-                    // 스케일 1일 때 화면의 약 50%를 채우도록 카메라 거리 설정
                     const maxDim = Math.max(size.x, size.y, size.z);
                     const fov = (this.camera.fov * Math.PI) / 180;
                     const dist = maxDim / (2 * VIEW_FILL * Math.tan(fov / 2));
@@ -217,8 +241,19 @@
                     const viewH = maxDim / VIEW_FILL;
                     model.position.y -= (0.5 - BOX_FROM_BOTTOM) * viewH;
 
-                    // 박스에서 나올 핀(hairpin) 2종 로드 후 준비
                     const origin = model.position.clone();
+
+                    // 박스 내부 캐비티 경계(월드 좌표) 계산
+                    model.updateMatrixWorld(true);
+                    this.boxInner = null;
+                    const innerNode =
+                        model.getObjectByName('box_bottom_inner');
+                    if (innerNode) {
+                        this.boxInner = new THREE.Box3().setFromObject(
+                            innerNode,
+                        );
+                    }
+
                     const hpLoader = new GLTFLoader();
                     const urls = [hairpinUrl, hairpin2Url];
                     this.hairpinProtos = [];
@@ -235,7 +270,6 @@
                         });
                     });
 
-                    // 스크롤 진행도로 스케일/회전 초기화
                     this.onArchiveScroll();
                     this.renderScene();
                 });
@@ -299,7 +333,7 @@
                 });
             },
 
-            // 옻칠: 검정 베이스 + 강한 광택 + 클리어코트
+            // 옻칠
             makeLacquerMaterial() {
                 const THREE = this.three;
                 return new THREE.MeshPhysicalMaterial({
@@ -333,7 +367,6 @@
                     this.applyMaterialToNodes(root, group.names, material);
                 });
 
-                // 옻칠 광택
                 this.applyMaterialToNodes(
                     root,
                     LACQUER_NODES,
@@ -341,11 +374,8 @@
                 );
             },
 
-            // thumb 면(노드)에 들어갈 썸네일 머티리얼
-            // plateAspect: thumb 판 가로/세로 비율, rotation: 텍스처 회전
             makeThumbMaterial(url, plateAspect = 1, rotation = 0) {
                 const THREE = this.three;
-                // ±90도 회전이면 가로/세로가 바뀌므로 cover 보정
                 const swap =
                     Math.abs(Math.round(rotation / (Math.PI / 2)) % 2) === 1;
                 const tex = new THREE.TextureLoader().load(url, (t) => {
@@ -353,10 +383,9 @@
                     this.renderScene();
                 });
                 tex.colorSpace = THREE.SRGBColorSpace;
-                tex.flipY = false; // glTF UV 규약
+                tex.flipY = false;
                 tex.wrapS = THREE.ClampToEdgeWrapping;
                 tex.wrapT = THREE.ClampToEdgeWrapping;
-                // 썸네일 이미지만 회전(모델 회전 X)
                 tex.center.set(0.5, 0.5);
                 tex.rotation = rotation;
                 return new THREE.MeshPhysicalMaterial({
@@ -371,14 +400,226 @@
                 });
             },
 
-            // rim/pin: 은색 금속 + metal.png 텍스쳐
+            makeBackTextTexture(
+                info,
+                plateAspect = 1,
+                rotation = 0,
+                swap = false,
+                mirror = true,
+            ) {
+                const THREE = this.three;
+                const H = 512;
+                const aspect = swap ? 1 / (plateAspect || 1) : plateAspect || 1;
+                const W = Math.max(64, Math.round(H * aspect));
+                const canvas = document.createElement('canvas');
+                canvas.width = W;
+                canvas.height = H;
+                const ctx = canvas.getContext('2d');
+                const bgImg = new Image();
+
+                const drawImageCover = (img) => {
+                    const iw = img.naturalWidth || img.width;
+                    const ih = img.naturalHeight || img.height;
+                    if (!iw || !ih) return false;
+                    const scale = Math.max(W / iw, H / ih);
+                    const dw = iw * scale;
+                    const dh = ih * scale;
+                    const dx = (W - dw) * 0.5;
+                    const dy = (H - dh) * 0.5;
+                    ctx.drawImage(img, dx, dy, dw, dh);
+                    return true;
+                };
+
+                const draw = () => {
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, W, H);
+                    if (!drawImageCover(bgImg)) {
+                        // jade 텍스처 로드 전 임시 배경
+                        ctx.fillStyle = '#e8dec5';
+                        ctx.fillRect(0, 0, W, H);
+                    }
+                    if (mirror) {
+                        ctx.translate(W, 0);
+                        ctx.scale(-1, 1);
+                    }
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+
+                    const ts = Math.round(H * FLOWER_TEXT_STYLE.titleSizeRatio);
+                    ctx.font = `${FLOWER_TEXT_STYLE.titleWeight} ${ts}px ${FLOWER_TEXT_STYLE.titleFontFamily}`;
+                    ctx.fillStyle = '#111111';
+                    this.wrapText(
+                        ctx,
+                        info.title,
+                        W / 2,
+                        H * FLOWER_TEXT_STYLE.titleYRatio,
+                        W * FLOWER_TEXT_STYLE.titleMaxWidthRatio,
+                        ts * FLOWER_TEXT_STYLE.titleLineHeightRatio,
+                        ts * FLOWER_TEXT_STYLE.titleLetterSpacingEm,
+                        FLOWER_TEXT_STYLE.titleUppercase,
+                    );
+
+                    const ls = Math.round(H * FLOWER_TEXT_STYLE.linkSizeRatio);
+                    ctx.font = `${FLOWER_TEXT_STYLE.linkWeight} ${ls}px ${FLOWER_TEXT_STYLE.linkFontFamily}`;
+                    ctx.fillStyle = 'rgba(17, 17, 17, 0.85)';
+                    const label = this.transformText(
+                        info.linkText || 'View Project',
+                        FLOWER_TEXT_STYLE.linkUppercase,
+                    );
+                    const ly = H * FLOWER_TEXT_STYLE.linkYRatio;
+                    const linkSpacing = ls * FLOWER_TEXT_STYLE.linkLetterSpacingEm;
+                    this.drawTextWithSpacing(ctx, label, W / 2, ly, linkSpacing);
+                    const tw = this.measureTextWithSpacing(
+                        ctx,
+                        label,
+                        linkSpacing,
+                    );
+                    ctx.strokeStyle = 'rgba(17, 17, 17, 0.6)';
+                    ctx.lineWidth = Math.max(1, H * 0.004);
+                    ctx.beginPath();
+                    ctx.moveTo(
+                        W / 2 - tw / 2,
+                        ly + ls * FLOWER_TEXT_STYLE.linkUnderlineOffsetRatio,
+                    );
+                    ctx.lineTo(
+                        W / 2 + tw / 2,
+                        ly + ls * FLOWER_TEXT_STYLE.linkUnderlineOffsetRatio,
+                    );
+                    ctx.stroke();
+                };
+
+                draw();
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tex.flipY = false;
+                tex.wrapS = THREE.ClampToEdgeWrapping;
+                tex.wrapT = THREE.ClampToEdgeWrapping;
+                tex.center.set(0.5, 0.5);
+                tex.rotation = rotation;
+                bgImg.onload = () => {
+                    draw();
+                    tex.needsUpdate = true;
+                    this.renderScene();
+                };
+                bgImg.src = jadeUrl;
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => {
+                        draw();
+                        tex.needsUpdate = true;
+                        this.renderScene();
+                    });
+                }
+                return tex;
+            },
+
+            transformText(text, uppercase = false) {
+                const t = String(text || '');
+                return uppercase ? t.toUpperCase() : t;
+            },
+
+            shouldApplyLetterSpacing(curr, next) {
+                // 공백 앞뒤에는 추가 자간을 넣지 않아 링크 텍스트 간격을 균일하게 유지
+                return curr !== ' ' && next !== ' ';
+            },
+
+            measureTextWithSpacing(ctx, text, letterSpacing = 0) {
+                const src = String(text || '');
+                if (!src) return 0;
+                // 자간이 0이면 폰트 고유 커닝/리거처를 유지한 기본 측정 사용
+                if (Math.abs(letterSpacing) < 1e-6) return ctx.measureText(src).width;
+                const chars = Array.from(src);
+                let w = 0;
+                chars.forEach((ch, i) => {
+                    w += ctx.measureText(ch).width;
+                    if (
+                        i < chars.length - 1 &&
+                        this.shouldApplyLetterSpacing(ch, chars[i + 1])
+                    ) {
+                        w += letterSpacing;
+                    }
+                });
+                return w;
+            },
+
+            drawTextWithSpacing(ctx, text, x, y, letterSpacing = 0) {
+                const src = String(text || '');
+                if (!src) return;
+                // 자간이 0이면 문자 단위 분해를 하지 않아 커닝/리거처 유지
+                if (Math.abs(letterSpacing) < 1e-6) {
+                    ctx.fillText(src, x, y);
+                    return;
+                }
+                const chars = Array.from(src);
+                if (!chars.length) return;
+                const total = this.measureTextWithSpacing(
+                    ctx,
+                    chars.join(''),
+                    letterSpacing,
+                );
+                let cx = x - total / 2;
+                // 문자 단위 렌더링 시에는 left 정렬 기준으로 찍어야 간격이 일정함
+                const prevAlign = ctx.textAlign;
+                ctx.textAlign = 'left';
+                chars.forEach((ch, i) => {
+                    ctx.fillText(ch, cx, y);
+                    cx += ctx.measureText(ch).width;
+                    if (
+                        i < chars.length - 1 &&
+                        this.shouldApplyLetterSpacing(ch, chars[i + 1])
+                    ) {
+                        cx += letterSpacing;
+                    }
+                });
+                ctx.textAlign = prevAlign;
+            },
+
+            wrapText(
+                ctx,
+                text,
+                x,
+                y,
+                maxWidth,
+                lineHeight,
+                letterSpacing = 0,
+                uppercase = false,
+            ) {
+                const src = this.transformText(text, uppercase);
+                const words = src.split(' ');
+                const lines = [];
+                let line = '';
+                for (const word of words) {
+                    const test = line ? `${line} ${word}` : word;
+                    if (
+                        this.measureTextWithSpacing(ctx, test, letterSpacing) > maxWidth &&
+                        line
+                    ) {
+                        lines.push(line);
+                        line = word;
+                    } else {
+                        line = test;
+                    }
+                }
+                if (line) lines.push(line);
+                const startY = y - ((lines.length - 1) * lineHeight) / 2;
+                lines.forEach((l, i) =>
+                    this.drawTextWithSpacing(
+                        ctx,
+                        l,
+                        x,
+                        startY + i * lineHeight,
+                        letterSpacing,
+                    ),
+                );
+            },
+
+            // rim/pin
             makeSilverMaterial() {
                 const THREE = this.three;
                 const tex = new THREE.TextureLoader().load(metalUrl, () =>
                     this.renderScene(),
                 );
                 tex.colorSpace = THREE.SRGBColorSpace;
-                tex.flipY = false; // glTF UV 규약
+                tex.flipY = false;
                 return new THREE.MeshPhysicalMaterial({
                     map: tex,
                     color: 0xffffff,
@@ -390,14 +631,14 @@
                 });
             },
 
-            // flower: 연베이지색 옥(반투명) + jade.png 텍스쳐
+            // flower
             makeJadeMaterial() {
                 const THREE = this.three;
                 const tex = new THREE.TextureLoader().load(jadeUrl, () =>
                     this.renderScene(),
                 );
                 tex.colorSpace = THREE.SRGBColorSpace;
-                tex.flipY = false; // glTF UV 규약
+                tex.flipY = false;
                 return new THREE.MeshPhysicalMaterial({
                     map: tex,
                     color: 0xe8dec5,
@@ -414,8 +655,42 @@
                 });
             },
 
-            // 실제 UV 기준 thumb 판의 U축/V축 길이 비율(가로/세로) 계산
-            // position ≈ A·u + B·v + C 평면 회귀로 |A|/|B| 산출
+            setPlanarUV(mesh) {
+                const THREE = this.three;
+                const geo = mesh.geometry;
+                const pos = geo.attributes.position;
+                if (!pos) return 1;
+                geo.computeBoundingBox();
+                const bb = geo.boundingBox;
+                const size = new THREE.Vector3();
+                bb.getSize(size);
+                const axes = [
+                    ['x', size.x],
+                    ['y', size.y],
+                    ['z', size.z],
+                ].sort((a, b) => a[1] - b[1]);
+                const rest = axes.slice(1).sort((a, b) => b[1] - a[1]);
+                const ua = rest[0][0];
+                const va = rest[1][0];
+                const get = (axis, i) => {
+                    if (axis === 'x') return pos.getX(i);
+                    if (axis === 'y') return pos.getY(i);
+                    return pos.getZ(i);
+                };
+                const uMin = bb.min[ua];
+                const vMin = bb.min[va];
+                const uR = size[ua] || 1;
+                const vR = size[va] || 1;
+                const n = pos.count;
+                const uv = new Float32Array(n * 2);
+                for (let i = 0; i < n; i++) {
+                    uv[i * 2] = (get(ua, i) - uMin) / uR;
+                    uv[i * 2 + 1] = (get(va, i) - vMin) / vR;
+                }
+                geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+                return uR / vR;
+            },
+
             computePlateAspect(mesh) {
                 const geo = mesh && mesh.geometry;
                 const pos = geo && geo.attributes.position;
@@ -499,19 +774,15 @@
                 ];
             },
 
-            // object-fit: cover. repeat<1로 줌인하여 빈틈 없이 채우고 중앙 크롭
-            // swap=true면 텍스처가 ±90도 회전돼 가로/세로가 바뀐 것을 보정
             fitThumbCover(tex, plateAspect, swap) {
                 const img = tex.image;
                 if (!img || !img.width) return;
                 const imgAspect = img.width / img.height;
                 if (swap) {
-                    // 90도 회전: 채움 비율 r = imgAspect * plateAspect
                     const r = imgAspect * plateAspect;
                     if (r >= 1) tex.repeat.set(1 / r, 1);
                     else tex.repeat.set(1, r);
                 } else {
-                    // 회전 없음: 표준 cover
                     if (imgAspect >= plateAspect) {
                         tex.repeat.set(plateAspect / imgAspect, 1);
                     } else {
@@ -521,7 +792,6 @@
                 tex.needsUpdate = true;
             },
 
-            // 박스에서 나와 흩어지는 hairpin 핀 생성(thumb 노드에 이미지)
             setupShards(maxDim, origin) {
                 const THREE = this.three;
                 const protos = (this.hairpinProtos || []).filter(Boolean);
@@ -529,28 +799,35 @@
                 this.shards = [];
                 const targetR = SHARD_REL * maxDim;
 
-                // 클릭 포커스: 화면 중앙
                 this.focusPos = new THREE.Vector3(0, 0, (this.camDist || 1) * 0.35);
                 this.selected = null;
 
                 for (let i = 0; i < SHARD_COUNT; i++) {
                     const item = archiveData[SHARD_THUMB_IDX[i]];
-
-                    // 핀 모델을 항목별로 지정(SHARD_DEFS.model)
+                    // 떨잠 뒷면 상세 정보
+                    const info = {
+                        title:
+                            (item.title &&
+                                (item.title.en || item.title.ko)) ||
+                            '',
+                        href: item.link && item.link.href,
+                        target: (item.link && item.link.target) || '_blank',
+                        linkText:
+                            (item.link &&
+                                item.link.text &&
+                                (item.link.text.en || item.link.text.ko)) ||
+                            'View Project',
+                    };
                     const modelIdx = Math.min(
                         SHARD_DEFS[i].model,
                         protos.length - 1,
                     );
                     const proto = protos[modelIdx];
-
-                    // 프로토타입 크기/중심 기준 스케일 산출(모델마다 다름)
                     const pbox = new THREE.Box3().setFromObject(proto);
                     const pcenter = pbox.getCenter(new THREE.Vector3());
                     const psize = pbox.getSize(new THREE.Vector3());
                     const pMax = Math.max(psize.x, psize.y, psize.z) || 1;
                     const baseScale = (targetR * 2) / pMax;
-
-                    // 핀 복제 + 중심 정렬 + 기본 방향
                     const pin = proto.clone(true);
                     pin.position.sub(pcenter);
                     pin.rotation.set(
@@ -559,14 +836,12 @@
                         HAIRPIN_BASE_ROT.z,
                     );
 
-                    // thumb 노드에 썸네일 입히기
                     const thumb = pin.getObjectByName('thumb');
                     if (thumb) {
                         let tmesh = null;
                         thumb.traverse((o) => {
                             if (o.isMesh && !tmesh) tmesh = o;
                         });
-                        // 실제 UV 기준 thumb 판 가로/세로 비율
                         const plateAspect = tmesh
                             ? this.computePlateAspect(tmesh)
                             : 1;
@@ -584,9 +859,7 @@
                         });
                     }
 
-                    // 부품 재질: flower=연베이지 옥, 그 외(rim/pin)=은색 금속
                     const silver = this.makeSilverMaterial();
-                    const jade = this.makeJadeMaterial();
                     const ancestorHas = (obj, key) => {
                         let p = obj;
                         while (p) {
@@ -596,46 +869,109 @@
                         }
                         return false;
                     };
+
+                    const flowerFrontMat = this.makeJadeMaterial();
+                    flowerFrontMat.side = THREE.DoubleSide;
+                    const flowerNode = pin.getObjectByName('flower');
+                    const flowerMeshes = [];
+                    let flowerAspect = 1;
+                    if (flowerNode) {
+                        flowerNode.traverse((o) => {
+                            if (o.isMesh) {
+                                flowerAspect = this.setPlanarUV(o);
+                                flowerMeshes.push(o);
+                            }
+                        });
+                    }
+                    const fRot =
+                        FLOWER_ROT[modelIdx] !== undefined
+                            ? FLOWER_ROT[modelIdx]
+                            : FLOWER_ROT[0];
+                    const fSwap =
+                        Math.abs(Math.round(fRot / (Math.PI / 2)) % 2) === 1;
+                    const fMirror =
+                        FLOWER_MIRROR[modelIdx] !== undefined
+                            ? FLOWER_MIRROR[modelIdx]
+                            : FLOWER_MIRROR[0];
+                    const flowerBackMat = this.makeJadeMaterial();
+                    flowerBackMat.side = THREE.DoubleSide;
+                    flowerBackMat.map = this.makeBackTextTexture(
+                        info,
+                        flowerAspect,
+                        fRot,
+                        fSwap,
+                        fMirror,
+                    );
+                    flowerBackMat.needsUpdate = true;
+
                     pin.traverse((o) => {
                         if (!o.isMesh) return;
-                        if (ancestorHas(o, 'thumb')) return; // 썸네일 유지
-                        if (ancestorHas(o, 'flower')) o.material = jade;
+                        if (ancestorHas(o, 'thumb')) return;
+                        if (ancestorHas(o, 'flower')) o.material = flowerFrontMat;
                         else o.material = silver;
                     });
 
                     const group = new THREE.Group();
                     group.add(pin);
 
-                    // 클릭 포커스 시 thumb가 카메라(+Z)를 향하도록 하는 회전
                     const focusQuat = this.computeThumbFocusQuat(group, thumb);
 
-                    // x축 부채꼴 + y축도 산재
                     const t = SHARD_COUNT > 1 ? i / (SHARD_COUNT - 1) : 0.5;
-                    const fanX = (t - 0.5) * 2; // -1..1
+                    const fanX = (t - 0.5) * 2;
                     const dir = new THREE.Vector3(
                         fanX * 1.2 + (Math.random() - 0.5) * 0.2,
                         0.35 + Math.random() * 0.95,
                         (Math.random() - 0.5) * 0.25,
                     ).normalize();
 
+                    // 박스 내부에 떨잠 수납
+                    const inBoxPos = origin.clone();
+                    if (this.boxInner) {
+                        const inboxRadius =
+                            pMax * baseScale * 0.5 * IN_BOX_SCALE;
+                        const c = this.boxInner.getCenter(
+                            new THREE.Vector3(),
+                        );
+                        const sz = this.boxInner.getSize(
+                            new THREE.Vector3(),
+                        );
+                        const usableX = Math.max(
+                            0,
+                            sz.x * 0.5 - inboxRadius,
+                        );
+                        inBoxPos.set(
+                            c.x + (t - 0.5) * 2 * usableX,
+                            this.boxInner.min.y +
+                                Math.min(inboxRadius, sz.y * 0.5),
+                            c.z,
+                        );
+                    }
+
                     group.userData = {
                         href: item.link && item.link.href,
                         origin: origin.clone(),
+                        inBoxPos,
                         dir,
                         dist:
                             maxDim *
                             (0.6 + Math.abs(fanX) * 0.7 + Math.random() * 0.4),
+                        scatterRadius: pMax * baseScale * 0.5,
                         scaleBase: baseScale,
                         rot0z: Math.random() * Math.PI * 2,
                         spinZ: (Math.random() - 0.5) * 2,
                         floatPhase: Math.random() * Math.PI * 2,
                         floatAmp: maxDim * (0.03 + Math.random() * 0.03),
                         floatSpeed: 0.6 + Math.random() * 0.6,
-                        // 클릭 포커스(0→1: 중앙·정면)
                         focus: 0,
                         focusTarget: 0,
                         focusQuat,
                         focusScale: baseScale * 1.4,
+                        flip: 0,
+                        flipTarget: 0,
+                        info,
+                        flowerMeshes,
+                        flowerFrontMat,
+                        flowerBackMat,
                     };
 
                     group.position.copy(origin);
@@ -649,28 +985,64 @@
                 this.isOpen = false;
             },
 
-            // 클릭 포커스 회전: 핀 기본 자세(=썸네일 정면)로 복귀
-            // scatter 시 더해진 Z 스핀만 제거하면 되므로 단위 쿼터니언(뒤집힘 없음)
             computeThumbFocusQuat() {
                 return new this.three.Quaternion();
             },
 
-            // 진행도(amt 0~1) + 시간(now)으로 조각 위치/스케일/회전/floating 적용
+            // scatter 위치
+            clampScatterToView(pos, radiusWorld = 0) {
+                if (!this.camera || !this.renderer) return pos;
+                const canvas = this.renderer.domElement;
+                const vw = canvas.clientWidth || window.innerWidth || 1;
+                const vh = canvas.clientHeight || window.innerHeight || 1;
+                const fovRad = ((this.camera.fov || 50) * Math.PI) / 180;
+                const depth = Math.max(
+                    0.001,
+                    (this.camera.position && this.camera.position.z) - pos.z,
+                );
+                const halfH = Math.tan(fovRad * 0.5) * depth;
+                const halfW = halfH * (this.camera.aspect || vw / vh || 1);
+
+                const maxWidthRatio =
+                    vw < SCATTER_MAX_WIDTH_PX
+                        ? SCATTER_MAX_WIDTH_RATIO_SMALL
+                        : SCATTER_MAX_WIDTH_PX / vw;
+                const halfWCap = halfW * maxWidthRatio;
+
+                const marginX = halfW * ((SCATTER_VIEW_MARGIN_PX * 2) / vw);
+                const marginY = halfH * ((SCATTER_VIEW_MARGIN_PX * 2) / vh);
+
+                const minX = -Math.max(0, halfWCap - marginX - radiusWorld);
+                const maxX = Math.max(0, halfWCap - marginX - radiusWorld);
+                const minY = -Math.max(0, halfH - marginY - radiusWorld);
+                const maxY = Math.max(0, halfH - marginY - radiusWorld);
+
+                pos.x = Math.max(minX, Math.min(maxX, pos.x));
+                pos.y = Math.max(minY, Math.min(maxY, pos.y));
+                return pos;
+            },
+
             applyShards(amt, now) {
                 if (!this.shards) return;
+                const lidClosing =
+                    this.lidTarget === 0 && (this.lidAmt || 0) < 0.9;
                 for (const s of this.shards) {
                     const d = s.userData;
-                    s.visible = amt > 0.001;
+                    s.visible = amt > 0.001 && !lidClosing;
 
-                    // scatter 기본 포즈
-                    const pos = d.origin
+                    const floatFull = d.origin
                         .clone()
-                        .addScaledVector(d.dir, d.dist * amt);
+                        .addScaledVector(d.dir, d.dist);
+                    const pos = (d.inBoxPos || d.origin)
+                        .clone()
+                        .lerp(floatFull, amt);
                     pos.y +=
                         Math.sin(now * 0.001 * d.floatSpeed + d.floatPhase) *
                         d.floatAmp *
                         amt;
-                    let sc = d.scaleBase * amt;
+                    this.clampScatterToView(pos, (d.scatterRadius || 0) * amt);
+                    let sc =
+                        d.scaleBase * (IN_BOX_SCALE + (1 - IN_BOX_SCALE) * amt);
                     const wob =
                         Math.sin(now * 0.0006 * d.floatSpeed + d.floatPhase) *
                         0.15 *
@@ -681,7 +1053,6 @@
                         new THREE.Euler(0, 0, rz),
                     );
 
-                    // 클릭 포커스: 중앙으로 이동 + 살짝 크게 + thumb 정면
                     d.focus += (d.focusTarget - d.focus) * 0.15;
                     if (d.focus > 0.001 && this.focusPos) {
                         pos.lerp(this.focusPos, d.focus);
@@ -690,13 +1061,33 @@
                         if (d.focusQuat) quat.slerp(d.focusQuat, d.focus);
                     }
 
+                    d.flip += ((d.flipTarget || 0) - d.flip) * 0.15;
+                    if (d.flip > 0.001) {
+                        const flipQ =
+                            new THREE.Quaternion().setFromAxisAngle(
+                                new THREE.Vector3(0, 1, 0),
+                                d.flip * Math.PI,
+                            );
+                        quat.multiply(flipQ);
+                    }
+                    if (d.flowerMeshes && d.flowerMeshes.length) {
+                        const useBack = d.flip > 0.5;
+                        const want = useBack
+                            ? d.flowerBackMat
+                            : d.flowerFrontMat;
+                        if (d.flowerMeshes[0].material !== want) {
+                            d.flowerMeshes.forEach((m) => {
+                                m.material = want;
+                            });
+                        }
+                    }
+
                     s.position.copy(pos);
                     s.scale.setScalar(sc);
                     s.quaternion.copy(quat);
                 }
             },
 
-            // 목표치(0/1)를 향해 부드럽게 보간 + scatter 동안 지속 floating
             ensureShardLoop() {
                 if (this.shardRaf) return;
                 const frame = () => {
@@ -710,7 +1101,6 @@
                     this.renderScene();
 
                     const moving = Math.abs(t - this.scatterAmt) > 0.0005;
-                    // target=1이면 보간이 끝나도 floating 위해 계속 루프
                     if (moving || (t === 1 && this.scatterAmt > 0.01)) {
                         this.shardRaf = requestAnimationFrame(frame);
                     } else {
@@ -720,7 +1110,6 @@
                 this.shardRaf = requestAnimationFrame(frame);
             },
 
-            // 포인터 위치에서 조각(그룹) 찾기
             pickShard(e) {
                 const THREE = this.three;
                 const canvas = this.$refs.canvas;
@@ -738,7 +1127,6 @@
                 return o;
             },
 
-            // 호버: 커서만 변경(클릭 가능 표시)
             onShardHover(e) {
                 if (!this.$refs.canvas) return;
                 if (!this.shards || this.scatterAmt < 0.6) {
@@ -750,26 +1138,45 @@
                     : '';
             },
 
-            // 클릭: 핀을 중앙으로 포커스(다시/다른/바깥 클릭 시 원위치)
             onShardClick(e) {
                 if (!this.shards || this.scatterAmt < 0.6) return;
                 const hit = this.pickShard(e);
-                this.selectShard(hit && hit !== this.selected ? hit : null);
+                if (hit && hit === this.selected) {
+                    if (this.flipped) {
+                        // 뒷면(타이틀/링크) 상태에서 클릭 → 링크 이동
+                        const info = this.selected.userData.info;
+                        if (info && info.href) {
+                            window.open(info.href, info.target || '_blank');
+                        }
+                    } else {
+                        this.setFlip(true);
+                    }
+                } else if (hit) {
+                    this.selectShard(hit);
+                } else {
+                    this.selectShard(null);
+                }
             },
 
             selectShard(shard) {
                 this.selected = shard;
+                this.flipped = false;
                 this.shards.forEach((s) => {
                     s.userData.focusTarget = s === shard ? 1 : 0;
+                    s.userData.flipTarget = 0;
                 });
                 this.ensureShardLoop();
             },
 
-            // 뚜껑 노드 회전
+            setFlip(on) {
+                if (!this.selected) return;
+                this.flipped = on;
+                this.selected.userData.flipTarget = on ? 1 : 0;
+                this.ensureShardLoop();
+            },
+
             setupLid(model) {
                 const THREE = this.three;
-
-
                 const hinge = model.getObjectByName(LID_HINGE);
 
                 model.updateMatrixWorld(true);
@@ -793,7 +1200,6 @@
                 this.lidTarget = 0;
             },
 
-            // 오픈 시퀀스: 열기=뚜껑→(잠시 후)조각, 닫기=조각→(잠시 후)뚜껑
             setOpen(open) {
                 if (this.isOpen === open) return;
                 this.isOpen = open;
@@ -818,7 +1224,6 @@
                 }
             },
 
-            // 뚜껑 목표치(0/1)를 향해 부드럽게 보간
             ensureLidLoop() {
                 if (this.lidRaf) return;
                 const frame = () => {
@@ -836,7 +1241,6 @@
                 this.lidRaf = requestAnimationFrame(frame);
             },
 
-            // 스크롤 진행도로 모델 스케일(진입) + 회전(top→side) + 뚜껑 열림 구동
             onArchiveScroll() {
                 if (!this.model) return;
                 const rect = this.$el.getBoundingClientRect();
@@ -855,7 +1259,7 @@
                 this.model.rotation[SCROLL_ROT_AXIS] =
                     SCROLL_ROT_FROM + (SCROLL_ROT_TO - SCROLL_ROT_FROM) * rp;
 
-                // 오픈 트리거: 한 지점에서 뚜껑 열림→조각 흩뿌리기(역방향은 반대 순서)
+                // 뚜껑 열림 → 핀 흩뿌리기
                 this.setOpen(pinned >= OPEN_POINT);
 
                 this.renderScene();
@@ -864,7 +1268,6 @@
             renderScene() {
                 if (!this.renderer || !this.scene || !this.camera) return;
                 this.renderer.render(this.scene, this.camera);
-                // 핀은 깊이 버퍼를 지우고 위에 덮어 그림(박스와 겹침 방지)
                 if (this.shardScene) {
                     this.renderer.autoClear = false;
                     this.renderer.clearDepth();
