@@ -79,15 +79,15 @@
         titleSizeRatio: 0.1, // 제목 폰트 크기
         titleWeight: 700,
         titleFontFamily: "'Diphylleia', serif",
-        titleYRatio: 0.38, // 제목 Y 위치
+        titleYRatio: 0.4, // 제목 Y 위치
         titleMaxWidthRatio: 0.8, // 제목 최대 폭
         titleLineHeightRatio: 1, // 제목 줄간격
         titleLetterSpacingEm: 0.05, // 제목 자간
         titleUppercase: false, // 제목 대문자 변환
-        linkSizeRatio: 0.05, // 링크 폰트 크기
+        linkSizeRatio: 0.04, // 링크 폰트 크기
         linkWeight: 400,
         linkFontFamily: 'sans-serif',
-        linkYRatio: 0.59, // 링크 Y 위치
+        linkYRatio: 0.6, // 링크 Y 위치
         linkUnderlineOffsetRatio: 0.6, // 링크 밑줄 오프셋
         linkLetterSpacingEm: 0.2, // 링크 자간
         linkUppercase: true, // 링크 대문자 변환

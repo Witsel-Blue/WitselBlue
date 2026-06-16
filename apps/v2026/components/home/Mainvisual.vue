@@ -50,6 +50,8 @@
     import Logo from '@/components/svg/logo.vue'
     import nacreShardUrl from '@/assets/model/texture/nacre_white.png';
 
+    const INTRO_DONE_KEY = 'wb2026-intro-done';
+
     export default {
         components: {
             TextShifting,
@@ -118,8 +120,20 @@
             this.textTargetsBuilt = false;
             this.gatherFlakeRadius = 0;
             this.maskTexture = null;
+            if (
+                process.client &&
+                sessionStorage.getItem(INTRO_DONE_KEY) === '1'
+            ) {
+                this.exploded = true;
+            }
             this.initThree();
-            this.$nextTick(() => this.syncIntroState());
+            this.$nextTick(() => {
+                if (this.exploded) {
+                    this.$root.$emit('mainvisual-intro-state', true);
+                } else {
+                    this.syncIntroState();
+                }
+            });
         },
 
         beforeDestroy() {
@@ -322,6 +336,10 @@
                     };
                     this.scene.add(this.model);
                     this.ready = true;
+                    if (this.exploded) {
+                        this.explode();
+                        this.$nextTick(() => this.measureLogo());
+                    }
                     this.animate();
                 });
 
@@ -538,6 +556,9 @@
                     this.play2 = true;
                 } else {
                     this.exploded = true;
+                    if (process.client) {
+                        sessionStorage.setItem(INTRO_DONE_KEY, '1');
+                    }
                     this.explode();
                     this.$nextTick(() => this.measureLogo());
                 }

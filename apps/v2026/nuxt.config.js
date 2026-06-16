@@ -41,7 +41,13 @@ module.exports = {
         defaultLocale: 'en',
         lazy: true,
         langDir: path.resolve(__dirname, 'locales') + '/',
-        strategy: 'prefix_except_default',
+        strategy: 'no_prefix',
+        detectBrowserLanguage: {
+            useCookie: true,
+            cookieKey: 'i18n_redirected',
+            alwaysRedirect: false,
+            fallbackLocale: 'en',
+        },
         vueI18n: {
             fallbackLocale: 'en',
         },

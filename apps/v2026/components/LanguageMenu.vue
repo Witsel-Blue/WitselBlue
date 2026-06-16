@@ -1,38 +1,56 @@
 <template>
     <div id='language-menu'>
         <button
-            :class="['mouse-hover2', { active: currentLocale === 'en' }]"
-            @click="changeLocale('en')"
+            :class='[{ ko_active: currentLocale === "ko" }]'
+            @click.stop='toggleLocale'
         >
-            <TextShifting :text='"ENG"' />
-        </button>
-        <button
-            :class="['mouse-hover2', { active: currentLocale === 'ko' }]" 
-            @click="changeLocale('ko')"
-        >
-            <TextShifting :text='"KO"' />
+            <p>{{ currentLocale === 'ko' ? 'KO' : 'EN' }}</p>
         </button>
     </div>
 </template>
 
 <script>
-    import TextShifting from '@/components/TextShifting.vue';
+    import en from '@/locales/en.js';
+    import ko from '@/locales/ko.js';
+
+    const LOCALE_MESSAGES = { en, ko };
 
     export default {
-        components: {
-            TextShifting,
-        },
         computed: {
             currentLocale() {
                 return this.$i18n.locale;
+            },
+        },
+        mounted() {
+            if (!LOCALE_MESSAGES[this.currentLocale]) {
+                this.applyLocale('en');
             }
         },
         methods: {
-            changeLocale(locale) {
-                this.$router.push(this.switchLocalePath(locale));
+            applyLocale(locale) {
+                if (this.$i18n.locale === locale) return;
+
+                const scrollY = window.scrollY;
+                const messages = LOCALE_MESSAGES[locale];
+                if (messages) {
+                    this.$i18n.setLocaleMessage(locale, messages);
+                }
+                this.$i18n.locale = locale;
+
+                if (typeof this.$i18n.setLocaleCookie === 'function') {
+                    this.$i18n.setLocaleCookie(locale);
+                }
+
+                this.$nextTick(() => {
+                    window.scrollTo(0, scrollY);
+                });
+            },
+            toggleLocale() {
+                const next = this.currentLocale === 'ko' ? 'en' : 'ko';
+                this.applyLocale(next);
             },
         },
-    }
+    };
 </script>
 
 
@@ -45,37 +63,33 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
-    position: fixed;
-    top: 2.5vw;
-    left: 5vw;
-    z-index: 11;
-        
+
     button {
-        font-size: 0.8rem;
-        opacity: 0.5;
+        background-color: rgba(35, 34, 33, 0.4);
+        width: 48px;
+        height: 24px;
+        border-radius: 24px;
+        padding: 2px;
 
-        .text-shifting {
-            display: inline-block;
+        p {
+            display: block;
+            background: url('@/assets/img/flag_uk.svg') no-repeat center center / cover;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-indent: -9999px;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.4s ease;
+        }
 
-            ::v-deep span {
-                color: $black;
-                user-select: none;
+        &.ko_active {
+            p {
+                background: url('@/assets/img/flag_kr.svg') no-repeat center center / cover;
+                left: 26px;
+                transition: all 0.4s ease;
             }
-        }
-
-        &:not(:last-child)::after {
-            content: '';
-            display: inline-block;
-            width: 1px;
-            height: 0.6rem;
-            background-color: $black;
-            margin: 0 8px;
-            opacity: 0.5;
-        }
-
-        &.active {
-            font-weight: bold;
-            opacity: 1;
         }
     }
 }

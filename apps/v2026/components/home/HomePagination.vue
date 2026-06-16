@@ -112,7 +112,7 @@
         left: 2.5vw;
         transform: translateY(-50%);
         will-change: top;
-        z-index: 10;
+        z-index: 9;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.5s ease;

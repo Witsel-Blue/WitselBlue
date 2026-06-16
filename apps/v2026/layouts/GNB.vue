@@ -103,7 +103,7 @@
             position: fixed;
             top: 2.5vw;
             left: 2.5vw;
-            z-index: 10;
+            z-index: 11;
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -155,17 +155,15 @@
 
         .menu-cont {
             display: block;
-            background-color: $white_inverted;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 50vw;
-            z-index: 9;
+            z-index: 10;
             transform: translateY(-100%);
             mix-blend-mode: difference;
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(32px);
             overflow: hidden;
             will-change: transform;
             transition: transform 0.4s ease;
@@ -204,7 +202,7 @@
                     a {
                         display: inline-block;
                         width: fit-content;
-                        color: $black;
+                        color: $white;
                         font-size: 5rem;
                         font-weight: 700;
                         letter-spacing: 0.2em;
@@ -238,7 +236,7 @@
                 left: 50%;
                 transform: translateX(-50%);
                 font-size: 0.9rem;
-                color: $black;
+                color: $white;
                 user-select: none;
             }
         }
