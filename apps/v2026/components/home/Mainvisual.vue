@@ -32,7 +32,7 @@
             v-if='exploded'
             class='title'
         >
-            <Logo ref='logoEl' class='title__logo' :style='logoScrollStyle' />
+            <div ref='logoAnchor' class='title__logo-spacer' aria-hidden='true' />
             <div class='title__content__text' :style='titleScrollStyle'>
                 <h2>{{ $t('home.mainSub') }}</h2>
                 <h1>{{ $t('home.mainTitle') }}</h1>
@@ -47,15 +47,13 @@
 
 <script>
     import TextShifting from '@/components/TextShifting.vue';
-    import Logo from '@/components/svg/logo.vue'
     import nacreShardUrl from '@/assets/model/texture/nacre_white.png';
 
-    const INTRO_DONE_KEY = 'wb2026-intro-done';
+    const INTRO_ROOT_KEY = '$wb2026IntroDone';
 
     export default {
         components: {
             TextShifting,
-            Logo,
         },
         data() {
             return {
@@ -86,21 +84,6 @@
                     pointerEvents: opacity > 0.02 ? 'auto' : 'none',
                 };
             },
-            logoScrollStyle() {
-                const p = this.scrollProgress;
-                const H = this.winH || 800;
-                const lp = Math.min(1, p / 0.55);
-                const t = lp * lp * (3 - 2 * lp);
-                const hStart = 0.2 * H; // 초기 20vh
-                const scaleEnd = 40 / hStart; // 최종 40px
-                const scale = 1 + (scaleEnd - 1) * t;
-                const topEnd = 0.025 * H;
-                const dy = (topEnd - this.logoTop0) * t;
-                return {
-                    transform: `translateY(${dy}px) scale(${scale})`,
-                    transformOrigin: 'top center',
-                };
-            },
         },
 
         mounted() {
@@ -120,16 +103,17 @@
             this.textTargetsBuilt = false;
             this.gatherFlakeRadius = 0;
             this.maskTexture = null;
-            if (
-                process.client &&
-                sessionStorage.getItem(INTRO_DONE_KEY) === '1'
-            ) {
+            if (process.client && this.$root[INTRO_ROOT_KEY]) {
                 this.exploded = true;
             }
             this.initThree();
             this.$nextTick(() => {
                 if (this.exploded) {
                     this.$root.$emit('mainvisual-intro-state', true);
+                    this.$nextTick(() => {
+                        this.measureLogo();
+                        this.emitHeaderLogoMetrics();
+                    });
                 } else {
                     this.syncIntroState();
                 }
@@ -515,6 +499,7 @@
                     this.scrollProgress = 0;
                     window.scrollTo(0, 0);
                 }
+                this.emitHeaderLogoMetrics();
             },
 
             onCanvasClick(event) {
@@ -557,7 +542,7 @@
                 } else {
                     this.exploded = true;
                     if (process.client) {
-                        sessionStorage.setItem(INTRO_DONE_KEY, '1');
+                        this.$root[INTRO_ROOT_KEY] = true;
                     }
                     this.explode();
                     this.$nextTick(() => this.measureLogo());
@@ -565,9 +550,18 @@
             },
 
             measureLogo() {
-                // 스크롤 0(그룹 중앙 정렬) 상태에서 로고의 초기 top 위치를 측정
-                const el = this.$refs.logoEl && this.$refs.logoEl.$el;
+                const el = this.$refs.logoAnchor;
                 if (el) this.logoTop0 = el.getBoundingClientRect().top;
+                this.emitHeaderLogoMetrics();
+            },
+
+            emitHeaderLogoMetrics() {
+                if (!process.client) return;
+                this.$root.$emit('header-logo-metrics', {
+                    scrollProgress: this.scrollProgress,
+                    logoTop0: this.logoTop0,
+                    active: this.exploded,
+                });
             },
 
             playcrack() {
@@ -801,6 +795,7 @@
                 let p = (y - start) / (end - start);
                 p = Math.max(0, Math.min(1, p));
                 this.scrollProgress = p;
+                this.emitHeaderLogoMetrics();
 
                 if (p > 0 && !this.textTargetsBuilt) this.buildTextTargets();
             },
@@ -942,10 +937,12 @@
         width: 100%;
         height: 100%;
         display: block;
+        z-index: 1;
     }
 
     .content__item {
         position: absolute;
+        z-index: 2;
         user-select: none;
         pointer-events: none;
         opacity: 0;
@@ -994,6 +991,7 @@
 
     .hint {
         position: absolute;
+        z-index: 2;
         bottom: 5vw;
         left: 50%;
         transform: translateX(-50%);
@@ -1017,13 +1015,12 @@
         text-align: center;
         pointer-events: none;
 
-        .title__logo {
+        .title__logo-spacer {
             width: auto;
             height: 20vh;
-            color: $white;
-            mix-blend-mode: difference;
-            transform-origin: top center;
-            will-change: transform;
+            flex-shrink: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .title__content__text {

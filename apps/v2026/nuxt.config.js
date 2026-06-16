@@ -41,7 +41,7 @@ module.exports = {
         defaultLocale: 'en',
         lazy: true,
         langDir: path.resolve(__dirname, 'locales') + '/',
-        strategy: 'no_prefix',
+        strategy: 'prefix_except_default',
         detectBrowserLanguage: {
             useCookie: true,
             cookieKey: 'i18n_redirected',

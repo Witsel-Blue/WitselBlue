@@ -41,6 +41,15 @@
                     this.$i18n.setLocaleCookie(locale);
                 }
 
+                const path = this.switchLocalePath(locale);
+                if (path && window.location.pathname !== path) {
+                    window.history.replaceState(
+                        window.history.state,
+                        '',
+                        path,
+                    );
+                }
+
                 this.$nextTick(() => {
                     window.scrollTo(0, scrollY);
                 });
@@ -59,10 +68,6 @@
 @use '@/assets/scss/base/variables.scss' as *;
     
 #language-menu {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
 
     button {
         background-color: rgba(35, 34, 33, 0.4);

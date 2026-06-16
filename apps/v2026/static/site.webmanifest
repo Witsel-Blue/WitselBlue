@@ -1,6 +1,6 @@
 {
   "name": "WitselBlue",
-  "short_name": "WitselBlue",
+  "short_name": "WB",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -16,6 +16,6 @@
     }
   ],
   "theme_color": "#232221",
-  "background_color": "#232221",
+  "background_color": "#ECE8DA",
   "display": "standalone"
 }

@@ -9,6 +9,7 @@
         </button>
 
         <div class='menu-cont'>
+            <Logo />
             <LanguageMenu />
             <ul class='menu-list'>
                 <li
@@ -33,10 +34,12 @@
 </template>
 
 <script>
+    import Logo from '@/components/svg/logo.vue';
     import LanguageMenu from '@/components/LanguageMenu.vue';
 
     export default {
         components: {
+            Logo,
             LanguageMenu,
         },
         data() {
@@ -48,6 +51,7 @@
                 menuItems: [
                     { to: '/', label: 'H<span>o</span>me' },
                     { to: '/archive', label: 'Arc<span>h</span>ive' },
+                    { to: '/about', label: 'Ab<span>o</span>ut <span>M</span>e' },
                     { to: '/contact', label: 'Co<span>n</span>tact' },
                 ],
             };
@@ -168,8 +172,15 @@
             will-change: transform;
             transition: transform 0.4s ease;
 
+            svg {
+                position: absolute;
+                top: 10vw;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
             .menu-list {
-                margin-top: 50vh;
+                margin-top: 56vh;
                 transform: translateY(-50%);
                 display: flex;
                 align-items: center;
@@ -202,7 +213,7 @@
                     a {
                         display: inline-block;
                         width: fit-content;
-                        color: $white;
+                        color: $white-inverted;
                         font-size: 5rem;
                         font-weight: 700;
                         letter-spacing: 0.2em;

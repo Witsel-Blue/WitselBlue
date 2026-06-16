@@ -29,10 +29,7 @@
             };
         },
         mounted() {
-            if (
-                process.client &&
-                sessionStorage.getItem('wb2026-intro-done') === '1'
-            ) {
+            if (process.client && this.$root.$wb2026IntroDone) {
                 this.exploded = true;
             }
             this.onIntroState = (done) => {
