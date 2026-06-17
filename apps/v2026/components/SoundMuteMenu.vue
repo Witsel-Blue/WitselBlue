@@ -20,15 +20,13 @@
 @use '@/assets/scss/base/variables.scss' as *;
 
 #sound-mute-menu {
-    position: fixed;
-    bottom: 2.5vw;
-    right: 2.5vw;
-    z-index: 12;
     width: 52px;
     height: 52px;
     border-radius: 50%;
     background: $white-inverted;
     text-indent: -9999px;
-    mix-blend-mode: difference;
+    position: absolute;
+    left: 2.5vw;
+    bottom: 2.5vw;
 }
 </style>

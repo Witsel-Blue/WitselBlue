@@ -27,8 +27,8 @@
                 pagination: [
                     {
                         id: '01',
-                        title: 'profile',
-                        target: 'profile',
+                        title: 'about',
+                        target: 'about',
                     },
                     {
                         id: '02',
@@ -37,8 +37,13 @@
                     },
                     {
                         id: '03',
-                        title: 'archive',
-                        target: 'archive',
+                        title: 'featured work',
+                        target: 'featured-work',
+                    },
+                    {
+                        id: '04',
+                        title: 'folding screen',
+                        target: 'folding-screen',
                     }
                 ],
             }
@@ -52,9 +57,9 @@
             this.onScroll = () => {
                 const vh = window.innerHeight;
                 const mid = vh / 2;
-                const profile = document.getElementById('profile');
-                if (profile) {
-                    const rect = profile.getBoundingClientRect();
+                const about = document.getElementById('about');
+                if (about) {
+                    const rect = about.getBoundingClientRect();
                     const center = rect.top + rect.height / 2;
                     this.shown = rect.top < vh;
                     this.topPx = Math.max(center, mid);

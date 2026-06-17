@@ -37,7 +37,8 @@
                 <h2>{{ $t('home.mainSub') }}</h2>
                 <h1>{{ $t('home.mainTitle') }}</h1>
                 <p>{{ $t('home.mainText') }}</p>
-                <button type='button' class='scroll-down' @click='scrollToProfile'>
+                <button type='button' class='scroll-down' @click='scrollToAbout'>
+                    <Scrolldown />
                     <TextShifting text='scroll down' />
                 </button>
             </div>
@@ -47,13 +48,27 @@
 
 <script>
     import TextShifting from '@/components/TextShifting.vue';
+    import Scrolldown from '@/components/svg/scrolldown.vue';
     import nacreShardUrl from '@/assets/model/texture/nacre_white.png';
 
     const INTRO_ROOT_KEY = '$wb2026IntroDone';
+    /** anchor1→anchor2 산개 — 화면 frustum 배율 (절대 줄이지 말 것) */
+    const G2_SCATTER = {
+        VIEW_XY: 2.8,
+        Z_FACTOR: 2.1,
+        Z_BIAS: 0.28,
+        FRONT_BLUR: 0.35,
+        MAX_SCALE: 0.78,
+    };
+    const SHARD_SCALE = {
+        MAIN: 1,
+        GATHERED: 0.2,
+    };
 
     export default {
         components: {
             TextShifting,
+            Scrolldown,
         },
         data() {
             return {
@@ -101,8 +116,20 @@
             this.shards = [];
             this.crackAudio = null;
             this.textTargetsBuilt = false;
+            this.textTargets2Built = false;
+            this.gather2Progress = 0;
             this.gatherFlakeRadius = 0;
+            this.gather2FlakeRadius = 0;
             this.maskTexture = null;
+            this.maskTexture2 = null;
+            this._lastG1 = 0;
+            this._lastG2 = 0;
+            this._g2GatherSnapshotted = false;
+            this._gatherSnapValid = false;
+            this._wasShardGathering = false;
+            this._g2LooseValid = false;
+            this.gatherPlane1 = null;
+            this.gatherPlane2 = null;
             if (process.client && this.$root[INTRO_ROOT_KEY]) {
                 this.exploded = true;
             }
@@ -466,6 +493,10 @@
                     mesh.userData.floatSpeed = 0.4 + Math.random() * 0.5;
                     mesh.userData.frame = 0;
                     mesh.userData.geoRadius = geo.boundingSphere ? geo.boundingSphere.radius : 0.08;
+                    mesh.userData.mainScale = 1;
+                    mesh.userData.scatterPos = mesh.position.clone();
+                    mesh.userData.scatterQuat = mesh.quaternion.clone();
+                    mesh.userData.scatterVel = vel.clone();
 
                     this.scene.add(mesh);
                     this.shards.push(mesh);
@@ -490,6 +521,7 @@
                 }
 
                 this.syncIntroState();
+                this.buildTextTargets();
                 this.$nextTick(() => this.onScroll());
             },
 
@@ -619,37 +651,156 @@
                     );
                 }
 
-                const gathering =
-                    this.exploded && this.textTargetsBuilt && this.scrollProgress > 0;
-                const gp = this.scrollProgress;
-                const gatherEase = gp * gp * (3 - 2 * gp);
+                const prevG1 = this._lastG1;
+                const prevG2 = this._lastG2;
 
-                // 마스크 박스 위치
+                const g1 = this.scrollProgress;
+                const g1PosEase = this.smoothstep(g1);
+                const g1ScaleEase = this.smoothstep(
+                    Math.max(0, Math.min(1, (g1 - 0.05) / 0.95)),
+                );
+                const g2 = this.gather2Progress || 0;
+                const returningToMain = g1 < prevG1 - 0.0001;
+                const g2Anim =
+                    returningToMain && g1 < 0.22 && g2 > 0.001 ? 0 : g2;
+                const g2Phase = this.computeG2Phase(g2Anim);
+
+                if (g1 <= 0.001 && prevG1 > 0.001) {
+                    this.clearGather1From();
+                }
+                if (g1 < 0.05) {
+                    this.resetMainShardScales();
+                }
+                if (g2 <= 0.001 && prevG2 > 0.001) {
+                    this._g2LooseValid = false;
+                }
+                if (
+                    g2Anim > 0.001 &&
+                    this.textTargets2Built &&
+                    !this._g2LooseValid
+                ) {
+                    this.buildG2LooseTargets();
+                    this._g2LooseValid = true;
+                }
+                this._lastG1 = g1;
+                this._lastG2 = g2;
+
+                const inG2Zone =
+                    this.exploded &&
+                    this.textTargets2Built &&
+                    g2Anim > 0.001;
+                const g2Loose = inG2Zone && g2Phase.gatherEase < 0.001;
+                const g2Gathering = inG2Zone && g2Phase.gatherEase > 0.001;
+
+                if (g2Gathering) {
+                    if (!this._g2GatherSnapshotted) {
+                        this.snapshotG2GatherFrom();
+                        this._g2GatherSnapshotted = true;
+                    }
+                } else {
+                    this._g2GatherSnapshotted = false;
+                }
+
+                const gathering1 =
+                    this.exploded &&
+                    this.textTargetsBuilt &&
+                    g1 > 0.001 &&
+                    !inG2Zone;
+
+                if (
+                    gathering1 &&
+                    !this._gatherSnapValid &&
+                    prevG1 <= 0.001
+                ) {
+                    this.snapshotGather1From();
+                    this._gatherSnapValid = true;
+                }
+
+                const isShardGathering = gathering1 || g2Loose || g2Gathering;
+                const leftGather = this._wasShardGathering && !isShardGathering;
+                this._wasShardGathering = isShardGathering;
+
+                const half = this.gatherVisibleH / 2;
+                const aspect = this.camera.aspect;
                 let centerX = 0;
                 let centerY = 0;
-                if (gathering) {
-                    const half = this.gatherVisibleH / 2;
-                    const aspect = this.camera.aspect;
+                let centerX2 = 0;
+                let centerY2 = 0;
+
+                if (gathering1 || g2Loose || g2Gathering || g1 >= 0.98) {
                     const shapeAnchor =
                         this._shapeAnchor ||
-                        (this._shapeAnchor = document.querySelector('#profile .shape-anchor'));
-                    let nx = 0;
-                    let ny = 0;
-                    if (shapeAnchor) {
-                        const r = shapeAnchor.getBoundingClientRect();
-                        nx = ((r.left + r.width / 2) / window.innerWidth) * 2 - 1;
-                        ny = -((r.top + r.height / 2) / window.innerHeight) * 2 + 1;
-                    }
-                    centerX = nx * half * aspect;
-                    centerY = ny * half;
+                        (this._shapeAnchor = document.querySelector(
+                            '#about .shape-anchor',
+                        ));
+                    const c1 = this.shapeAnchorCenter(shapeAnchor, half, aspect);
+                    centerX = c1.x;
+                    centerY = c1.y;
+                }
+                if (g2Loose || g2Gathering || (inG2Zone && g2Anim >= 0.98)) {
+                    const shapeAnchor2 =
+                        this._shapeAnchor2 ||
+                        (this._shapeAnchor2 = document.querySelector(
+                            '#about .shape-anchor2',
+                        ));
+                    const c2 = this.shapeAnchorCenter(
+                        shapeAnchor2,
+                        half,
+                        aspect,
+                    );
+                    centerX2 = c2.x;
+                    centerY2 = c2.y;
                 }
 
                 const tv = this._scratchVec || (this._scratchVec = new this.three.Vector3());
+                const tvG1 =
+                    this._scratchVecG1 ||
+                    (this._scratchVecG1 = new this.three.Vector3());
+                const tvG2 =
+                    this._scratchVecG2 ||
+                    (this._scratchVecG2 = new this.three.Vector3());
+
+                let plane1Opacity = 0;
+                let plane2Opacity = 0;
+                const flatIn = (t) => this.gatherShrinkEase(t);
+
+                if (inG2Zone) {
+                    if (g2Gathering) {
+                        plane2Opacity = flatIn(g2Phase.gatherEase);
+                    } else if (g2Anim >= 0.98) {
+                        plane2Opacity = 1;
+                    }
+                } else if (gathering1) {
+                    plane1Opacity = flatIn(g1ScaleEase);
+                } else if (g1 >= 0.98) {
+                    plane1Opacity = 1;
+                }
 
                 // 마스크 박스
-                if (this.blurMat && this.maskTexture) {
+                if (this.blurMat && (this.maskTexture || this.maskTexture2)) {
                     const u = this.blurMat.uniforms;
-                    if (gathering) {
+                    if (g2Gathering) {
+                        const fd = this.gatherFocusDist;
+                        const halfX = this.textHalfX2;
+                        const halfY = this.textHalfY2;
+                        tv.set(centerX2 - halfX, centerY2 - halfY, -fd);
+                        this.camera.localToWorld(tv).project(this.camera);
+                        const ax = tv.x * 0.5 + 0.5;
+                        const ay = tv.y * 0.5 + 0.5;
+                        tv.set(centerX2 + halfX, centerY2 + halfY, -fd);
+                        this.camera.localToWorld(tv).project(this.camera);
+                        const bx = tv.x * 0.5 + 0.5;
+                        const by = tv.y * 0.5 + 0.5;
+                        u.maskMin.value.set(Math.min(ax, bx), Math.min(ay, by));
+                        u.maskSize.value.set(Math.abs(bx - ax), Math.abs(by - ay));
+                        u.tMask.value = this.maskTexture2;
+                        const maskIn = Math.max(
+                            0,
+                            Math.min(1, (g2Phase.gatherEase - 0.995) / 0.005),
+                        );
+                        u.maskStrength.value =
+                            maskIn * maskIn * (3 - 2 * maskIn);
+                    } else if (gathering1) {
                         const fd = this.gatherFocusDist;
                         tv.set(centerX - this.textHalfX, centerY - this.textHalfY, -fd);
                         this.camera.localToWorld(tv).project(this.camera);
@@ -661,9 +812,13 @@
                         const by = tv.y * 0.5 + 0.5;
                         u.maskMin.value.set(Math.min(ax, bx), Math.min(ay, by));
                         u.maskSize.value.set(Math.abs(bx - ax), Math.abs(by - ay));
-                        // gatherEase가 거의 1(조각 완전히 모임)된 뒤에만 마스크
-                        const maskIn = Math.max(0, Math.min(1, (gatherEase - 0.995) / 0.005));
-                        u.maskStrength.value = maskIn * maskIn * (3 - 2 * maskIn);
+                        u.tMask.value = this.maskTexture;
+                        const maskIn = Math.max(
+                            0,
+                            Math.min(1, (g1ScaleEase - 0.995) / 0.005),
+                        );
+                        u.maskStrength.value =
+                            maskIn * maskIn * (3 - 2 * maskIn);
                     } else {
                         u.maskStrength.value = 0;
                     }
@@ -671,33 +826,84 @@
 
                 for (const s of this.shards) {
                     const ud = s.userData;
+                    s.visible = true;
+                    if (s.material.opacity !== 1) s.material.opacity = 1;
 
-                    if (gathering) {
-                        if (!ud.anchorPos) {
-                            ud.anchorPos = s.position.clone();
-                            ud.anchorQuat = s.quaternion.clone();
-                        }
+                    if (g2Gathering) {
+                        tvG2.set(
+                            centerX2 + ud.textLocal2.x,
+                            centerY2 + ud.textLocal2.y,
+                            -this.gatherFocusDist,
+                        );
+                        this.camera.localToWorld(tvG2);
+                        const fromPos =
+                            ud.g2GatherFromPos ||
+                            ud.g2LoosePos ||
+                            ud.g2ScatterFromPos ||
+                            ud.scatterPos;
+                        const fromQuat =
+                            ud.g2GatherFromQuat ||
+                            ud.g2ScatterFromQuat ||
+                            ud.scatterQuat;
+                        const g2g = g2Phase.gatherEase;
+                        s.position.lerpVectors(fromPos, tvG2, g2g);
+                        s.quaternion.copy(fromQuat).slerp(this.textQuat, g2g);
+                        this.setShardGatherScale(
+                            s,
+                            ud,
+                            this.g2GatherScaleEase(g2g),
+                        );
+                        continue;
+                    }
+
+                    if (g2Loose) {
+                        tvG1.set(
+                            centerX + ud.textLocal.x,
+                            centerY + ud.textLocal.y,
+                            -this.gatherFocusDist,
+                        );
+                        this.camera.localToWorld(tvG1);
+                        const fromPos =
+                            ud.g2ScatterFromPos || tvG1;
+                        const toPos = ud.g2LoosePos || tvG1;
+                        const fromQuat =
+                            ud.g2ScatterFromQuat || this.textQuat;
+                        const g2s = g2Phase.scatterEase;
+                        s.position.lerpVectors(fromPos, toPos, g2s);
+                        s.quaternion.copy(fromQuat).slerp(this.textQuat, g2s * 0.35);
+                        this.applyG2LooseScale(s, g2s);
+                        continue;
+                    }
+
+                    if (gathering1) {
+                        const fromPos = ud.gatherFromPos || ud.scatterPos;
+                        const fromQuat = ud.gatherFromQuat || ud.scatterQuat;
                         tv.set(
                             centerX + ud.textLocal.x,
                             centerY + ud.textLocal.y,
                             -this.gatherFocusDist,
                         );
                         this.camera.localToWorld(tv);
-                        s.position.lerpVectors(ud.anchorPos, tv, gatherEase);
-                        s.quaternion.copy(ud.anchorQuat).slerp(this.textQuat, gatherEase);
-                        const targetScale = this.gatherFlakeRadius
-                            ? this.gatherFlakeRadius / ud.geoRadius
-                            : 0.3;
-                        s.scale.setScalar(1 + (targetScale - 1) * gatherEase);
+                        s.position.lerpVectors(fromPos, tv, g1PosEase);
+                        s.quaternion.copy(fromQuat).slerp(this.textQuat, g1PosEase);
+                        this.setShardGatherScale(s, ud, g1ScaleEase);
                         continue;
                     }
 
-                    if (ud.anchorPos) {
-                        ud.anchorPos = null;
-                        ud.anchorQuat = null;
+                    const atMainVisual = g1 <= 0.001 && g2 <= 0.001;
+
+                    if (leftGather && atMainVisual) {
+                        this.restoreScatterDynamics(ud);
                     }
-                    if (s.scale.x !== 1) s.scale.setScalar(1);
-                    if (s.material.opacity !== 1) s.material.opacity = 1;
+
+                    let shrink = 0;
+                    if (!inG2Zone && g1 >= 0.98) shrink = 1;
+                    else if (inG2Zone && g2Anim >= 0.98) shrink = 1;
+                    if (shrink > 0) {
+                        this.setShardGatherScale(s, ud, shrink);
+                    } else {
+                        s.scale.setScalar(ud.mainScale != null ? ud.mainScale : 1);
+                    }
 
                     ud.frame++;
 
@@ -718,6 +924,28 @@
                     s.rotation.z += ud.spin.z;
                 }
 
+                if (plane1Opacity > 0.001 && this.gatherPlane1 && half) {
+                    this.updateGatherPlane(
+                        this.gatherPlane1,
+                        centerX,
+                        centerY,
+                        plane1Opacity,
+                    );
+                } else if (this.gatherPlane1) {
+                    this.gatherPlane1.visible = false;
+                }
+
+                if (plane2Opacity > 0.001 && this.gatherPlane2 && half) {
+                    this.updateGatherPlane(
+                        this.gatherPlane2,
+                        centerX2,
+                        centerY2,
+                        plane2Opacity,
+                    );
+                } else if (this.gatherPlane2) {
+                    this.gatherPlane2.visible = false;
+                }
+
                 // exploded 이전 조개 모델 마우스 회전
                 if (this.model && !this.exploded) {
                     const ROT_LERP = 0.08;
@@ -727,14 +955,31 @@
                     this.model.rotation.y = this.shellBaseRot.y + this.shellRot.y;
                 }
 
-                // 블러 제거
+                // 블러: mainvisual Z/방사형 + g2 산개 구간 동일 적용
                 if (this.exploded) {
-                    this.targetRadial = 1 - this.scrollProgress;
-                    this.targetFront = 1 - this.scrollProgress;
+                    if (g2Anim > 0.001) {
+                        const phase = this.computeG2Phase(g2Anim);
+                        const blur = 1 - phase.gatherEase;
+                        this.targetRadial = blur;
+                        this.targetFront = blur * G2_SCATTER.FRONT_BLUR;
+                    } else {
+                        this.targetRadial = 1 - this.scrollProgress;
+                        this.targetFront = 1 - this.scrollProgress;
+                    }
                 }
 
                 if (this.blurMat) {
                     const u = this.blurMat.uniforms;
+                    const g2p = g2Anim;
+                    if (
+                        this.exploded &&
+                        g2p > 0.001 &&
+                        this.gatherFocusDist
+                    ) {
+                        u.focusViewZ.value = -this.gatherFocusDist;
+                    } else {
+                        u.focusViewZ.value = -this.camera.position.z;
+                    }
                     if (this.targetRadial !== undefined)
                         u.radialAmt.value += (this.targetRadial - u.radialAmt.value) * 0.02;
                     if (this.targetFront !== undefined)
@@ -775,13 +1020,155 @@
                 if (this.$refs.canvas) this.$refs.canvas.style.cursor = 'default';
             },
 
-            scrollToProfile() {
-                const profile = document.querySelector('#profile');
-                if (profile) {
-                    profile.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    return;
+            scrollToAbout() {
+                const about = document.querySelector('#about');
+                if (about) {
+                    about.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            },
+
+            smoothstep(t) {
+                const c = Math.max(0, Math.min(1, t));
+                return c * c * (3 - 2 * c);
+            },
+
+            gatherShrinkEase(t) {
+                return Math.max(0, Math.min(1, (t - 0.98) / 0.02));
+            },
+
+            anchorGatherScale() {
+                return SHARD_SCALE.GATHERED;
+            },
+
+            placeShardsForG2Progress() {
+                const g2 = this.gather2Progress || 0;
+                const phase = this.computeG2Phase(g2);
+                const g2s = phase.scatterEase;
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    if (!ud.g2ScatterFromPos || !ud.g2LoosePos) continue;
+                    s.position.lerpVectors(
+                        ud.g2ScatterFromPos,
+                        ud.g2LoosePos,
+                        g2s,
+                    );
+                    this.applyG2LooseScale(s, g2s);
+                }
+            },
+
+            resetMainShardScales() {
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    s.scale.setScalar(ud.mainScale != null ? ud.mainScale : 1);
+                }
+            },
+
+            setShardGatherScale(s, ud, shrink) {
+                const main = ud.mainScale != null ? ud.mainScale : SHARD_SCALE.MAIN;
+                const small = SHARD_SCALE.GATHERED;
+                s.scale.setScalar(main + (small - main) * shrink);
+            },
+
+            /** g2 산개: 작음(1) → 큼(0), 점차 */
+            g2ScatterScaleEase(scatterEase) {
+                return 1 - this.smoothstep(scatterEase);
+            },
+
+            /** g2 모임: 큼(0) → 작음(1), 점차 */
+            g2GatherScaleEase(gatherEase) {
+                return this.smoothstep(gatherEase);
+            },
+
+            applyG2LooseScale(s, scatterEase) {
+                const shrink = this.g2ScatterScaleEase(scatterEase);
+                this.setShardGatherScale(s, s.userData, shrink);
+                const limited = Math.min(
+                    s.scale.x,
+                    (s.userData.mainScale != null
+                        ? s.userData.mainScale
+                        : SHARD_SCALE.MAIN) * G2_SCATTER.MAX_SCALE,
+                );
+                s.scale.setScalar(limited);
+            },
+
+            computeG2Phase(g2) {
+                const SCATTER_END = 0.52;
+                const GATHER_START = 0.62;
+                if (g2 <= 0) return { scatterEase: 0, gatherEase: 0 };
+                if (g2 < SCATTER_END) {
+                    return {
+                        scatterEase: g2 / SCATTER_END,
+                        gatherEase: 0,
+                    };
+                }
+                if (g2 < GATHER_START) {
+                    return { scatterEase: 1, gatherEase: 0 };
+                }
+                return {
+                    scatterEase: 1,
+                    gatherEase: this.smoothstep(
+                        (g2 - GATHER_START) / (1 - GATHER_START),
+                    ),
+                };
+            },
+
+            buildG2LooseTargets() {
+                const half = this.gatherVisibleH / 2;
+                if (!half || half < 0.01 || !this.camera) return;
+
+                const aspect = this.camera.aspect;
+                const spreadX = half * aspect * G2_SCATTER.VIEW_XY;
+                const spreadY = half * G2_SCATTER.VIEW_XY;
+                const focusDist = this.gatherFocusDist;
+                const zSpan = focusDist * G2_SCATTER.Z_FACTOR;
+                const tv = new this.three.Vector3();
+
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    ud.g2ScatterFromPos = s.position.clone();
+                    ud.g2ScatterFromQuat = s.quaternion.clone();
+
+                    const lx = (Math.random() - 0.5) * spreadX;
+                    const ly = (Math.random() - 0.5) * spreadY;
+                    const lz =
+                        -focusDist * (1 + G2_SCATTER.Z_BIAS) +
+                        (Math.random() - 0.5) * zSpan;
+
+                    tv.set(lx, ly, lz);
+                    this.camera.localToWorld(tv);
+                    ud.g2LoosePos = tv.clone();
+                }
+                this.placeShardsForG2Progress();
+            },
+
+            snapshotGather1From() {
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    ud.gatherFromPos = s.position.clone();
+                    ud.gatherFromQuat = s.quaternion.clone();
+                }
+            },
+
+            clearGather1From() {
+                this._gatherSnapValid = false;
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    ud.gatherFromPos = null;
+                    ud.gatherFromQuat = null;
+                }
+            },
+
+            snapshotG2GatherFrom() {
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    ud.g2GatherFromPos = s.position.clone();
+                    ud.g2GatherFromQuat = s.quaternion.clone();
+                }
+            },
+
+            restoreScatterDynamics(ud) {
+                if (!ud.scatterVel || ud.vel.length() > 0.005) return;
+                ud.vel.copy(ud.scatterVel);
             },
 
             onScroll() {
@@ -789,12 +1176,26 @@
 
                 const vh = window.innerHeight;
                 const start = vh * 0.2;
-                const end = vh; // Profile 섹션이 화면 중앙에 올 때 완성
+                const end = vh; // About 섹션이 화면 중앙에 올 때 완성
                 const y = window.scrollY || window.pageYOffset || 0;
 
                 let p = (y - start) / (end - start);
                 p = Math.max(0, Math.min(1, p));
                 this.scrollProgress = p;
+
+                const anchor2 = document.querySelector('#about .shape-anchor2');
+                if (anchor2) {
+                    const r = anchor2.getBoundingClientRect();
+                    const center = r.top + r.height / 2;
+                    const p2 = (vh - center) / (vh * 0.5);
+                    this.gather2Progress = Math.max(0, Math.min(1, p2));
+                    if (this.gather2Progress > 0 && !this.textTargets2Built) {
+                        this.buildTextTargets2();
+                    }
+                } else {
+                    this.gather2Progress = 0;
+                }
+
                 this.emitHeaderLogoMetrics();
 
                 if (p > 0 && !this.textTargetsBuilt) this.buildTextTargets();
@@ -810,7 +1211,7 @@
                         resolve(image);
                     };
                     image.onerror = reject;
-                    image.src = require('@/assets/img/home/profile_nacre.png');
+                    image.src = require('@/assets/img/home/about_nacre.png');
                 });
             },
 
@@ -868,8 +1269,8 @@
                 const visibleH = 2 * focusDist * Math.tan(fovRad / 2);
                 const worldPerPx = visibleH / window.innerHeight;
 
-                // #profile .shape-anchor 박스 크기에 맞춰 월드 높이 산정
-                const shapeAnchor = document.querySelector('#profile .shape-anchor');
+                // #about .shape-anchor 박스 크기에 맞춰 월드 높이 산정
+                const shapeAnchor = document.querySelector('#about .shape-anchor');
                 let worldHeight;
                 if (shapeAnchor && shapeAnchor.getBoundingClientRect().height > 4) {
                     worldHeight = shapeAnchor.getBoundingClientRect().height * worldPerPx;
@@ -902,7 +1303,187 @@
                     s.userData.textLocal = new THREE.Vector3(localX, localY, 0);
                 });
 
+                if (!this.gatherPlane1) {
+                    this.gatherPlane1 = this.createGatherPlane(
+                        maskTex,
+                        this.textHalfX,
+                        this.textHalfY,
+                    );
+                }
+
                 this.textTargetsBuilt = true;
+            },
+
+            shapeAnchorCenter(shapeAnchor, half, aspect) {
+                let nx = 0;
+                let ny = 0;
+                if (shapeAnchor) {
+                    const r = shapeAnchor.getBoundingClientRect();
+                    nx = ((r.left + r.width / 2) / window.innerWidth) * 2 - 1;
+                    ny =
+                        -((r.top + r.height / 2) / window.innerHeight) * 2 + 1;
+                }
+                return { x: nx * half * aspect, y: ny * half };
+            },
+
+            createGatherPlane(maskTex, halfX, halfY) {
+                const THREE = this.three;
+                const geo = new THREE.PlaneGeometry(halfX * 2, halfY * 2);
+                const nacre = this.getNacreTexture().clone();
+                nacre.center.set(0.5, 0.5);
+                nacre.rotation = 0;
+                nacre.repeat.set(1, 1);
+                nacre.offset.set(0, 0);
+                nacre.needsUpdate = true;
+
+                const mat = new THREE.MeshPhysicalMaterial({
+                    map: nacre,
+                    alphaMap: maskTex,
+                    transparent: true,
+                    opacity: 1,
+                    alphaTest: 0.08,
+                    side: THREE.DoubleSide,
+                    roughness: 0.22,
+                    metalness: 0,
+                    iridescence: 0.9,
+                    iridescenceIOR: 1.4,
+                    iridescenceThicknessRange: [200, 500],
+                    clearcoat: 1.0,
+                    clearcoatRoughness: 0.1,
+                    sheen: 0.5,
+                    sheenRoughness: 0.4,
+                    sheenColor: new THREE.Color(0xffffff),
+                    envMapIntensity: 1.4,
+                    depthWrite: true,
+                });
+
+                const mesh = new THREE.Mesh(geo, mat);
+                mesh.visible = false;
+                mesh.frustumCulled = false;
+                mesh.renderOrder = -1;
+                this.scene.add(mesh);
+                return mesh;
+            },
+
+            updateGatherPlane(plane, centerX, centerY, opacity) {
+                if (!plane) return;
+                const tv =
+                    this._planeVec ||
+                    (this._planeVec = new this.three.Vector3());
+                tv.set(centerX, centerY, -this.gatherFocusDist - 0.03);
+                this.camera.localToWorld(tv);
+                plane.position.copy(tv);
+                plane.quaternion.copy(this.textQuat);
+                plane.visible = opacity > 0.01;
+                plane.material.opacity = opacity;
+            },
+
+            loadShapeImage2() {
+                if (this._shapeImg2) return Promise.resolve(this._shapeImg2);
+                return new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.crossOrigin = 'anonymous';
+                    image.onload = () => {
+                        this._shapeImg2 = image;
+                        resolve(image);
+                    };
+                    image.onerror = reject;
+                    image.src = require('@/assets/img/home/flower.svg');
+                });
+            },
+
+            async buildTextTargets2() {
+                const THREE = this.three;
+                if (!THREE || !this.camera || this.shards.length === 0) return;
+
+                let image;
+                try {
+                    image = await this.loadShapeImage2();
+                } catch {
+                    return;
+                }
+                if (this.textTargets2Built) return;
+
+                const SAMPLE = 320;
+                const imgAspect = image.width / image.height;
+                const cv = document.createElement('canvas');
+                cv.width = imgAspect >= 1 ? SAMPLE : Math.round(SAMPLE * imgAspect);
+                cv.height = imgAspect >= 1 ? Math.round(SAMPLE / imgAspect) : SAMPLE;
+                const ctx = cv.getContext('2d');
+                ctx.drawImage(image, 0, 0, cv.width, cv.height);
+
+                const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
+                const filled = [];
+                for (let y = 0; y < cv.height; y++) {
+                    for (let x = 0; x < cv.width; x++) {
+                        const i = (y * cv.width + x) * 4;
+                        const a = img[i + 3];
+                        if (a > 48) filled.push([x, y]);
+                    }
+                }
+                if (filled.length === 0) return;
+
+                const targetCount = this.shards.length;
+                const cell = Math.max(2, Math.sqrt(filled.length / targetCount));
+                const cellMap = new Map();
+                for (const [x, y] of filled) {
+                    const key = `${Math.floor(x / cell)},${Math.floor(y / cell)}`;
+                    if (!cellMap.has(key)) cellMap.set(key, [x, y]);
+                }
+                const pts = Array.from(cellMap.values());
+                for (let i = pts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pts[i], pts[j]] = [pts[j], pts[i]];
+                }
+                if (pts.length === 0) return;
+
+                const focusDist = this.gatherFocusDist || this.camera.position.length();
+                const fovRad = (this.camera.fov * Math.PI) / 180;
+                const visibleH = 2 * focusDist * Math.tan(fovRad / 2);
+                const worldPerPx = visibleH / window.innerHeight;
+
+                const shapeAnchor = document.querySelector(
+                    '#about .shape-anchor2',
+                );
+                let worldHeight;
+                if (shapeAnchor && shapeAnchor.getBoundingClientRect().height > 4) {
+                    worldHeight =
+                        shapeAnchor.getBoundingClientRect().height * worldPerPx;
+                } else {
+                    worldHeight = visibleH * 0.45;
+                }
+                const pxToWorld = worldHeight / cv.height;
+
+                this.gather2FlakeRadius = this.gatherFlakeRadius || pxToWorld * cell * 1.2;
+                this.textHalfX2 = (cv.width / 2) * pxToWorld;
+                this.textHalfY2 = (cv.height / 2) * pxToWorld;
+
+                const maskTex = new THREE.CanvasTexture(cv);
+                maskTex.minFilter = THREE.LinearFilter;
+                maskTex.magFilter = THREE.LinearFilter;
+                maskTex.needsUpdate = true;
+                this.maskTexture2 = maskTex;
+                this._maskCanvas2 = cv;
+
+                this.shards.forEach((s, i) => {
+                    const [x, y] = pts[i % pts.length];
+                    const localX = (x - cv.width / 2) * pxToWorld;
+                    const localY = -(y - cv.height / 2) * pxToWorld;
+                    s.userData.textLocal2 = new THREE.Vector3(localX, localY, 0);
+                });
+
+                if (!this.gatherPlane2) {
+                    this.gatherPlane2 = this.createGatherPlane(
+                        maskTex,
+                        this.textHalfX2,
+                        this.textHalfY2,
+                    );
+                }
+
+                this.textTargets2Built = true;
+                if ((this.gather2Progress || 0) > 0.001) {
+                    this._g2LooseValid = false;
+                }
             },
 
             onResize() {
@@ -1058,21 +1639,24 @@
         }
 
         .scroll-down {
-            margin-top: 2.5rem;
+            position: absolute;
+            left: 50%;
+            bottom: -5vw;
+            transform: translate(-50%, 100%);
             z-index: 3;
             font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             text-align: center;
             cursor: pointer;
-            background: none;
-            border: none;
-            color: inherit;
-            pointer-events: auto;
 
-            ::v-deep .text-shifting span {
-                display: inline-block;
-                min-width: 8px;
+            ::v-deep .text-shifting {
+                margin-top: 1rem;
+                
+                span {
+                    display: inline-block;
+                    min-width: 8px;
+                }
             }
         }
     }

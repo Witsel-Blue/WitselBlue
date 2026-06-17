@@ -70,7 +70,7 @@
 #language-menu {
 
     button {
-        background-color: rgba(35, 34, 33, 0.4);
+        background-color: $gray2;
         width: 48px;
         height: 24px;
         border-radius: 24px;
@@ -82,6 +82,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
+            box-shadow: $box-shadow;
             text-indent: -9999px;
             position: absolute;
             top: 2px;

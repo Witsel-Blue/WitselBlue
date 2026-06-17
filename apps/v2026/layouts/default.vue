@@ -13,7 +13,6 @@
             aria-hidden='true'
         />
         <GNB v-show='introDone' />
-        <SoundMuteMenu v-show='introDone' />
         <Nuxt />
     </div>
 </template>
@@ -21,13 +20,11 @@
 <script>
     import SiteHeader from '@/layouts/Header.vue';
     import GNB from '@/layouts/GNB.vue';
-    import SoundMuteMenu from '@/components/SoundMuteMenu.vue';
 
     export default {
         components: {
             SiteHeader,
             GNB,
-            SoundMuteMenu,
         },
         data() {
             return {
