@@ -40,13 +40,13 @@
                         {{ line }}
                     </span>
                 </p>
-                <ParllaxComponent />
+                <ParllaxComponent :img='profile.img' fast />
                 <div class='btn-wrap' :style='btnStyle'>
                     <ButtonRound :link='{ href: "/", text: "About Me" }' />
                 </div>
             </section>
         </div>
-        <!-- <TextMarquee :image='knot' /> -->
+        <TextMarquee :image='knot' />
     </div>
 </template>
 
@@ -75,9 +75,6 @@
                     'which provides new experiences to users every time',
                     'depending on the point where technology and senses meet.',
                 ],
-                profile: {
-                    img: require('@/assets/img/home/profile.png'),
-                },
                 titleLines2: [
                     'As a <span class="highlight">frontend developer</span>, I create',
                     '<span class="highlight">interactive</span> websites and apps ',
@@ -93,6 +90,9 @@
                     'for more ability and development skills,',
                     'you can view ‘About Me’ page.'
                 ],
+                profile: {
+                    img: require('@/assets/img/home/profile.png'),
+                },
             };
         },
         computed: {
@@ -174,11 +174,11 @@
         width: 100%;
         display: flex;
         position: relative;
-        z-index: 1;
+        padding-bottom: 20vh;
 
         .shape-anchor {
             position: absolute;
-            top: 12vh;
+            top: 15vh;
             left: 10vw;
             width: 40vh;
             height: 40vh;
@@ -197,7 +197,9 @@
             
             &:nth-of-type(1) {
                 h2 {
-                    margin-top: 12vw;
+                    margin-top: 15vw;
+                    text-shadow: $text-shadow;
+                    z-index: 1;
 
                     span {
                         font-family: 'tanpearl';
@@ -208,18 +210,22 @@
             }
 
             &:nth-of-type(2) {
+                height: auto;
+                
                 .shape-anchor2 {
                     position: absolute;
-                    top: 5vw;
-                    right: 10vw;
-                    width: 24vh;
-                    height: 24vh;
+                    top: 0;
+                    right: 5vw;
+                    width: 25vh;
+                    height: 25vh;
                     opacity: 0;
                     pointer-events: none;
                 }
 
                 h2 {
-                    margin-top: 6vw;
+                    margin-top: 10vh;
+                    z-index: 1;
+                    
                     span::v-deep {
                         font-size: 3rem;
                         line-height: 1.4;
@@ -231,14 +237,23 @@
                         &:nth-child(4),
                         &:nth-child(5),
                         &:nth-child(6) {
-                            padding-left: 28vw;
+                            padding-left: 50vh;
                         }
                     }
                 }
 
                 p {
-                    padding-left: 30vw;
+                    width: 100%;
+                    margin-top: 5vh;
+                    padding-left: 70vh;
                     text-align: left;
+                }
+
+                .parallax-component {
+                    position: absolute;
+                    top: 20vh;
+                    left: 10vh;
+                    width: 50vh;
                 }
             }
 
@@ -261,7 +276,8 @@
         }
 
         .btn-wrap {
-            margin-top: 2rem;
+            margin-top: 5vh;
+            margin-left: 15vw;
             text-align: center;
             will-change: opacity, transform;
         }

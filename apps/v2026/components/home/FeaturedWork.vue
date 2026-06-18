@@ -66,7 +66,9 @@
     const SHARD_THUMBS = SHARD_THUMB_IDX.map((i) => archiveData[i].images.thumb);
     const SHARD_COUNT = SHARD_DEFS.length;
     const SHARD_REL = 0.32;
-    const HAIRPIN_BASE_ROT = { x: 0, y: 0, z: 0 };
+    const HAIRPIN_BASE_ROT = [
+        { x: 0, y: Math.PI, z: 0 },
+    ];
     const HAIRPIN_THUMB_ROT = -Math.PI * 0.25;
     const HAIRPIN2_THUMB_ROT = 0;
     const THUMB_ROT = [HAIRPIN_THUMB_ROT, HAIRPIN2_THUMB_ROT];
@@ -79,7 +81,7 @@
         titleSizeRatio: 0.1, // 제목 폰트 크기
         titleWeight: 700,
         titleFontFamily: "'Diphylleia', serif",
-        titleYRatio: 0.4, // 제목 Y 위치
+        titleYRatio: 0.45, // 제목 Y 위치
         titleMaxWidthRatio: 0.8, // 제목 최대 폭
         titleLineHeightRatio: 1, // 제목 줄간격
         titleLetterSpacingEm: 0.05, // 제목 자간
@@ -401,7 +403,7 @@
                 });
             },
 
-            makeBackTextTexture(
+            makeJadeTitleTexture(
                 info,
                 plateAspect = 1,
                 rotation = 0,
@@ -435,7 +437,6 @@
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
                     ctx.clearRect(0, 0, W, H);
                     if (!drawImageCover(bgImg)) {
-                        // jade 텍스처 로드 전 임시 배경
                         ctx.fillStyle = '#e8dec5';
                         ctx.fillRect(0, 0, W, H);
                     }
@@ -459,10 +460,71 @@
                         ts * FLOWER_TEXT_STYLE.titleLetterSpacingEm,
                         FLOWER_TEXT_STYLE.titleUppercase,
                     );
+                };
+
+                draw();
+                const tex = new THREE.CanvasTexture(canvas);
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tex.flipY = false;
+                tex.wrapS = THREE.ClampToEdgeWrapping;
+                tex.wrapT = THREE.ClampToEdgeWrapping;
+                tex.center.set(0.5, 0.5);
+                tex.rotation = rotation;
+                bgImg.onload = () => {
+                    draw();
+                    tex.needsUpdate = true;
+                    this.renderScene();
+                };
+                bgImg.src = jadeUrl;
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => {
+                        draw();
+                        tex.needsUpdate = true;
+                        this.renderScene();
+                    });
+                }
+                return tex;
+            },
+
+            makeThumbLinkMaterial(url, info, plateAspect = 1, rotation = 0) {
+                const THREE = this.three;
+                const swap =
+                    Math.abs(Math.round(rotation / (Math.PI / 2)) % 2) === 1;
+                const H = 512;
+                const aspect = swap ? 1 / (plateAspect || 1) : plateAspect || 1;
+                const W = Math.max(64, Math.round(H * aspect));
+                const canvas = document.createElement('canvas');
+                canvas.width = W;
+                canvas.height = H;
+                const ctx = canvas.getContext('2d');
+                const bgImg = new Image();
+
+                const drawImageCover = (img) => {
+                    const iw = img.naturalWidth || img.width;
+                    const ih = img.naturalHeight || img.height;
+                    if (!iw || !ih) return false;
+                    const scale = Math.max(W / iw, H / ih);
+                    const dw = iw * scale;
+                    const dh = ih * scale;
+                    const dx = (W - dw) * 0.5;
+                    const dy = (H - dh) * 0.5;
+                    ctx.drawImage(img, dx, dy, dw, dh);
+                    return true;
+                };
+
+                const draw = () => {
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, W, H);
+                    if (!drawImageCover(bgImg)) {
+                        ctx.fillStyle = '#1a1a1a';
+                        ctx.fillRect(0, 0, W, H);
+                    }
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
 
                     const ls = Math.round(H * FLOWER_TEXT_STYLE.linkSizeRatio);
                     ctx.font = `${FLOWER_TEXT_STYLE.linkWeight} ${ls}px ${FLOWER_TEXT_STYLE.linkFontFamily}`;
-                    ctx.fillStyle = 'rgba(17, 17, 17, 0.85)';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
                     const label = this.transformText(
                         info.linkText || 'View Project',
                         FLOWER_TEXT_STYLE.linkUppercase,
@@ -475,7 +537,7 @@
                         label,
                         linkSpacing,
                     );
-                    ctx.strokeStyle = 'rgba(17, 17, 17, 0.6)';
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
                     ctx.lineWidth = Math.max(1, H * 0.004);
                     ctx.beginPath();
                     ctx.moveTo(
@@ -502,7 +564,7 @@
                     tex.needsUpdate = true;
                     this.renderScene();
                 };
-                bgImg.src = jadeUrl;
+                bgImg.src = url;
                 if (document.fonts && document.fonts.ready) {
                     document.fonts.ready.then(() => {
                         draw();
@@ -510,7 +572,16 @@
                         this.renderScene();
                     });
                 }
-                return tex;
+                return new THREE.MeshPhysicalMaterial({
+                    map: tex,
+                    color: 0xffffff,
+                    roughness: 0.3,
+                    metalness: 0.0,
+                    clearcoat: 0.8,
+                    clearcoatRoughness: 0.15,
+                    envMapIntensity: 1.0,
+                    side: THREE.DoubleSide,
+                });
             },
 
             transformText(text, uppercase = false) {
@@ -831,32 +902,44 @@
                     const baseScale = (targetR * 2) / pMax;
                     const pin = proto.clone(true);
                     pin.position.sub(pcenter);
-                    pin.rotation.set(
-                        HAIRPIN_BASE_ROT.x,
-                        HAIRPIN_BASE_ROT.y,
-                        HAIRPIN_BASE_ROT.z,
-                    );
+                    const baseRot =
+                        HAIRPIN_BASE_ROT[modelIdx] || HAIRPIN_BASE_ROT[0];
+                    pin.rotation.set(baseRot.x, baseRot.y, baseRot.z);
 
                     const thumb = pin.getObjectByName('thumb');
+                    const thumbMeshes = [];
+                    let thumbAspect = 1;
+                    let thumbRot = THUMB_ROT[0];
+                    let thumbFrontMat = null;
+                    let thumbBackMat = null;
                     if (thumb) {
                         let tmesh = null;
                         thumb.traverse((o) => {
-                            if (o.isMesh && !tmesh) tmesh = o;
+                            if (o.isMesh) {
+                                thumbMeshes.push(o);
+                                if (!tmesh) tmesh = o;
+                            }
                         });
-                        const plateAspect = tmesh
+                        thumbAspect = tmesh
                             ? this.computePlateAspect(tmesh)
                             : 1;
-                        const rotation =
+                        thumbRot =
                             THUMB_ROT[modelIdx] !== undefined
                                 ? THUMB_ROT[modelIdx]
                                 : THUMB_ROT[0];
-                        const mat = this.makeThumbMaterial(
+                        thumbFrontMat = this.makeThumbMaterial(
                             SHARD_THUMBS[i],
-                            plateAspect,
-                            rotation,
+                            thumbAspect,
+                            thumbRot,
                         );
-                        thumb.traverse((o) => {
-                            if (o.isMesh) o.material = mat;
+                        thumbBackMat = this.makeThumbLinkMaterial(
+                            SHARD_THUMBS[i],
+                            info,
+                            thumbAspect,
+                            thumbRot,
+                        );
+                        thumbMeshes.forEach((m) => {
+                            m.material = thumbFrontMat;
                         });
                     }
 
@@ -871,8 +954,6 @@
                         return false;
                     };
 
-                    const flowerFrontMat = this.makeJadeMaterial();
-                    flowerFrontMat.side = THREE.DoubleSide;
                     const flowerNode = pin.getObjectByName('flower');
                     const flowerMeshes = [];
                     let flowerAspect = 1;
@@ -894,16 +975,19 @@
                         FLOWER_MIRROR[modelIdx] !== undefined
                             ? FLOWER_MIRROR[modelIdx]
                             : FLOWER_MIRROR[0];
-                    const flowerBackMat = this.makeJadeMaterial();
-                    flowerBackMat.side = THREE.DoubleSide;
-                    flowerBackMat.map = this.makeBackTextTexture(
+
+                    const flowerFrontMat = this.makeJadeMaterial();
+                    flowerFrontMat.side = THREE.DoubleSide;
+                    flowerFrontMat.map = this.makeJadeTitleTexture(
                         info,
                         flowerAspect,
                         fRot,
                         fSwap,
                         fMirror,
                     );
-                    flowerBackMat.needsUpdate = true;
+                    flowerFrontMat.needsUpdate = true;
+                    const flowerBackMat = this.makeJadeMaterial();
+                    flowerBackMat.side = THREE.DoubleSide;
 
                     pin.traverse((o) => {
                         if (!o.isMesh) return;
@@ -973,6 +1057,9 @@
                         flowerMeshes,
                         flowerFrontMat,
                         flowerBackMat,
+                        thumbMeshes,
+                        thumbFrontMat,
+                        thumbBackMat,
                     };
 
                     group.position.copy(origin);
@@ -1074,12 +1161,27 @@
                     }
                     if (d.flowerMeshes && d.flowerMeshes.length) {
                         const useBack = d.flip > 0.5;
-                        const want = useBack
+                        const flowerWant = useBack
                             ? d.flowerBackMat
                             : d.flowerFrontMat;
-                        if (d.flowerMeshes[0].material !== want) {
+                        if (d.flowerMeshes[0].material !== flowerWant) {
                             d.flowerMeshes.forEach((m) => {
-                                m.material = want;
+                                m.material = flowerWant;
+                            });
+                        }
+                    }
+                    if (d.thumbMeshes && d.thumbMeshes.length) {
+                        const useBack = d.flip > 0.5;
+                        const thumbWant = useBack
+                            ? d.thumbBackMat
+                            : d.thumbFrontMat;
+                        if (
+                            d.thumbFrontMat &&
+                            d.thumbBackMat &&
+                            d.thumbMeshes[0].material !== thumbWant
+                        ) {
+                            d.thumbMeshes.forEach((m) => {
+                                m.material = thumbWant;
                             });
                         }
                     }
@@ -1145,7 +1247,7 @@
                 const hit = this.pickShard(e);
                 if (hit && hit === this.selected) {
                     if (this.flipped) {
-                        // 뒷면(타이틀/링크) 상태에서 클릭 → 링크 이동
+                        // 뒷면(썸네일/링크) 상태에서 클릭 → 링크 이동
                         const info = this.selected.userData.info;
                         if (info && info.href) {
                             window.open(info.href, info.target || '_blank');
