@@ -1,7 +1,7 @@
 <template>
     <div id='footer'>
         <div class='inner'>
-            footer
+            <!-- footer -->
         </div>
     </div>
 </template>

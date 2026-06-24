@@ -31,20 +31,20 @@
     import moonUrl from '@/assets/img/home/moon.svg';
 
     const DEPTH_NUM = 20;
-    const ZOOM_SCROLL_VH = 5;
+    const ZOOM_SCROLL_VH = 3;
     const ZOOM_Z_MULT = 1;
-    const ZOOM_SCALE_START = 0.4;
-    const ZOOM_SCALE_END = 1.2;
+    const ZOOM_SCALE_START = 0.3;
+    const ZOOM_SCALE_END = 1;
     const LAYER_LERP = 0.02;
 
     // 앞(가까움) → 뒤(멀음)
     const LAYERS = [
-        { url: waveUrl, y: -1, scale: [160, 100] },
-        { url: treeUrl, y: -2.5, scale: [160, 100] },
-        { url: mountain1Url, y: 0, scale: [180, 80] },
-        { url: mountain2Url, y: 5, scale: [150, 90] },
-        { url: mountain3Url, y: 10, scale: [160, 110] },
-        { url: moonUrl, y: 30, scale: [160, 100] },
+        { url: treeUrl, y: -12, scale: [140, 80] },
+        { url: mountain1Url, y: -10, scale: [180, 70] },
+        { url: mountain2Url, y: -9, scale: [150, 75] },
+        { url: mountain3Url, y: -1, scale: [180, 140] },
+        { url: moonUrl, y: 15, scale: [160, 100] },
+        { url: waveUrl, y: -1, scale: [600, 360], opacity: 0.1 },
     ];
 
     export default {
@@ -158,6 +158,7 @@
                     const material = new THREE.SpriteMaterial({
                         map: tex,
                         transparent: true,
+                        opacity: layer.opacity ?? 1,
                     });
                     const sprite = new THREE.Sprite(material);
                     sprite.userData.baseScale = [...layer.scale];
