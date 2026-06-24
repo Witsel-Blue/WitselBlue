@@ -23,7 +23,6 @@
                 shown: false,
                 topPx: 0,
                 activeId: null,
-                centeredId: null,
                 pagination: [
                     {
                         id: '01',
@@ -76,26 +75,25 @@
         },
         methods: {
             updateActiveSection(mid) {
-                let best = null;
-                let bestDist = Infinity;
+                let active = null;
+
                 this.pagination.forEach((item) => {
                     const el = document.getElementById(item.target);
                     if (!el) return;
-                    const r = el.getBoundingClientRect();
-                    const center = r.top + r.height / 2;
-                    const dist = Math.abs(center - mid);
-                    if (dist < bestDist) {
-                        bestDist = dist;
-                        best = item;
-                    }
+
+                    const top = el.getBoundingClientRect().top;
+                    if (top <= mid) active = item;
                 });
-                if (best && bestDist < mid) {
-                    if (this.centeredId !== best.id) {
-                        this.centeredId = best.id;
-                        this.activeId = best.id;
-                        this.$root.$emit('section-active', best.target);
+
+                if (active) {
+                    if (this.activeId !== active.id) {
+                        this.activeId = active.id;
+                        this.$root.$emit('section-active', active.target);
                     }
+                    return;
                 }
+
+                if (this.activeId !== null) this.activeId = null;
             },
             go(item) {
                 this.activeId = item.id;
@@ -122,6 +120,7 @@
         visibility: hidden;
         transition: opacity 0.5s ease;
         pointer-events: none;
+        mix-blend-mode: difference;
 
         &.shown {
             opacity: 1;

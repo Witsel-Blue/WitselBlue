@@ -89,7 +89,6 @@
     const ANIM_VH = ROT_VH + HOLD_VH + OPEN_VH;
     const STICKY_VH = 2.5;
     const EXIT_VH = 1.0;
-    const TRACK_VH = 1.0 + STICKY_VH + EXIT_VH;
     const ROT_END = ROT_VH / ANIM_VH;
     const OPEN_POINT = (ROT_VH + HOLD_VH) / ANIM_VH;
     const clamp01 = (v) => Math.max(0, Math.min(1, v));
@@ -203,9 +202,7 @@
             },
         },
         mounted() {
-            this.$el.style.setProperty('--fw-track-vh', String(TRACK_VH));
-            this.$el.style.setProperty('--fw-pinned-vh', String(STICKY_VH + EXIT_VH));
-            this.$el.style.height = `${TRACK_VH * 100}vh`;
+            this.$el.style.setProperty('--fw-trail-vh', String(STICKY_VH));
             window.addEventListener('scroll', this.onFeaturedWorkScroll, {
                 passive: true,
             });
@@ -1450,11 +1447,16 @@
                 const vh = window.innerHeight;
                 const pinPx = STICKY_VH * vh;
                 const animPx = ANIM_VH * vh;
+                const maxScrollPx = (STICKY_VH + EXIT_VH) * vh;
                 const sectionScroll = Math.max(0, -rect.top);
                 const inSection = rect.top <= 0 && rect.bottom > 0;
 
-                const isPinPhase = inSection && sectionScroll <= pinPx;
-                const isExiting = inSection && sectionScroll > pinPx;
+                const isPinPhase =
+                    inSection && sectionScroll <= pinPx;
+                const isExiting =
+                    inSection &&
+                    sectionScroll > pinPx &&
+                    sectionScroll <= maxScrollPx;
                 const nextPinned = isPinPhase || isExiting;
                 const nextExitY = isExiting ? rect.top + pinPx : 0;
                 const wasPinned = this.isPinned;
@@ -1525,7 +1527,6 @@
     #featured-work {
         position: relative;
         width: 100%;
-        height: calc(var(--fw-track-vh, 4.5) * 100vh);
 
         .featured-work-viewport {
             position: relative;
@@ -1549,7 +1550,7 @@
         }
 
         .featured-work-trail {
-            height: calc(var(--fw-pinned-vh, 3.5) * 100vh);
+            height: calc(var(--fw-trail-vh, 2.5) * 100vh);
             pointer-events: none;
         }
 
