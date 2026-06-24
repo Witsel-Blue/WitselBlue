@@ -1,6 +1,15 @@
 <template>
     <div id='folding-screen'>
-        folding screen
+        <section>
+            <div class='inner'>
+                <p>
+                    And yet... <br />
+                    the crafting doesn't end.
+                </p>
+            </div>
+        </section>
+        img
+        <section/>
     </div>
 </template>
 

@@ -1,6 +1,17 @@
 <template>
     <div id='story'>
-        story
+        <section>
+            <div class='inner'>
+                <h2>
+                    When People look for pearls, <br/>
+                    I find value in the shell.
+                </h2>
+                <p>
+                    Explore and discover my journey as a developer.
+                </p>
+            </div>
+        </section>
+        <section/>
     </div>
 </template>
 

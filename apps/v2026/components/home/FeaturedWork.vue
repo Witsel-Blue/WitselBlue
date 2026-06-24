@@ -1,8 +1,47 @@
 <template>
     <div id='featured-work'>
-        <div class='featured-work-sticky'>
-            <canvas ref='canvas' />
+        <div ref='viewport' class='featured-work-viewport'>
+            <div
+                class='featured-work-pin'
+                :class='{ "is-pinned": isPinned }'
+                :style='pinLayerStyle'
+            >
+                <canvas ref='canvas' />
+                <p
+                    v-show='cursorHint.visible'
+                    class='shard-cursor-hint'
+                    :style='cursorHintStyle'
+                >
+                    {{ cursorHint.text }}
+                </p>
+                <div
+                    v-show='frontPanel.visible'
+                    class='shard-front-panel'
+                    :style='frontPanelStyle'
+                >
+                    <p v-if='frontPanel.summary' class='summary'>
+                        {{ frontPanel.summary }}
+                    </p>
+                    <p v-if='frontPanel.duration' class='duration'>
+                        {{ frontPanel.duration }}
+                    </p>
+                    <p v-if='frontPanel.stack' class='stack'>
+                        {{ frontPanel.stack }}
+                    </p>
+                    <a
+                        v-if='frontPanel.href'
+                        class='link-btn'
+                        :href='frontPanel.href'
+                        :target='frontPanel.target'
+                        rel='noopener noreferrer'
+                        @click.stop
+                    >
+                        {{ frontPanel.linkText }}
+                    </a>
+                </div>
+            </div>
         </div>
+        <div class='featured-work-trail' aria-hidden='true' />
     </div>
 </template>
 
@@ -43,24 +82,25 @@
     const SCROLL_ROT_FROM = Math.PI / 2;
     const SCROLL_ROT_TO = Math.PI / 8;
 
-    // 스크롤 높이
-    const ENTRANCE_VH = 1.0;
+    // 스크롤 트랙
     const ROT_VH = 1.0;
     const HOLD_VH = 0.05;
     const OPEN_VH = 0.3;
-    const PINNED_VH = ROT_VH + HOLD_VH + OPEN_VH;
-    const TRACK_VH = ENTRANCE_VH + PINNED_VH;
-    const ROT_END = ROT_VH / PINNED_VH;
-    const OPEN_POINT = (ROT_VH + HOLD_VH) / PINNED_VH;
+    const ANIM_VH = ROT_VH + HOLD_VH + OPEN_VH;
+    const STICKY_VH = 2.5;
+    const EXIT_VH = 1.0;
+    const TRACK_VH = 1.0 + STICKY_VH + EXIT_VH;
+    const ROT_END = ROT_VH / ANIM_VH;
+    const OPEN_POINT = (ROT_VH + HOLD_VH) / ANIM_VH;
     const clamp01 = (v) => Math.max(0, Math.min(1, v));
 
     // 떨잠: { idx: archive.js 항목 번호, model: 0=hairpin.glb, 1=hairpin2.glb }
     const SHARD_DEFS = [
-        { idx: 9, model: 1 }, // oxfam
-        { idx: 3, model: 0 }, // monimo
+        { idx: 9, model: 0 }, // oxfam
+        { idx: 3, model: 1 }, // monimo
+        { idx: 2, model: 0 }, // myportfolio
         { idx: 0, model: 0 }, // cusme
         { idx: 5, model: 1 }, // dcamp
-        { idx: 2, model: 0 }, // myportfolio
     ];
     const SHARD_THUMB_IDX = SHARD_DEFS.map((d) => d.idx);
     const SHARD_THUMBS = SHARD_THUMB_IDX.map((i) => archiveData[i].images.thumb);
@@ -80,19 +120,12 @@
     const FLOWER_TEXT_STYLE = {
         titleSizeRatio: 0.1, // 제목 폰트 크기
         titleWeight: 700,
-        titleFontFamily: "'Diphylleia', serif",
-        titleYRatio: 0.45, // 제목 Y 위치
+        // titleFontFamily: "'Diphylleia', serif",
+        titleYRatio: 0.5, // 제목 Y 위치
         titleMaxWidthRatio: 0.8, // 제목 최대 폭
         titleLineHeightRatio: 1, // 제목 줄간격
         titleLetterSpacingEm: 0.05, // 제목 자간
-        titleUppercase: false, // 제목 대문자 변환
-        linkSizeRatio: 0.04, // 링크 폰트 크기
-        linkWeight: 400,
-        linkFontFamily: 'sans-serif',
-        linkYRatio: 0.6, // 링크 Y 위치
-        linkUnderlineOffsetRatio: 0.6, // 링크 밑줄 오프셋
-        linkLetterSpacingEm: 0.2, // 링크 자간
-        linkUppercase: true, // 링크 대문자 변환
+        titleUppercase: true, // 제목 대문자 변환
     };
     // scatter 화면 제약
     const SCATTER_MAX_WIDTH_PX = 1400;
@@ -125,10 +158,60 @@
 
     export default {
         name: 'FeaturedWork',
+        data() {
+            return {
+                cursorHint: {
+                    visible: false,
+                    x: 0,
+                    y: 0,
+                    text: '',
+                },
+                frontPanel: {
+                    visible: false,
+                    x: 0,
+                    y: 0,
+                    summary: '',
+                    duration: '',
+                    stack: '',
+                    href: '',
+                    target: '_blank',
+                    linkText: '',
+                },
+                isPinned: false,
+                isExiting: false,
+                pinExitY: 0,
+            };
+        },
+        computed: {
+            cursorHintStyle() {
+                return {
+                    left: `${this.cursorHint.x}px`,
+                    top: `${this.cursorHint.y}px`,
+                };
+            },
+            frontPanelStyle() {
+                return {
+                    left: `${this.frontPanel.x}px`,
+                    top: `${this.frontPanel.y}px`,
+                };
+            },
+            pinLayerStyle() {
+                if (!this.isExiting) return null;
+                return {
+                    transform: `translate3d(0, ${this.pinExitY}px, 0)`,
+                };
+            },
+        },
         mounted() {
-            // 스크롤 트랙 높이
+            this.$el.style.setProperty('--fw-track-vh', String(TRACK_VH));
+            this.$el.style.setProperty('--fw-pinned-vh', String(STICKY_VH + EXIT_VH));
             this.$el.style.height = `${TRACK_VH * 100}vh`;
+            window.addEventListener('scroll', this.onFeaturedWorkScroll, {
+                passive: true,
+            });
+            window.addEventListener('resize', this.onResize);
             this.initThree();
+            this.$nextTick(() => this.onFeaturedWorkScroll());
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.onResize);
@@ -136,6 +219,7 @@
             const canvas = this.$refs.canvas;
             if (canvas) {
                 canvas.removeEventListener('pointermove', this.onShardHover);
+                canvas.removeEventListener('pointerleave', this.onShardLeave);
                 canvas.removeEventListener('click', this.onShardClick);
             }
             if (this.openTimer) clearTimeout(this.openTimer);
@@ -278,11 +362,8 @@
                 });
 
                 canvas.addEventListener('pointermove', this.onShardHover);
+                canvas.addEventListener('pointerleave', this.onShardLeave);
                 canvas.addEventListener('click', this.onShardClick);
-                window.addEventListener('resize', this.onResize);
-                window.addEventListener('scroll', this.onFeaturedWorkScroll, {
-                    passive: true,
-                });
             },
 
             createTexture(url) {
@@ -486,102 +567,92 @@
                 return tex;
             },
 
-            makeThumbLinkMaterial(url, info, plateAspect = 1, rotation = 0) {
-                const THREE = this.three;
-                const swap =
-                    Math.abs(Math.round(rotation / (Math.PI / 2)) % 2) === 1;
-                const H = 512;
-                const aspect = swap ? 1 / (plateAspect || 1) : plateAspect || 1;
-                const W = Math.max(64, Math.round(H * aspect));
-                const canvas = document.createElement('canvas');
-                canvas.width = W;
-                canvas.height = H;
-                const ctx = canvas.getContext('2d');
-                const bgImg = new Image();
+            formatDuration(duration) {
+                if (!duration) return '';
+                const start = duration.start || '';
+                const end = duration.end || '';
+                if (start && end) return `${start} — ${end}`;
+                return start || end;
+            },
 
-                const drawImageCover = (img) => {
-                    const iw = img.naturalWidth || img.width;
-                    const ih = img.naturalHeight || img.height;
-                    if (!iw || !ih) return false;
-                    const scale = Math.max(W / iw, H / ih);
-                    const dw = iw * scale;
-                    const dh = ih * scale;
-                    const dx = (W - dw) * 0.5;
-                    const dy = (H - dh) * 0.5;
-                    ctx.drawImage(img, dx, dy, dw, dh);
-                    return true;
-                };
+            archiveField(field) {
+                if (!field) return '';
+                return field.en || field.ko || '';
+            },
 
-                const draw = () => {
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
-                    ctx.clearRect(0, 0, W, H);
-                    if (!drawImageCover(bgImg)) {
-                        ctx.fillStyle = '#1a1a1a';
-                        ctx.fillRect(0, 0, W, H);
-                    }
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-
-                    const ls = Math.round(H * FLOWER_TEXT_STYLE.linkSizeRatio);
-                    ctx.font = `${FLOWER_TEXT_STYLE.linkWeight} ${ls}px ${FLOWER_TEXT_STYLE.linkFontFamily}`;
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
-                    const label = this.transformText(
-                        info.linkText || 'View Project',
-                        FLOWER_TEXT_STYLE.linkUppercase,
-                    );
-                    const ly = H * FLOWER_TEXT_STYLE.linkYRatio;
-                    const linkSpacing = ls * FLOWER_TEXT_STYLE.linkLetterSpacingEm;
-                    this.drawTextWithSpacing(ctx, label, W / 2, ly, linkSpacing);
-                    const tw = this.measureTextWithSpacing(
-                        ctx,
-                        label,
-                        linkSpacing,
-                    );
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
-                    ctx.lineWidth = Math.max(1, H * 0.004);
-                    ctx.beginPath();
-                    ctx.moveTo(
-                        W / 2 - tw / 2,
-                        ly + ls * FLOWER_TEXT_STYLE.linkUnderlineOffsetRatio,
-                    );
-                    ctx.lineTo(
-                        W / 2 + tw / 2,
-                        ly + ls * FLOWER_TEXT_STYLE.linkUnderlineOffsetRatio,
-                    );
-                    ctx.stroke();
-                };
-
-                draw();
-                const tex = new THREE.CanvasTexture(canvas);
-                tex.colorSpace = THREE.SRGBColorSpace;
-                tex.flipY = false;
-                tex.wrapS = THREE.ClampToEdgeWrapping;
-                tex.wrapT = THREE.ClampToEdgeWrapping;
-                tex.center.set(0.5, 0.5);
-                tex.rotation = rotation;
-                bgImg.onload = () => {
-                    draw();
-                    tex.needsUpdate = true;
-                    this.renderScene();
-                };
-                bgImg.src = url;
-                if (document.fonts && document.fonts.ready) {
-                    document.fonts.ready.then(() => {
-                        draw();
-                        tex.needsUpdate = true;
-                        this.renderScene();
-                    });
+            ancestorMeshHas(obj, key) {
+                let p = obj;
+                while (p) {
+                    if ((p.name || '').toLowerCase().includes(key)) return true;
+                    p = p.parent;
                 }
-                return new THREE.MeshPhysicalMaterial({
-                    map: tex,
-                    color: 0xffffff,
-                    roughness: 0.3,
-                    metalness: 0.0,
-                    clearcoat: 0.8,
-                    clearcoatRoughness: 0.15,
-                    envMapIntensity: 1.0,
-                    side: THREE.DoubleSide,
-                });
+                return false;
+            },
+
+            hideShardOverlays() {
+                this.cursorHint.visible = false;
+                this.frontPanel.visible = false;
+            },
+
+            updateFrontPanelPosition(shard) {
+                if (
+                    !shard ||
+                    !this.camera ||
+                    !this.renderer ||
+                    (shard.userData.focus || 0) < 0.35
+                ) {
+                    this.frontPanel.visible = false;
+                    return;
+                }
+                const canvas = this.renderer.domElement;
+                const rect = canvas.getBoundingClientRect();
+                const THREE = this.three;
+                shard.updateMatrixWorld(true);
+                const box = new THREE.Box3().setFromObject(shard);
+                const bottom = new THREE.Vector3(
+                    (box.min.x + box.max.x) * 0.5,
+                    box.min.y,
+                    (box.min.z + box.max.z) * 0.5,
+                );
+                bottom.applyMatrix4(shard.matrixWorld);
+                const projected = bottom.clone().project(this.camera);
+                const info = shard.userData.info || {};
+                this.frontPanel.visible = true;
+                this.frontPanel.x =
+                    rect.left + (projected.x * 0.5 + 0.5) * rect.width;
+                this.frontPanel.y =
+                    rect.top + (-projected.y * 0.5 + 0.5) * rect.height + 14;
+                this.frontPanel.summary = info.summary || '';
+                this.frontPanel.duration = info.duration || '';
+                this.frontPanel.stack = info.stack || '';
+                this.frontPanel.href = info.href || '';
+                this.frontPanel.target = info.target || '_blank';
+                this.frontPanel.linkText = info.linkText || 'View Project';
+            },
+
+            pickShardHit(e) {
+                const THREE = this.three;
+                const canvas = this.$refs.canvas;
+                const rect = canvas.getBoundingClientRect();
+                const ndc = new THREE.Vector2(
+                    ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                    -((e.clientY - rect.top) / rect.height) * 2 + 1,
+                );
+                if (!this.raycaster) this.raycaster = new THREE.Raycaster();
+                this.raycaster.setFromCamera(ndc, this.camera);
+                const hits = this.raycaster.intersectObjects(this.shards, true);
+                if (!hits.length) return null;
+                const mesh = hits[0].object;
+                let shard = mesh;
+                while (shard && this.shards.indexOf(shard) === -1) {
+                    shard = shard.parent;
+                }
+                if (!shard) return null;
+                return {
+                    shard,
+                    isThumb: this.ancestorMeshHas(mesh, 'thumb'),
+                    isFlower: this.ancestorMeshHas(mesh, 'flower'),
+                };
             },
 
             transformText(text, uppercase = false) {
@@ -590,14 +661,12 @@
             },
 
             shouldApplyLetterSpacing(curr, next) {
-                // 공백 앞뒤에는 추가 자간을 넣지 않아 링크 텍스트 간격을 균일하게 유지
                 return curr !== ' ' && next !== ' ';
             },
 
             measureTextWithSpacing(ctx, text, letterSpacing = 0) {
                 const src = String(text || '');
                 if (!src) return 0;
-                // 자간이 0이면 폰트 고유 커닝/리거처를 유지한 기본 측정 사용
                 if (Math.abs(letterSpacing) < 1e-6) return ctx.measureText(src).width;
                 const chars = Array.from(src);
                 let w = 0;
@@ -616,7 +685,6 @@
             drawTextWithSpacing(ctx, text, x, y, letterSpacing = 0) {
                 const src = String(text || '');
                 if (!src) return;
-                // 자간이 0이면 문자 단위 분해를 하지 않아 커닝/리거처 유지
                 if (Math.abs(letterSpacing) < 1e-6) {
                     ctx.fillText(src, x, y);
                     return;
@@ -629,7 +697,6 @@
                     letterSpacing,
                 );
                 let cx = x - total / 2;
-                // 문자 단위 렌더링 시에는 left 정렬 기준으로 찍어야 간격이 일정함
                 const prevAlign = ctx.textAlign;
                 ctx.textAlign = 'left';
                 chars.forEach((ch, i) => {
@@ -878,16 +945,13 @@
                     const item = archiveData[SHARD_THUMB_IDX[i]];
                     // 떨잠 뒷면 상세 정보
                     const info = {
-                        title:
-                            (item.title &&
-                                (item.title.en || item.title.ko)) ||
-                            '',
+                        title: this.archiveField(item.title),
+                        summary: this.archiveField(item.summary),
+                        duration: this.formatDuration(item.desc && item.desc.duration),
+                        stack: this.archiveField(item.desc && item.desc.stack),
                         href: item.link && item.link.href,
                         target: (item.link && item.link.target) || '_blank',
-                        linkText:
-                            (item.link &&
-                                item.link.text &&
-                                (item.link.text.en || item.link.text.ko)) ||
+                        linkText: this.archiveField(item.link && item.link.text) ||
                             'View Project',
                     };
                     const modelIdx = Math.min(
@@ -932,9 +996,8 @@
                             thumbAspect,
                             thumbRot,
                         );
-                        thumbBackMat = this.makeThumbLinkMaterial(
+                        thumbBackMat = this.makeThumbMaterial(
                             SHARD_THUMBS[i],
-                            info,
                             thumbAspect,
                             thumbRot,
                         );
@@ -1190,6 +1253,9 @@
                     s.scale.setScalar(sc);
                     s.quaternion.copy(quat);
                 }
+                if (this.selected) {
+                    this.updateFrontPanelPosition(this.selected);
+                }
             },
 
             ensureShardLoop() {
@@ -1214,49 +1280,73 @@
                 this.shardRaf = requestAnimationFrame(frame);
             },
 
-            pickShard(e) {
-                const THREE = this.three;
-                const canvas = this.$refs.canvas;
-                const rect = canvas.getBoundingClientRect();
-                const ndc = new THREE.Vector2(
-                    ((e.clientX - rect.left) / rect.width) * 2 - 1,
-                    -((e.clientY - rect.top) / rect.height) * 2 + 1,
-                );
-                if (!this.raycaster) this.raycaster = new THREE.Raycaster();
-                this.raycaster.setFromCamera(ndc, this.camera);
-                const hits = this.raycaster.intersectObjects(this.shards, true);
-                if (!hits.length) return null;
-                let o = hits[0].object;
-                while (o && this.shards.indexOf(o) === -1) o = o.parent;
-                return o;
+            onShardLeave() {
+                if (this.$refs.canvas) this.$refs.canvas.style.cursor = '';
+                this.cursorHint.visible = false;
             },
 
             onShardHover(e) {
-                if (!this.$refs.canvas) return;
+                const canvas = this.$refs.canvas;
+                if (!canvas) return;
+                const HINT_OFFSET = 18;
+
                 if (!this.shards || this.scatterAmt < 0.6) {
-                    this.$refs.canvas.style.cursor = '';
+                    canvas.style.cursor = '';
+                    this.hideShardOverlays();
                     return;
                 }
-                this.$refs.canvas.style.cursor = this.pickShard(e)
-                    ? 'pointer'
-                    : '';
+
+                const hit = this.pickShardHit(e);
+
+                if (this.selected) {
+                    this.updateFrontPanelPosition(this.selected);
+                }
+
+                if (hit && hit.shard === this.selected) {
+                    canvas.style.cursor = 'pointer';
+                    if (this.flipped && hit.isThumb) {
+                        const info = this.selected.userData.info || {};
+                        this.cursorHint.visible = true;
+                        this.cursorHint.x = e.clientX + HINT_OFFSET;
+                        this.cursorHint.y = e.clientY;
+                        this.cursorHint.text = this.transformText(
+                            info.linkText || 'View Project',
+                            FLOWER_TEXT_STYLE.linkUppercase,
+                        );
+                    } else if (!this.flipped) {
+                        this.cursorHint.visible = true;
+                        this.cursorHint.x = e.clientX + HINT_OFFSET;
+                        this.cursorHint.y = e.clientY;
+                        this.cursorHint.text = 'click to flip';
+                    } else {
+                        this.cursorHint.visible = false;
+                    }
+                } else if (hit) {
+                    canvas.style.cursor = 'pointer';
+                    this.cursorHint.visible = false;
+                } else {
+                    canvas.style.cursor = '';
+                    this.cursorHint.visible = false;
+                }
             },
 
             onShardClick(e) {
                 if (!this.shards || this.scatterAmt < 0.6) return;
-                const hit = this.pickShard(e);
-                if (hit && hit === this.selected) {
+                const hit = this.pickShardHit(e);
+                const shard = hit && hit.shard;
+                if (shard && shard === this.selected) {
                     if (this.flipped) {
-                        // 뒷면(썸네일/링크) 상태에서 클릭 → 링크 이동
-                        const info = this.selected.userData.info;
-                        if (info && info.href) {
-                            window.open(info.href, info.target || '_blank');
+                        if (hit.isThumb) {
+                            const info = this.selected.userData.info;
+                            if (info && info.href) {
+                                window.open(info.href, info.target || '_blank');
+                            }
                         }
                     } else {
                         this.setFlip(true);
                     }
-                } else if (hit) {
-                    this.selectShard(hit);
+                } else if (shard) {
+                    this.selectShard(shard);
                 } else {
                     this.selectShard(null);
                 }
@@ -1265,6 +1355,10 @@
             selectShard(shard) {
                 this.selected = shard;
                 this.flipped = false;
+                this.cursorHint.visible = false;
+                if (!shard) {
+                    this.frontPanel.visible = false;
+                }
                 this.shards.forEach((s) => {
                     s.userData.focusTarget = s === shard ? 1 : 0;
                     s.userData.flipTarget = 0;
@@ -1276,7 +1370,9 @@
                 if (!this.selected) return;
                 this.flipped = on;
                 this.selected.userData.flipTarget = on ? 1 : 0;
+                this.cursorHint.visible = false;
                 this.ensureShardLoop();
+                this.updateFrontPanelPosition(this.selected);
             },
 
             setupLid(model) {
@@ -1346,24 +1442,47 @@
             },
 
             onFeaturedWorkScroll() {
-                if (!this.model) return;
-                const rect = this.$el.getBoundingClientRect();
-                const vh = window.innerHeight;
+                const viewport = this.$refs.viewport;
+                if (!viewport || !this.$el) return;
 
-                // 진입 스케일
-                const entrance = clamp01((vh - rect.top) / vh);
+                const rect = this.$el.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
+                const vh = window.innerHeight;
+                const pinPx = STICKY_VH * vh;
+                const animPx = ANIM_VH * vh;
+                const sectionScroll = Math.max(0, -rect.top);
+                const inSection = rect.top <= 0 && rect.bottom > 0;
+
+                const isPinPhase = inSection && sectionScroll <= pinPx;
+                const isExiting = inSection && sectionScroll > pinPx;
+                const nextPinned = isPinPhase || isExiting;
+                const nextExitY = isExiting ? rect.top + pinPx : 0;
+                const wasPinned = this.isPinned;
+
+                this.isPinned = nextPinned;
+                this.isExiting = isExiting;
+                this.pinExitY = nextExitY;
+
+                if (wasPinned !== nextPinned) {
+                    this.$nextTick(() => this.onResize());
+                }
+
+                if (!this.model) return;
+
+                const entrance = clamp01((vh - viewportRect.top) / vh);
                 this.model.scale.setScalar(entrance);
 
-                // 고정
-                const pinnedDist = Math.max(rect.height - vh, 1);
-                const pinned = clamp01(-rect.top / pinnedDist);
+                let pinned = 0;
+                if (isPinPhase) {
+                    pinned = clamp01(sectionScroll / animPx);
+                } else if (isExiting) {
+                    pinned = 1;
+                }
 
-                // side 회전
                 const rp = clamp01(pinned / ROT_END);
                 this.model.rotation[SCROLL_ROT_AXIS] =
                     SCROLL_ROT_FROM + (SCROLL_ROT_TO - SCROLL_ROT_FROM) * rp;
 
-                // 뚜껑 열림 → 핀 흩뿌리기
                 this.setOpen(pinned >= OPEN_POINT);
 
                 this.renderScene();
@@ -1381,36 +1500,117 @@
             },
             onResize() {
                 const canvas = this.$refs.canvas;
+                const viewport = this.$refs.viewport;
                 if (!canvas || !this.renderer || !this.camera) return;
 
-                const w = canvas.clientWidth;
-                const h = canvas.clientHeight;
+                const w = this.isPinned
+                    ? window.innerWidth
+                    : viewport?.clientWidth || canvas.clientWidth;
+                const h = this.isPinned
+                    ? window.innerHeight
+                    : viewport?.clientHeight || canvas.clientHeight;
 
                 this.camera.aspect = w / h;
                 this.camera.updateProjectionMatrix();
                 this.renderer.setSize(w, h);
-                this.onFeaturedWorkScroll();
+                if (this.model) this.onFeaturedWorkScroll();
             },
         },
     };
 </script>
 
 <style lang='scss' scoped>
+    @use '@/assets/scss/base/variables' as *;
+
     #featured-work {
         position: relative;
         width: 100%;
+        height: calc(var(--fw-track-vh, 4.5) * 100vh);
 
-        .featured-work-sticky {
-            position: sticky;
-            top: 0;
+        .featured-work-viewport {
+            position: relative;
             width: 100%;
             height: 100vh;
+        }
+
+        .featured-work-pin {
+            width: 100%;
+            height: 100%;
+
+            &.is-pinned {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                z-index: 4;
+                will-change: transform;
+            }
+        }
+
+        .featured-work-trail {
+            height: calc(var(--fw-pinned-vh, 3.5) * 100vh);
+            pointer-events: none;
         }
 
         canvas {
             display: block;
             width: 100%;
             height: 100%;
+        }
+
+        .shard-cursor-hint {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: $white;
+            background-color: $black;
+            mix-blend-mode: difference;
+            padding: 4px 6px;
+            margin-left: 8px;
+        }
+
+        .shard-front-panel {
+            position: fixed;
+            z-index: 2;
+            transform: translateX(-50%);
+            max-width: $tablet;
+            text-align: center;
+            pointer-events: auto;
+
+            .summary {
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+
+            .duration,
+            .stack {
+                margin-top: 0.5rem;
+                font-size: 1rem;
+            }
+
+            .link-btn {
+                margin-top: 1rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+                border-radius: 32px;
+                border: 1px solid $white;
+                color: $white;
+                font-size: 0.8rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                transition: all 0.4s ease;
+
+                &:hover {
+                    background: rgba(236, 232, 218, 0.2);
+                    transition: all 0.4s ease;
+                }
+            }
         }
     }
 </style>

@@ -14,17 +14,20 @@
         />
         <GNB v-show='introDone' />
         <Nuxt />
+        <SiteFooter />
     </div>
 </template>
 
 <script>
     import SiteHeader from '@/layouts/Header.vue';
     import GNB from '@/layouts/GNB.vue';
+    import SiteFooter from '@/layouts/Footer.vue';
 
     export default {
         components: {
             SiteHeader,
             GNB,
+            SiteFooter,
         },
         data() {
             return {
