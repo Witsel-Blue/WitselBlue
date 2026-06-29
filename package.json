@@ -4,18 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npm-run-all --parallel dev:v2025 dev:v2026",
-    "dev:v2026": "nuxt --rootDir apps/v2026",
-    "dev:v2025": "cd apps/v2025 && PORT=3001 nuxt",
-    "build": "npm-run-all build:v2026 build:v2025",
-    "build:v2026": "nuxt build --rootDir apps/v2026",
-    "build:v2025": "cd apps/v2025 && nuxt build",
-    "build:analyze": "cd apps/v2025 && ANALYZE=true nuxt build",
-    "start": "nuxt start --rootDir apps/v2026",
-    "start:v2025": "cd apps/v2025 && nuxt start",
-    "generate": "npm-run-all generate:v2026 generate:v2025",
-    "generate:v2026": "nuxt generate --rootDir apps/v2026",
-    "generate:v2025": "cd apps/v2025 && nuxt generate"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "build:analyze": "ANALYZE=true nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
@@ -35,13 +28,11 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "@nuxtjs/proxy": "^2.1.0",
     "@types/p5": "^1.7.6",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-vue": "^9.33.0",
-    "npm-run-all": "^4.1.5",
     "nuxt-gsap-module": "^2.0.0",
     "sass": "^1.90.0",
     "sass-loader": "^10.5.2",
