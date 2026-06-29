@@ -1,0 +1,6 @@
+{
+    "version": 2,
+    "installCommand": "git lfs pull && npm install",
+    "buildCommand": "npm run generate",
+    "outputDirectory": "dist"
+}

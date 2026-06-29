@@ -59,6 +59,13 @@ export default {
         },
     },
 
+    generate: {
+        dir: path.resolve(__dirname, 'dist'),
+        routes: ['/', '/ko'],
+        fallback: true,
+        crawler: false,
+    },
+
     build: {
         loaders: {
             scss: {
