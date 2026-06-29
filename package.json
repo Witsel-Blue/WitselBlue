@@ -9,7 +9,8 @@
     "build:analyze": "ANALYZE=true nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "vercel-build": "nuxt generate"
+    "pregenerate": "node scripts/ensure-glb-assets.mjs",
+    "vercel-build": "node scripts/ensure-glb-assets.mjs && nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",

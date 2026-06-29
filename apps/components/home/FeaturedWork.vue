@@ -46,9 +46,7 @@
 </template>
 
 <script>
-    import nacreboxUrl from '@/assets/model/nacrebox.glb';
-    import hairpinUrl from '@/assets/model/hairpin.glb';
-    import hairpin2Url from '@/assets/model/hairpin2.glb';
+    import { nacreboxUrl, hairpinUrl, hairpin2Url } from '@/assets/data/model-urls.js';
     import nacreRedUrl from '@/assets/model/texture/nacre_red.png';
     import nacrePurpleUrl from '@/assets/model/texture/nacre_purple.png';
     import nacreWhiteUrl from '@/assets/model/texture/nacre_white.png';
