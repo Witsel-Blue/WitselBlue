@@ -11,7 +11,7 @@
         <div class='menu-cont'>
             <Logo />
             <LanguageMenu />
-            <SoundMuteMenu />
+            <!-- <SoundMuteMenu /> -->
             <ul class='menu-list'>
                 <li
                     v-for='(item, index) in menuItems'
@@ -37,13 +37,13 @@
 <script>
     import Logo from '@/components/svg/logo.vue';
     import LanguageMenu from '@/components/LanguageMenu.vue';
-    import SoundMuteMenu from '@/components/SoundMuteMenu.vue';
+    // import SoundMuteMenu from '@/components/SoundMuteMenu.vue';
 
     export default {
         components: {
             Logo,
             LanguageMenu,
-            SoundMuteMenu,
+            // SoundMuteMenu,
         },
         data() {
             return {
@@ -53,7 +53,7 @@
                 staggerTimers: [],
                 menuItems: [
                     { to: '/', label: 'H<span>o</span>me' },
-                    { to: '/about', label: 'Ab<span>o</span>ut <span>M</span>e' },
+                    { to: '/aboutme', label: 'Ab<span>o</span>ut <span>M</span>e' },
                     { to: '/archive', label: 'Arc<span>h</span>ive' },
                     { to: '/contact', label: 'Co<span>n</span>tact' },
                 ],
