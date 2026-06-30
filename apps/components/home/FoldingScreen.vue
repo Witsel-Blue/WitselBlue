@@ -35,7 +35,7 @@
     const ZOOM_Z_MULT = 1;
     const ZOOM_SCALE_START = 0.3;
     const ZOOM_SCALE_END = 1;
-    const LAYER_LERP = 0.02;
+    const LAYER_LERP = 0.1;
 
     // 앞(가까움) → 뒤(멀음)
     const LAYERS = [

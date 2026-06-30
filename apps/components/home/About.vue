@@ -42,30 +42,26 @@
                 </p>
                 <ParllaxComponent :img='profile.img' fast />
                 <div class='btn-wrap' :style='btnStyle'>
-                    <ButtonRound :link='{ href: "/", text: "About Me" }' />
+                    <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
                 </div>
             </section>
         </div>
-        <TextMarquee :image='knot' />
     </div>
 </template>
 
 <script>
     import ParllaxComponent from '@/components/ParallaxComponent.vue';
     import ButtonRound from '@/components/ButtonRound.vue';
-    import TextMarquee from '@/components/TextMarquee.vue';
 
     export default {
         name: 'About',
         components: {
             ParllaxComponent,
             ButtonRound,
-            TextMarquee,
         },
         data() {
             return {
                 sectionProgress: [0, 0],
-                knot: require('@/assets/img/home/knot.svg'),
                 titleLines: [
                     'Mother of pearl radiates different colors',
                     'depending on the angles of light.',
