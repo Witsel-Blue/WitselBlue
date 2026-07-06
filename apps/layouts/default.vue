@@ -14,7 +14,7 @@
         />
         <GNB v-show='introDone' />
         <Nuxt />
-        <SiteFooter />
+        <SiteFooter v-show='introDone' />
     </div>
 </template>
 
