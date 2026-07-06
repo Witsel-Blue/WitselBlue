@@ -57,6 +57,7 @@
 
 <script>
     import TextStagger from '@/components/TextStagger.vue';
+    import gsap from 'gsap';
 
     const CARD_LINE_COUNT = 6;
 
@@ -81,7 +82,8 @@
                         company: 'SBS Academy',
                         desc: 'Learned general planning, design, publishing of web development.',
                         skills: 'Photoshop / Illustrator / HTML / CSS',
-                        year: '2020'
+                        year: '2020',
+                        img: require('@/assets/img/home/story1.png'),
                     },
                     {
                         id: 2,
@@ -91,6 +93,7 @@
                         desc: 'Frontend developer activities in a startup web agency company. I joined the company as a new hire and took sole responsibility for the entire frontend, building about eight new websites from scratch.',
                         skills: 'Drupal / HTML / CSS / jQuery / GSAP',
                         year: 'April 2021 - April 2022',
+                        img: require('@/assets/img/home/story2.png'),
                     },
                     {
                         id: 3,
@@ -100,6 +103,7 @@
                         desc: 'Participated as a team member in the renewal of the Samsung Card Monimo app. Collaborated with a team of five developers to revamp over 1,400 pages within the project timeframe. Specifically responsible for redesigning the main card page using technologies such as Lottie and Swiper.',
                         skills: 'Vue / Nuxt / SCSS / javascript / Storybook / Lottie',
                         year: 'June 2024 - November 2024',
+                        img: require('@/assets/img/home/story3.png'),
                     },
                     {
                         id: 4,
@@ -109,6 +113,7 @@
                         desc: 'Footwear sales startup. Proposed using a 3D configurator tool instead of traditional sketch-based planning; single-handedly managed the entire process—including planning, design, and development. Established workflows and reporting systems. Trained junior front-end staff.',
                         skills: 'React / Next /SCSS / three.js / GSAP / Lottie',
                         year: 'January 2026 - April 2026',
+                        img: require('@/assets/img/home/story4.png'),
                     }
                 ]
             };
@@ -161,6 +166,10 @@
                         const p = (vh - slotCenter) / range;
                         return Math.max(0, Math.min(1, p));
                     });
+                }
+
+                if (this.sphereReady) {
+                    this.updateSphereEnvironment();
                 }
             };
 
@@ -231,10 +240,11 @@
                 this.sphereScene = new THREE.Scene();
 
                 const pmrem = new THREE.PMREMGenerator(this.sphereRenderer);
-                this.sphereEnvMap = pmrem
+                this.baseSphereEnv = pmrem
                     .fromScene(new RoomEnvironment(), 0.04)
                     .texture;
-                this.sphereScene.environment = this.sphereEnvMap;
+                this.sphereScene.environment = this.baseSphereEnv;
+                this.activeEnvIndex = -1;
                 pmrem.dispose();
 
                 if ('environmentIntensity' in this.sphereScene) {
@@ -253,14 +263,26 @@
                 this.sphereMaterial = new THREE.MeshPhysicalMaterial({
                     color: new THREE.Color(0xece8da),
                     metalness: 1,
-                    roughness: 0.18,
+                    roughness: 0.1,
                     envMapIntensity: 1.2,
                     clearcoat: 1,
                     clearcoatRoughness: 0.08,
                 });
                 this.sphereMesh = new THREE.Mesh(geometry, this.sphereMaterial);
-                this.sphereScene.add(this.sphereMesh);
+                this.spherePivot = new THREE.Group();
+                this.spherePivot.add(this.sphereMesh);
+                this.sphereScene.add(this.spherePivot);
 
+                this.sphereBaseY = 0;
+                this.isEnvSpinning = false;
+                this.envSpinNextIdx = null;
+                this.queuedEnvIndex = null;
+                this.envSpinTween = null;
+                this.sphereRotY = { value: 0 };
+                this.lastAnimTime = 0;
+
+                await this.loadStoryEnvMaps(THREE);
+                this.sphereReady = true;
                 this.sphereVisible = true;
                 this.sphereAnimate();
 
@@ -280,27 +302,189 @@
                     ([entry]) => {
                         this.sphereVisible = entry.isIntersecting;
                     },
-                    { threshold: 0.05 },
+                    { threshold: 0, rootMargin: '20% 0px' },
                 );
-                this.sphereObserver.observe(
-                    canvas.closest('.sphere-column') || canvas,
-                );
+                this.sphereObserver.observe(canvas);
+            },
+
+            async loadStoryEnvMaps(THREE) {
+                const loader = new THREE.TextureLoader();
+                const pmrem = new THREE.PMREMGenerator(this.sphereRenderer);
+                this.storyEnvMaps = [];
+
+                for (const item of this.storyData) {
+                    const texture = await loader.loadAsync(item.img);
+                    texture.colorSpace = THREE.SRGBColorSpace;
+
+                    const envScene = new THREE.Scene();
+                    const geo = new THREE.SphereGeometry(10, 64, 64);
+                    const mat = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        side: THREE.BackSide,
+                    });
+                    envScene.add(new THREE.Mesh(geo, mat));
+
+                    this.storyEnvMaps.push(
+                        pmrem.fromScene(envScene, 0.04).texture,
+                    );
+
+                    texture.dispose();
+                    geo.dispose();
+                    mat.dispose();
+                }
+
+                pmrem.dispose();
+            },
+
+            getActiveSlotIndex() {
+                const track = this.$refs.storyTrack;
+                if (!track) return -1;
+
+                const vh = window.innerHeight;
+                const centerY = vh * 0.5;
+                const slots = track.querySelectorAll('.story-slot');
+
+                let bestIdx = -1;
+                let bestDist = Infinity;
+
+                slots.forEach((slot, i) => {
+                    const rect = slot.getBoundingClientRect();
+                    if (rect.bottom < 0 || rect.top > vh) return;
+
+                    const slotCenter = rect.top + rect.height / 2;
+                    const dist = Math.abs(slotCenter - centerY);
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        bestIdx = i;
+                    }
+                });
+
+                return bestIdx;
+            },
+
+            applyEnvIndex(idx) {
+                const env =
+                    idx < 0 ? this.baseSphereEnv : this.storyEnvMaps[idx];
+                this.activeEnvIndex = idx;
+                this.sphereScene.environment = env;
+            },
+
+            startEnvTransition(nextIdx) {
+                if (!this.spherePivot) return;
+
+                const fromIdx = this.activeEnvIndex;
+                if (nextIdx === fromIdx) return;
+
+                if (this.isEnvSpinning) {
+                    this.queuedEnvIndex = nextIdx;
+                    return;
+                }
+
+                this.isEnvSpinning = true;
+                this.envSpinNextIdx = nextIdx;
+
+                const dir = nextIdx > fromIdx ? -1 : 1;
+                const startY = this.spherePivot.rotation.y;
+                const endY = startY + dir * Math.PI;
+
+                if (this.envSpinTween) this.envSpinTween.kill();
+
+                this.sphereRotY.value = startY;
+                let envSwapped = false;
+
+                this.envSpinTween = gsap.to(this.sphereRotY, {
+                    value: endY,
+                    duration: 1.1,
+                    ease: 'power2.inOut',
+                    onUpdate: () => {
+                        this.spherePivot.rotation.y = this.sphereRotY.value;
+
+                        if (
+                            !envSwapped &&
+                            this.envSpinTween.progress() >= 0.5
+                        ) {
+                            envSwapped = true;
+                            this.applyEnvIndex(nextIdx);
+                        }
+                    },
+                    onComplete: () => {
+                        this.finishEnvSpin(nextIdx);
+                    },
+                });
+            },
+
+            finishEnvSpin(nextIdx) {
+                this.isEnvSpinning = false;
+                this.sphereBaseY = this.sphereRotY.value;
+                this.spherePivot.rotation.y = this.sphereRotY.value;
+                this.envSpinNextIdx = null;
+                this.envSpinTween = null;
+                this.applyEnvIndex(nextIdx);
+
+                if (
+                    this.queuedEnvIndex !== null &&
+                    this.queuedEnvIndex !== this.activeEnvIndex
+                ) {
+                    const queued = this.queuedEnvIndex;
+                    this.queuedEnvIndex = null;
+                    this.startEnvTransition(queued);
+                }
+            },
+
+            updateSphereEnvironment() {
+                if (!this.sphereScene || !this.storyEnvMaps?.length) return;
+
+                const idx = this.getActiveSlotIndex();
+                const slotP = idx >= 0 ? this.slotProgress[idx] || 0 : 0;
+
+                if (
+                    idx >= 0 &&
+                    slotP > 0.12 &&
+                    idx !== this.activeEnvIndex &&
+                    !this.isEnvSpinning
+                ) {
+                    this.startEnvTransition(idx);
+                } else if (
+                    this.isEnvSpinning &&
+                    idx >= 0 &&
+                    idx !== this.envSpinNextIdx
+                ) {
+                    this.queuedEnvIndex = idx;
+                }
+            },
+
+            updateSphereMotion(time) {
+                if (!this.spherePivot || !this.sphereMesh) return;
+
+                const dt = this.lastAnimTime
+                    ? (time - this.lastAnimTime) * 0.001
+                    : 0;
+                this.lastAnimTime = time;
+
+                const t = time * 0.001;
+                const idleX = Math.sin(t * 0.25) * 0.12;
+
+                if (this.isEnvSpinning) {
+                    const spinP = this.envSpinTween?.progress() || 0;
+                    this.sphereMesh.rotation.x = idleX * (1 - spinP);
+                    return;
+                }
+
+                this.sphereBaseY += dt * 0.35;
+                this.sphereRotY.value = this.sphereBaseY;
+                this.spherePivot.rotation.y = this.sphereBaseY;
+                this.sphereMesh.rotation.x = idleX;
             },
 
             sphereAnimate() {
                 const frame = (time) => {
                     this.sphereRaf = requestAnimationFrame(frame);
-                    if (
-                        !this.sphereVisible ||
-                        !this.sphereRenderer ||
-                        !this.sphereMesh
-                    ) {
-                        return;
-                    }
+                    if (!this.sphereRenderer || !this.sphereMesh) return;
 
-                    const t = time * 0.001;
-                    this.sphereMesh.rotation.y = t * 0.35;
-                    this.sphereMesh.rotation.x = Math.sin(t * 0.25) * 0.12;
+                    this.updateSphereMotion(time);
+
+                    if (!this.sphereVisible) return;
+
                     this.sphereRenderer.render(
                         this.sphereScene,
                         this.sphereCamera,
@@ -311,6 +495,7 @@
 
             destroySphere() {
                 if (this.sphereRaf) cancelAnimationFrame(this.sphereRaf);
+                if (this.envSpinTween) this.envSpinTween.kill();
                 if (this.sphereObserver) this.sphereObserver.disconnect();
                 if (this.onSphereResize) {
                     window.removeEventListener('resize', this.onSphereResize);
@@ -319,7 +504,8 @@
                     this.sphereMesh.geometry.dispose();
                 }
                 if (this.sphereMaterial) this.sphereMaterial.dispose();
-                if (this.sphereEnvMap) this.sphereEnvMap.dispose();
+                this.storyEnvMaps?.forEach((map) => map.dispose());
+                if (this.baseSphereEnv) this.baseSphereEnv.dispose();
                 if (this.sphereRenderer) this.sphereRenderer.dispose();
             },
         },
@@ -390,40 +576,39 @@
                     }
 
                     &__progress {
-                        font-size: 0.75rem;
+                        font-size: 1rem;
                         letter-spacing: 0.08em;
                         color: $gray2;
-                        margin-bottom: 0.35rem;
                     }
 
                     &__title {
+                        margin-top: 0.5rem;
                         font-family: $ft-tanpearl;
-                        font-size: 1.25rem;
-                        line-height: 1.3;
-                        margin-bottom: 0.25rem;
+                        font-size: 2rem;
                     }
 
                     &__company {
-                        font-size: 0.875rem;
+                        margin-top: 1rem;
+                        font-size: 1rem;
                         color: $gray1;
-                        margin-bottom: 0.5rem;
                     }
 
                     &__desc {
-                        font-size: 0.8125rem;
-                        line-height: 1.55;
+                        margin-top: 1rem;
+                        font-size: 1rem;
                         color: $gray2;
-                        margin-bottom: 0.5rem;
                     }
 
                     &__skills {
-                        font-size: 0.75rem;
+                        margin-top: 1rem;
+                        font-size: 1rem;
                         color: $gray1;
-                        margin-bottom: 0.25rem;
                     }
 
                     &__year {
-                        font-size: 0.75rem;
+                        margin-top: 1rem;
+                        font-size: 1rem;
+                        text-align: right;
                         color: $gray2;
                     }
                 }
