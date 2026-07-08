@@ -61,7 +61,18 @@
                     const rect = about.getBoundingClientRect();
                     const center = rect.top + rect.height / 2;
                     this.shown = rect.top < vh;
-                    this.topPx = Math.max(center, mid);
+
+                    let target = Math.max(center, mid);
+
+                    const footer = document.getElementById('footer');
+                    if (footer) {
+                        const footerTop = footer.getBoundingClientRect().top;
+                        const half = (this.$el ? this.$el.offsetHeight : 0) / 2;
+                        const limit = footerTop - half - 24;
+                        target = Math.min(target, limit);
+                    }
+
+                    this.topPx = target;
                 }
                 this.updateActiveSection(mid);
             };

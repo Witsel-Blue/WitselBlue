@@ -1,33 +1,40 @@
 <template>
     <div id='footer'>
-        <section class='social'>
-            <div class='inner'>
-                <h2>EMAIL</h2>
+        <section class='top'>
+            <div class='social'>
                 <ul>
                     <li>
+                        <h3>
+                            <transition name='verb' mode='out-in' :style='lineStyle(0)'>
+                                <span :key='currentVerb' class='verb'>{{ currentVerb }}</span>
+                            </transition>
+                            <br />
+                            <span :style='lineStyle(1)'>with me!</span>
+                        </h3>
+                    </li>
+                    <li :style='lineStyle(2)'>
                         <a href='mailto:witselblue@gmail.com'>
                             <TextShifting text='witselblue@gmail.com' />
                         </a>
                     </li>
                 </ul>
-                <h2>SOCIAL</h2>
                 <ul>
-                    <li>
+                    <li :style='lineStyle(3)'>
                         <a href='https://www.instagram.com/witsel_blue' target='_blank'>
                             <TextShifting text='Instagram' />
                         </a>
                     </li>
-                    <li>
+                    <li :style='lineStyle(4)'>
                         <a href='https://github.com/Witsel-Blue' target='_blank'>
                             <TextShifting text='GitHub' />
                         </a>
                     </li>
-                    <li>
+                    <li :style='lineStyle(5)'>
                         <a href='https://www.linkedin.com/in/witselblue/' target='_blank'>
                             <TextShifting text='LinkedIn' />
                         </a>
                     </li>
-                    <li>
+                    <li :style='lineStyle(6)'>
                         <a href='https://open.kakao.com/o/s1ei023h' target='_blank'>
                             <TextShifting text='Kakao' />
                         </a>
@@ -35,43 +42,58 @@
                 </ul>
             </div>
         </section>
-        <section class='info'>
-            <ul>
-                <li>
-                    <dl>
-                        <dt>VERSION</dt>
-                        <dd>2026 &copy; All rights reserved</dd>
-                    </dl>
-                </li>
-                <li>
-                    <dl>
-                        <dt>LOCAL TIME</dt>
-                        <dd>{{ localTimeDisplay }}</dd>
-                    </dl>
-                </li>
-            </ul>
-            <button type='button' @click='scrollToTop'>
-                <TextShifting text='BACK TO TOP' />
-            </button>
+        <section class='bottom'>
+            <TextStaggerByMiddle
+                text='WitselBlue'
+            />
+            <div class='info'>
+                <ul>
+                    <li :style='lineStyle(5)'>
+                        <dl>
+                            <dt>VERSION</dt>
+                            <dd>2026 &copy; All rights reserved</dd>
+                        </dl>
+                    </li>
+                    <li :style='lineStyle(6)'>
+                        <dl>
+                            <dt>LOCAL TIME</dt>
+                            <dd>{{ localTimeDisplay }}</dd>
+                        </dl>
+                    </li>
+                </ul>
+                <button type='button' :style='lineStyle(7)' @click='scrollToTop'>
+                    <TextShifting text='BACK TO TOP' />
+                </button>
+            </div>
         </section>
     </div>
 </template>
 
 <script>
     import TextShifting from '@/components/TextShifting.vue';
+    import TextStaggerByMiddle from '@/components/TextStaggerByMiddle.vue';
 
     export default {
         name: 'SiteFooter',
         components: {
             TextShifting,
+            TextStaggerByMiddle,
         },
         data() {
             return {
                 now: new Date(),
                 clockTimer: null,
+                sectionProgress: 0,
+                revealCount: 10,
+                verbs: ['Work', 'Create', 'Build'],
+                verbIndex: 0,
+                verbTimer: null,
             };
         },
         computed: {
+            currentVerb() {
+                return this.verbs[this.verbIndex];
+            },
             localTimeDisplay() {
                 const opts = {
                     hour: '2-digit',
@@ -93,11 +115,56 @@
             this.clockTimer = setInterval(() => {
                 this.now = new Date();
             }, 1000);
+
+            this.verbTimer = setInterval(() => {
+                this.verbIndex = (this.verbIndex + 1) % this.verbs.length;
+            }, 4000);
+
+            this.onScroll = () => this.updateReveal();
+            window.addEventListener('scroll', this.onScroll, { passive: true });
+            window.addEventListener('resize', this.onScroll, { passive: true });
+            this.updateReveal();
         },
         beforeDestroy() {
             if (this.clockTimer) clearInterval(this.clockTimer);
+            if (this.verbTimer) clearInterval(this.verbTimer);
+            window.removeEventListener('scroll', this.onScroll);
+            window.removeEventListener('resize', this.onScroll);
         },
         methods: {
+            easeInOut(t) {
+                return t < 0.5
+                    ? 4 * t * t * t
+                    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            },
+            itemReveal(index, progress, itemCount) {
+                const win = 0.65;
+                const step =
+                    itemCount > 1 ? (1 - win) / (itemCount - 1) : 0;
+                const start = index * step;
+                let local = (progress - start) / win;
+                local = Math.max(0, Math.min(1, local));
+                return this.easeInOut(local);
+            },
+            lineStyle(index) {
+                const e = this.itemReveal(
+                    index,
+                    this.sectionProgress,
+                    this.revealCount,
+                );
+                return {
+                    opacity: 0.18 + 0.82 * e,
+                    transform: `translateY(${(1 - e) * 0.7}em)`,
+                    filter: `blur(${(1 - e) * 14}px)`,
+                };
+            },
+            updateReveal() {
+                const rect = this.$el.getBoundingClientRect();
+                const vh = window.innerHeight;
+                const center = rect.top + rect.height / 2;
+                const p = (vh - center) / (vh * 0.5);
+                this.sectionProgress = Math.max(0, Math.min(1, p));
+            },
             scrollToTop() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
@@ -110,76 +177,114 @@
 
     #footer {
         width: 100%;
-        height: 24vh;
-        margin-top: -24vh;
+        height: 100vh;
+        margin-top: -100vh;
+        backdrop-filter: blur(10px);
         position: relative;
         z-index: 1;
         mix-blend-mode: difference;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 2.5vw;
 
-        .social {            
-            .inner {
-                display: grid;
-                grid-template-columns: auto auto;
-            }
+        .top {          
+            padding: 2.5vw;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
 
-            h2 {
-                font-size: 2rem;
-                font-weight: 600;
-                text-align: right;
-                margin-right: 2rem;
-                user-select: none;
-            }
+            .social {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 2rem;
+                width: 100%;
 
-            ul {
-                li {
-                    a {
-                        font-size: 2rem;
-                        font-weight: 400;
-                        width: fit-content;
+                h3 {
+                    span {
+                        font-size: 4rem;
+                        line-height: 1;
+                    }
+
+                    .verb {
                         display: inline-block;
+                        font-family: $ft-diphylleia;
+                        font-style: italic;
+                        font-size: 4.5rem;
 
-                        .text-shifting::v-deep {
-                            width: fit-content;
+                        &-enter-active,
+                        &-leave-active {
+                            transition: filter 0.8s ease, opacity 0.4s ease;
+                        }
 
-                            span {
-                                font-family: $ft-diphylleia;
-                            }
+                        &-enter,
+                        &-leave-to {
+                            filter: blur(4px);
+                            opacity: 0;
                         }
                     }
                 }
 
-                &:nth-of-type(2) {
-                    display: flex;
-                    gap: 1rem;
+                ul {
+                    li {
+                        a {
+                            font-size: 2rem;
+                            font-weight: 400;
+                            width: fit-content;
+                            display: inline-block;
+
+                            .text-shifting::v-deep {
+                                width: fit-content;
+
+                                span {
+                                    font-size: 1.5rem;
+                                }
+                            }
+                        }
+                    }
+
+                    &:nth-of-type(2) {
+                        text-align: right;
+                    }
                 }
             }
         }
 
-        .info {
-            margin-top: 4rem;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
+        .bottom {
+            padding: 2.5vw;
+            text-align: center;
 
-            ul {
-                display: flex;
-                align-items: flex-end;
-                gap: 10rem;
-
-                dl {
-                    align-items: center;
-                    gap: 1rem;
+            .text-stagger-by-middle::v-deep {
+                .char__inner {
+                    font-size: 10rem;
+                    font-weight: 700;
+                    font-family: $ft-tanpearl;
+                    user-select: none;
                 }
             }
+            
+            .info {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
 
-            button {
-                .text-shifting::v-deep {
-                    .space {
-                        display: inline-block;
+                ul {
+                    display: flex;
+                    align-items: flex-end;
+                    gap: 10rem;
+
+                    dl {
+                        align-items: center;
+                        gap: 1rem;
+                    }
+                }
+
+                button {
+                    .text-shifting::v-deep {
+                        .space {
+                            display: inline-block;
+                        }
                     }
                 }
             }

@@ -52,7 +52,7 @@
         data() {
             return {
                 sectionProgress: 0,
-                textLines: ['And yet...', "the crafting doesn't end."],
+                textLines: ['And yet...', "the crafting doesn't end"],
             };
         },
         mounted() {
@@ -264,6 +264,7 @@
 
                     &:nth-child(2) {
                         margin-top: 2rem;
+                        font-size: 3rem;
                     }
                 }
             }

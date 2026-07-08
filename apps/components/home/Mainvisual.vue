@@ -52,21 +52,19 @@
     import nacreShardUrl from '@/assets/model/texture/nacre.png';
 
     const INTRO_ROOT_KEY = '$wb2026IntroDone';
-    /** anchor1→anchor2 산개 — 화면 frustum 배율 (절대 줄이지 말 것) */
     const G2_SCATTER = {
         VIEW_XY: 2.8,
         Z_FACTOR: 2.1,
         Z_BIAS: 0.28,
         FRONT_BLUR: 0.35,
         MAX_SCALE: 0.78,
+        SCATTER_BLUR: 1.7,
     };
-    /** anchor2 top 위치 → gather2Progress */
     const G2_SCROLL = {
         G1_GATE: 0.85,
         START_TOP: 1.0,
         END_TOP: 0.12,
     };
-    /** gather2Progress 내부 페이즈 */
     const G2_PHASE = {
         SCATTER_START: 0.38,
         SCATTER_END: 0.58,
@@ -980,7 +978,9 @@
                     } else if (g2Anim > 0.001) {
                         const phase = g2Phase;
                         const blur = 1 - phase.gatherEase;
-                        this.targetRadial = g2Loose ? 0 : blur;
+                        this.targetRadial = g2Loose
+                            ? G2_SCATTER.SCATTER_BLUR
+                            : blur;
                         this.targetFront = blur * G2_SCATTER.FRONT_BLUR;
                     } else {
                         this.targetRadial = 1 - this.scrollProgress;
@@ -1004,7 +1004,8 @@
                         u.radialAmt.value = 0;
                         u.frontAmt.value = 0;
                     } else if (g2Loose) {
-                        u.radialAmt.value = 0;
+                        u.radialAmt.value +=
+                            (this.targetRadial - u.radialAmt.value) * 0.12;
                         u.frontAmt.value +=
                             (this.targetFront - u.frontAmt.value) * 0.12;
                     } else {
@@ -1099,12 +1100,10 @@
                 s.scale.setScalar(main + (small - main) * shrink);
             },
 
-            /** g2 산개: 작음(1) → 큼(0), 점차 */
             g2ScatterScaleEase(scatterEase) {
                 return 1 - this.smoothstep(scatterEase);
             },
 
-            /** g2 모임: 큼(0) → 작음(1), 점차 */
             g2GatherScaleEase(gatherEase) {
                 return this.smoothstep(gatherEase);
             },
@@ -1119,7 +1118,6 @@
                 s.scale.setScalar(limited);
             },
 
-            /** g2 모임: 산개 크기 → anchor2 작은 크기 (전 구간 점진) */
             applyG2GatherScale(s, ud, gatherEase) {
                 const main = SHARD_SCALE.MAIN;
                 const from = main * G2_SCATTER.MAX_SCALE;
