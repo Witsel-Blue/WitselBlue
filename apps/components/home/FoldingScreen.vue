@@ -14,8 +14,15 @@
             </div>
         </section>
         <section ref='zoomSection' class='folding-zoom'>
-            <div class='folding-zoom-viewport'>
-                <canvas ref='zoomCanvas' />
+            <div class='folding-zoom-pin'>
+                <div
+                    ref='zoomViewport'
+                    class='folding-zoom-viewport'
+                    :class='{ "is-pinned": isViewportPinned }'
+                    :style='viewportPinStyle'
+                >
+                    <canvas ref='zoomCanvas' />
+                </div>
             </div>
             <div class='folding-zoom-trail' aria-hidden='true' />
         </section>
@@ -31,13 +38,16 @@
     import moonUrl from '@/assets/img/home/moon.svg';
 
     const DEPTH_NUM = 20;
-    const ZOOM_SCROLL_VH = 3;
+    const ZOOM_SCROLL_VH = 2;
+    const ZOOM_HOLD_VH = 1;
+    const FOOTER_OVERLAP_VH = 1;
+    const ZOOM_TRAIL_VH =
+        ZOOM_SCROLL_VH + ZOOM_HOLD_VH + FOOTER_OVERLAP_VH;
     const ZOOM_Z_MULT = 1;
     const ZOOM_SCALE_START = 0.3;
     const ZOOM_SCALE_END = 1;
-    const LAYER_LERP = 0.1;
+    const LAYER_LERP = 0.18;
 
-    // 앞(가까움) → 뒤(멀음)
     const LAYERS = [
         { url: treeUrl, y: -12, scale: [140, 80] },
         { url: mountain1Url, y: -10, scale: [180, 70] },
@@ -53,18 +63,25 @@
             return {
                 sectionProgress: 0,
                 textLines: ['And yet...', "the crafting doesn't end"],
+                isViewportPinned: false,
+                viewportPinStyle: {},
             };
         },
         mounted() {
             this.onScroll = () => {
                 this.updateTextReveal();
+                this.updateZoomPin();
                 this.updateZoomScroll();
             };
             window.addEventListener('scroll', this.onScroll, { passive: true });
             window.addEventListener('resize', this.onScroll, { passive: true });
             window.addEventListener('resize', this.onZoomResize, { passive: true });
+
+            this.$nextTick(() => {
+                this.applyZoomLayout();
+                this.initZoomScene();
+            });
             this.onScroll();
-            this.$nextTick(() => this.initZoomScene());
         },
         beforeDestroy() {
             window.removeEventListener('scroll', this.onScroll);
@@ -73,6 +90,15 @@
             this.disposeZoomScene();
         },
         methods: {
+            applyZoomLayout() {
+                const section = this.$refs.zoomSection;
+                if (!section) return;
+
+                section.style.setProperty(
+                    '--fold-zoom-trail-vh',
+                    String(ZOOM_TRAIL_VH),
+                );
+            },
             easeInOut(t) {
                 return t < 0.5
                     ? 4 * t * t * t
@@ -109,15 +135,28 @@
                 const p = (vh - center) / (vh * 0.5);
                 this.sectionProgress = Math.max(0, Math.min(1, p));
             },
+            updateZoomPin() {
+                const section = this.$refs.zoomSection;
+                if (!section) return;
+
+                const rect = section.getBoundingClientRect();
+                const vh = window.innerHeight;
+                const trailPx = ZOOM_TRAIL_VH * vh;
+                const sectionScroll = Math.max(0, -rect.top);
+                const shouldPin =
+                    rect.top <= 0 && sectionScroll <= trailPx;
+
+                this.isViewportPinned = shouldPin;
+                this.viewportPinStyle = shouldPin
+                    ? {
+                        left: `${rect.left}px`,
+                        width: `${rect.width}px`,
+                    }
+                    : {};
+            },
             async initZoomScene() {
                 const canvas = this.$refs.zoomCanvas;
-                const section = this.$refs.zoomSection;
-                if (!canvas || !section || this.zoomReady) return;
-
-                section.style.setProperty(
-                    '--fold-zoom-vh',
-                    String(ZOOM_SCROLL_VH),
-                );
+                if (!canvas || this.zoomReady) return;
 
                 const THREE = await import('three');
                 this.three = THREE;
@@ -198,7 +237,7 @@
                         this.zoomMaxTargetZ > 0
                             ? this.zoomMoveZ / this.zoomMaxTargetZ
                             : 0;
-                    applyZoomScale(t);
+                    applyZoomScale(Math.min(1, t));
 
                     camera.lookAt(scene.position);
                     renderer.render(scene, camera);
@@ -208,18 +247,18 @@
                 this.updateZoomScroll();
             },
             updateZoomScroll() {
-                if (!this.zoomReady) return;
-
                 const section = this.$refs.zoomSection;
                 if (!section) return;
 
                 const rect = section.getBoundingClientRect();
                 const vh = window.innerHeight;
-                const trailPx = ZOOM_SCROLL_VH * vh;
                 const sectionScroll = Math.max(0, -rect.top);
-                const progress = Math.min(1, sectionScroll / trailPx);
+                const zoomTrailPx = ZOOM_SCROLL_VH * vh;
+                const progress = Math.min(1, sectionScroll / zoomTrailPx);
 
-                this.zoomTargetZ = progress * this.zoomMaxTargetZ;
+                if (this.zoomReady) {
+                    this.zoomTargetZ = progress * this.zoomMaxTargetZ;
+                }
             },
             onZoomResize() {
                 const canvas = this.$refs.zoomCanvas;
@@ -230,6 +269,7 @@
                 this.zoomCamera.aspect = w / h;
                 this.zoomCamera.updateProjectionMatrix();
                 this.zoomRenderer.setSize(w, h);
+                this.updateZoomPin();
             },
             disposeZoomScene() {
                 if (this.zoomRaf) cancelAnimationFrame(this.zoomRaf);
@@ -274,16 +314,24 @@
             position: relative;
             width: 100%;
 
+            .folding-zoom-pin {
+                height: 100vh;
+            }
+
             .folding-zoom-viewport {
-                position: sticky;
-                top: 0;
                 width: 100%;
                 height: 100vh;
                 z-index: 1;
+
+                &.is-pinned {
+                    position: fixed;
+                    top: 0;
+                    z-index: 1;
+                }
             }
 
             .folding-zoom-trail {
-                height: calc(var(--fold-zoom-vh, 5) * 100vh);
+                height: calc(var(--fold-zoom-trail-vh, 4) * 100vh);
                 pointer-events: none;
             }
 

@@ -181,7 +181,7 @@
         margin-top: -100vh;
         backdrop-filter: blur(10px);
         position: relative;
-        z-index: 1;
+        z-index: 2;
         mix-blend-mode: difference;
         display: flex;
         flex-direction: column;

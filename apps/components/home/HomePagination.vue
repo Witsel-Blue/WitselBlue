@@ -68,7 +68,7 @@
                     if (footer) {
                         const footerTop = footer.getBoundingClientRect().top;
                         const half = (this.$el ? this.$el.offsetHeight : 0) / 2;
-                        const limit = footerTop - half - 24;
+                        const limit = footerTop - vh * 0.5 - half - 24;
                         target = Math.min(target, limit);
                     }
 
