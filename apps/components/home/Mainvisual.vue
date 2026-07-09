@@ -1458,7 +1458,7 @@
                         resolve(image);
                     };
                     image.onerror = reject;
-                    image.src = require('@/assets/img/home/flower.svg');
+                    image.src = require('@/assets/img/home/flower2.svg');
                 });
             },
 

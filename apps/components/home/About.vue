@@ -40,7 +40,9 @@
                         {{ line }}
                     </span>
                 </p>
-                <ParllaxComponent :img='profile.img' fast />
+                <div class='profile-wrap' :style='profileStyle'>
+                    <ParllaxComponent :img='profile.img' fast />
+                </div>
                 <div class='btn-wrap' :style='btnStyle'>
                     <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
                 </div>
@@ -98,12 +100,28 @@
             section2ItemCount() {
                 return this.titleLines2.length + this.descLines2.length;
             },
-            btnStyle() {
+            section2RevealCount() {
+                return this.section2ItemCount + 2;
+            },
+            profileStyle() {
                 const progress = this.sectionProgress[1] || 0;
                 const e = this.itemReveal(
                     this.section2ItemCount,
                     progress,
+                    this.section2RevealCount,
+                );
+                return {
+                    opacity: 0.18 + 0.82 * e,
+                    transform: `translateY(${(1 - e) * 0.7}em)`,
+                    filter: `blur(${(1 - e) * 14}px)`,
+                };
+            },
+            btnStyle() {
+                const progress = this.sectionProgress[1] || 0;
+                const e = this.itemReveal(
                     this.section2ItemCount + 1,
+                    progress,
+                    this.section2RevealCount,
                 );
                 return {
                     opacity: e,
@@ -211,15 +229,15 @@
                 .shape-anchor2 {
                     position: absolute;
                     top: 0;
-                    right: 5vw;
-                    width: 25vh;
-                    height: 25vh;
+                    right: 0;
+                    width: 70vh;
+                    height: 70vh;
                     opacity: 0;
                     pointer-events: none;
                 }
 
                 h2 {
-                    margin-top: 10vh;
+                    margin-top: 40vh;
                     z-index: 1;
                     
                     span::v-deep {
@@ -245,11 +263,19 @@
                     text-align: left;
                 }
 
-                .parallax-component {
+                .profile-wrap {
                     position: absolute;
-                    top: 20vh;
+                    top: 50vh;
                     left: 10vh;
                     width: 50vh;
+                    will-change: opacity, transform, filter;
+                }
+
+                .parallax-component {
+                    position: relative;
+                    top: auto;
+                    left: auto;
+                    width: 100%;
                 }
             }
 
