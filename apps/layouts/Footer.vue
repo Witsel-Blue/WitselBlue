@@ -178,7 +178,7 @@
     #footer {
         width: 100%;
         height: 100vh;
-        margin-top: -100vh;
+        // margin-top: -100vh;
         backdrop-filter: blur(10px);
         position: relative;
         z-index: 2;

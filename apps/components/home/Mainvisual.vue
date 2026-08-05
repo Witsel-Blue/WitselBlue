@@ -2,31 +2,15 @@
     <div id='mainvisual'>
         <canvas ref='canvas' @click='onCanvasClick'/>
 
-        <div
-            v-if='ready && clickCount >= 1 && !exploded'
-            class='content__item content__item--1'
-            :class='{ visible: show1, "fade-out": clickCount >= 2 }'
-        >
-            <TextShifting
-                :text="$t('intro.textShift1')"
-                :playing='play1'
-            />
-        </div>
-
-        <div
-            v-if='ready && clickCount >= 2 && !exploded'
-            class='content__item content__item--2'
-            :class='{ visible: show2 }'
-        >
-            <TextShifting
-                :text="$t('intro.textShift2')"
-                :playing='play2'
-            />
-        </div>
-
-        <p v-if='!exploded && ready' class='hint'>
-            {{ $t('intro.hint') }}
-        </p>
+        <Intro
+            :ready='ready'
+            :exploded='exploded'
+            :click-count='clickCount'
+            :show1='show1'
+            :show2='show2'
+            :play1='play1'
+            :play2='play2'
+        />
 
         <div
             v-if='exploded'
@@ -47,6 +31,7 @@
 </template>
 
 <script>
+    import Intro from '@/components/home/Intro.vue';
     import TextShifting from '@/components/TextShifting.vue';
     import Scrolldown from '@/components/svg/scrolldown.vue';
     import nacreShardUrl from '@/assets/model/texture/nacre.png';
@@ -80,6 +65,7 @@
 
     export default {
         components: {
+            Intro,
             TextShifting,
             Scrolldown,
         },
@@ -1593,70 +1579,6 @@
         z-index: 1;
     }
 
-    .content__item {
-        position: absolute;
-        z-index: 2;
-        user-select: none;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.7s ease;
-
-        ::v-deep span {
-            display: inline-block;
-            min-width: 8px;
-            position: relative;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        &.visible {
-            opacity: 0.4;
-        }
-
-        &.fade-out {
-            opacity: 0;
-        }
-
-        &--1 {
-            top: 30vh;
-            left: 20vw;
-            text-align: center;
-
-            ::v-deep span:nth-child(10),
-            ::v-deep span:nth-child(24) {
-                display: block;
-            }
-        }
-
-        &--2 {
-            top: 60vh;
-            right: 20vw;
-            transform: translateX(50%);
-            text-align: center;
-
-            ::v-deep span:nth-child(16),
-            ::v-deep span:nth-child(32),
-            ::v-deep span:nth-child(51) {
-                display: block;
-            }
-        }
-    }
-
-    .hint {
-        position: absolute;
-        z-index: 2;
-        bottom: 5vw;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.75rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        text-align: center;
-        opacity: 0.4;
-        animation: blink 2s ease-in-out infinite;
-        user-select: none;
-    }
-
     .title {
         position: fixed;
         inset: 0;
@@ -1750,36 +1672,6 @@
 <style lang='scss'>
 .lang-ko {
     #mainvisual {
-        .content__item {
-            &--1 {
-                span:nth-child(10),
-                span:nth-child(24) {
-                    display: inline-block;
-                }
-
-                span:nth-child(12) {
-                    display: block;
-                }
-            }
-
-            &--2 {
-                span:nth-child(16),
-                span:nth-child(32),
-                span:nth-child(51) {
-                    display: inline-block;
-                }
-
-                span:nth-child(10),
-                span:nth-child(23) {
-                    display: block;
-                }
-            }
-        }
-
-        .hint {
-            font-size: 0.9rem;
-        }
-
         .title {
             h1 {
                 line-height: 1;

@@ -1,11 +1,11 @@
 <template>
     <main class='home' :class='{ "intro-only": !exploded }'>
-        <HomePagination v-if='exploded' />
+        <!-- <HomePagination v-if='exploded' /> -->
         <Mainvisual />
-        <About v-if='exploded' />
+        <!-- <About v-if='exploded' />
         <Story v-if='exploded' />
         <FeaturedWork v-if='exploded' />
-        <FoldingScreen v-if='exploded' />
+        <FoldingScreen v-if='exploded' /> -->
     </main>
 </template>
 
