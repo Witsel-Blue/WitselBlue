@@ -3,6 +3,11 @@
         <div class='inner'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
+            </section>
+            <section>
+                <div class='shape-anchor2' aria-hidden='true' />
+            </section>
+            <div class='text-wrap'>
                 <h2>
                     <span
                         v-for='(line, i) in titleLines'
@@ -20,10 +25,7 @@
                         {{ line }}
                     </span>
                 </p>
-            </section>
-            <section>
-                <div class='shape-anchor2' aria-hidden='true' />
-            </section>
+            </div>
         </div>
     </div>
 </template>
@@ -125,8 +127,6 @@
             align-items: center;
             justify-content: flex-end;
             padding: 10vh 0;
-            // border: 1px solid blue;
-
             
             &:nth-of-type(1) {
                 .shape-anchor {
@@ -139,23 +139,12 @@
                     opacity: 0;
                     pointer-events: none;
                 }
-
-                h2 {
-                    text-shadow: $text-shadow;
-                    z-index: 1;
-
-                    span {
-                        font-family: 'tanpearl';
-                        font-size: 3rem;
-                        line-height: 1.4;
-                    }
-                }
             }
 
             &:nth-of-type(2) {    
                 .shape-anchor2 {
                     position: absolute;
-                    top: 50%;
+                    top: 40%;
                     right: 50%;
                     transform: translate(50%, -50%);
                     width: 70vh;
@@ -164,23 +153,41 @@
                     pointer-events: none;
                 }
             }
+        }
+
+        .text-wrap {
+            position: sticky;
+            bottom: 20vh;
+            text-align: center;
+            z-index: 1;
+
+            h2 {
+                // text-shadow: $text-shadow;
+                z-index: 1;
+
+                span {
+                    font-family: 'tanpearl';
+                    font-size: 3rem;
+                    line-height: 1.4;
+                }
+            }
 
             p {
                 margin-top: 2rem;
                 text-align: center;
-                
+                        
                 span {
                     font-size: 1.2rem;
                     line-height: 1.5;
                     font-family: 'basic_font';
                 }
             }
+        }
 
-            h2 span,
-            p span {
-                display: block;
-                will-change: opacity, transform, filter;
-            }
+        h2 span,
+        p span {
+            display: block;
+            will-change: opacity, transform, filter;
         }
     }
 </style>

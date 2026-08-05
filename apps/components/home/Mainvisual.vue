@@ -59,13 +59,153 @@
         MAIN: 1,
         GATHERED: 0.2,
     };
-    const GATHER_PLANE = {
-        BRIGHTNESS: 1.2,
-    };
     const ANCHOR_TILT = {
         ROT: 0.5,
         LERP: 0.1,
     };
+    const ANCHOR_LIGHT = {
+        LERP: 0.1,
+        DEFAULT: { x: 0.25, y: 0.15, z: 1.0 },
+    };
+    const NACRE_LIT = {
+        specNdoth: 80,
+        specRdotv: 40,
+        specGain: 3.5,
+        specWideGain: 2.5,
+        specBloomGain: 0.35,
+        sceneLight: 0.2,
+        brightness: 1.0,
+    };
+    const SCROLL_TO_ABOUT_MS = 1200;
+
+    const NACRE_LIT_VERT = `
+        varying vec2 vUv;
+        varying vec3 vNormalW;
+        varying vec3 vViewDirW;
+        varying vec3 vWorldPos;
+
+        void main() {
+            vUv = uv;
+            vec4 worldPos = modelMatrix * vec4(position, 1.0);
+            vWorldPos = worldPos.xyz;
+            vNormalW = normalize(mat3(modelMatrix) * normal);
+            vViewDirW = normalize(cameraPosition - worldPos.xyz);
+            gl_Position = projectionMatrix * viewMatrix * worldPos;
+        }
+    `;
+
+    const NACRE_LIT_FRAG = `
+        uniform sampler2D tMap;
+        uniform vec3 uLightDir;
+        uniform float uOpacity;
+        uniform float uBrightness;
+        uniform float uSpecNdoth;
+        uniform float uSpecRdotv;
+        uniform float uSpecGain;
+        uniform float uSpecWideGain;
+        uniform float uSpecBloomGain;
+        uniform float uSceneLight;
+        uniform float uIridHue;
+        uniform vec3 uIridPos1;
+        uniform vec3 uIridPos2;
+        uniform vec3 uIridPos3;
+        uniform vec3 uIridCol1;
+        uniform vec3 uIridCol2;
+        uniform vec3 uIridCol3;
+
+        varying vec2 vUv;
+        varying vec3 vNormalW;
+        varying vec3 vViewDirW;
+        varying vec3 vWorldPos;
+
+        vec3 shardIridColor(float phase, float hue) {
+            vec3 tint = 0.5 + 0.5 * cos(
+                6.28318 * (hue + vec3(0.0, 0.333333, 0.666667))
+            );
+            float pulse = 0.48 + 0.52 * cos(phase + hue * 10.5);
+            return tint * pulse;
+        }
+
+        vec3 iridPointLight(vec3 pos, vec3 col, vec3 worldPos, vec3 N) {
+            vec3 toL = pos - worldPos;
+            float dist2 = dot(toL, toL);
+            vec3 L = toL * inversesqrt(dist2 + 1e-4);
+            float ndl = max(dot(N, L), 0.0);
+            float falloff = 1.0 / (1.0 + dist2 * 0.035);
+            return col * ndl * falloff;
+        }
+
+        vec3 sceneIridLight(vec3 worldPos, vec3 N) {
+            return iridPointLight(uIridPos1, uIridCol1, worldPos, N)
+                + iridPointLight(uIridPos2, uIridCol2, worldPos, N)
+                + iridPointLight(uIridPos3, uIridCol3, worldPos, N);
+        }
+
+        void main() {
+            vec4 tex = texture2D(tMap, vUv);
+            if (tex.a < 0.06) discard;
+
+            vec3 base = tex.rgb * uBrightness;
+
+            vec3 N = normalize(vNormalW);
+            vec3 L = normalize(uLightDir);
+            vec3 V = normalize(vViewDirW);
+            vec3 H = normalize(L + V);
+            vec3 R = reflect(-L, N);
+
+            float ndoth = max(dot(N, H), 0.0);
+            float rdotv = max(dot(R, V), 0.0);
+            float facing = abs(dot(N, V));
+            float flatBlend = smoothstep(0.82, 0.97, facing);
+            float frontFacing = smoothstep(0.84, 0.98, facing);
+            float litAtten = 1.0 - frontFacing * 0.68;
+
+            float specBand3d = pow(ndoth, uSpecNdoth) * pow(rdotv, uSpecRdotv);
+            float specWide3d = pow(ndoth, 28.0) * pow(rdotv, 14.0);
+
+            vec2 light2 = normalize(uLightDir.xy + vec2(1e-4));
+            vec2 uvOff = vUv - 0.5;
+            vec2 bandDir = vec2(-light2.y, light2.x);
+            float bandPos = dot(uvOff, bandDir);
+            float alongLight = dot(uvOff, light2);
+            float specFlatCore =
+                exp(-bandPos * bandPos * 92.0) *
+                exp(-alongLight * alongLight * 18.0) *
+                0.62;
+            float specFlatWide =
+                exp(-bandPos * bandPos * 32.0) *
+                exp(-alongLight * alongLight * 8.5) *
+                0.52;
+
+            float specBand = mix(specBand3d, specFlatCore, flatBlend);
+            float specWide = mix(specWide3d, specFlatWide, flatBlend);
+
+            float iridPhase =
+                dot(H, V) * 6.28318 +
+                dot(N, cross(L, V)) * 4.5;
+            vec3 irid = uIridHue >= 0.0
+                ? shardIridColor(iridPhase, uIridHue)
+                : 0.5 + 0.5 * cos(
+                    iridPhase + vec3(0.0, 2.094395, 4.18879)
+                );
+            float specBloom = pow(max(mix(rdotv, specFlatCore, flatBlend), 0.0), 42.0) * specBand;
+
+            vec3 col = base;
+            col += sceneIridLight(vWorldPos, N) * uSceneLight * uBrightness * litAtten;
+            col += irid * specBand * uSpecGain * litAtten;
+            col += irid * specBloom * uSpecBloomGain * litAtten;
+            col += irid * specWide * uSpecWideGain * litAtten;
+
+            if (uIridHue >= 0.0) {
+                float glint = pow(rdotv, 6.0) * pow(ndoth, 10.0);
+                col += irid * glint * uSpecGain * 0.45 * litAtten;
+            }
+
+            col = mix(col, base, frontFacing * 0.14);
+
+            gl_FragColor = vec4(col, tex.a * uOpacity);
+        }
+    `;
 
     export default {
         components: {
@@ -158,12 +298,14 @@
 
         beforeDestroy() {
             if (this.animId) cancelAnimationFrame(this.animId);
+            if (this._scrollToAboutId) cancelAnimationFrame(this._scrollToAboutId);
             if (this.controls) this.controls.dispose();
             if (this.renderer) this.renderer.dispose();
             window.removeEventListener('resize', this.onResize);
             window.removeEventListener('scroll', this.onScroll);
             window.removeEventListener('mousemove', this.onMouseMove);
             document.removeEventListener('mouseleave', this.onMouseLeave);
+            this._nacreReadyPromise = null;
         },
 
         methods: {
@@ -176,6 +318,8 @@
                 );
 
                 this.three = THREE;
+
+                this.ensureAnchorLight();
 
                 const canvas = this.$refs.canvas;
                 const { clientWidth: w, clientHeight: h } = canvas;
@@ -197,8 +341,8 @@
                 this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
                 pmrem.dispose();
 
-                // 자개 텍스처 미리 로딩
-                this.getNacreTexture();
+                // 자개 텍스처 미리 로딩 (explode 전 완료 대기)
+                this.ensureNacreTextureReady();
 
                 // Camera
                 this.camera = new THREE.PerspectiveCamera(60, w / h, 0.05, 200);
@@ -223,6 +367,8 @@
                 this.scene.add(this.iridLight1);
                 this.scene.add(this.iridLight2);
                 this.scene.add(this.iridLight3);
+
+                this.ensureSceneIridUniforms();
 
                 // OrbitControls
                 this.controls = new OrbitControls(this.camera, canvas);
@@ -357,8 +503,9 @@
                     this.scene.add(this.model);
                     this.ready = true;
                     if (this.exploded) {
-                        this.explode();
-                        this.$nextTick(() => this.measureLogo());
+                        this.explode().then(() => {
+                            this.$nextTick(() => this.measureLogo());
+                        });
                     }
                     this.animate();
                 });
@@ -367,17 +514,115 @@
                 window.addEventListener('scroll', this.onScroll, { passive: true });
                 window.addEventListener('mousemove', this.onMouseMove);
                 document.addEventListener('mouseleave', this.onMouseLeave);
+
+                this._showPlane1 = false;
+                this._showPlane2 = false;
+            },
+
+            ensureAnchorLight() {
+                const THREE = this.three;
+                if (!THREE) return;
+                if (!this.anchorLight) {
+                    this.anchorLight = new THREE.Vector3(
+                        ANCHOR_LIGHT.DEFAULT.x,
+                        ANCHOR_LIGHT.DEFAULT.y,
+                        ANCHOR_LIGHT.DEFAULT.z,
+                    ).normalize();
+                    this.anchorLightTarget = this.anchorLight.clone();
+                }
+            },
+
+            ensureSceneIridUniforms() {
+                const THREE = this.three;
+                if (!THREE) return;
+                if (!this._iridPos1) {
+                    this._iridPos1 = new THREE.Vector3();
+                    this._iridPos2 = new THREE.Vector3();
+                    this._iridPos3 = new THREE.Vector3();
+                    this._iridCol1 = new THREE.Color();
+                    this._iridCol2 = new THREE.Color();
+                    this._iridCol3 = new THREE.Color();
+                }
+            },
+
+            syncSceneIridLights() {
+                if (!this.iridLight1 || !this._iridPos1) return;
+
+                this._iridPos1.copy(this.iridLight1.position);
+                this._iridPos2.copy(this.iridLight2.position);
+                this._iridPos3.copy(this.iridLight3.position);
+                this._iridCol1
+                    .copy(this.iridLight1.color)
+                    .multiplyScalar(this.iridLight1.intensity);
+                this._iridCol2
+                    .copy(this.iridLight2.color)
+                    .multiplyScalar(this.iridLight2.intensity);
+                this._iridCol3
+                    .copy(this.iridLight3.color)
+                    .multiplyScalar(this.iridLight3.intensity);
+            },
+
+            bindAnchorLightToMaterials() {
+                this.ensureAnchorLight();
+                if (!this.anchorLight) return;
+
+                const bind = (mat) => {
+                    if (mat?.uniforms?.uLightDir) {
+                        mat.uniforms.uLightDir.value = this.anchorLight;
+                    }
+                };
+
+                for (const s of this.shards) bind(s.material);
+                bind(this.gatherPlane1?.material);
+                bind(this.gatherPlane2?.material);
             },
 
             getNacreTexture() {
+                this.ensureNacreTextureReady();
+                return this._nacreTex;
+            },
+
+            ensureNacreTextureReady() {
                 const THREE = this.three;
-                if (this._nacreTex) return this._nacreTex;
-                const tex = new THREE.TextureLoader().load(nacreShardUrl);
-                tex.colorSpace = THREE.SRGBColorSpace;
-                tex.wrapS = THREE.RepeatWrapping;
-                tex.wrapT = THREE.RepeatWrapping;
-                this._nacreTex = tex;
-                return tex;
+                if (!THREE) return Promise.resolve(null);
+                if (this._nacreReadyPromise) return this._nacreReadyPromise;
+
+                this._nacreReadyPromise = new Promise((resolve) => {
+                    const finish = (tex) => {
+                        tex.colorSpace = THREE.SRGBColorSpace;
+                        tex.wrapS = THREE.RepeatWrapping;
+                        tex.wrapT = THREE.RepeatWrapping;
+                        this._nacreTex = tex;
+                        resolve(tex);
+                    };
+
+                    if (
+                        this._nacreTex?.image?.complete &&
+                        this._nacreTex.image.width > 0
+                    ) {
+                        finish(this._nacreTex);
+                        return;
+                    }
+
+                    if (this._nacreTex) {
+                        const waitForImage = () => {
+                            if (
+                                this._nacreTex.image?.complete &&
+                                this._nacreTex.image.width > 0
+                            ) {
+                                finish(this._nacreTex);
+                            } else {
+                                requestAnimationFrame(waitForImage);
+                            }
+                        };
+                        waitForImage();
+                        return;
+                    }
+
+                    new THREE.TextureLoader().load(nacreShardUrl, finish);
+                });
+
+                return this._nacreReadyPromise;
             },
 
             // ExtrudeGeometry UV를 shape 경계 기준 0~1로 리맵 (텍스처가 면에 꽉 차도록)
@@ -423,11 +668,16 @@
                 });
             },
 
-            explode() {
+            async explode() {
+                if (this.shards.length > 0) return;
+
                 const THREE = this.three;
+                await this.ensureNacreTextureReady();
                 const size = this.modelSize;
+                const baseTex = this._nacreTex;
+                if (!THREE || !size || !baseTex) return;
+
                 const SHARD_COUNT = 400;
-                const baseTex = this.getNacreTexture();
 
                 for (let i = 0; i < SHARD_COUNT; i++) {
                     const geo = this.makeShardGeo();
@@ -446,10 +696,10 @@
                     tex.rotation = Math.random() * Math.PI * 2;
                     tex.center.set(0.5, 0.5);
 
-                    // 자개 텍스처만 표시 (물리 광택·쉰 제거)
-                    const mat = new THREE.MeshBasicMaterial({
-                        map: tex,
-                        toneMapped: true,
+                    // 자개 텍스처 + 마우스 연동 하이라이트
+                    const mat = this.createNacreLitMaterial(tex, {
+                        doubleSide: true,
+                        iridHue: Math.random(),
                     });
 
                     const mesh = new THREE.Mesh(geo, mat);
@@ -501,10 +751,7 @@
                 this.targetRadial = 1.0;
                 this.targetFront = 1.0;
 
-                this.ambientLight.intensity = 0.5;
-                this.ambientLight.color.set(0xfff5e6);
-                this.keyLight.intensity = 1.8;
-                this.fillLight.intensity = 0.4;
+                this.syncSceneIridLights();
 
                 this.controls.enabled = false;
 
@@ -516,6 +763,7 @@
 
                 this.syncIntroState();
                 this.buildTextTargets();
+                this.bindAnchorLightToMaterials();
                 this.$nextTick(() => this.onScroll());
             },
 
@@ -643,6 +891,7 @@
                         Math.sin(t * 0.22 + 3.5) * r * 0.6,
                         Math.sin(t * 0.17 + 4.2) * r,
                     );
+                    this.syncSceneIridLights();
                 }
 
                 const prevG1 = this._lastG1;
@@ -792,11 +1041,15 @@
 
                 const showPlane1 = plane1Opacity > 0.001;
                 const showPlane2 = plane2Opacity > 0.001;
+                this._showPlane1 = showPlane1;
+                this._showPlane2 = showPlane2;
 
-                // 마스크 박스
+                // 마스크 박스 (explode 후 post 마스크 비활성 — 톤·가시성 일정)
                 if (this.blurMat && (this.maskTexture || this.maskTexture2)) {
                     const u = this.blurMat.uniforms;
-                    if (g2Gathering) {
+                    if (this.exploded) {
+                        u.maskStrength.value = 0;
+                    } else if (g2Gathering) {
                         const fd = this.gatherFocusDist;
                         const halfX = this.textHalfX2;
                         const halfY = this.textHalfY2;
@@ -843,18 +1096,33 @@
                     }
                 }
 
+                const plane1Cover =
+                    this.gatherPlane1 &&
+                    this.gatherPlane1.visible &&
+                    plane1Opacity >= 0.99;
+                const plane2Cover =
+                    this.gatherPlane2 &&
+                    this.gatherPlane2.visible &&
+                    plane2Opacity >= 0.99;
+
                 for (const s of this.shards) {
                     const ud = s.userData;
-                    if (showPlane1 && ud.textLocal) {
+                    if (plane1Cover && ud.textLocal) {
                         s.visible = false;
                         continue;
                     }
-                    if (showPlane2 && ud.textLocal2) {
+                    if (plane2Cover && ud.textLocal2) {
                         s.visible = false;
                         continue;
                     }
                     s.visible = true;
-                    if (s.material.opacity !== 1) s.material.opacity = 1;
+                    if (s.material.uniforms) {
+                        if (s.material.uniforms.uOpacity.value !== 1) {
+                            s.material.uniforms.uOpacity.value = 1;
+                        }
+                    } else if (s.material.opacity !== 1) {
+                        s.material.opacity = 1;
+                    }
 
                     if (g2Gathering) {
                         tvG2.set(
@@ -986,6 +1254,10 @@
                     );
                 }
 
+                if (this.exploded) {
+                    this.tickAnchorLight();
+                }
+
                 // exploded 이전 조개 모델 마우스 회전
                 if (this.model && !this.exploded) {
                     const ROT_LERP = 0.08;
@@ -995,13 +1267,17 @@
                     this.model.rotation.y = this.shellBaseRot.y + this.shellRot.y;
                 }
 
-                // 블러: anchor1/2 plane·모임 완료 시 선명, g2 산개는 Z축(depth) 블러 유지
+                // 블러: pattern 완성·gather 후반만 선명, scatter/g2는 blur 유지
                 const anchor1Sharp =
                     planeFill1 ||
-                    (gathering1 && !inG2Zone && (g1 >= 0.82 || plane1Opacity > 0.01));
+                    (gathering1 &&
+                        !inG2Zone &&
+                        (g1 >= 0.82 || plane1Opacity > 0.01));
                 const anchor2Sharp =
                     planeFill2 ||
-                    (g2Gathering && plane2Opacity > 0.01 && g2Phase.gatherEase >= 0.95);
+                    (g2Gathering &&
+                        plane2Opacity > 0.01 &&
+                        g2Phase.gatherEase >= 0.95);
                 const anchorSharp = anchor1Sharp || anchor2Sharp;
                 if (this.exploded) {
                     if (anchorSharp) {
@@ -1015,18 +1291,18 @@
                             : blur;
                         this.targetFront = blur * G2_SCATTER.FRONT_BLUR;
                     } else {
-                        this.targetRadial = 1 - this.scrollProgress;
-                        this.targetFront = 1 - this.scrollProgress;
+                        const scatterBlur = 1 - this.scrollProgress;
+                        this.targetRadial = scatterBlur;
+                        this.targetFront = scatterBlur;
                     }
                 }
 
                 if (this.blurMat) {
                     const u = this.blurMat.uniforms;
-                    const g2p = g2Anim;
                     const atGatherFocus =
                         this.exploded &&
                         this.gatherFocusDist &&
-                        (g1 >= 0.5 || g2p > 0.001);
+                        (g1 >= 0.5 || g2Anim > 0.001);
                     if (atGatherFocus) {
                         u.focusViewZ.value = -this.gatherFocusDist;
                     } else {
@@ -1090,6 +1366,9 @@
                     this.anchorTiltTarget2.y = -mouse.x * ANCHOR_TILT.ROT;
                     this.anchorTiltTarget2.x = -mouse.y * ANCHOR_TILT.ROT;
                 }
+                if (this.exploded) {
+                    this.anchorLightTarget.set(-mouse.x, -mouse.y, 0.9).normalize();
+                }
             },
 
             onMouseLeave() {
@@ -1109,9 +1388,31 @@
 
             scrollToAbout() {
                 const about = document.querySelector('#about');
-                if (about) {
-                    about.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (!about) return;
+
+                if (this._scrollToAboutId) {
+                    cancelAnimationFrame(this._scrollToAboutId);
+                    this._scrollToAboutId = null;
                 }
+
+                const startY = window.scrollY || window.pageYOffset || 0;
+                const targetY = about.getBoundingClientRect().top + startY;
+                const distance = targetY - startY;
+                if (Math.abs(distance) < 1) return;
+
+                const startTime = performance.now();
+                const step = (now) => {
+                    const t = Math.min(1, (now - startTime) / SCROLL_TO_ABOUT_MS);
+                    const eased = this.smoothstep(t);
+                    window.scrollTo(0, startY + distance * eased);
+                    if (t < 1) {
+                        this._scrollToAboutId = requestAnimationFrame(step);
+                    } else {
+                        this._scrollToAboutId = null;
+                    }
+                };
+
+                this._scrollToAboutId = requestAnimationFrame(step);
             },
 
             smoothstep(t) {
@@ -1152,6 +1453,82 @@
                     new this.three.Euler(rot.x, rot.y, 0, 'XYZ'),
                 );
                 plane.quaternion.copy(this.textQuat).multiply(tiltQ);
+            },
+
+            syncNacreLitUniforms(mat) {
+                if (!mat?.uniforms) return;
+                const u = mat.uniforms;
+                u.uSpecNdoth.value = NACRE_LIT.specNdoth;
+                u.uSpecRdotv.value = NACRE_LIT.specRdotv;
+                u.uSpecGain.value = NACRE_LIT.specGain;
+                u.uSpecWideGain.value = NACRE_LIT.specWideGain;
+                u.uSpecBloomGain.value = NACRE_LIT.specBloomGain;
+                u.uSceneLight.value = NACRE_LIT.sceneLight;
+                if (u.uBrightness) {
+                    u.uBrightness.value = NACRE_LIT.brightness;
+                }
+            },
+
+            tickAnchorLight() {
+                if (!this.anchorLight || !this.anchorLightTarget) return;
+
+                this.anchorLight.lerp(this.anchorLightTarget, ANCHOR_LIGHT.LERP);
+                this.anchorLight.normalize();
+                this.bindAnchorLightToMaterials();
+                for (const s of this.shards) this.syncNacreLitUniforms(s.material);
+                this.syncNacreLitUniforms(this.gatherPlane1?.material);
+                this.syncNacreLitUniforms(this.gatherPlane2?.material);
+            },
+
+            createNacreLitMaterial(mapTex, opts = {}) {
+                const THREE = this.three;
+                this.ensureAnchorLight();
+                this.ensureSceneIridUniforms();
+
+                return new THREE.ShaderMaterial({
+                    uniforms: {
+                        tMap: { value: mapTex },
+                        uLightDir: { value: this.anchorLight },
+                        uOpacity: { value: opts.opacity ?? 1.0 },
+                        uBrightness: {
+                            value: opts.brightness ?? NACRE_LIT.brightness,
+                        },
+                        uSpecNdoth: { value: opts.specNdoth ?? NACRE_LIT.specNdoth },
+                        uSpecRdotv: { value: opts.specRdotv ?? NACRE_LIT.specRdotv },
+                        uSpecGain: { value: opts.specGain ?? NACRE_LIT.specGain },
+                        uSpecWideGain: {
+                            value: opts.specWideGain ?? NACRE_LIT.specWideGain,
+                        },
+                        uSpecBloomGain: {
+                            value: opts.specBloomGain ?? NACRE_LIT.specBloomGain,
+                        },
+                        uSceneLight: {
+                            value: opts.sceneLight ?? NACRE_LIT.sceneLight,
+                        },
+                        uIridHue: {
+                            value: opts.iridHue ?? -1.0,
+                        },
+                        uIridPos1: { value: this._iridPos1 },
+                        uIridPos2: { value: this._iridPos2 },
+                        uIridPos3: { value: this._iridPos3 },
+                        uIridCol1: { value: this._iridCol1 },
+                        uIridCol2: { value: this._iridCol2 },
+                        uIridCol3: { value: this._iridCol3 },
+                    },
+                    vertexShader: NACRE_LIT_VERT,
+                    fragmentShader: NACRE_LIT_FRAG,
+                    transparent: true,
+                    depthWrite: true,
+                    side: opts.doubleSide ? THREE.DoubleSide : THREE.FrontSide,
+                    toneMapped: false,
+                });
+            },
+
+            createGatherPlaneMaterial(maskTex) {
+                return this.createNacreLitMaterial(maskTex, {
+                    doubleSide: true,
+                    iridHue: -1,
+                });
             },
 
             anchorGatherScale() {
@@ -1476,6 +1853,7 @@
                         this.textHalfX,
                         this.textHalfY,
                     );
+                    this.bindAnchorLightToMaterials();
                 }
 
                 this.textTargetsBuilt = true;
@@ -1499,15 +1877,7 @@
                 tex.colorSpace = THREE.SRGBColorSpace;
                 tex.generateMipmaps = false;
 
-                const mat = new THREE.MeshBasicMaterial({
-                    map: tex,
-                    transparent: true,
-                    alphaTest: 0.06,
-                    side: THREE.DoubleSide,
-                    depthWrite: true,
-                    toneMapped: false,
-                    color: new THREE.Color(1, 1, 1),
-                });
+                const mat = this.createGatherPlaneMaterial(tex);
 
                 const mesh = new THREE.Mesh(geo, mat);
                 mesh.visible = false;
@@ -1527,11 +1897,10 @@
                 plane.position.copy(tv);
                 plane.quaternion.copy(this.textQuat);
                 plane.visible = opacity > 0.01;
-                plane.material.opacity = opacity;
-                const fade = Math.max(0, Math.min(1, opacity));
-                const bright =
-                    1 + (GATHER_PLANE.BRIGHTNESS - 1) * fade;
-                plane.material.color.setScalar(bright);
+                if (plane.material.uniforms) {
+                    plane.material.uniforms.uOpacity.value = opacity;
+                    plane.material.uniforms.uBrightness.value = NACRE_LIT.brightness;
+                }
             },
 
             loadShapeImage2() {
@@ -1636,6 +2005,7 @@
                         this.textHalfX2,
                         this.textHalfY2,
                     );
+                    this.bindAnchorLightToMaterials();
                 }
 
                 this.textTargets2Built = true;
@@ -1719,7 +2089,7 @@
                 font-family: $ft-tanpearl, $ft-bagel;
                 letter-spacing: 0.1em;
                 user-select: none;
-                text-shadow: $text-shadow;
+                // text-shadow: $text-shadow;
             }
 
             p {
