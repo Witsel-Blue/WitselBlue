@@ -62,6 +62,10 @@
     const GATHER_PLANE = {
         BRIGHTNESS: 1.2,
     };
+    const ANCHOR_TILT = {
+        ROT: 0.5,
+        LERP: 0.1,
+    };
 
     export default {
         components: {
@@ -112,6 +116,12 @@
             this.shellBaseRot = { x: 0, y: 0 };
             this.shellRot = { x: 0, y: 0 };
             this.shellTargetRot = { x: 0, y: 0 };
+            this.anchorTilt1 = { x: 0, y: 0 };
+            this.anchorTiltTarget1 = { x: 0, y: 0 };
+            this.anchorTilt2 = { x: 0, y: 0 };
+            this.anchorTiltTarget2 = { x: 0, y: 0 };
+            this._anchorTilt1Active = false;
+            this._anchorTilt2Active = false;
             this.shards = [];
             this.crackAudio = null;
             this.textTargetsBuilt = false;
@@ -152,8 +162,8 @@
             if (this.renderer) this.renderer.dispose();
             window.removeEventListener('resize', this.onResize);
             window.removeEventListener('scroll', this.onScroll);
-            if (this.$refs.canvas) this.$refs.canvas.removeEventListener('mousemove', this.onMouseMove);
-            if (this.$refs.canvas) this.$refs.canvas.removeEventListener('mouseleave', this.onMouseLeave);
+            window.removeEventListener('mousemove', this.onMouseMove);
+            document.removeEventListener('mouseleave', this.onMouseLeave);
         },
 
         methods: {
@@ -355,8 +365,8 @@
 
                 window.addEventListener('resize', this.onResize);
                 window.addEventListener('scroll', this.onScroll, { passive: true });
-                canvas.addEventListener('mousemove', this.onMouseMove);
-                canvas.addEventListener('mouseleave', this.onMouseLeave);
+                window.addEventListener('mousemove', this.onMouseMove);
+                document.addEventListener('mouseleave', this.onMouseLeave);
             },
 
             getNacreTexture() {
@@ -777,6 +787,12 @@
                     plane2Opacity = g2Shrink;
                 }
 
+                this._anchorTilt1Active = planeFill1;
+                this._anchorTilt2Active = planeFill2;
+
+                const showPlane1 = plane1Opacity > 0.001;
+                const showPlane2 = plane2Opacity > 0.001;
+
                 // 마스크 박스
                 if (this.blurMat && (this.maskTexture || this.maskTexture2)) {
                     const u = this.blurMat.uniforms;
@@ -799,8 +815,9 @@
                             0,
                             Math.min(1, (g2Phase.gatherEase - 0.995) / 0.005),
                         );
-                        u.maskStrength.value =
-                            maskIn * maskIn * (3 - 2 * maskIn);
+                        u.maskStrength.value = showPlane2
+                            ? 0
+                            : maskIn * maskIn * (3 - 2 * maskIn);
                     } else if (gathering1) {
                         const fd = this.gatherFocusDist;
                         tv.set(centerX - this.textHalfX, centerY - this.textHalfY, -fd);
@@ -818,8 +835,9 @@
                             0,
                             Math.min(1, (g1PlaneFade - 0.995) / 0.005),
                         );
-                        u.maskStrength.value =
-                            maskIn * maskIn * (3 - 2 * maskIn);
+                        u.maskStrength.value = showPlane1
+                            ? 0
+                            : maskIn * maskIn * (3 - 2 * maskIn);
                     } else {
                         u.maskStrength.value = 0;
                     }
@@ -827,7 +845,11 @@
 
                 for (const s of this.shards) {
                     const ud = s.userData;
-                    if (planeFill1 || planeFill2) {
+                    if (showPlane1 && ud.textLocal) {
+                        s.visible = false;
+                        continue;
+                    }
+                    if (showPlane2 && ud.textLocal2) {
                         s.visible = false;
                         continue;
                     }
@@ -925,8 +947,20 @@
                         centerY,
                         plane1Opacity,
                     );
+                    this.tickAnchorTilt(
+                        planeFill1,
+                        this.anchorTilt1,
+                        this.anchorTiltTarget1,
+                        this.gatherPlane1,
+                    );
                 } else if (this.gatherPlane1) {
                     this.gatherPlane1.visible = false;
+                    this.tickAnchorTilt(
+                        false,
+                        this.anchorTilt1,
+                        this.anchorTiltTarget1,
+                        null,
+                    );
                 }
 
                 if (plane2Opacity > 0.001 && this.gatherPlane2 && half) {
@@ -936,8 +970,20 @@
                         centerY2,
                         plane2Opacity,
                     );
+                    this.tickAnchorTilt(
+                        planeFill2,
+                        this.anchorTilt2,
+                        this.anchorTiltTarget2,
+                        this.gatherPlane2,
+                    );
                 } else if (this.gatherPlane2) {
                     this.gatherPlane2.visible = false;
+                    this.tickAnchorTilt(
+                        false,
+                        this.anchorTilt2,
+                        this.anchorTiltTarget2,
+                        null,
+                    );
                 }
 
                 // exploded 이전 조개 모델 마우스 회전
@@ -1012,30 +1058,53 @@
             },
 
             onMouseMove(event) {
-                if (!this.model || this.exploded) return;
+                if (!this.three || !this.camera) return;
 
-                const canvas = this.$refs.canvas;
-                const rect = canvas.getBoundingClientRect();
+                const vw = window.innerWidth || 1;
+                const vh = window.innerHeight || 1;
                 const mouse = new this.three.Vector2(
-                    ((event.clientX - rect.left) / rect.width) * 2 - 1,
-                    -((event.clientY - rect.top) / rect.height) * 2 + 1,
+                    (event.clientX / vw) * 2 - 1,
+                    -(event.clientY / vh) * 2 + 1,
                 );
 
-                // 마우스 위치와 반대 방향으로 미세 회전
-                this.shellTargetRot.y = -mouse.x * 0.2;
-                this.shellTargetRot.x = -mouse.y * 0.2;
+                if (!this.exploded && this.model) {
+                    // 마우스 위치와 반대 방향으로 미세 회전
+                    this.shellTargetRot.y = -mouse.x * 0.2;
+                    this.shellTargetRot.x = -mouse.y * 0.2;
 
-                const raycaster = new this.three.Raycaster();
-                raycaster.setFromCamera(mouse, this.camera);
-                const hits = raycaster.intersectObject(this.model, true);
-                canvas.style.cursor = hits.length > 0 ? 'pointer' : 'default';
+                    const raycaster = new this.three.Raycaster();
+                    raycaster.setFromCamera(mouse, this.camera);
+                    const hits = raycaster.intersectObject(this.model, true);
+                    const canvas = this.$refs.canvas;
+                    if (canvas) {
+                        canvas.style.cursor = hits.length > 0 ? 'pointer' : 'default';
+                    }
+                    return;
+                }
+
+                if (this._anchorTilt1Active) {
+                    this.anchorTiltTarget1.y = -mouse.x * ANCHOR_TILT.ROT;
+                    this.anchorTiltTarget1.x = -mouse.y * ANCHOR_TILT.ROT;
+                }
+                if (this._anchorTilt2Active) {
+                    this.anchorTiltTarget2.y = -mouse.x * ANCHOR_TILT.ROT;
+                    this.anchorTiltTarget2.x = -mouse.y * ANCHOR_TILT.ROT;
+                }
             },
 
             onMouseLeave() {
-                if (this.exploded) return;
-                this.shellTargetRot.x = 0;
-                this.shellTargetRot.y = 0;
-                if (this.$refs.canvas) this.$refs.canvas.style.cursor = 'default';
+                if (!this.exploded) {
+                    this.shellTargetRot.x = 0;
+                    this.shellTargetRot.y = 0;
+                } else {
+                    this.anchorTiltTarget1.x = 0;
+                    this.anchorTiltTarget1.y = 0;
+                    this.anchorTiltTarget2.x = 0;
+                    this.anchorTiltTarget2.y = 0;
+                }
+                if (this.$refs.canvas) {
+                    this.$refs.canvas.style.cursor = 'default';
+                }
             },
 
             scrollToAbout() {
@@ -1052,6 +1121,37 @@
 
             gatherShrinkEase(t) {
                 return Math.max(0, Math.min(1, (t - 0.98) / 0.02));
+            },
+
+            tickAnchorTilt(active, current, target, plane) {
+                if (active) {
+                    current.x += (target.x - current.x) * ANCHOR_TILT.LERP;
+                    current.y += (target.y - current.y) * ANCHOR_TILT.LERP;
+                    if (plane) {
+                        this.applyAnchorTiltToPlane(plane, current);
+                    }
+                    return;
+                }
+
+                target.x = 0;
+                target.y = 0;
+                current.x += (0 - current.x) * ANCHOR_TILT.LERP;
+                current.y += (0 - current.y) * ANCHOR_TILT.LERP;
+                if (plane) {
+                    this.applyAnchorTiltToPlane(plane, current);
+                }
+            },
+
+            applyAnchorTiltToPlane(plane, rot) {
+                if (!plane || !this.textQuat || !this.three) return;
+
+                const tiltQ =
+                    this._anchorTiltQuat ||
+                    (this._anchorTiltQuat = new this.three.Quaternion());
+                tiltQ.setFromEuler(
+                    new this.three.Euler(rot.x, rot.y, 0, 'XYZ'),
+                );
+                plane.quaternion.copy(this.textQuat).multiply(tiltQ);
             },
 
             anchorGatherScale() {

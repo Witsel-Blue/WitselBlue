@@ -23,14 +23,44 @@
             </section>
             <section>
                 <div class='shape-anchor2' aria-hidden='true' />
+                <h2>
+                    <span
+                        v-for='(line, i) in titleLines2'
+                        :key='"t2-" + i'
+                        :style='lineStyle(i, 1)'
+                        v-html='line'
+                    />
+                </h2>
+                <p>
+                    <span
+                        v-for='(line, i) in descLines2'
+                        :key='"d2-" + i'
+                        :style='lineStyle(titleLines2.length + i, 1)'
+                    >
+                        {{ line }}
+                    </span>
+                </p>
+                <div class='profile-wrap' :style='profileStyle'>
+                    <ParllaxComponent :img='profile.img' fast />
+                </div>
+                <div class='btn-wrap' :style='btnStyle'>
+                    <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
+                </div>
             </section>
         </div>
     </div>
 </template>
 
 <script>
+    import ParllaxComponent from '@/components/ParallaxComponent.vue';
+    import ButtonRound from '@/components/ButtonRound.vue';
+
     export default {
         name: 'About',
+        components: {
+            ParllaxComponent,
+            ButtonRound,
+        },
         data() {
             return {
                 sectionProgress: [0, 0],
@@ -43,8 +73,24 @@
                     'which provides new experiences to users every time',
                     'depending on the point where technology and senses meet.',
                 ],
-                titleLines2: [],
-                descLines2: [],
+                titleLines2: [
+                    'As a <span class="highlight">frontend developer</span>, I create',
+                    '<span class="highlight">interactive</span> websites and apps ',
+                    'inspired by aesthetics and good ideas.',
+                    'Creating new <span class="highlight">digital experiences</span>',
+                    'beyond just obtaining information',
+                    'with precision and <span class="highlight">scalability</span> is my strength.'
+                ],
+                descLines2: [
+                    'I specialize in interactive development,',
+                    '3D web experiences and AI coding.',
+                    'Capable of both Vue.js and React.js,',
+                    'for more ability and development skills,',
+                    'you can view ‘About Me’ page.'
+                ],
+                profile: {
+                    img: require('@/assets/img/home/profile.png'),
+                },
             };
         },
         computed: {
@@ -56,6 +102,32 @@
             },
             section2RevealCount() {
                 return this.section2ItemCount + 2;
+            },
+            profileStyle() {
+                const progress = this.sectionProgress[1] || 0;
+                const e = this.itemReveal(
+                    this.section2ItemCount,
+                    progress,
+                    this.section2RevealCount,
+                );
+                return {
+                    opacity: 0.18 + 0.82 * e,
+                    transform: `translateY(${(1 - e) * 0.7}em)`,
+                    filter: `blur(${(1 - e) * 14}px)`,
+                };
+            },
+            btnStyle() {
+                const progress = this.sectionProgress[1] || 0;
+                const e = this.itemReveal(
+                    this.section2ItemCount + 1,
+                    progress,
+                    this.section2RevealCount,
+                );
+                return {
+                    opacity: e,
+                    transform: `translateY(${(1 - e) * 30}px)`,
+                    pointerEvents: e > 0.9 ? 'auto' : 'none',
+                };
             },
         },
         mounted() {
@@ -116,6 +188,17 @@
         width: 100%;
         display: flex;
         position: relative;
+        padding-bottom: 20vh;
+
+        .shape-anchor {
+            position: absolute;
+            top: 15vh;
+            left: 10vw;
+            width: 40vh;
+            height: 40vh;
+            opacity: 0;
+            pointer-events: none;
+        }
 
         section {
             position: relative;
@@ -123,24 +206,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
-            padding: 10vh 0;
-            // border: 1px solid blue;
+            justify-content: center;
 
             
             &:nth-of-type(1) {
-                .shape-anchor {
-                    position: absolute;
-                    top: 40%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 50vh;
-                    height: 50vh;
-                    opacity: 0;
-                    pointer-events: none;
-                }
-
                 h2 {
+                    margin-top: 15vw;
                     text-shadow: $text-shadow;
                     z-index: 1;
 
@@ -152,16 +223,59 @@
                 }
             }
 
-            &:nth-of-type(2) {    
+            &:nth-of-type(2) {
+                height: auto;
+                
                 .shape-anchor2 {
                     position: absolute;
-                    top: 50%;
-                    right: 50%;
-                    transform: translate(50%, -50%);
+                    top: 0;
+                    right: 0;
                     width: 70vh;
                     height: 70vh;
                     opacity: 0;
                     pointer-events: none;
+                }
+
+                h2 {
+                    margin-top: 40vh;
+                    z-index: 1;
+                    
+                    span::v-deep {
+                        font-size: 3rem;
+                        line-height: 1.4;
+
+                        .highlight {
+                            font-family: 'tanpearl';
+                        }
+
+                        &:nth-child(4),
+                        &:nth-child(5),
+                        &:nth-child(6) {
+                            padding-left: 50vh;
+                        }
+                    }
+                }
+
+                p {
+                    width: 100%;
+                    margin-top: 5vh;
+                    padding-left: 70vh;
+                    text-align: left;
+                }
+
+                .profile-wrap {
+                    position: absolute;
+                    top: 50vh;
+                    left: 10vh;
+                    width: 50vh;
+                    will-change: opacity, transform, filter;
+                }
+
+                .parallax-component {
+                    position: relative;
+                    top: auto;
+                    left: auto;
+                    width: 100%;
                 }
             }
 
@@ -181,6 +295,18 @@
                 display: block;
                 will-change: opacity, transform, filter;
             }
+        }
+
+        .btn-wrap {
+            margin-top: 5vh;
+            margin-left: 15vw;
+            text-align: center;
+            will-change: opacity, transform;
+        }
+
+        #text_marquee::v-deep {
+            position: absolute;
+            bottom: 0;
         }
     }
 </style>
