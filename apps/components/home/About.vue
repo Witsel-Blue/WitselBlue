@@ -3,36 +3,46 @@
         <div class='inner'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
+                <div class='text-wrap'>
+                    <h2>
+                        <span
+                            v-for='(line, i) in titleLines'
+                            :key='"t1-" + i'
+                            :style='lineStyle(i, 0)'
+                            v-html='line'
+                        />
+                    </h2>
+                </div>
             </section>
             <section>
                 <div class='shape-anchor2' aria-hidden='true' />
+                <div class='text-wrap'>
+                    <p>
+                        <span
+                            v-for='(line, i) in descLines'
+                            :key='"d1-" + i'
+                            :style='lineStyle(i, 1)'
+                        >
+                            {{ line }}
+                        </span>
+                    </p>
+                    <div class='btn-wrap' :style='btnStyle'>
+                        <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
+                    </div>
+                </div>
             </section>
-            <div class='text-wrap'>
-                <h2>
-                    <span
-                        v-for='(line, i) in titleLines'
-                        :key='"t1-" + i'
-                        :style='lineStyle(i, 0)'
-                        v-html='line'
-                    />
-                </h2>
-                <p>
-                    <span
-                        v-for='(line, i) in descLines'
-                        :key='"d1-" + i'
-                        :style='lineStyle(titleLines.length + i, 0)'
-                    >
-                        {{ line }}
-                    </span>
-                </p>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import ButtonRound from '@/components/ButtonRound.vue';
+
     export default {
         name: 'About',
+        components: {
+            ButtonRound,
+        },
         data() {
             return {
                 sectionProgress: [0, 0],
@@ -54,7 +64,7 @@
                 return this.titleLines.length + this.descLines.length;
             },
             section2ItemCount() {
-                return this.titleLines2.length + this.descLines2.length;
+                return this.titleLines2.length + this.descLines2.length || this.descLines.length;
             },
             section2RevealCount() {
                 return this.section2ItemCount + 2;
@@ -117,7 +127,6 @@
     #about {
         width: 100%;
         display: flex;
-        position: relative;
 
         section {
             position: relative;
@@ -126,7 +135,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            padding: 10vh 0;
             
             &:nth-of-type(1) {
                 .shape-anchor {
@@ -156,6 +164,7 @@
         }
 
         .text-wrap {
+            padding-top: 40vh;
             position: sticky;
             bottom: 20vh;
             text-align: center;
@@ -181,6 +190,10 @@
                     line-height: 1.5;
                     font-family: 'basic_font';
                 }
+            }
+
+            .btn-wrap {
+                margin-top: 2rem;
             }
         }
 

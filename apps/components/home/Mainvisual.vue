@@ -275,8 +275,8 @@
             this._lastG2 = 0;
             this._g2GatherSnapshotted = false;
             this._gatherSnapValid = false;
-            this._wasShardGathering = false;
             this._g2LooseValid = false;
+            this._sessionScatterValid = false;
             this.gatherPlane1 = null;
             this.gatherPlane2 = null;
             if (process.client && this.$root[INTRO_ROOT_KEY]) {
@@ -738,8 +738,10 @@
                     mesh.userData.frame = 0;
                     mesh.userData.geoRadius = geo.boundingSphere ? geo.boundingSphere.radius : 0.08;
                     mesh.userData.mainScale = 1;
-                    mesh.userData.scatterPos = mesh.position.clone();
-                    mesh.userData.scatterQuat = mesh.quaternion.clone();
+                    mesh.userData.homePos = mesh.position.clone();
+                    mesh.userData.homeQuat = mesh.quaternion.clone();
+                    mesh.userData.scatterPos = mesh.userData.homePos.clone();
+                    mesh.userData.scatterQuat = mesh.userData.homeQuat.clone();
                     mesh.userData.scatterVel = vel.clone();
 
                     this.scene.add(mesh);
@@ -894,6 +896,10 @@
                     this.syncSceneIridLights();
                 }
 
+                if (this.exploded) {
+                    this.syncScrollProgress();
+                }
+
                 const prevG1 = this._lastG1;
                 const prevG2 = this._lastG2;
 
@@ -909,15 +915,24 @@
                     returningToMain && g1 < 0.22 && g2 > 0.001 ? 0 : g2;
                 const g2Phase = this.computeG2Phase(g2Anim);
 
-                if (g1 <= 0.001 && prevG1 > 0.001) {
+                const G1_GATHER_START = 0.02;
+                const atMainRest = g1 < G1_GATHER_START && g2Anim < 0.02;
+
+                if (prevG1 < G1_GATHER_START && g1 >= G1_GATHER_START) {
+                    this.snapshotSessionScatter();
+                }
+                if (prevG1 >= G1_GATHER_START && g1 < G1_GATHER_START) {
+                    this.restoreSessionScatter();
                     this.clearGather1From();
                 }
-                const atMainRest = g1 < 0.02 && g2Anim < 0.02;
                 if (atMainRest) {
                     this.resetMainShardScales();
                 }
                 if (g2Anim <= 0.001 && prevG2 > 0.001) {
                     this._g2LooseValid = false;
+                    if (g1 < G2_SCROLL.G1_GATE) {
+                        this.restoreSessionScatter();
+                    }
                     this.clearG2ShardState();
                     this.resetMainShardScales();
                 }
@@ -962,21 +977,11 @@
                 const gathering1 =
                     this.exploded &&
                     this.textTargetsBuilt &&
-                    g1 > 0.001 &&
+                    g1 >= G1_GATHER_START &&
                     !inG2Zone;
 
-                if (
-                    gathering1 &&
-                    !this._gatherSnapValid &&
-                    prevG1 <= 0.001
-                ) {
-                    this.snapshotGather1From();
-                    this._gatherSnapValid = true;
-                }
-
-                const isShardGathering = gathering1 || g2Loose || g2Gathering;
-                const leftGather = this._wasShardGathering && !isShardGathering;
-                this._wasShardGathering = isShardGathering;
+                const isMainScatterFloat =
+                    g1 < G1_GATHER_START && !g2Loose && !g2Gathering;
 
                 const half = this.gatherVisibleH / 2;
                 const aspect = this.camera.aspect;
@@ -1167,8 +1172,14 @@
                     }
 
                     if (gathering1) {
-                        const fromPos = ud.gatherFromPos || ud.scatterPos;
-                        const fromQuat = ud.gatherFromQuat || ud.scatterQuat;
+                        const fromPos =
+                            ud.sessionRestorePos ||
+                            ud.homePos ||
+                            ud.scatterPos;
+                        const fromQuat =
+                            ud.sessionRestoreQuat ||
+                            ud.homeQuat ||
+                            ud.scatterQuat;
                         tv.set(
                             centerX + ud.textLocal.x,
                             centerY + ud.textLocal.y,
@@ -1181,31 +1192,10 @@
                         continue;
                     }
 
-                    const atMainVisual = g1 <= 0.001 && g2 <= 0.001;
-
-                    if (leftGather && atMainVisual) {
-                        this.restoreScatterDynamics(ud);
+                    if (isMainScatterFloat) {
+                        this.tickScatterIdle(s, ud, t);
+                        continue;
                     }
-
-                    s.scale.setScalar(SHARD_SCALE.MAIN);
-
-                    ud.frame++;
-
-                    const speed = ud.vel.length();
-
-                    if (speed > 0.0002) {
-                        s.position.add(ud.vel);
-                        ud.vel.multiplyScalar(0.972);
-                        ud.spin.x *= 0.98;
-                        ud.spin.y *= 0.98;
-                        ud.spin.z *= 0.98;
-                    } else {
-                        s.position.y += Math.sin(t * ud.floatSpeed + ud.floatPhase) * ud.floatAmp;
-                    }
-
-                    s.rotation.x += ud.spin.x;
-                    s.rotation.y += ud.spin.y;
-                    s.rotation.z += ud.spin.z;
                 }
 
                 if (plane1Opacity > 0.001 && this.gatherPlane1 && half) {
@@ -1691,21 +1681,71 @@
                 }
             },
 
-            snapshotGather1From() {
+            snapshotSessionScatter() {
                 for (const s of this.shards) {
                     const ud = s.userData;
-                    ud.gatherFromPos = s.position.clone();
-                    ud.gatherFromQuat = s.quaternion.clone();
+                    ud.sessionRestorePos = s.position.clone();
+                    ud.sessionRestoreQuat = s.quaternion.clone();
+                    ud.scatterPos.copy(ud.sessionRestorePos);
+                    ud.scatterQuat.copy(ud.sessionRestoreQuat);
+                }
+                this._sessionScatterValid = true;
+            },
+
+            restoreSessionScatter() {
+                if (!this._sessionScatterValid) return;
+
+                for (const s of this.shards) {
+                    const ud = s.userData;
+                    if (!ud.sessionRestorePos) continue;
+                    ud.scatterPos.copy(ud.sessionRestorePos);
+                    ud.scatterQuat.copy(ud.sessionRestoreQuat);
+                    s.position.copy(ud.sessionRestorePos);
+                    s.quaternion.copy(ud.sessionRestoreQuat);
+                    s.rotation.setFromQuaternion(s.quaternion);
+                    s.scale.setScalar(SHARD_SCALE.MAIN);
+                    ud.vel.set(0, 0, 0);
                 }
             },
 
             clearGather1From() {
                 this._gatherSnapValid = false;
-                for (const s of this.shards) {
-                    const ud = s.userData;
-                    ud.gatherFromPos = null;
-                    ud.gatherFromQuat = null;
+            },
+
+            tickScatterIdle(s, ud, t) {
+                s.scale.setScalar(SHARD_SCALE.MAIN);
+                ud.frame++;
+
+                const speed = ud.vel.length();
+
+                if (speed > 0.0002) {
+                    s.position.add(ud.vel);
+                    ud.vel.multiplyScalar(0.972);
+                    ud.spin.x *= 0.98;
+                    ud.spin.y *= 0.98;
+                    ud.spin.z *= 0.98;
+                } else {
+                    s.position.y +=
+                        Math.sin(t * ud.floatSpeed + ud.floatPhase) * ud.floatAmp;
                 }
+
+                s.rotation.x += ud.spin.x;
+                s.rotation.y += ud.spin.y;
+                s.rotation.z += ud.spin.z;
+            },
+
+            syncScrollProgress() {
+                if (!this.exploded) return;
+
+                const vh = window.innerHeight;
+                const start = vh * 0.2;
+                const end = vh;
+                const y = window.scrollY || window.pageYOffset || 0;
+
+                let p = (y - start) / (end - start);
+                p = Math.max(0, Math.min(1, p));
+                this.scrollProgress = p;
+                this.gather2Progress = this.computeGather2Progress(vh, p);
             },
 
             snapshotG2GatherFrom() {
@@ -1716,31 +1756,20 @@
                 }
             },
 
-            restoreScatterDynamics(ud) {
-                if (!ud.scatterVel || ud.vel.length() > 0.005) return;
-                ud.vel.copy(ud.scatterVel);
-            },
-
             onScroll() {
                 if (!this.exploded) return;
 
-                const vh = window.innerHeight;
-                const start = vh * 0.2;
-                const end = vh; // About 섹션이 화면 중앙에 올 때 완성
-                const y = window.scrollY || window.pageYOffset || 0;
+                this.syncScrollProgress();
 
-                let p = (y - start) / (end - start);
-                p = Math.max(0, Math.min(1, p));
-                this.scrollProgress = p;
-
-                this.gather2Progress = this.computeGather2Progress(vh, p);
                 if (this.gather2Progress > 0 && !this.textTargets2Built) {
                     this.buildTextTargets2();
                 }
 
                 this.emitHeaderLogoMetrics();
 
-                if (p > 0 && !this.textTargetsBuilt) this.buildTextTargets();
+                if (this.scrollProgress > 0 && !this.textTargetsBuilt) {
+                    this.buildTextTargets();
+                }
             },
 
             loadShapeImage() {
