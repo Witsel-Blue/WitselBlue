@@ -35,8 +35,12 @@
     import TextShifting from '@/components/TextShifting.vue';
     import Scrolldown from '@/components/svg/scrolldown.vue';
     import nacreShardUrl from '@/assets/model/texture/nacre.png';
+    import {
+        isIntroDone,
+        setIntroDone,
+        syncIntroDoneToRoot,
+    } from '@/utils/introState';
 
-    const INTRO_ROOT_KEY = '$wb2026IntroDone';
     const G2_SCATTER = {
         VIEW_XY: 2.8,
         Z_FACTOR: 2.1,
@@ -279,7 +283,10 @@
             this._sessionScatterValid = false;
             this.gatherPlane1 = null;
             this.gatherPlane2 = null;
-            if (process.client && this.$root[INTRO_ROOT_KEY]) {
+            if (
+                process.client &&
+                (isIntroDone() || syncIntroDoneToRoot(this.$root))
+            ) {
                 this.exploded = true;
             }
             this.initThree();
@@ -817,9 +824,7 @@
                     this.play2 = true;
                 } else {
                     this.exploded = true;
-                    if (process.client) {
-                        this.$root[INTRO_ROOT_KEY] = true;
-                    }
+                    setIntroDone(this.$root);
                     this.explode();
                     this.$nextTick(() => this.measureLogo());
                 }

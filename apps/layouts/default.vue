@@ -3,7 +3,7 @@
         id='app'
         :class="{
             'lang-ko': $i18n.locale === 'ko',
-            'intro-only': !introDone,
+            'intro-only': introOnlyActive,
         }"
     >
         <SiteHeader />
@@ -22,6 +22,11 @@
     import SiteHeader from '@/layouts/Header.vue';
     import GNB from '@/layouts/GNB.vue';
     import SiteFooter from '@/layouts/Footer.vue';
+    import {
+        isHomeRoute,
+        isIntroDone,
+        syncIntroDoneToRoot,
+    } from '@/utils/introState';
 
     export default {
         components: {
@@ -35,11 +40,23 @@
                 headerFixed: false,
             };
         },
+        computed: {
+            isHome() {
+                return isHomeRoute(this.$route);
+            },
+            introOnlyActive() {
+                return this.isHome && !this.introDone;
+            },
+        },
+        watch: {
+            '$route.path'() {
+                this.syncIntroLayout();
+            },
+        },
         mounted() {
-            if (process.client && this.$root.$wb2026IntroDone) {
-                this.introDone = true;
-            }
+            this.syncIntroLayout();
             this.onIntroState = (done) => {
+                if (!this.isHome) return;
                 this.introDone = done;
             };
             this.onHeaderFixed = (fixed) => {
@@ -51,6 +68,19 @@
         beforeDestroy() {
             this.$root.$off('mainvisual-intro-state', this.onIntroState);
             this.$root.$off('header-fixed-state', this.onHeaderFixed);
+        },
+        methods: {
+            syncIntroLayout() {
+                if (!process.client) return;
+
+                if (!this.isHome) {
+                    this.introDone = true;
+                    return;
+                }
+
+                this.introDone =
+                    isIntroDone() || syncIntroDoneToRoot(this.$root);
+            },
         },
     };
 </script>

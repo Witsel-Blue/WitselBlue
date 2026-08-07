@@ -8,8 +8,12 @@
 
 <script>
     import Logo from '@/components/svg/logo.vue';
-
-    const INTRO_ROOT_KEY = '$wb2026IntroDone';
+    import {
+        INTRO_ROOT_KEY,
+        isIntroDone,
+        isHomeRoute,
+        syncIntroDoneToRoot,
+    } from '@/utils/introState';
 
     export default {
         name: 'SiteHeader',
@@ -28,8 +32,7 @@
         },
         computed: {
             isHome() {
-                const path = this.$route.path;
-                return path === '/' || path === '/ko';
+                return isHomeRoute(this.$route);
             },
             showLogo() {
                 if (!this.isHome) return true;
@@ -61,7 +64,12 @@
         watch: {
             '$route.path'() {
                 if (!this.isHome) {
+                    this.introDone = true;
                     this.scrollProgress = 1;
+                    return;
+                }
+                if (isIntroDone() || this.$root[INTRO_ROOT_KEY]) {
+                    this.introDone = true;
                 }
             },
             isLogoFixed: {
@@ -72,11 +80,18 @@
             },
         },
         mounted() {
-            if (process.client && this.$root[INTRO_ROOT_KEY]) {
+            if (
+                process.client &&
+                (isIntroDone() || syncIntroDoneToRoot(this.$root))
+            ) {
                 this.introDone = true;
             }
 
             this.onIntroState = (done) => {
+                if (!this.isHome) {
+                    this.introDone = true;
+                    return;
+                }
                 this.introDone = done;
             };
             this.onLogoMetrics = ({ scrollProgress, logoTop0, active }) => {
