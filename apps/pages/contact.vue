@@ -3,11 +3,16 @@
         <section>
             <div class='inner'>
                 <h2>Contact</h2>
+                <p>
+                    If you have any questions or would like to discuss a project, <br/>
+                    please fill out the form below. <br />
+                    We will get back to you as soon as possible.
+                </p>
             </div>
         </section>
         <section>
             <div class='inner'>
-                <form>
+                <form @submit.prevent='onSubmit'>
                     <div class='form-group required'>
                         <label for='name'>Name</label>
                         <input id='name' type='text' name='name' required placeholder='John Doe'/>
@@ -66,7 +71,24 @@
                             <textarea id='message' name='message' rows='20' required />
                         </div>
                     </div>
-                    <ButtonRound class='col-2' :link='{ text: "Send Message" }' />
+                    <ButtonRound
+                        class='col-2'
+                        button-type='submit'
+                        :disabled='isSubmitting'
+                        :link='{ text: isSubmitting ? "Sending..." : "Send Message" }'
+                    />
+                    <p
+                        v-if='submitSuccess'
+                        class='form-status form-status--success col-2'
+                    >
+                        Message sent. Thank you!
+                    </p>
+                    <p
+                        v-if='submitError'
+                        class='form-status form-status--error col-2'
+                    >
+                        {{ submitError }}
+                    </p>
                 </form>
             </div>
         </section>
@@ -76,6 +98,8 @@
 <script>
     import ButtonRound from '@/components/ButtonRound.vue';
     import FieldSelect from '@/components/FieldSelect.vue';
+
+    const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || '';
 
     export default {
         name: 'Contact',
@@ -89,6 +113,9 @@
                 deadlineDisplay: '',
                 projectType: 'Other',
                 budget: '0',
+                isSubmitting: false,
+                submitSuccess: false,
+                submitError: '',
                 projectTypeOptions: [
                     { value: 'New Website', label: 'New Website' },
                     {
@@ -111,6 +138,93 @@
             };
         },
         methods: {
+            async onSubmit(event) {
+                const form = event.target;
+
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                this.isSubmitting = true;
+                this.submitSuccess = false;
+                this.submitError = '';
+
+                if (!WEB3FORMS_ACCESS_KEY) {
+                    this.submitError =
+                        'Email service is not configured. Set WEB3FORMS_ACCESS_KEY in .env';
+                    this.isSubmitting = false;
+                    return;
+                }
+
+                const budgetLabel =
+                    this.budgetOptions.find(
+                        (option) => String(option.value) === String(this.budget),
+                    )?.label || this.budget;
+
+                const name = form.name.value;
+                const company = form.organization.value || '—';
+                const deadline = this.deadlineDisplay || '—';
+                const projectType = this.projectType;
+                const messageText = form.message.value;
+
+                const subject = `[${name} / ${company}] ${projectType} (${deadline})`;
+                const body = [
+                    `name: ${name}`,
+                    `email: ${form.email.value}`,
+                    `company: ${company}`,
+                    `project type: ${projectType}`,
+                    `deadline: ${deadline}`,
+                    `estimated budget: ${budgetLabel}`,
+                    `message: ${messageText}`,
+                ].join('\n');
+
+                try {
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: 'application/json',
+                        },
+                        body: JSON.stringify({
+                            access_key: WEB3FORMS_ACCESS_KEY,
+                            subject,
+                            from_name: name,
+                            email: form.email.value,
+                            replyto: form.email.value,
+                            message: body,
+                        }),
+                    });
+
+                    let result = {};
+
+                    try {
+                        result = await response.json();
+                    } catch {
+                        result = {};
+                    }
+
+                    if (result.success) {
+                        this.submitSuccess = true;
+                        form.reset();
+                        this.deadlineValue = '';
+                        this.deadlineDisplay = '';
+                        this.projectType = 'Other';
+                        this.budget = '0';
+                        return;
+                    }
+
+                    this.submitError =
+                        result.message ||
+                        'Failed to send message. Please try again later.';
+                } catch {
+                    this.submitError =
+                        'Failed to send message. Please check your connection and try again.';
+                } finally {
+                    this.isSubmitting = false;
+                }
+            },
+
             onDeadlineChange(event) {
                 const value = event.target.value;
                 this.deadlineValue = value;
@@ -140,12 +254,19 @@
             justify-content: center;
             text-align: center;
 
-            h2 {
-                font-size: 10rem;
-                line-height: 1;
-                letter-spacing: 0.2em;
-                text-transform: uppercase;
+            &:first-child {
                 padding: 20vh 0 10vh;
+
+                h2 {
+                    font-size: 10rem;
+                    line-height: 1;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                }
+
+                p {
+                    margin-top: 2rem;
+                }
             }
 
             form {
@@ -184,6 +305,20 @@
                     textarea,
                     .field-date {
                         width: 100%;
+                    }
+                }
+
+                .form-status {
+                    margin: 0;
+                    font-size: 1.2rem;
+                    text-align: left;
+
+                    &--success {
+                        color: $gray1;
+                    }
+
+                    &--error {
+                        color: $white;
                     }
                 }
             }

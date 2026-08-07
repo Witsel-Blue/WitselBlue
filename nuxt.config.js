@@ -8,6 +8,8 @@ const appRoot = path.resolve(__dirname, 'apps')
 const _require = createRequire(import.meta.url)
 const isDev = process.env.NODE_ENV !== 'production'
 
+_require('dotenv').config({ path: path.resolve(__dirname, '.env') })
+
 export default {
     rootDir: appRoot,
     srcDir: appRoot,
@@ -64,6 +66,10 @@ export default {
         routes: ['/', '/ko'],
         fallback: true,
         crawler: false,
+    },
+
+    env: {
+        WEB3FORMS_ACCESS_KEY: process.env.WEB3FORMS_ACCESS_KEY || '',
     },
 
     build: {

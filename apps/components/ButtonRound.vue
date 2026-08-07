@@ -6,6 +6,8 @@
             data-block='button'
             :href='link.href || null'
             :target='link.target || null'
+            :type='link.href ? null : buttonType'
+            :disabled='disabled'
             @click='$emit("click")'
         >
             <span ref='circle' class='circle'/>
@@ -26,6 +28,14 @@
             text: {
                 type: String,
                 default: '',
+            },
+            buttonType: {
+                type: String,
+                default: 'button',
+            },
+            disabled: {
+                type: Boolean,
+                default: false,
             },
         },
         computed: {
@@ -195,6 +205,15 @@
     &:hover {
         .title {
             color: $black;
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+
+        &:hover .title {
+            color: $white;
         }
     }
 }
