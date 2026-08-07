@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import TextStagger from '@/components/TextStagger.vue';
+    import TextStagger from '@/components/common/TextStagger.vue';
     import gsap from 'gsap';
 
     const CARD_LINE_COUNT = 6;

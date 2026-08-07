@@ -32,7 +32,7 @@
 
 <script>
     import Intro from '@/components/home/Intro.vue';
-    import TextShifting from '@/components/TextShifting.vue';
+    import TextShifting from '@/components/common/TextShifting.vue';
     import Scrolldown from '@/components/svg/scrolldown.vue';
     import nacreShardUrl from '@/assets/model/texture/nacre.png';
     import {

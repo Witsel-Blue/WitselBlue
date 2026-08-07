@@ -52,8 +52,8 @@
 </template>
 
 <script>
-    import ParllaxComponent from '@/components/ParallaxComponent.vue';
-    import ButtonRound from '@/components/ButtonRound.vue';
+    import ParllaxComponent from '@/components/common/ParallaxComponent.vue';
+    import ButtonRound from '@/components/common/ButtonRound.vue';
 
     export default {
         name: 'About',

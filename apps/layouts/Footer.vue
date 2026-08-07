@@ -70,8 +70,8 @@
 </template>
 
 <script>
-    import TextShifting from '@/components/TextShifting.vue';
-    import TextStaggerByMiddle from '@/components/TextStaggerByMiddle.vue';
+    import TextShifting from '@/components/common/TextShifting.vue';
+    import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
 
     export default {
         name: 'SiteFooter',

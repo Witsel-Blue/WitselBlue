@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    // import TextMarquee from '@/components/TextMarquee.vue';
+    // import TextMarquee from '@/components/common/TextMarquee.vue';
 
     export default {
         name: 'AboutMe',

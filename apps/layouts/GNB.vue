@@ -36,8 +36,8 @@
 
 <script>
     import Logo from '@/components/svg/logo.vue';
-    import LanguageMenu from '@/components/LanguageMenu.vue';
-    // import SoundMuteMenu from '@/components/SoundMuteMenu.vue';
+    import LanguageMenu from '@/components/common/LanguageMenu.vue';
+    // import SoundMuteMenu from '@/components/common/SoundMuteMenu.vue';
 
     export default {
         components: {

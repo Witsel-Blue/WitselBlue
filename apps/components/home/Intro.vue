@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import TextShifting from '@/components/TextShifting.vue';
+    import TextShifting from '@/components/common/TextShifting.vue';
 
     export default {
         name: 'Intro',

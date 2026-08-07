@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import ButtonRound from '@/components/ButtonRound.vue';
+    import ButtonRound from '@/components/common/ButtonRound.vue';
 
     export default {
         name: 'About',
