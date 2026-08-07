@@ -1,7 +1,7 @@
 <template>
     <div id='archive'>
-        <section>
-            <div class='inner'>
+        <section class='page-title'>
+            <div class='inner-l'>
                 <h2>Archive</h2>
             </div>
         </section>
@@ -16,13 +16,6 @@
 
 <style lang='scss' scoped>
     #archive {
-        section {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+        min-height: 100vh;
     }
 </style>

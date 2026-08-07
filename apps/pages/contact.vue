@@ -1,7 +1,7 @@
 <template>
     <div id='contact'>
-        <section>
-            <div class='inner'>
+        <section class='page-title'>
+            <div class='inner-l'>
                 <h2>Contact</h2>
                 <p>
                     If you have any questions or would like to discuss a project, <br/>
@@ -77,20 +77,22 @@
                         :disabled='isSubmitting'
                         :link='{ text: isSubmitting ? "Sending..." : "Send Message" }'
                     />
-                    <p
-                        v-if='submitSuccess'
-                        class='form-status form-status--success col-2'
-                    >
-                        Message sent. Thank you!
-                    </p>
-                    <p
-                        v-if='submitError'
-                        class='form-status form-status--error col-2'
-                    >
-                        {{ submitError }}
-                    </p>
                 </form>
             </div>
+        </section>
+        <section>
+            <p
+                v-if='submitSuccess'
+                class='form-status form-status--success'
+            >
+                Message sent. Thank you!
+            </p>
+            <p
+                v-if='submitError'
+                class='form-status form-status--error'
+            >
+                {{ submitError }}
+            </p>
         </section>
     </div>
 </template>
@@ -254,20 +256,21 @@
             justify-content: center;
             text-align: center;
 
-            &:first-child {
-                padding: 20vh 0 10vh;
+            // &:first-child {
+            //     padding: 20vh 0 10vh;
 
-                h2 {
-                    font-size: 10rem;
-                    line-height: 1;
-                    letter-spacing: 0.2em;
-                    text-transform: uppercase;
-                }
+            //     h2 {
+            //         font-size: 10rem;
+            //         line-height: 1;
+            //         letter-spacing: 0.2em;
+            //         text-transform: uppercase;
+            //     }
 
-                p {
-                    margin-top: 2rem;
-                }
-            }
+            //     p {
+            //         margin-top: 5vh;
+            //         font-size: 1.2rem;
+            //     }
+            // }
 
             form {
                 display: grid;
@@ -307,20 +310,12 @@
                         width: 100%;
                     }
                 }
+            }
 
-                .form-status {
-                    margin: 0;
-                    font-size: 1.2rem;
-                    text-align: left;
-
-                    &--success {
-                        color: $gray1;
-                    }
-
-                    &--error {
-                        color: $white;
-                    }
-                }
+            .form-status {
+                margin-top: 10vh;
+                text-align: center;
+                font-size: 1.2rem;
             }
         }
     }

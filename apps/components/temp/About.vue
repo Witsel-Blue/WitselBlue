@@ -1,6 +1,6 @@
 <template>
     <div id='about'>
-        <div class='inner'>
+        <div class='inner-l'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
                 <h2>

@@ -1,23 +1,23 @@
 <template>
     <div id='aboutme'>
-        <section>
-            <div class='inner'>
+        <section class='page-title'>
+            <div class='inner-l'>
                 <h2>About Me</h2>
             </div>
         </section>
-        <section>
+        <!-- <section>
             <TextMarquee :image='knot' />
-        </section>
+        </section> -->
     </div>
 </template>
 
 <script>
-    import TextMarquee from '@/components/TextMarquee.vue';
+    // import TextMarquee from '@/components/TextMarquee.vue';
 
     export default {
         name: 'AboutMe',
         components: {
-            TextMarquee,
+            // TextMarquee,
         },
         data() {
             return {
@@ -29,11 +29,6 @@
 
 <style lang='scss' scoped>
     #aboutme {
-        section {
-            .inner {
-                padding: 20vh 0;
-                text-align: center;
-            }
-        }
+        min-height: 100vh;
     }
 </style>
