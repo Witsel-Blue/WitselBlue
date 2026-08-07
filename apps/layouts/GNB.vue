@@ -53,8 +53,8 @@
                 staggerTimers: [],
                 menuItems: [
                     { to: '/', label: 'H<span>o</span>me' },
-                    { to: '/aboutme', label: 'Ab<span>o</span>ut <span>M</span>e' },
                     { to: '/archive', label: 'Arc<span>h</span>ive' },
+                    { to: '/aboutme', label: 'Ab<span>o</span>ut <span>M</span>e' },
                     { to: '/contact', label: 'Co<span>n</span>tact' },
                 ],
             };

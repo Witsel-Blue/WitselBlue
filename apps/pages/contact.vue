@@ -3,30 +3,47 @@
         <section class='page-title'>
             <div class='inner-l'>
                 <h2>Contact</h2>
-                <p>
-                    If you have any questions or would like to discuss a project, <br/>
-                    please fill out the form below. <br />
-                    We will get back to you as soon as possible.
-                </p>
+                <p v-html="$t('contact.mainText')" />
             </div>
         </section>
         <section>
             <div class='inner'>
                 <form @submit.prevent='onSubmit'>
                     <div class='form-group required'>
-                        <label for='name'>Name</label>
-                        <input id='name' type='text' name='name' required placeholder='John Doe'/>
+                        <label for='name'>{{ $t('contact.NameLabel') }}</label>
+                        <input
+                            id='name'
+                            type='text'
+                            name='name'
+                            required
+                            :placeholder="$t('contact.NamePlaceholder')"
+                        />
                     </div>
                     <div class='form-group required'>
-                        <label for='email'>Email</label>
-                        <input id='email' type='email' name='email' required placeholder='john.doe@example.com'/>
+                        <label for='email'>{{ $t('contact.EmailLabel') }}</label>
+                        <input
+                            id='email'
+                            type='email'
+                            name='email'
+                            required
+                            :placeholder="$t('contact.EmailPlaceholder')"
+                        />
                     </div>
                     <div class='form-group'>
-                        <label for='organization'>Organization</label>
-                        <input id='organization' type='text' name='organization' placeholder='Company Name'/>
+                        <label for='organization'>
+                            {{ $t('contact.OrganizationLabel') }}
+                        </label>
+                        <input
+                            id='organization'
+                            type='text'
+                            name='organization'
+                            :placeholder="$t('contact.OrganizationPlaceholder')"
+                        />
                     </div>
                     <div class='form-group field-date'>
-                        <label for='deadline'>Deadline</label>
+                        <label for='deadline'>
+                            {{ $t('contact.DeadlineLabel') }}
+                        </label>
                         <div class='field-date'>
                             <input
                                 id='deadline'
@@ -47,7 +64,9 @@
                         </div>
                     </div>
                     <div class='form-group required'>
-                        <label for='type'>Project Type</label>
+                        <label for='type'>
+                            {{ $t('contact.ProjectTypeLabel') }}
+                        </label>
                         <FieldSelect
                             id='type'
                             v-model='projectType'
@@ -57,7 +76,9 @@
                         />
                     </div>
                     <div class='form-group'>
-                        <label for='budget'>Estimated Budget</label>
+                        <label for='budget'>
+                            {{ $t('contact.BudgetLabel') }}
+                        </label>
                         <FieldSelect
                             id='budget'
                             v-model='budget'
@@ -66,7 +87,9 @@
                         />
                     </div>
                     <div class='form-group field-textarea col-2 required'>
-                        <label for='message'>Message</label>
+                        <label for='message'>
+                            {{ $t('contact.MessageLabel') }}
+                        </label>
                         <div class='field-textarea__wrap'>
                             <textarea id='message' name='message' rows='20' required />
                         </div>
@@ -75,7 +98,7 @@
                         class='col-2'
                         button-type='submit'
                         :disabled='isSubmitting'
-                        :link='{ text: isSubmitting ? "Sending..." : "Send Message" }'
+                        :link='{ text: submitButtonText }'
                     />
                 </form>
             </div>
@@ -85,7 +108,7 @@
                 v-if='submitSuccess'
                 class='form-status form-status--success'
             >
-                Message sent. Thank you!
+                {{ $t('contact.messageSent') }}
             </p>
             <p
                 v-if='submitError'
@@ -118,26 +141,49 @@
                 isSubmitting: false,
                 submitSuccess: false,
                 submitError: '',
-                projectTypeOptions: [
-                    { value: 'New Website', label: 'New Website' },
+            };
+        },
+        computed: {
+            projectTypeOptions() {
+                return [
+                    {
+                        value: 'New Website',
+                        label: this.$t('contact.ProjectTypeOption1'),
+                    },
                     {
                         value: 'Interactive / 3D Experience',
-                        label: 'Interactive / 3D Experience',
+                        label: this.$t('contact.ProjectTypeOption2'),
                     },
-                    { value: 'New Feature', label: 'New Feature' },
-                    { value: 'Fix / Improvement', label: 'Fix / Improvement' },
-                    { value: 'Other', label: 'Other' },
-                ],
-                budgetOptions: [
-                    { value: '0', label: 'Undecided' },
-                    { value: '1', label: '- $10' },
-                    { value: '2', label: '$10 - $50' },
-                    { value: '3', label: '$50 - $100' },
-                    { value: '4', label: '$100 - $200' },
-                    { value: '5', label: '$200 - $500' },
-                    { value: '6', label: '$500 -' },
-                ],
-            };
+                    {
+                        value: 'New Feature',
+                        label: this.$t('contact.ProjectTypeOption3'),
+                    },
+                    {
+                        value: 'Fix / Improvement',
+                        label: this.$t('contact.ProjectTypeOption4'),
+                    },
+                    {
+                        value: 'Other',
+                        label: this.$t('contact.ProjectTypeOption5'),
+                    },
+                ];
+            },
+            budgetOptions() {
+                return [
+                    { value: '0', label: this.$t('contact.BudgetOption1') },
+                    { value: '1', label: this.$t('contact.BudgetOption2') },
+                    { value: '2', label: this.$t('contact.BudgetOption3') },
+                    { value: '3', label: this.$t('contact.BudgetOption4') },
+                    { value: '4', label: this.$t('contact.BudgetOption5') },
+                    { value: '5', label: this.$t('contact.BudgetOption6') },
+                    { value: '6', label: this.$t('contact.BudgetOption7') },
+                ];
+            },
+            submitButtonText() {
+                return this.isSubmitting
+                    ? this.$t('contact.SendingButtonText')
+                    : this.$t('contact.SendButtonText');
+            },
         },
         methods: {
             async onSubmit(event) {
@@ -153,8 +199,7 @@
                 this.submitError = '';
 
                 if (!WEB3FORMS_ACCESS_KEY) {
-                    this.submitError =
-                        'Email service is not configured. Set WEB3FORMS_ACCESS_KEY in .env';
+                    this.submitError = this.$t('contact.messageConfigError');
                     this.isSubmitting = false;
                     return;
                 }
@@ -164,18 +209,22 @@
                         (option) => String(option.value) === String(this.budget),
                     )?.label || this.budget;
 
+                const projectTypeLabel =
+                    this.projectTypeOptions.find(
+                        (option) => option.value === this.projectType,
+                    )?.label || this.projectType;
+
                 const name = form.name.value;
                 const company = form.organization.value || '—';
                 const deadline = this.deadlineDisplay || '—';
-                const projectType = this.projectType;
                 const messageText = form.message.value;
 
-                const subject = `[${name} / ${company}] ${projectType} (${deadline})`;
+                const subject = `[${name} / ${company}] ${projectTypeLabel} (${deadline})`;
                 const body = [
                     `name: ${name}`,
                     `email: ${form.email.value}`,
                     `company: ${company}`,
-                    `project type: ${projectType}`,
+                    `project type: ${projectTypeLabel}`,
                     `deadline: ${deadline}`,
                     `estimated budget: ${budgetLabel}`,
                     `message: ${messageText}`,
@@ -217,11 +266,9 @@
                     }
 
                     this.submitError =
-                        result.message ||
-                        'Failed to send message. Please try again later.';
+                        result.message || this.$t('contact.messageError');
                 } catch {
-                    this.submitError =
-                        'Failed to send message. Please check your connection and try again.';
+                    this.submitError = this.$t('contact.messageConnectionError');
                 } finally {
                     this.isSubmitting = false;
                 }
@@ -256,22 +303,6 @@
             justify-content: center;
             text-align: center;
 
-            // &:first-child {
-            //     padding: 20vh 0 10vh;
-
-            //     h2 {
-            //         font-size: 10rem;
-            //         line-height: 1;
-            //         letter-spacing: 0.2em;
-            //         text-transform: uppercase;
-            //     }
-
-            //     p {
-            //         margin-top: 5vh;
-            //         font-size: 1.2rem;
-            //     }
-            // }
-
             form {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -297,9 +328,7 @@
                         height: 0.8rem;
                         display: inline-block;
                         background: url('@/assets/img/icons/computer-keyboard-asterisk-1--asterisk-star-keyboard--Streamline-Core.svg')
-                        no-repeat center / contain;                        background-repeat: no-repeat;
-                        background-position: center;
-                        background-size: contain;
+                            no-repeat center / contain;
                         margin-left: 8px;
                     }
 
