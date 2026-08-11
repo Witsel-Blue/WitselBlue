@@ -69,6 +69,19 @@
             section2RevealCount() {
                 return this.section2ItemCount + 2;
             },
+            btnStyle() {
+                const progress = this.sectionProgress[1] || 0;
+                const e = this.itemReveal(
+                    this.section2ItemCount + 1,
+                    progress,
+                    this.section2RevealCount,
+                );
+                return {
+                    opacity: e,
+                    transform: `translateY(${(1 - e) * 30}px)`,
+                    pointerEvents: e > 0.9 ? 'auto' : 'none',
+                };
+            },
         },
         mounted() {
             this.onScroll = () => {
