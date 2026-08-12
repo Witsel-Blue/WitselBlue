@@ -7,6 +7,7 @@
         }"
     >
         <SiteHeader />
+        <SiteCursor />
         <div
             v-show='headerFixed && introDone'
             class='header-blur'
@@ -20,6 +21,7 @@
 
 <script>
     import SiteHeader from '@/layouts/Header.vue';
+    import SiteCursor from '@/layouts/Cursor.vue';
     import GNB from '@/layouts/GNB.vue';
     import SiteFooter from '@/layouts/Footer.vue';
     import {
@@ -31,6 +33,7 @@
     export default {
         components: {
             SiteHeader,
+            SiteCursor,
             GNB,
             SiteFooter,
         },

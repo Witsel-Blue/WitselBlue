@@ -28,6 +28,8 @@
                 logoTop0: 0,
                 winH:
                     typeof window !== 'undefined' ? window.innerHeight : 800,
+                winW:
+                    typeof window !== 'undefined' ? window.innerWidth : 1280,
             };
         },
         computed: {
@@ -44,13 +46,14 @@
             },
             logoStyle() {
                 const H = this.winH || 800;
+                const W = this.winW || 1024;
                 const p = this.isHome ? this.scrollProgress : 1;
                 const lp = Math.min(1, p / 0.55);
                 const t = lp * lp * (3 - 2 * lp);
                 const hStart = 0.2 * H;
                 const scaleEnd = 40 / hStart;
                 const scale = 1 + (scaleEnd - 1) * t;
-                const topEnd = 0.025 * H;
+                const topEnd = 0.025 * W;
                 const baseTop = this.isHome ? this.logoTop0 : topEnd;
                 const dy = (topEnd - baseTop) * t;
 
@@ -113,6 +116,7 @@
         methods: {
             onResize() {
                 this.winH = window.innerHeight;
+                this.winW = window.innerWidth;
             },
         },
     };
