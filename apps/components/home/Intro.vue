@@ -1,7 +1,7 @@
 <template>
     <div class='intro'>
         <LanguageMenu 
-            v-if='ready && clickCount >= 1 && !exploded'
+            v-if='ready && clickCount >= 0 && !exploded'
         />
         <div
             v-if='ready && clickCount >= 1 && !exploded'

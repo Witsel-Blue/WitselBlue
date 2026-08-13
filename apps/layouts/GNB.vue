@@ -15,26 +15,31 @@
             <ul class='menu-list'>
                 <li
                     v-for='(item, index) in menuItems'
-                    :key='item.to'
+                    :key='item.key'
                     class='menu-item'
-                    :class='{
+                    :class="{
                         stagger: staggeredIndexes.includes(index),
                         dimmed: hoveredIndex !== null && hoveredIndex !== index,
-                    }'
+                        'menu-item--action': item.type === 'action',
+                    }"
                     @mouseenter='hoveredIndex = index'
                     @mouseleave='hoveredIndex = null'
                 >
-                    <NuxtLink :to='item.to' @click.native.prevent='onMenuClick(item)'>
+                    <NuxtLink
+                        v-if="item.type === 'link'"
+                        :to='item.to'
+                        class='menu-item__trigger'
+                        @click.native.prevent='onMenuClick(item)'
+                    >
                         <p v-html='item.label' />
                     </NuxtLink>
-                </li>
-                <li>
                     <button
+                        v-else
                         type='button'
-                        class='intro-again-btn'
-                        @click='onIntroAgain'
+                        class='menu-item__trigger'
+                        @click='onItemAction(item)'
                     >
-                        <TextShifting text='view intro again?' one-line />
+                        <TextShifting :text='item.label' one-line />
                     </button>
                 </li>
             </ul>
@@ -64,10 +69,16 @@
                 staggeredIndexes: [],
                 staggerTimers: [],
                 menuItems: [
-                    { to: '/', label: 'H<span>o</span>me' },
-                    { to: '/archive', label: 'Arc<span>h</span>ive' },
-                    { to: '/aboutme', label: 'Ab<span>o</span>ut <span>M</span>e' },
-                    { to: '/contact', label: 'Co<span>n</span>tact' },
+                    { key: 'home', type: 'link', to: '/', label: 'H<span>o</span>me' },
+                    { key: 'archive', type: 'link', to: '/archive', label: 'Arc<span>h</span>ive' },
+                    { key: 'aboutme', type: 'link', to: '/aboutme', label: 'Ab<span>o</span>ut <span>M</span>e' },
+                    { key: 'contact', type: 'link', to: '/contact', label: 'Co<span>n</span>tact' },
+                    {
+                        key: 'intro-again',
+                        type: 'action',
+                        action: 'introAgain',
+                        label: 'view intro again?',
+                    },
                 ],
             };
         },
@@ -105,6 +116,11 @@
                 }
 
                 this.$router.push(item.to);
+            },
+            onItemAction(item) {
+                if (item.action === 'introAgain') {
+                    this.onIntroAgain();
+                }
             },
             onIntroAgain() {
                 if (!process.client) return;
@@ -227,30 +243,34 @@
                 flex-direction: column;
                 justify-content: center;
 
-                li {
+                .menu-item {
                     width: fit-content;
                     overflow: hidden;
 
-                    &:nth-child(2n) a {
+                    &:nth-child(2n) .menu-item__trigger {
                         transform: translateY(150%) rotate(8deg);
                     }
 
-                    &:nth-child(2n+1) a {
+                    &:nth-child(2n+1) .menu-item__trigger {
                         transform: translateY(150%) rotate(-8deg);
                     }
 
-                    &.stagger a {
+                    &.stagger .menu-item__trigger {
                         transform: translateY(0) rotate(0) !important;
                         transition: transform 0.4s ease;
                     }
 
-                    &.dimmed a {
+                    &.dimmed .menu-item__trigger {
                         opacity: 0.2;
                         filter: blur(4px);
                         transition: all 0.4s ease;
                     }
 
-                    a {
+                    &--action {
+                        margin-top: 1rem;
+                    }
+
+                    .menu-item__trigger {
                         display: inline-block;
                         width: fit-content;
                         color: $white-inverted;
@@ -261,6 +281,10 @@
                         opacity: 1;
                         filter: blur(0);
                         transition: all 0.4s ease;
+                        background: none;
+                        border: none;
+                        padding: 0;
+                        cursor: pointer;
 
                         p {
                             font-family: $ft-google-variable;
@@ -278,10 +302,11 @@
                             transition: font-stretch 0.4s ease;
                         }
                     }
-                }
 
-                .intro-again-btn {
-                    margin-top: 1rem;
+                    &--action .menu-item__trigger {
+                        font-size: 0.75rem;
+                        letter-spacing: 0.06em;
+                    }
                 }
             }
 
