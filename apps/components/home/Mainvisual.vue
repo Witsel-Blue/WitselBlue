@@ -40,6 +40,10 @@
         setIntroDone,
         syncIntroDoneToRoot,
     } from '@/utils/introState';
+    import {
+        resetGatherAnchorState,
+        syncGatherAnchorState,
+    } from '@/utils/gatherAnchorState';
 
     const G2_SCATTER = {
         VIEW_XY: 2.8,
@@ -304,6 +308,7 @@
         },
 
         beforeDestroy() {
+            resetGatherAnchorState();
             if (this.animId) cancelAnimationFrame(this.animId);
             if (this._scrollToAboutId) cancelAnimationFrame(this._scrollToAboutId);
             if (this.controls) this.controls.dispose();
@@ -1048,6 +1053,7 @@
 
                 this._anchorTilt1Active = planeFill1;
                 this._anchorTilt2Active = planeFill2;
+                syncGatherAnchorState(planeFill1, planeFill2);
 
                 const showPlane1 = plane1Opacity > 0.001;
                 const showPlane2 = plane2Opacity > 0.001;

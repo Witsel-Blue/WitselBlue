@@ -13,7 +13,7 @@
                         </h3>
                     </li>
                     <li :style='lineStyle(2)'>
-                        <CursorZone label='click to send email' attach-to-parent />
+                        <CursorZone label='send email?' attach-to-parent />
                         <a href='mailto:witselblue@gmail.com'>
                             <TextShifting text='witselblue@gmail.com' />
                         </a>

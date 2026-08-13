@@ -4,7 +4,12 @@
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
                 <div class='text-wrap'>
-                    <CursorZone label='move cursor' attach-to-parent />
+                    <div
+                        v-if='anchor1Gathered'
+                        class='cursor-zone'
+                    >
+                        <CursorZone label='move cursor' attach-to-parent />
+                    </div>
                     <h2>
                         <span
                             v-for='(line, i) in titleLines'
@@ -17,8 +22,13 @@
             </section>
             <section>
                 <div class='shape-anchor2' aria-hidden='true' />
-                <div class='text-wrap'>
-                    <CursorZone label='move cursor' attach-to-parent />
+                <div class='text-wrap'>                    
+                    <div
+                        v-if='anchor2Gathered'
+                        class='cursor-zone'
+                    >
+                        <CursorZone label='move cursor' attach-to-parent />
+                    </div>
                     <p>
                         <span
                             v-for='(line, i) in descLines'
@@ -29,7 +39,6 @@
                         </span>
                     </p>
                     <div class='btn-wrap' :style='btnStyle'>
-                        <CursorZone label='click to read more' attach-to-parent />
                         <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
                     </div>
                 </div>
@@ -41,6 +50,7 @@
 <script>
     import ButtonRound from '@/components/common/ButtonRound.vue';
     import CursorZone from '@/components/common/CursorZone.vue';
+    import { gatherAnchorState } from '@/utils/gatherAnchorState';
 
     export default {
         name: 'About',
@@ -65,6 +75,12 @@
             };
         },
         computed: {
+            anchor1Gathered() {
+                return gatherAnchorState.anchor1Gathered;
+            },
+            anchor2Gathered() {
+                return gatherAnchorState.anchor2Gathered;
+            },
             section1ItemCount() {
                 return this.titleLines.length + this.descLines.length;
             },
@@ -182,14 +198,22 @@
         }
 
         .text-wrap {
-            margin-top: 40vh;
+            padding-top: 40vh;
             position: sticky;
             bottom: 20vh;
             text-align: center;
             z-index: 1;
 
+            .cursor-zone {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 80vw;
+                height: 100%;
+                transform: translateX(-50%);
+            }
+
             h2 {
-                // text-shadow: $text-shadow;
                 z-index: 1;
 
                 span {
