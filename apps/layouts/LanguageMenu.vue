@@ -1,5 +1,6 @@
 <template>
     <div id='language-menu'>
+        <CursorZone label='change language' attach-to-parent />
         <button
             :class='[{ ko_active: currentLocale === "ko" }]'
             @click.stop='toggleLocale'
@@ -10,12 +11,16 @@
 </template>
 
 <script>
+    import CursorZone from '@/components/common/CursorZone.vue';
     import en from '@/locales/en.js';
     import ko from '@/locales/ko.js';
 
     const LOCALE_MESSAGES = { en, ko };
 
     export default {
+        components: {
+            CursorZone,
+        },
         computed: {
             currentLocale() {
                 return this.$i18n.locale;

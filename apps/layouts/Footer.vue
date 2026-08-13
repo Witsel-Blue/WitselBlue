@@ -13,6 +13,7 @@
                         </h3>
                     </li>
                     <li :style='lineStyle(2)'>
+                        <CursorZone label='click to send email' attach-to-parent />
                         <a href='mailto:witselblue@gmail.com'>
                             <TextShifting text='witselblue@gmail.com' />
                         </a>
@@ -70,12 +71,14 @@
 </template>
 
 <script>
+    import CursorZone from '@/components/common/CursorZone.vue';
     import TextShifting from '@/components/common/TextShifting.vue';
     import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
 
     export default {
         name: 'SiteFooter',
         components: {
+            CursorZone,
             TextShifting,
             TextStaggerByMiddle,
         },

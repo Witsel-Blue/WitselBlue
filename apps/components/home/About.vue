@@ -4,6 +4,7 @@
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
                 <div class='text-wrap'>
+                    <CursorZone label='move cursor' attach-to-parent />
                     <h2>
                         <span
                             v-for='(line, i) in titleLines'
@@ -17,6 +18,7 @@
             <section>
                 <div class='shape-anchor2' aria-hidden='true' />
                 <div class='text-wrap'>
+                    <CursorZone label='move cursor' attach-to-parent />
                     <p>
                         <span
                             v-for='(line, i) in descLines'
@@ -27,6 +29,7 @@
                         </span>
                     </p>
                     <div class='btn-wrap' :style='btnStyle'>
+                        <CursorZone label='click to read more' attach-to-parent />
                         <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
                     </div>
                 </div>
@@ -37,11 +40,13 @@
 
 <script>
     import ButtonRound from '@/components/common/ButtonRound.vue';
+    import CursorZone from '@/components/common/CursorZone.vue';
 
     export default {
         name: 'About',
         components: {
             ButtonRound,
+            CursorZone,
         },
         data() {
             return {
@@ -177,7 +182,7 @@
         }
 
         .text-wrap {
-            padding-top: 40vh;
+            margin-top: 40vh;
             position: sticky;
             bottom: 20vh;
             text-align: center;
