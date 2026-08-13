@@ -28,6 +28,15 @@
                         <p v-html='item.label' />
                     </NuxtLink>
                 </li>
+                <li>
+                    <button
+                        type='button'
+                        class='intro-again-btn'
+                        @click='onIntroAgain'
+                    >
+                        <TextShifting text='view intro again?' one-line />
+                    </button>
+                </li>
             </ul>
             <p class='copyright'>©{{ new Date().getFullYear() }} witselblue</p>
         </div>
@@ -38,12 +47,15 @@
     import Logo from '@/components/svg/logo.vue';
     import LanguageMenu from '@/layouts/LanguageMenu.vue';
     // import SoundMuteMenu from '@/components/common/SoundMuteMenu.vue';
+    import TextShifting from '@/components/common/TextShifting.vue';
+    import { clearIntroDone, isHomeRoute } from '@/utils/introState';
 
     export default {
         components: {
             Logo,
             LanguageMenu,
             // SoundMuteMenu,
+            TextShifting,
         },
         data() {
             return {
@@ -93,6 +105,23 @@
                 }
 
                 this.$router.push(item.to);
+            },
+            onIntroAgain() {
+                if (!process.client) return;
+
+                this.isOpen = false;
+                clearIntroDone(this.$root);
+                this.$root.$emit('mainvisual-intro-state', false);
+
+                const homePath = this.localePath('/');
+
+                if (isHomeRoute(this.$route)) {
+                    this.$root.$emit('intro-replay-request');
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+                this.$router.push(homePath);
             },
             clearStaggerTimers() {
                 this.staggerTimers.forEach((timer) => clearTimeout(timer));
@@ -249,6 +278,10 @@
                             transition: font-stretch 0.4s ease;
                         }
                     }
+                }
+
+                .intro-again-btn {
+                    margin-top: 1rem;
                 }
             }
 

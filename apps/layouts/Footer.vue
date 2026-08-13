@@ -63,7 +63,7 @@
                     </li>
                 </ul>
                 <button type='button' :style='lineStyle(7)' @click='scrollToTop'>
-                    <TextShifting text='BACK TO TOP' />
+                    <TextShifting text='BACK TO TOP' one-line />
                 </button>
             </div>
         </section>
@@ -280,14 +280,6 @@
                     dl {
                         align-items: center;
                         gap: 1rem;
-                    }
-                }
-
-                button {
-                    .text-shifting::v-deep {
-                        .space {
-                            display: inline-block;
-                        }
                     }
                 }
             }

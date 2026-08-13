@@ -1,5 +1,8 @@
 <template>
     <div class='intro'>
+        <LanguageMenu 
+            v-if='ready && clickCount >= 1 && !exploded'
+        />
         <div
             v-if='ready && clickCount >= 1 && !exploded'
             class='intro__item intro__item--1'
@@ -29,11 +32,13 @@
 </template>
 
 <script>
+    import LanguageMenu from '@/layouts/LanguageMenu.vue';
     import TextShifting from '@/components/common/TextShifting.vue';
 
     export default {
         name: 'Intro',
         components: {
+            LanguageMenu,
             TextShifting,
         },
         props: {

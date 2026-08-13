@@ -17,6 +17,12 @@ export function setIntroDone(root) {
     if (root) root[INTRO_ROOT_KEY] = true;
 }
 
+export function clearIntroDone(root) {
+    if (!process.client) return;
+    window.localStorage.removeItem(INTRO_STORAGE_KEY);
+    if (root) root[INTRO_ROOT_KEY] = false;
+}
+
 export function syncIntroDoneToRoot(root) {
     if (!process.client || !root) return false;
     if (!isIntroDone()) return false;

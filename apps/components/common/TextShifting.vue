@@ -1,5 +1,8 @@
 <template>
-    <div class='text-shifting' :class='{ playing }'>
+    <div
+        class='text-shifting'
+        :class='{ playing, "one-line": oneLine }'
+    >
         <span
             v-for='(text, idx) in textArray'
             :key='animKey + "-" + text.id'
@@ -19,6 +22,10 @@
                 required: true,
             },
             playing: {
+                type: Boolean,
+                default: false,
+            },
+            oneLine: {
                 type: Boolean,
                 default: false,
             },
@@ -62,17 +69,26 @@
 
 .text-shifting {
     position: relative;
+
     span {
         position: relative;
         display: inline-block;
         color: $white;
         line-height: 1;
     }
+    
     &:hover span,
     &.playing span {
         animation: flip 0.8s;
         animation-delay: calc(0.04s * var(--i));
     }
+
+    &.one-line {
+        .space {
+            display: inline-block;
+        }
+    }
+
     .space {
         height: 0;
         display: block;

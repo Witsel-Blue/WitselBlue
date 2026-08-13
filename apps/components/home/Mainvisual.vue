@@ -23,7 +23,7 @@
                 <p>{{ $t('home.mainText') }}</p>
                 <button type='button' class='scroll-down' @click='scrollToAbout'>
                     <Scrolldown />
-                    <TextShifting text='scroll down' />
+                    <TextShifting text='scroll down' one-line />
                 </button>
             </div>
         </div>
@@ -2158,11 +2158,6 @@
 
             ::v-deep .text-shifting {
                 margin-top: 1rem;
-                
-                span {
-                    display: inline-block;
-                    min-width: 8px;
-                }
             }
         }
     }

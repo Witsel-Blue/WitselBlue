@@ -132,6 +132,10 @@
     width: 100%;
     height: calc(40px + 2.5vw);
 
+    a {
+        pointer-events: none;
+    }
+
     .header__logo {
         position: fixed;
         left: 50%;
@@ -145,6 +149,10 @@
     &.fixed {
         z-index: 9;
         mix-blend-mode: difference;
+
+        a {
+            pointer-events: initial;
+        }
     }
 }
 </style>
