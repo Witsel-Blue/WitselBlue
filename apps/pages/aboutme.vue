@@ -2,7 +2,7 @@
     <div id='aboutme'>
         <section class='page-title'>
             <div class='inner-l'>
-                <h2>About Me</h2>
+                <TextStaggerByMiddle text='About Me' />
             </div>
         </section>
         <!-- <section>
@@ -12,11 +12,13 @@
 </template>
 
 <script>
+    import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
     // import TextMarquee from '@/components/common/TextMarquee.vue';
 
     export default {
         name: 'AboutMe',
         components: {
+            TextStaggerByMiddle,
             // TextMarquee,
         },
         data() {

@@ -1,6 +1,7 @@
 <template>
     <div id='language-menu'>
         <CursorZone label='change language' attach-to-parent />
+        <ClickSound attach-to-parent />
         <button
             :class='[{ ko_active: currentLocale === "ko" }]'
             @click.stop='toggleLocale'
@@ -12,6 +13,7 @@
 
 <script>
     import CursorZone from '@/components/common/CursorZone.vue';
+    import ClickSound from '@/components/common/ClickSound.vue';
     import en from '@/locales/en.js';
     import ko from '@/locales/ko.js';
 
@@ -20,6 +22,7 @@
     export default {
         components: {
             CursorZone,
+            ClickSound,
         },
         computed: {
             currentLocale() {

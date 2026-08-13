@@ -2,7 +2,7 @@
     <div id='contact'>
         <section class='page-title'>
             <div class='inner-l'>
-                <h2>Contact</h2>
+                <TextStaggerByMiddle text='Contact' />
                 <p v-html="$t('contact.mainText')" />
             </div>
         </section>
@@ -94,12 +94,14 @@
                             <textarea id='message' name='message' rows='20' required />
                         </div>
                     </div>
-                    <ButtonRound
-                        class='col-2'
-                        button-type='submit'
-                        :disabled='isSubmitting'
-                        :link='{ text: submitButtonText }'
-                    />
+                    <div class='subm`it-btn-wra col-2'>
+                        <ClickSound attach-to-parent />
+                        <ButtonRound
+                            button-type='submit'
+                            :disabled='isSubmitting'
+                            :link='{ text: submitButtonText }'
+                        />
+                    </div>
                 </form>
             </div>
         </section>
@@ -121,16 +123,20 @@
 </template>
 
 <script>
+    import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
     import ButtonRound from '@/components/common/ButtonRound.vue';
     import FieldSelect from '@/components/common/FieldSelect.vue';
+    import ClickSound from '@/components/common/ClickSound.vue';
 
     const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || '';
 
     export default {
         name: 'Contact',
         components: {
+            TextStaggerByMiddle,
             ButtonRound,
             FieldSelect,
+            ClickSound,
         },
         data() {
             return {

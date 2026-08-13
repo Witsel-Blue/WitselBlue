@@ -1,6 +1,7 @@
 <template>
     <div id='gnb' :class='{ open: isOpen }'>
         <button class='menu-btn' @click='toggleOpen'>
+            <ClickSound attach-to-parent />
             <div class='line-wrap'>
                 <span class='line' />
                 <span class='line' />
@@ -25,6 +26,7 @@
                     @mouseenter='hoveredIndex = index'
                     @mouseleave='hoveredIndex = null'
                 >
+                    <ClickSound attach-to-parent />
                     <NuxtLink
                         v-if="item.type === 'link'"
                         :to='item.to'
@@ -53,6 +55,7 @@
     import LanguageMenu from '@/layouts/LanguageMenu.vue';
     // import SoundMuteMenu from '@/components/common/SoundMuteMenu.vue';
     import TextShifting from '@/components/common/TextShifting.vue';
+    import ClickSound from '@/components/common/ClickSound.vue';
     import { clearIntroDone, isHomeRoute } from '@/utils/introState';
 
     export default {
@@ -61,6 +64,7 @@
             LanguageMenu,
             // SoundMuteMenu,
             TextShifting,
+            ClickSound,
         },
         data() {
             return {

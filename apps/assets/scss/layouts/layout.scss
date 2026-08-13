@@ -19,11 +19,12 @@
     justify-content: center;
     text-align: center;
 
-    h2 {
+    .text-stagger-by-middle {
         font-size: 10rem;
         line-height: 1;
         letter-spacing: 0.2em;
         text-transform: uppercase;
+        font-weight: 600;
     }
 
     p {

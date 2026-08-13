@@ -14,6 +14,7 @@
                     </li>
                     <li :style='lineStyle(2)'>
                         <CursorZone label='send email?' attach-to-parent />
+                        <ClickSound attach-to-parent />
                         <a href='mailto:witselblue@gmail.com'>
                             <TextShifting text='witselblue@gmail.com' />
                         </a>
@@ -21,21 +22,25 @@
                 </ul>
                 <ul>
                     <li :style='lineStyle(3)'>
+                        <ClickSound attach-to-parent />
                         <a href='https://www.instagram.com/witsel_blue' target='_blank'>
                             <TextShifting text='Instagram' />
                         </a>
                     </li>
                     <li :style='lineStyle(4)'>
+                        <ClickSound attach-to-parent />
                         <a href='https://github.com/Witsel-Blue' target='_blank'>
                             <TextShifting text='GitHub' />
                         </a>
                     </li>
                     <li :style='lineStyle(5)'>
+                        <ClickSound attach-to-parent />
                         <a href='https://www.linkedin.com/in/witselblue/' target='_blank'>
                             <TextShifting text='LinkedIn' />
                         </a>
                     </li>
                     <li :style='lineStyle(6)'>
+                        <ClickSound attach-to-parent />
                         <a href='https://open.kakao.com/o/s1ei023h' target='_blank'>
                             <TextShifting text='Kakao' />
                         </a>
@@ -63,6 +68,7 @@
                     </li>
                 </ul>
                 <button type='button' :style='lineStyle(7)' @click='scrollToTop'>
+                    <ClickSound attach-to-parent />
                     <TextShifting text='BACK TO TOP' one-line />
                 </button>
             </div>
@@ -74,6 +80,7 @@
     import CursorZone from '@/components/common/CursorZone.vue';
     import TextShifting from '@/components/common/TextShifting.vue';
     import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
+    import ClickSound from '@/components/common/ClickSound.vue';
 
     export default {
         name: 'SiteFooter',
@@ -81,6 +88,7 @@
             CursorZone,
             TextShifting,
             TextStaggerByMiddle,
+            ClickSound,
         },
         data() {
             return {
