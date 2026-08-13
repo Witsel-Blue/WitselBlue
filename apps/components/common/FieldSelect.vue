@@ -157,6 +157,7 @@
             color: $white;
             font-size: 1.2rem;
             cursor: pointer;
+            backdrop-filter: blur(24px);
 
             &:focus {
                 outline: 1px solid $white;
@@ -187,7 +188,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: $box-shadow;
-            backdrop-filter: blur(32px);
+            backdrop-filter: blur(24px);
         }
 
         &__option {

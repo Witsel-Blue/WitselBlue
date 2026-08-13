@@ -106,6 +106,7 @@ select {
     font-size: 1.2rem;
     padding: 12px;
     resize: none;
+    backdrop-filter: blur(24px);
 
     &:focus {
         outline: 1px solid $white;
@@ -193,9 +194,14 @@ select:-internal-autofill-selected {
         border-radius: 8px;
         padding: 12px 8px 12px 12px;
         width: 100%;
+        backdrop-filter: blur(24px);
 
         &:focus-within {
             border: 1px solid $white;
+        }
+
+        textarea {
+            backdrop-filter: none;
         }
     }
 

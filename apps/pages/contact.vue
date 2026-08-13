@@ -119,6 +119,9 @@
                 {{ submitError }}
             </p>
         </section>
+        <div class='bg'>
+            <img src='@/assets/img/contact/contact_bg.png' alt='Contact' />
+        </div>
     </div>
 </template>
 
@@ -301,6 +304,18 @@
 
     #contact {
         min-height: 100vh;
+        position: relative;
+
+        .bg {
+            position: absolute;
+            top: 60vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60vw;
+            height: auto;
+            filter: grayscale(0.1) blur(16px);
+            opacity: 0.6;
+        }
 
         section {
             width: 100%;
@@ -308,6 +323,8 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
+            z-index: 1;
 
             form {
                 display: grid;
