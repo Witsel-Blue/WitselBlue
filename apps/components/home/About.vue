@@ -9,7 +9,6 @@
                         class='cursor-zone'
                     >
                         <CursorZone label='move cursor' attach-to-parent />
-                        <ClickSound attach-to-parent />
                     </div>
                     <h2>
                         <span
@@ -40,7 +39,6 @@
                         </span>
                     </p>
                     <div class='btn-wrap' :style='btnStyle'>
-                        <ClickSound attach-to-parent />
                         <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
                     </div>
                 </div>
@@ -52,7 +50,6 @@
 <script>
     import ButtonRound from '@/components/common/ButtonRound.vue';
     import CursorZone from '@/components/common/CursorZone.vue';
-    import ClickSound from '@/components/common/ClickSound.vue';
     import { gatherAnchorState } from '@/utils/gatherAnchorState';
 
     export default {
@@ -60,7 +57,6 @@
         components: {
             ButtonRound,
             CursorZone,
-            ClickSound,
         },
         data() {
             return {

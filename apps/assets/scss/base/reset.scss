@@ -106,7 +106,6 @@ select {
     font-size: 1.2rem;
     padding: 12px;
     resize: none;
-    backdrop-filter: blur(24px);
 
     &:focus {
         outline: 1px solid $white;

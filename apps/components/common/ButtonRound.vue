@@ -1,5 +1,6 @@
 <template>
     <div id='button-round'>
+        <ClickSound label='click' attach-to-parent />
         <a 
             :is='link.href ? "a" : "button"' 
             class='button mouse-none'
@@ -18,8 +19,12 @@
 
 <script>
     import gsap from 'gsap';
+    import ClickSound from '@/components/common/ClickSound.vue';
 
     export default {
+        components: {
+            ClickSound,
+        },
         props: {
             link: {
                 type: Object,
@@ -153,67 +158,73 @@
 <style lang='scss' scoped>
 @use '@/assets/scss/base/variables.scss' as *;
     
-#button-round .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    border-radius: 32px;
-    position: relative;
-    overflow: hidden;
+#button-round {
+    width: max-content;
+    margin: 0 auto;
 
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+    .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
         border-radius: 32px;
-        border: 1px solid $white;
-    }
+        position: relative;
+        overflow: hidden;
+        width: max-content;
 
-    .circle {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        pointer-events: none;
-        transform: scale(0);
-        transform-origin: 0 0;
-        will-change: transform;
-        &::before {
+        &::after {
             content: '';
-            display: block;
-            background-color: $white;
-            border-radius: 50%;
             position: absolute;
             top: 0;
+            bottom: 0;
             left: 0;
-            transform: translate(-50%, -50%);
-            width: 170%;
+            right: 0;
+            border-radius: 32px;
+            border: 1px solid $white;
+        }
+
+        .circle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             pointer-events: none;
-            aspect-ratio: 1/1;
+            transform: scale(0);
+            transform-origin: 0 0;
+            will-change: transform;
+            &::before {
+                content: '';
+                display: block;
+                background-color: $white;
+                border-radius: 50%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transform: translate(-50%, -50%);
+                width: 170%;
+                pointer-events: none;
+                aspect-ratio: 1/1;
+            }
         }
-    }
-    .title {
-        color: $white;
-        position: relative;
-    }
-
-    &:hover {
         .title {
-            color: $black;
-        }
-    }
-
-    &:disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-
-        &:hover .title {
             color: $white;
+            position: relative;
+        }
+
+        &:hover {
+            .title {
+                color: $black;
+            }
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+
+            &:hover .title {
+                color: $white;
+            }
         }
     }
 }

@@ -95,7 +95,6 @@
                         </div>
                     </div>
                     <div class='subm`it-btn-wra col-2'>
-                        <ClickSound attach-to-parent />
                         <ButtonRound
                             button-type='submit'
                             :disabled='isSubmitting'
@@ -119,8 +118,10 @@
                 {{ submitError }}
             </p>
         </section>
-        <div class='bg'>
-            <img src='@/assets/img/contact/contact_bg.png' alt='Contact' />
+        <div ref='bgParallax' class='bg'>
+            <div class='bg__viewport'>
+                <img :src='contactBgSrc' alt='Contact' />
+            </div>
         </div>
     </div>
 </template>
@@ -129,7 +130,12 @@
     import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
     import ButtonRound from '@/components/common/ButtonRound.vue';
     import FieldSelect from '@/components/common/FieldSelect.vue';
-    import ClickSound from '@/components/common/ClickSound.vue';
+    import gsap from 'gsap';
+    import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+    if (process.client) {
+        gsap.registerPlugin(ScrollTrigger);
+    }
 
     const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || '';
 
@@ -139,10 +145,10 @@
             TextStaggerByMiddle,
             ButtonRound,
             FieldSelect,
-            ClickSound,
         },
         data() {
             return {
+                contactBgSrc: require('@/assets/img/contact/contact_bg.png'),
                 deadlineValue: '',
                 deadlineDisplay: '',
                 projectType: 'Other',
@@ -194,7 +200,80 @@
                     : this.$t('contact.SendButtonText');
             },
         },
+        mounted() {
+            this.initBgParallax();
+        },
+        beforeDestroy() {
+            this.destroyBgParallax();
+        },
         methods: {
+            initBgParallax() {
+                if (!process.client) return;
+
+                this.$nextTick(() => {
+                    const wrap = this.$refs.bgParallax;
+                    const img = wrap?.querySelector('img');
+
+                    if (!wrap || !img) return;
+
+                    const setup = () => {
+                        this.destroyBgParallax();
+
+                        const viewport = wrap.querySelector('.bg__viewport');
+
+                        if (!viewport) return;
+
+                        if (img.naturalWidth && img.naturalHeight) {
+                            viewport.style.aspectRatio =
+                                `${img.naturalWidth} / ${img.naturalHeight}`;
+                        }
+
+                        const viewportHeight = viewport.offsetHeight;
+                        const imgHeight = img.offsetHeight;
+                        const heightDiff = imgHeight - viewportHeight;
+                        const travel =
+                            heightDiff > 0
+                                ? imgHeight * 0.25
+                                : (viewportHeight - imgHeight) * 1;
+
+                        gsap.set(img, { y: 0 });
+
+                        this.bgScrollTrigger = gsap.to(img, {
+                            y: -travel,
+                            ease: 'none',
+                            scrollTrigger: {
+                                trigger: this.$el,
+                                start: 'top bottom',
+                                end: 'bottom top',
+                                scrub: 1,
+                                invalidateOnRefresh: true,
+                            },
+                        }).scrollTrigger;
+                    };
+
+                    if (img.complete) {
+                        setup();
+                        return;
+                    }
+
+                    img.addEventListener('load', setup, { once: true });
+                });
+            },
+            destroyBgParallax() {
+                if (!process.client) return;
+
+                const img = this.$refs.bgParallax?.querySelector('img');
+
+                if (this.bgScrollTrigger) {
+                    this.bgScrollTrigger.kill();
+                    this.bgScrollTrigger = null;
+                }
+
+                if (img) {
+                    gsap.killTweensOf(img);
+                    gsap.set(img, { clearProps: 'transform' });
+                }
+            },
             async onSubmit(event) {
                 const form = event.target;
 
@@ -308,13 +387,31 @@
 
         .bg {
             position: absolute;
-            top: 60vh;
+            top: 80vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 60vw;
-            height: auto;
+            width: 40vw;
             filter: grayscale(0.1) blur(16px);
             opacity: 0.6;
+            z-index: 0;
+            pointer-events: none;
+
+            &__viewport {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 100%;
+                height: 150%;
+                object-fit: cover;
+                will-change: transform;
+            }
         }
 
         section {
