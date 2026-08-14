@@ -23,7 +23,7 @@
                 <p>{{ $t('home.mainText') }}</p>
                 <button type='button' class='scroll-down' @click='scrollToAbout'>
                     <Scrolldown />
-                    <TextShifting text='scroll down' one-line />
+                    <TextShifting text='explore' one-line />
                 </button>
             </div>
         </div>
@@ -1475,16 +1475,13 @@
             },
 
             scrollToAbout() {
-                const about = document.querySelector('#about');
-                if (!about) return;
-
                 if (this._scrollToAboutId) {
                     cancelAnimationFrame(this._scrollToAboutId);
                     this._scrollToAboutId = null;
                 }
 
                 const startY = window.scrollY || window.pageYOffset || 0;
-                const targetY = about.getBoundingClientRect().top + startY;
+                const targetY = startY + window.innerHeight * 1.2;
                 const distance = targetY - startY;
                 if (Math.abs(distance) < 1) return;
 

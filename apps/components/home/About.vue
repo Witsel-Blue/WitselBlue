@@ -164,7 +164,7 @@
 
         section {
             position: relative;
-            height: 100vh;
+            height: 150vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -194,11 +194,15 @@
                     opacity: 0;
                     pointer-events: none;
                 }
+
+                .text-wrap {
+                    bottom: 15vh;
+                }
             }
         }
 
         .text-wrap {
-            padding-top: 40vh;
+            padding-top: 50vh;
             position: sticky;
             bottom: 20vh;
             text-align: center;
