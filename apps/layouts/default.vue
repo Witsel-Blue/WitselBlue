@@ -24,11 +24,7 @@
     import SiteCursor from '@/layouts/Cursor.vue';
     import GNB from '@/layouts/GNB.vue';
     import SiteFooter from '@/layouts/Footer.vue';
-    import {
-        isHomeRoute,
-        isIntroDone,
-        syncIntroDoneToRoot,
-    } from '@/utils/introState';
+    import { isHomeRoute } from '@/utils/introState';
 
     export default {
         components: {
@@ -81,8 +77,7 @@
                     return;
                 }
 
-                this.introDone =
-                    isIntroDone() || syncIntroDoneToRoot(this.$root);
+                this.introDone = false;
             },
         },
     };

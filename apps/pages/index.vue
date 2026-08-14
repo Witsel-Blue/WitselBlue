@@ -16,11 +16,6 @@
     import Story from '@/components/home/Story.vue';
     // import FeaturedWork from '@/components/home/FeaturedWork.vue';
     // import FoldingScreen from '@/components/home/FoldingScreen.vue';
-    import {
-        isIntroDone,
-        syncIntroDoneToRoot,
-    } from '@/utils/introState';
-
     export default {
         components: {
             // HomePagination,
@@ -37,12 +32,6 @@
             };
         },
         mounted() {
-            if (
-                process.client &&
-                (isIntroDone() || syncIntroDoneToRoot(this.$root))
-            ) {
-                this.exploded = true;
-            }
             this.onIntroState = (done) => {
                 this.exploded = done;
             };

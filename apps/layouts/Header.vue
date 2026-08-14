@@ -8,12 +8,7 @@
 
 <script>
     import Logo from '@/components/svg/logo.vue';
-    import {
-        INTRO_ROOT_KEY,
-        isIntroDone,
-        isHomeRoute,
-        syncIntroDoneToRoot,
-    } from '@/utils/introState';
+    import { isHomeRoute } from '@/utils/introState';
 
     export default {
         name: 'SiteHeader',
@@ -71,9 +66,6 @@
                     this.scrollProgress = 1;
                     return;
                 }
-                if (isIntroDone() || this.$root[INTRO_ROOT_KEY]) {
-                    this.introDone = true;
-                }
             },
             isLogoFixed: {
                 immediate: true,
@@ -83,13 +75,6 @@
             },
         },
         mounted() {
-            if (
-                process.client &&
-                (isIntroDone() || syncIntroDoneToRoot(this.$root))
-            ) {
-                this.introDone = true;
-            }
-
             this.onIntroState = (done) => {
                 if (!this.isHome) {
                     this.introDone = true;

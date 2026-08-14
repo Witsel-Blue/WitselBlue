@@ -228,6 +228,7 @@
         data() {
             return {
                 exploded: false,
+                scatterReady: false,
                 ready: false,
                 clickCount: 0,
                 show1: false,
@@ -301,15 +302,10 @@
             ) {
                 this.exploded = true;
             }
+            this.bindScrollLock();
             this.initThree();
             this.$nextTick(() => {
-                if (this.exploded) {
-                    this.$root.$emit('mainvisual-intro-state', true);
-                    this.$nextTick(() => {
-                        this.measureLogo();
-                        this.emitHeaderLogoMetrics();
-                    });
-                } else {
+                if (!this.exploded) {
                     this.syncIntroState();
                 }
             });
@@ -325,6 +321,7 @@
             window.removeEventListener('scroll', this.onScroll);
             window.removeEventListener('mousemove', this.onMouseMove);
             document.removeEventListener('mouseleave', this.onMouseLeave);
+            this.unbindScrollLock();
             this._nacreReadyPromise = null;
         },
 
@@ -688,14 +685,91 @@
                 });
             },
 
+            bindScrollLock() {
+                if (!process.client || this._scrollLockBound) return;
+
+                this._scrollLockBound = true;
+                this._onScrollLockWheel = (event) => {
+                    if (this.scatterReady) return;
+                    event.preventDefault();
+                };
+                this._onScrollLockTouch = (event) => {
+                    if (this.scatterReady) return;
+                    event.preventDefault();
+                };
+                this._onScrollLockKey = (event) => {
+                    if (this.scatterReady) return;
+
+                    const blockKeys = [
+                        'ArrowUp',
+                        'ArrowDown',
+                        'PageUp',
+                        'PageDown',
+                        'Home',
+                        'End',
+                        ' ',
+                    ];
+
+                    if (blockKeys.includes(event.key)) {
+                        event.preventDefault();
+                    }
+                };
+                this._onScrollLockScroll = () => {
+                    if (this.scatterReady) return;
+                    window.scrollTo(0, 0);
+                };
+
+                window.addEventListener('wheel', this._onScrollLockWheel, {
+                    passive: false,
+                });
+                window.addEventListener('touchmove', this._onScrollLockTouch, {
+                    passive: false,
+                });
+                window.addEventListener('keydown', this._onScrollLockKey);
+                window.addEventListener('scroll', this._onScrollLockScroll, {
+                    passive: true,
+                });
+            },
+
+            unbindScrollLock() {
+                if (!process.client || !this._scrollLockBound) return;
+
+                this._scrollLockBound = false;
+                window.removeEventListener('wheel', this._onScrollLockWheel);
+                window.removeEventListener('touchmove', this._onScrollLockTouch);
+                window.removeEventListener('keydown', this._onScrollLockKey);
+                window.removeEventListener('scroll', this._onScrollLockScroll);
+            },
+
+            waitForScatterRender() {
+                return new Promise((resolve) => {
+                    requestAnimationFrame(() => requestAnimationFrame(resolve));
+                });
+            },
+
+            markScatterReady() {
+                if (this.scatterReady) return;
+
+                this.scatterReady = true;
+                this.unbindScrollLock();
+                this.syncIntroState();
+                this.$nextTick(() => this.measureLogo());
+            },
+
             async explode() {
-                if (this.shards.length > 0) return;
+                if (this.shards.length > 0) {
+                    this.markScatterReady();
+                    return;
+                }
 
                 const THREE = this.three;
                 await this.ensureNacreTextureReady();
                 const size = this.modelSize;
                 const baseTex = this._nacreTex;
-                if (!THREE || !size || !baseTex) return;
+                if (!THREE || !size || !baseTex) {
+                    this.markScatterReady();
+                    return;
+                }
 
                 const SHARD_COUNT = 400;
 
@@ -783,15 +857,18 @@
                     canvas.style.pointerEvents = 'none';
                 }
 
-                this.syncIntroState();
                 this.buildTextTargets();
                 this.bindAnchorLightToMaterials();
+
+                await this.waitForScatterRender();
+                this.markScatterReady();
                 this.$nextTick(() => this.onScroll());
             },
 
             syncIntroState() {
-                this.$root.$emit('mainvisual-intro-state', this.exploded);
-                if (!this.exploded) {
+                const done = this.exploded && this.scatterReady;
+                this.$root.$emit('mainvisual-intro-state', done);
+                if (!done) {
                     this.scrollProgress = 0;
                     window.scrollTo(0, 0);
                 }
@@ -854,7 +931,7 @@
                 this.$root.$emit('header-logo-metrics', {
                     scrollProgress: this.scrollProgress,
                     logoTop0: this.logoTop0,
-                    active: this.exploded,
+                    active: this.exploded && this.scatterReady,
                 });
             },
 
@@ -916,7 +993,7 @@
                     this.syncSceneIridLights();
                 }
 
-                if (this.exploded) {
+                if (this.exploded && this.scatterReady) {
                     this.syncScrollProgress();
                 }
 
@@ -1778,7 +1855,7 @@
             },
 
             onScroll() {
-                if (!this.exploded) return;
+                if (!this.exploded || !this.scatterReady) return;
 
                 this.syncScrollProgress();
 
