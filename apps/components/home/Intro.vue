@@ -3,6 +3,9 @@
         <LanguageMenu 
             v-if='ready && clickCount >= 0 && !exploded'
         />
+        <SoundMuteMenu 
+            v-if='ready && clickCount >= 0 && !exploded'
+        />
         <div
             v-if='ready && clickCount >= 1 && !exploded'
             class='intro__item intro__item--1'
@@ -33,12 +36,14 @@
 
 <script>
     import LanguageMenu from '@/layouts/LanguageMenu.vue';
+    import SoundMuteMenu from '@/layouts/SoundMuteMenu.vue';
     import TextShifting from '@/components/common/TextShifting.vue';
 
     export default {
         name: 'Intro',
         components: {
             LanguageMenu,
+            SoundMuteMenu,
             TextShifting,
         },
         props: {

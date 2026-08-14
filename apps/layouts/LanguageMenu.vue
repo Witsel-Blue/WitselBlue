@@ -78,11 +78,13 @@
 #language-menu {
 
     button {
-        background-color: $gray2;
         width: 48px;
         height: 24px;
         border-radius: 24px;
         padding: 2px;
+        background: rgba($gray1, 0.2);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
 
         p {
             display: block;

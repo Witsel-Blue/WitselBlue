@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import { isSoundMuted } from '@/utils/soundMuteState';
+
     const CLICK_SOUND_SRC = '/sound/click.mp3';
 
     export default {
@@ -58,6 +60,7 @@
             },
             onEnter() {
                 if (!process.client) return;
+                if (isSoundMuted()) return;
 
                 if (!this.audio) {
                     this.audio = new Audio(this.src);

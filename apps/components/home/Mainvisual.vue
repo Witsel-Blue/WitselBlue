@@ -44,6 +44,10 @@
         resetGatherAnchorState,
         syncGatherAnchorState,
     } from '@/utils/gatherAnchorState';
+    import {
+        isSoundMuted,
+        syncSoundMutedFromStorage,
+    } from '@/utils/soundMuteState';
 
     const G2_SCATTER = {
         VIEW_XY: 2.8,
@@ -253,6 +257,10 @@
         },
 
         mounted() {
+            if (process.client) {
+                syncSoundMutedFromStorage();
+            }
+
             this.three = null;
             this.renderer = null;
             this.scene = null;
@@ -851,6 +859,8 @@
             },
 
             playcrack() {
+                if (isSoundMuted()) return;
+
                 if (this.crackAudio) {
                     this.crackAudio.pause();
                     this.crackAudio.currentTime = 0;

@@ -12,7 +12,7 @@
         <div class='menu-cont'>
             <Logo />
             <LanguageMenu />
-            <!-- <SoundMuteMenu /> -->
+            <SoundMuteMenu />
             <ul class='menu-list'>
                 <li
                     v-for='(item, index) in menuItems'
@@ -53,7 +53,7 @@
 <script>
     import Logo from '@/components/svg/logo.vue';
     import LanguageMenu from '@/layouts/LanguageMenu.vue';
-    // import SoundMuteMenu from '@/components/common/SoundMuteMenu.vue';
+    import SoundMuteMenu from '@/layouts/SoundMuteMenu.vue';
     import TextShifting from '@/components/common/TextShifting.vue';
     import ClickSound from '@/components/common/ClickSound.vue';
     import { clearIntroDone, isHomeRoute } from '@/utils/introState';
@@ -62,7 +62,7 @@
         components: {
             Logo,
             LanguageMenu,
-            // SoundMuteMenu,
+            SoundMuteMenu,
             TextShifting,
             ClickSound,
         },
