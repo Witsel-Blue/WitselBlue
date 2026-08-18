@@ -14,6 +14,7 @@
             <TextShifting
                 :text="$t('intro.textShift1')"
                 :playing='play1'
+                one-line
             />
         </div>
 
@@ -25,6 +26,7 @@
             <TextShifting
                 :text="$t('intro.textShift2')"
                 :playing='play2'
+                one-line
             />
         </div>
 
@@ -80,6 +82,8 @@
 </script>
 
 <style lang='scss' scoped>
+    @use '@/assets/scss/base/variables.scss' as *;
+
     .intro {
         &__item {
             position: absolute;
@@ -87,7 +91,7 @@
             user-select: none;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.7s ease;
+            transition: opacity 0.4s ease;
 
             ::v-deep span {
                 display: inline-block;
@@ -98,7 +102,7 @@
             }
 
             &.visible {
-                opacity: 0.4;
+                opacity: 1;
             }
 
             &.fade-out {
@@ -112,7 +116,7 @@
 
                 ::v-deep span:nth-child(10),
                 ::v-deep span:nth-child(24) {
-                    display: block;
+                    display: block !important;
                 }
             }
 
@@ -125,7 +129,7 @@
                 ::v-deep span:nth-child(16),
                 ::v-deep span:nth-child(32),
                 ::v-deep span:nth-child(51) {
-                    display: block;
+                    display: block !important;
                 }
             }
         }
@@ -136,7 +140,7 @@
             bottom: 5vw;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             text-align: center;
@@ -155,6 +159,27 @@
             opacity: 0.2;
         }
     }
+
+    @media (max-width: $mobile) {
+        .intro {
+            &__item {
+                &--1 {
+                    top: 15vh;
+                    left: 10vw;
+                }
+
+                &--2 {
+                    top: 70vh;
+                    right: 40vw;
+                }
+            }
+
+            &__hint {
+                font-size: 0.9rem;
+                bottom: 20vw;
+            }
+        }
+    }
 </style>
 
 <style lang='scss'>
@@ -164,11 +189,11 @@
                 &--1 {
                     span:nth-child(10),
                     span:nth-child(24) {
-                        display: inline-block;
+                        display: inline-block !important;
                     }
 
                     span:nth-child(12) {
-                        display: block;
+                        display: block !important;
                     }
                 }
 
@@ -176,12 +201,12 @@
                     span:nth-child(16),
                     span:nth-child(32),
                     span:nth-child(51) {
-                        display: inline-block;
+                        display: inline-block !important;
                     }
 
                     span:nth-child(10),
                     span:nth-child(23) {
-                        display: block;
+                        display: block !important;
                     }
                 }
             }

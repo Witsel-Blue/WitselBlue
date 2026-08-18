@@ -182,7 +182,7 @@
             }
 
             .menu-btn-text {
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 letter-spacing: 0.2em;
                 text-transform: uppercase;
                 opacity: 0;
@@ -308,8 +308,8 @@
                     }
 
                     &--action .menu-item__trigger {
-                        font-size: 0.75rem;
-                        letter-spacing: 0.06em;
+                        font-size: 0.9rem !important;
+                        letter-spacing: 0.1em;
                     }
                 }
             }
@@ -389,6 +389,35 @@
         }
         50% {
             transform: rotate(-45deg) scale(0);
+        }
+    }
+
+    @media (max-width: $mobile) {
+        #gnb {
+            .menu-btn {
+                top: 5vw;
+                left: 5vw;
+                gap: 2.5vw;
+            }
+
+            .menu-cont {
+                svg {
+                    top: 36vw;
+                    height: 15vw;
+                }
+
+                .menu-list {
+                    .menu-item {
+                        .menu-item__trigger {
+                            font-size: 3rem;
+                        }
+                    }
+                }
+
+                .copyright {
+                    bottom: 5vw;
+                }
+            }
         }
     }
 </style>

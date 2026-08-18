@@ -150,7 +150,7 @@
                 align-items: center;
                 justify-content: center;
                 gap: 8px;
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 letter-spacing: 0.2em;
                 text-transform: uppercase;
                 opacity: 0.4;

@@ -187,7 +187,7 @@
 
             .site-cursor__hint {
                 margin: 0;
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 letter-spacing: 0.06em;
                 text-transform: uppercase;
                 color: $white_inverted;

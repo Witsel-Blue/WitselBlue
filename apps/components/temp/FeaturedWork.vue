@@ -1562,7 +1562,7 @@
             position: fixed;
             z-index: 2;
             pointer-events: none;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: $white;

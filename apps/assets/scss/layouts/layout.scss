@@ -32,3 +32,24 @@
         font-size: 1.2rem;
     }
 }
+
+@media (max-width: $mobile) {
+    .inner-l,
+    .inner {
+        width: 90%;
+    }
+
+    .page-title {
+        padding: 20vw 0 10vw;
+
+        .text-stagger-by-middle {
+            font-size: 4rem;
+            letter-spacing: 0.1em;
+        }
+
+        p {
+            margin-top: 2.5vw;
+            font-size: 1rem;
+        }
+    }
+}

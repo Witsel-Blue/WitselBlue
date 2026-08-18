@@ -290,6 +290,92 @@
                         gap: 1rem;
                     }
                 }
+
+                button {
+                    width: max-content;
+                }
+            }
+        }
+    }
+
+    @media (max-width: $mobile) {
+        #footer {
+            // height: auto;
+
+            .top {
+                padding: 5vw;
+
+                .social {
+                    display: initial;
+
+                    h3 {
+                        span {
+                            font-size: 3.5rem;
+                        }
+
+                        .verb {
+                            font-size: 4rem;
+                        }
+                    }
+
+                    ul {
+                        &:nth-of-type(2) {
+                            text-align: left;
+                        }
+
+                        li {
+                            a {
+                                .text-shifting::v-deep {
+                                    span {
+                                        font-size: 1.2rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .bottom {
+                padding: 5vw;
+                padding-top: 0;
+
+                .text-stagger-by-middle::v-deep {
+                    display: none;
+
+                    .char__inner {
+                        font-size: 3.5rem;
+                    }
+                }
+
+                .info {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    grid-gap: 5vw;
+
+                    ul {
+                        display: grid;
+                        gap: 0;
+                        width: 100%;
+                        font-size: 0.9rem;
+
+                        li:nth-of-type(1) {
+                            grid-row: 2/3;
+                        }
+                    }
+
+                    button {
+                        grid-row: 1/2;
+                        margin: 0 auto;
+
+                        .text-shifting::v-deep {
+                            span {
+                                font-size: 2rem;
+                                font-weight: 700;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

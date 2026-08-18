@@ -95,6 +95,7 @@ img {
     }
 }
 
+// form
 input,
 textarea,
 select {
@@ -147,18 +148,18 @@ select:-internal-autofill-selected {
     &:focus-within input[type='text'] {
         outline: 1px solid $white;
     }
-}
 
-.field-date input[type='text'] {
-    position: relative;
-    appearance: none;
-    -webkit-appearance: none;
-    padding-right: 40px;
-    cursor: pointer;
-    background-image: url('@/assets/img/icons/interface-calendar--blank-calendar-date-day-month--Streamline-Core.svg');
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px 14px;
+    input[type='text'] {
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        padding-right: 40px;
+        cursor: pointer;
+        background-image: url('@/assets/img/icons/interface-calendar--blank-calendar-date-day-month--Streamline-Core.svg');
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 14px 14px;
+    }
 }
 
 .field-date__picker {
@@ -224,6 +225,21 @@ select:-internal-autofill-selected {
         &::-webkit-scrollbar-thumb {
             background-color: $gray1;
             border-radius: 2px;
+        }
+    }
+}
+
+@media all and (max-width: $mobile) {
+    input,
+    textarea,
+    select {
+        font-size: 1rem;
+        padding: 2.5vw;
+    }
+
+    .field-textarea {
+        &__wrap {
+            padding: 2.5vw;
         }
     }
 }

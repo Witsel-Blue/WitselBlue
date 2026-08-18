@@ -109,4 +109,11 @@
         }
     }
 }
+
+@media (max-width: $mobile) {
+    #language-menu {
+        top: 5vw;
+        right: 5vw;
+    }
+}
 </style>

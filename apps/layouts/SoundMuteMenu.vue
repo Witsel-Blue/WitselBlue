@@ -102,4 +102,11 @@
             backdrop-filter: blur(8px);
         }
     }
+
+    @media (max-width: $mobile) {
+        #sound-mute-menu {
+            left: 5vw;
+            bottom: 5vw;
+        }
+    }
 </style>

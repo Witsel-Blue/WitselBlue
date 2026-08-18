@@ -249,4 +249,41 @@
             will-change: opacity, transform, filter;
         }
     }
+
+    @media (max-width: $mobile) {
+        #about {
+            section {
+                &:nth-of-type(1) {
+                    height: 100vh;
+
+                    .shape-anchor {
+                        top: 35%;
+                        transform: translate(-50%, 0);
+                    }
+                }
+
+                &:nth-of-type(2) {
+                    height: 200vh;
+
+                    .shape-anchor2 {
+                        top: 50%;
+                        width: 50vh;
+                        height: 50vh;
+                    }
+                }
+
+                .text-wrap {
+                    h2 {
+                        span {
+                            font-size: 1.5rem;
+                        }
+                    }
+
+                    .btn-wrap {
+                        margin-top: 5vw;
+                    }
+                }
+            }
+        }
+    }
 </style>

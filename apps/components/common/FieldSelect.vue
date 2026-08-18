@@ -209,4 +209,18 @@
             transform: translateY(-50%) rotate(180deg);
         }
     }
+
+    @media (max-width: $mobile) {
+        .field-select {
+            &__trigger {
+                font-size: 1rem;
+                padding: 2.5vw;
+                padding-right: 40px;
+            }
+
+            &__option {
+                padding: 2.5vw;
+            }
+        }
+    }
 </style>

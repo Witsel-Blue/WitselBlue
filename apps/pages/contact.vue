@@ -468,4 +468,32 @@
             }
         }
     }
+
+    @media (max-width: $mobile) {
+        #contact {
+            section {
+                form {
+                    gap: 5vw 2.5vw;
+
+                    .form-group {
+                        gap: 2.25vw;
+
+                        label {
+                            font-size: 0.9rem;
+                        }
+
+                        &:nth-of-type(1),
+                        &:nth-of-type(2),
+                        &:nth-of-type(3) {
+                            grid-column: 1/3;
+                        }
+
+                        &:nth-of-type(5) {
+                            grid-column: 1/2;
+                        }
+                    }
+                }
+            }
+        }
+    }
 </style>

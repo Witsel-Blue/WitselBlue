@@ -2156,123 +2156,141 @@
 </script>
 
 <style lang='scss' scoped>
-@use '@/assets/scss/base/variables' as *;
+    @use '@/assets/scss/base/variables' as *;
 
-#mainvisual {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
+    #mainvisual {
+        position: relative;
         width: 100%;
-        height: 100%;
-        display: block;
-        z-index: 1;
-    }
+        height: 100vh;
 
-    .title {
-        position: fixed;
-        inset: 0;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        pointer-events: none;
-
-        .title__logo-spacer {
-            width: auto;
-            height: 20vh;
-            flex-shrink: 0;
-            visibility: hidden;
-            pointer-events: none;
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 1;
         }
 
-        .title__content__text {
-            z-index: 3;
+        .title {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            transform-origin: top center;
-            will-change: transform, opacity;
+            pointer-events: none;
 
-            h2 {
-                margin-top: 1.5rem;
-                font-size: 1.5rem;
-                font-weight: 400;
-                font-family: $ft-basic, $ft-hahmlet;
-                letter-spacing: 0.1em;
-                user-select: none;
+            .title__logo-spacer {
+                width: auto;
+                height: 20vh;
+                flex-shrink: 0;
+                visibility: hidden;
+                pointer-events: none;
             }
 
-            h1 {
-                margin-top: 0.5rem;
-                font-size: 4rem;
-                font-family: $ft-tanpearl, $ft-bagel;
-                letter-spacing: 0.1em;
-                user-select: none;
-                // text-shadow: $text-shadow;
+            .title__content__text {
+                z-index: 3;
+                text-align: center;
+                transform-origin: top center;
+                will-change: transform, opacity;
+
+                h2 {
+                    margin-top: 1.5rem;
+                    font-size: 1.5rem;
+                    font-weight: 400;
+                    font-family: $ft-basic, $ft-hahmlet;
+                    letter-spacing: 0.1em;
+                    user-select: none;
+                }
+
+                h1 {
+                    margin-top: 0.5rem;
+                    font-size: 4rem;
+                    font-family: $ft-tanpearl, $ft-bagel;
+                    letter-spacing: 0.1em;
+                    user-select: none;
+                    // text-shadow: $text-shadow;
+                }
+
+                p {
+                    margin-top: 0.5rem;
+                    font-size: 0.8rem;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                    text-align: center;
+                    opacity: 0.4;
+                    animation: blink 2s ease-in-out infinite;
+                    user-select: none;
+                }
             }
 
-            p {
-                margin-top: 0.5rem;
-                font-size: 0.75rem;
+            .scroll-down {
+                position: absolute;
+                left: 50%;
+                bottom: -5vw;
+                transform: translate(-50%, 100%);
+                z-index: 3;
+                font-size: 0.8rem;
                 letter-spacing: 0.2em;
                 text-transform: uppercase;
                 text-align: center;
-                opacity: 0.4;
-                animation: blink 2s ease-in-out infinite;
-                user-select: none;
-            }
-        }
+                cursor: pointer;
 
-        .scroll-down {
-            position: absolute;
-            left: 50%;
-            bottom: -5vw;
-            transform: translate(-50%, 100%);
-            z-index: 3;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            text-align: center;
-            cursor: pointer;
-
-            ::v-deep .text-shifting {
-                margin-top: 1rem;
+                ::v-deep .text-shifting {
+                    margin-top: 1rem;
+                }
             }
         }
     }
-}
 
-@keyframes blink {
-    0%,
-    100% {
-        opacity: 0.4;
+    @keyframes blink {
+        0%,
+        100% {
+            opacity: 0.4;
+        }
+        50% {
+            opacity: 0.2;
+        }
     }
-    50% {
-        opacity: 0.2;
+
+    @media (max-width: $mobile) {
+        #mainvisual {
+            .title {
+                padding: 5vw;
+
+                .title__content__text {
+                    h2 {
+                        font-size: 1.4rem;
+                    }
+
+                    h1 {
+                        font-size: 3rem;
+                    }
+                }
+            }
+        }
     }
-}
 </style>
 
 <style lang='scss'>
-.lang-ko {
-    #mainvisual {
-        .title {
-            h1 {
-                line-height: 1;
-                font-size: 6rem;
-                letter-spacing: 0;
-            }
+    .lang-ko {
+        #mainvisual {
+            .title {
+                h1 {
+                    line-height: 1;
+                    font-size: 6rem;
+                    letter-spacing: 0;
+                }
 
-            p {
-                margin-top: 1rem;
-                font-size: 0.9rem;
+                p {
+                    margin-top: 1rem;
+                    font-size: 0.9rem;
+                }
             }
         }
     }
-}
 </style>
