@@ -25,11 +25,11 @@
                         class='story__fixed-copy'
                         :style='getFixedCopyStyle(index)'
                     >
-                        <h3 v-if='bp.title' class='story__title'>{{ bp.title }}</h3>
-                        <p v-if='bp.company' class='story__company'>{{ bp.company }}</p>
-                        <p v-if='bp.skills' class='story__skills'>{{ bp.skills }}</p>
-                        <p v-if='bp.content' class='story__content'>{{ bp.content }}</p>
-                        <p v-if='bp.year' class='story__year'>{{ bp.year }}</p>
+                        <h3 v-if='bp.title' class='title'>{{ bp.title }}</h3>
+                        <p v-if='bp.company' class='company'>{{ bp.company }}</p>
+                        <p v-if='bp.skills' class='skills'>{{ bp.skills }}</p>
+                        <p v-if='bp.content' class='content'>{{ bp.content }}</p>
+                        <p v-if='bp.year' class='year'>{{ bp.year }}</p>
                     </div>
                     <svg
                         ref='svg'
@@ -39,13 +39,68 @@
                         xmlns='http://www.w3.org/2000/svg'
                         aria-hidden='true'
                     >
+                        <defs>
+                            <linearGradient
+                                id='story-trail-core'
+                                gradientUnits='userSpaceOnUse'
+                                :x1='trailLinear.x1'
+                                :y1='trailLinear.y1'
+                                :x2='trailLinear.x2'
+                                :y2='trailLinear.y2'
+                            >
+                                <stop offset='0%' stop-color='#ece8da' stop-opacity='0' />
+                                <stop offset='20%' stop-color='#ece8da' :stop-opacity='trailCoreMidOpacity' />
+                                <stop offset='55%' stop-color='#ece8da' :stop-opacity='trailCoreHeadOpacity' />
+                                <stop offset='100%' stop-color='#ece8da' stop-opacity='1' />
+                            </linearGradient>
+                            <linearGradient
+                                id='story-trail-glow-gradient'
+                                gradientUnits='userSpaceOnUse'
+                                :x1='trailLinear.x1'
+                                :y1='trailLinear.y1'
+                                :x2='trailLinear.x2'
+                                :y2='trailLinear.y2'
+                            >
+                                <stop offset='0%' stop-color='#ece8da' stop-opacity='0' />
+                                <stop offset='25%' stop-color='#ece8da' stop-opacity='0' />
+                                <stop offset='55%' stop-color='#ece8da' :stop-opacity='trailGlowMidOpacity' />
+                                <stop offset='100%' stop-color='#ece8da' :stop-opacity='trailGlowHeadOpacity' />
+                            </linearGradient>
+                            <filter
+                                id='story-trail-core-soft'
+                                x='-30%'
+                                y='-30%'
+                                width='160%'
+                                height='160%'
+                            >
+                                <feGaussianBlur :stdDeviation='trailCoreBlur' />
+                            </filter>
+                            <filter
+                                id='story-trail-glow'
+                                x='-100%'
+                                y='-100%'
+                                width='300%'
+                                height='300%'
+                            >
+                                <feGaussianBlur :stdDeviation='trailGlowBlur' />
+                            </filter>
+                        </defs>
+                        <path
+                            v-if='trackPathD'
+                            class='story__track story__track--glow'
+                            :d='trackPathD'
+                            :stroke-dasharray='trailDashArray'
+                            :stroke-dashoffset='trailDashOffset'
+                            :style='{ opacity: trailGlowLayerOpacity }'
+                        />
                         <path
                             v-if='trackPathD'
                             ref='trackPath'
-                            class='story__track'
+                            class='story__track story__track--core'
                             :d='trackPathD'
-                            :stroke-dasharray='pathLength'
-                            :stroke-dashoffset='pathDashOffset'
+                            :stroke-dasharray='trailDashArray'
+                            :stroke-dashoffset='trailDashOffset'
+                            :style='{ opacity: trailCoreLayerOpacity }'
                         />
                         <circle
                             v-for='(bp, i) in breakpoints'
@@ -60,7 +115,7 @@
                             class='story__dot'
                             :cx='dot.x'
                             :cy='dot.y'
-                            r='5'
+                            r='1'
                         />
                     </svg>
                 </div>
@@ -75,8 +130,8 @@
                     class='story__copy'
                     :style='{ opacity: getSubtitleCopyOpacity(index) }'
                 >
-                    <p v-if='bp.subtitle' class='story__subtitle'>{{ bp.subtitle }}</p>
-                    <p v-if='bp.desc' class='story__desc'>{{ bp.desc }}</p>
+                    <p v-if='bp.subtitle' class='subtitle'>{{ bp.subtitle }}</p>
+                    <p v-if='bp.desc' class='desc'>{{ bp.desc }}</p>
                 </div>
             </div>
         </div>
@@ -87,18 +142,18 @@
     import storySvgUrl from '@/assets/img/home/story.svg';
 
     const DEFAULT_VIEWBOX = { w: 3571, h: 1265 };
+    const CANVAS_HEIGHT_VH = 200;
+    const VIEWPORT_OFFSET_VH = (CANVAS_HEIGHT_VH - 100) / 100;
     const VERTICAL_SCROLL_VH = 0.5;
-    const HORIZONTAL_SCROLL_VH = 1;
+    const HORIZONTAL_SCROLL_VH = 1 * (CANVAS_HEIGHT_VH / 150);
     const BREAKPOINT_DEFS = [
         {
-            progress: 0.05,
+            progress: 0.03,
             subtitle: '줄음질',
             desc: '자개를 원하는 무늬대로 오려내어 나무기물의 표면에 붙이는 방법',
         },
         {
-            progress: 0.16,
-            // copyOffsetX: 300,
-            // copyOffsetY: -250,
+            progress: 0.13,
             title: 'Design and Development Education',
             company: 'SBS Academy',
             year: '2020',
@@ -106,13 +161,13 @@
             content: 'Learned general planning, design, publishing of web development.',
         },
         {
-            progress: 0.25,
+            progress: 0.23,
             subtitle: '끊음질',
             desc: '자개를 자르는 방법',
             image: require('@/assets/img/home/story_img1.png'),
         },
         {
-            progress: 0.35,
+            progress: 0.33,
             title: 'Web Agency',
             company: 'Skunkworks Studio',
             year: 'April 2021 - April 2022',
@@ -120,13 +175,13 @@
             content: 'Frontend developer activities in a startup web agency company. I joined the company as a new hire and took sole responsibility for the entire frontend, building about eight new websites from scratch.',
         },
         {
-            progress: 0.45,
+            progress: 0.43,
             subtitle: '모조법',
             desc: '줄음질로 만든 무늬를 음각으로 세부묘사',
             image: require('@/assets/img/home/story_img2.png'),
         },
         {
-            progress: 0.55,
+            progress: 0.53,
             title: 'Major Company Project',
             company: 'Lisn Design',
             year: 'June 2024 - November 2024',
@@ -134,7 +189,7 @@
             content: 'Participated as a team member in the renewal of the Samsung Card Monimo app. Collaborated with a team of five developers to revamp over 1,400 pages within the project timeframe. Specifically responsible for redesigning the main card page using technologies such as Lottie and Swiper.',
         },
         {
-            progress: 0.65,
+            progress: 0.64,
             subtitle: '타발법',
             desc: '둥근 자개면을 평평하게 만듦',
             image: require('@/assets/img/home/story_img3.png'),
@@ -148,7 +203,15 @@
             content: 'Footwear sales startup. Proposed using a 3D configurator tool instead of traditional sketch-based planning; single-handedly managed the entire process—including planning, design, and development. Established workflows and reporting systems. Trained junior front-end staff.',
         },
     ];
-    const LABEL_FADE_RANGE = 0.06;
+    const LABEL_FADE_RANGE = 0.03;
+    const TRAIL_LENGTH_VMIN = 1;
+    const TRAIL_VELOCITY_PX_GAIN = 220;
+    const TRAIL_IDLE_DECAY_PX_PER_MS = 0.055;
+    const TRAIL_RESUME_EXTEND_PX_PER_MS = 0.055;
+    const TRAIL_SCROLL_LERP = 0.16;
+    const TRAIL_GROW_LERP = 0.11;
+    const TRAIL_REVEAL_LERP = 0.08;
+    const TRAIL_VELOCITY_IDLE_MS = 160;
 
     export default {
         name: 'HomeStory',
@@ -162,6 +225,18 @@
                 viewportY: 0,
                 pathLength: 0,
                 pathProgress: 0,
+                trailTailProgress: 0,
+                trailTailPoint: { x: 0, y: 0 },
+                trailActivePx: 0,
+                trailReveal: 1,
+                trailWasCollapsed: false,
+                trailScrollDir: 1,
+                scrollVelocity: 0,
+                trailLastProgress: 0,
+                trailLastProgressTime: 0,
+                trailRafId: null,
+                trailLastTick: 0,
+                velocityResetTimer: null,
                 scrollOrigin: null,
                 breakpoints: [],
             };
@@ -186,9 +261,12 @@
                 return `0 0 ${this.viewBox.w} ${this.viewBox.h}`;
             },
             canvasStyle() {
+                const { w, h } = this.viewBox;
+
                 return {
                     transform: `translate3d(${this.canvasX}px, ${this.canvasY}px, 0)`,
-                    width: `calc(150vh * ${this.viewBox.w} / ${this.viewBox.h})`,
+                    width: `calc(${CANVAS_HEIGHT_VH}vh * ${w} / ${h})`,
+                    height: `${CANVAS_HEIGHT_VH}vh`,
                 };
             },
             viewportStyle() {
@@ -196,9 +274,112 @@
                     transform: `translate3d(0, ${this.viewportY}px, 0)`,
                 };
             },
-            pathDashOffset() {
+            trailDashArray() {
+                if (!this.pathLength) return '0 99999';
+
+                const near = Math.min(this.pathProgress, this.trailTailProgress);
+                const far = Math.max(this.pathProgress, this.trailTailProgress);
+                const visible = Math.max(0, (far - near) * this.pathLength);
+
+                if (visible <= 0) return `0 ${this.pathLength}`;
+
+                return `${visible} ${this.pathLength}`;
+            },
+            trailDashOffset() {
                 if (!this.pathLength) return 99999;
-                return this.pathLength * (1 - this.pathProgress);
+
+                const near = Math.min(this.pathProgress, this.trailTailProgress);
+
+                return -(near * this.pathLength);
+            },
+            trailLinear() {
+                return {
+                    x1: this.trailTailPoint.x,
+                    y1: this.trailTailPoint.y,
+                    x2: this.dot.x,
+                    y2: this.dot.y,
+                };
+            },
+            trailSpan() {
+                return Math.abs(this.pathProgress - this.trailTailProgress);
+            },
+            trailSpanPx() {
+                return this.trailSpan * this.pathLength * this.getCanvasScale();
+            },
+            targetTrailPx() {
+                const vmin = this.getViewportMin();
+                const base = vmin * TRAIL_LENGTH_VMIN;
+                const speed = Math.min(
+                    Math.abs(this.scrollVelocity) * TRAIL_VELOCITY_PX_GAIN,
+                    vmin * 0.3,
+                );
+
+                return base + speed;
+            },
+            trailExtensionRatio() {
+                if (this.trailActivePx <= 0) return 0;
+
+                return Math.min(1, this.trailSpanPx / this.trailActivePx);
+            },
+            trailResumeOpacityFactor() {
+                if (!this.trailWasCollapsed && this.trailReveal >= 0.99) return 1;
+
+                const t = this.trailExtensionRatio;
+
+                return t * t * (3 - 2 * t);
+            },
+            trailFadeRatio() {
+                const target = this.targetTrailPx;
+                if (target <= 0) return 0;
+
+                return Math.min(1, this.trailSpanPx / target);
+            },
+            trailCoreBlur() {
+                return 0.25 + (1 - this.trailFadeRatio) * 0.15;
+            },
+            trailGlowBlur() {
+                const ratio = this.trailFadeRatio;
+                return 0.8 + (1 - ratio) * 5.5 + ratio * 1.2;
+            },
+            trailGlowMidOpacity() {
+                return (0.1 + this.trailFadeRatio * 0.28) * this.trailResumeOpacityFactor;
+            },
+            trailCoreMidOpacity() {
+                return 0.08 * this.trailResumeOpacityFactor;
+            },
+            trailCoreHeadOpacity() {
+                const head = 0.5 + this.trailFadeRatio * 0.5;
+                const factor = this.trailWasCollapsed
+                    ? 0.4 + this.trailResumeOpacityFactor * 0.6
+                    : 1;
+
+                return head * factor;
+            },
+            trailGlowHeadOpacity() {
+                const head = 0.2 + this.trailFadeRatio * 0.35;
+                const factor = this.trailWasCollapsed
+                    ? 0.35 + this.trailResumeOpacityFactor * 0.65
+                    : 1;
+
+                return head * factor;
+            },
+            trailCoreLayerOpacity() {
+                if (this.trailSpan <= 0) return 0;
+
+                return Math.min(
+                    1,
+                    (0.65 + this.trailFadeRatio * 0.35)
+                        * this.trailReveal
+                        * this.trailResumeOpacityFactor,
+                );
+            },
+            trailGlowLayerOpacity() {
+                if (this.trailSpan <= 0) return 0;
+
+                return Math.min(
+                    1,
+                    this.trailFadeRatio * 0.95 * this.trailReveal * this.trailResumeOpacityFactor,
+                );
             },
         },
         mounted() {
@@ -218,21 +399,21 @@
                 const totalScroll = verticalLength + horizontalLength;
                 const rawScrolled = Math.max(0, -section.getBoundingClientRect().top);
 
-                if (this.scrollOrigin === null) this.viewportY = 0;
-                this.setDotProgress(0);
-                this.centerCanvasOnDot();
-
-                const dotScreenY = this.getDotScreenY();
-                if (dotScreenY === null) return;
-
                 if (this.scrollOrigin === null) {
+                    this.viewportY = 0;
+                    this.setDotProgress(0);
+                    this.centerCanvasOnDot();
+
+                    const dotScreenY = this.getDotScreenY();
+                    if (dotScreenY === null) return;
                     if (dotScreenY > vh * 0.5) return;
+
                     this.scrollOrigin = rawScrolled;
                 }
 
                 if (rawScrolled < this.scrollOrigin) {
                     this.scrollOrigin = null;
-                    this.pathProgress = 0;
+                    this.resetTrailState();
                     this.viewportY = 0;
                     this.centerCanvasOnDot();
                     return;
@@ -246,7 +427,7 @@
                     const eased = this.smoothstep(t);
 
                     this.setDotProgress(0);
-                    this.viewportY = -eased * vh * 0.5;
+                    this.viewportY = -eased * vh * VIEWPORT_OFFSET_VH;
                     this.centerCanvasOnDot();
                     return;
                 }
@@ -254,7 +435,7 @@
                 const hScrolled = clamped - verticalLength;
                 const t = horizontalLength > 0 ? hScrolled / horizontalLength : 0;
 
-                this.viewportY = -vh * 0.5;
+                this.viewportY = -vh * VIEWPORT_OFFSET_VH;
                 this.setDotProgress(this.smoothstep(Math.max(0, Math.min(1, t))));
                 this.centerCanvasOnDot();
             };
@@ -266,8 +447,298 @@
             if (!this.onScroll) return;
             window.removeEventListener('scroll', this.onScroll);
             window.removeEventListener('resize', this.onScroll);
+            this.stopTrailLoop();
+            if (this.velocityResetTimer) clearTimeout(this.velocityResetTimer);
         },
         methods: {
+            resetTrailState() {
+                this.pathProgress = 0;
+                this.trailTailProgress = 0;
+                this.trailActivePx = 0;
+                this.trailReveal = 1;
+                this.trailWasCollapsed = false;
+                this.trailScrollDir = 1;
+                this.scrollVelocity = 0;
+                this.trailLastProgress = 0;
+                this.trailLastProgressTime = 0;
+                this.updateTrailTailPoint();
+                this.stopTrailLoop();
+            },
+            getViewportMin() {
+                const viewport = this.$refs.viewport;
+                if (!viewport) return 360;
+
+                return Math.min(viewport.clientWidth, viewport.clientHeight);
+            },
+            getCanvasScale() {
+                const canvas = this.$refs.canvasWrap;
+                if (!canvas?.offsetWidth) return 1;
+
+                return canvas.offsetWidth / this.viewBox.w;
+            },
+            markTrailScroll(progress) {
+                if (progress <= 0) {
+                    this.trailTailProgress = 0;
+                    this.trailActivePx = 0;
+                    this.trailReveal = 1;
+                    this.trailWasCollapsed = false;
+                    this.trailScrollDir = 1;
+                    this.scrollVelocity = 0;
+                    this.updateTrailTailPoint();
+                    this.stopTrailLoop();
+                    return;
+                }
+
+                const now = performance.now();
+                const delta = progress - this.trailLastProgress;
+
+                if (this.trailLastProgressTime) {
+                    const dt = now - this.trailLastProgressTime;
+                    if (dt > 0 && dt < 140) {
+                        this.scrollVelocity = delta / dt;
+                    }
+                }
+
+                if (Math.abs(delta) > 0.000001) {
+                    const newDir = delta > 0 ? 1 : -1;
+                    const spanPx =
+                        Math.abs(progress - this.trailTailProgress)
+                        * this.pathLength
+                        * this.getCanvasScale();
+
+                    if (
+                        this.trailLastProgress > 0
+                        && newDir !== this.trailScrollDir
+                        && spanPx > 0.5
+                    ) {
+                        this.trailTailProgress = progress;
+                        this.trailActivePx = 0;
+                        this.trailReveal = 0;
+                        this.trailWasCollapsed = true;
+                        this.updateTrailTailPoint();
+                    }
+
+                    this.trailScrollDir = newDir;
+                }
+
+                this.trailLastProgress = progress;
+                this.trailLastProgressTime = now;
+
+                if (this.velocityResetTimer) clearTimeout(this.velocityResetTimer);
+                this.velocityResetTimer = setTimeout(() => {
+                    this.scrollVelocity = 0;
+                }, TRAIL_VELOCITY_IDLE_MS);
+
+                this.startTrailLoop();
+            },
+            startTrailLoop() {
+                if (this.trailRafId) return;
+                this.trailLastTick = performance.now();
+                this.trailRafId = requestAnimationFrame((time) => this.tickTrail(time));
+            },
+            stopTrailLoop() {
+                if (!this.trailRafId) return;
+                cancelAnimationFrame(this.trailRafId);
+                this.trailRafId = null;
+            },
+            shouldGlueTrailTailToHead() {
+                if (!this.trailWasCollapsed && this.trailReveal >= 0.02) return false;
+
+                return this.trailSpanPx < 0.5;
+            },
+            resolveTailProgress(headProgress, trailPx, direction = this.trailScrollDir) {
+                const path = this.$refs.trackPath;
+                if (!path || !this.pathLength || trailPx <= 0) return headProgress;
+
+                const scale = this.getCanvasScale();
+                const targetSvgLen = trailPx / scale;
+                const headLen = headProgress * this.pathLength;
+                let len = headLen;
+                let walked = 0;
+                let prev = path.getPointAtLength(len);
+                const step = Math.max(1.5, this.pathLength * 0.002);
+
+                if (direction >= 0) {
+                    while (walked < targetSvgLen && len > 0) {
+                        len = Math.max(0, len - step);
+                        const point = path.getPointAtLength(len);
+                        walked += Math.hypot(point.x - prev.x, point.y - prev.y);
+                        prev = point;
+                    }
+                } else {
+                    while (walked < targetSvgLen && len < this.pathLength) {
+                        len = Math.min(this.pathLength, len + step);
+                        const point = path.getPointAtLength(len);
+                        walked += Math.hypot(point.x - prev.x, point.y - prev.y);
+                        prev = point;
+                    }
+                }
+
+                return len / this.pathLength;
+            },
+            clampTrailTailToMaxSpan(head) {
+                if (!this.pathLength || head <= 0 || this.trailActivePx <= 0.5) return;
+
+                const bound = this.resolveTailProgress(head, this.trailActivePx);
+
+                if (this.trailScrollDir >= 0) {
+                    this.trailTailProgress = Math.max(this.trailTailProgress, bound);
+                } else {
+                    this.trailTailProgress = Math.min(this.trailTailProgress, bound);
+                }
+            },
+            extendTrailSpanByPx(head, maxPx, targetSpanPx) {
+                if (!this.pathLength || maxPx <= 0) return;
+
+                const scale = this.getCanvasScale();
+                const headLen = head * this.pathLength;
+                const extentLen = this.trailTailProgress * this.pathLength;
+                const currentSpanPx = Math.abs(headLen - extentLen) * scale;
+                const nextSpanPx = Math.min(
+                    Math.max(0, targetSpanPx),
+                    currentSpanPx + maxPx,
+                );
+
+                if (this.trailScrollDir >= 0) {
+                    this.trailTailProgress = (headLen - nextSpanPx / scale) / this.pathLength;
+                } else {
+                    this.trailTailProgress = (headLen + nextSpanPx / scale) / this.pathLength;
+                }
+            },
+            clampTrailExtentToHead(head) {
+                if (this.trailScrollDir >= 0) {
+                    this.trailTailProgress = Math.max(0, Math.min(this.trailTailProgress, head));
+                } else {
+                    this.trailTailProgress = Math.min(1, Math.max(this.trailTailProgress, head));
+                }
+            },
+            tickTrail(timestamp) {
+                const dt = Math.min(Math.max(timestamp - this.trailLastTick, 0), 32);
+                this.trailLastTick = timestamp;
+
+                const head = this.pathProgress;
+
+                if (head <= 0) {
+                    this.trailTailProgress = 0;
+                    this.updateTrailTailPoint();
+                    this.trailRafId = null;
+                    return;
+                }
+
+                const targetPx = this.targetTrailPx;
+                const isScrolling = Math.abs(this.scrollVelocity) > 0.000008;
+
+                if (isScrolling) {
+                    const growLerp = 1 - (1 - TRAIL_GROW_LERP) ** (dt / 16.67);
+                    this.trailActivePx += (targetPx - this.trailActivePx) * growLerp;
+
+                    const resumeExtendPx = TRAIL_RESUME_EXTEND_PX_PER_MS * dt;
+                    const needsResumeExtend =
+                        this.trailWasCollapsed
+                        || this.trailReveal < 0.99
+                        || this.trailExtensionRatio < 0.98;
+
+                    if (needsResumeExtend) {
+                        this.extendTrailSpanByPx(
+                            head,
+                            resumeExtendPx,
+                            this.trailActivePx,
+                        );
+
+                        const revealLerp = 1 - (1 - TRAIL_REVEAL_LERP) ** (dt / 16.67);
+                        this.trailReveal = Math.min(
+                            1,
+                            this.trailReveal + (1 - this.trailReveal) * revealLerp,
+                        );
+
+                        if (
+                            this.trailWasCollapsed
+                            && this.trailReveal > 0.98
+                            && this.trailExtensionRatio > 0.98
+                        ) {
+                            this.trailWasCollapsed = false;
+                            this.trailReveal = 1;
+                        }
+                    } else {
+                        this.trailReveal = 1;
+
+                        const targetTail = this.resolveTailProgress(head, this.trailActivePx);
+                        const lerp = 1 - (1 - TRAIL_SCROLL_LERP) ** (dt / 16.67);
+                        const prevTail = this.trailTailProgress;
+                        let nextTail = prevTail + (targetTail - prevTail) * lerp;
+
+                        const maxTailDeltaPx = resumeExtendPx * 1.35;
+                        const scale = this.getCanvasScale();
+                        const maxTailDelta =
+                            maxTailDeltaPx / (this.pathLength * scale);
+
+                        if (targetTail < prevTail) {
+                            nextTail = Math.max(nextTail, prevTail - maxTailDelta);
+                        } else if (targetTail > prevTail) {
+                            nextTail = Math.min(nextTail, prevTail + maxTailDelta);
+                        }
+
+                        if (this.trailScrollDir >= 0) {
+                            nextTail = Math.min(nextTail, head);
+                            nextTail = Math.min(nextTail, targetTail);
+                        } else {
+                            nextTail = Math.max(nextTail, head);
+                            nextTail = Math.max(nextTail, targetTail);
+                        }
+
+                        this.trailTailProgress = nextTail;
+                    }
+                } else {
+                    const scale = this.getCanvasScale();
+                    const headLen = head * this.pathLength;
+                    const extentLen = this.trailTailProgress * this.pathLength;
+                    const spanPx = Math.abs(headLen - extentLen) * scale;
+
+                    if (spanPx <= 0.5) {
+                        this.trailTailProgress = head;
+                        this.trailActivePx = 0;
+                        this.trailReveal = 0;
+                        this.trailWasCollapsed = true;
+                    } else {
+                        const decayBoost = 1 + (spanPx / Math.max(targetPx, 1)) * 0.35;
+                        const decayPx = TRAIL_IDLE_DECAY_PX_PER_MS * dt * decayBoost;
+
+                        if (this.trailScrollDir >= 0) {
+                            const nextExtentLen = Math.min(headLen, extentLen + decayPx / scale);
+                            this.trailTailProgress = nextExtentLen / this.pathLength;
+                        } else {
+                            const nextExtentLen = Math.max(headLen, extentLen - decayPx / scale);
+                            this.trailTailProgress = nextExtentLen / this.pathLength;
+                        }
+                    }
+                }
+
+                this.clampTrailExtentToHead(head);
+                this.clampTrailTailToMaxSpan(head);
+                this.updateTrailTailPoint();
+
+                if (
+                    head > 0
+                    && (
+                        this.trailSpan > 0.00005
+                        || this.trailReveal < 0.99
+                        || (isScrolling && this.trailWasCollapsed)
+                    )
+                ) {
+                    this.trailRafId = requestAnimationFrame((time) => this.tickTrail(time));
+                } else {
+                    this.trailRafId = null;
+                }
+            },
+            updateTrailTailPoint() {
+                const path = this.$refs.trackPath;
+                if (!path || !this.pathLength) return;
+
+                const point = path.getPointAtLength(
+                    this.trailTailProgress * this.pathLength,
+                );
+                this.trailTailPoint = { x: point.x, y: point.y };
+            },
             smoothstep(t) {
                 return t * t * (3 - 2 * t);
             },
@@ -463,6 +934,26 @@
                 const point = path.getPointAtLength(progress * this.pathLength);
                 this.dot.x = point.x;
                 this.dot.y = point.y;
+
+                if (this.shouldGlueTrailTailToHead()) {
+                    this.trailTailProgress = progress;
+                    this.trailTailPoint = { x: point.x, y: point.y };
+                } else if (
+                    progress > 0
+                    && this.trailLastProgress <= 0
+                    && this.trailTailProgress <= 0
+                    && !this.trailWasCollapsed
+                ) {
+                    this.trailTailProgress = progress;
+                    this.trailTailPoint = { x: point.x, y: point.y };
+                    this.trailScrollDir = 1;
+                }
+
+                this.markTrailScroll(progress);
+
+                if (!this.shouldGlueTrailTailToHead()) {
+                    this.updateTrailTailPoint();
+                }
             },
             getLayout() {
                 const canvas = this.$refs.canvasWrap;
@@ -485,7 +976,6 @@
                 if (!layout) return;
 
                 this.canvasX = layout.centerX - layout.dotPxX;
-                // viewportY 보정 — SVG 세로 이동해도 dot은 viewport 중앙 고정
                 this.canvasY = layout.centerY - layout.dotPxY - this.viewportY;
             },
             getDotScreenY() {
@@ -505,167 +995,157 @@
 
     #story {
         position: relative;
-        z-index: 2;
-        background-color: $black;
-        height: 250vh;
+        height: 300vh;
+        margin-top: -100vh;
 
-        .story {
-            &__sticky {
-                position: sticky;
-                top: 0;
-                height: 100vh;
-                overflow: visible;
-            }
+        .story__sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: visible;
 
-            &__viewport {
+            .story__viewport {
                 width: 100%;
                 height: 100%;
                 overflow: visible;
                 will-change: transform;
-            }
 
-            &__canvas {
-                position: relative;
-                height: 150vh;
-                transform-origin: 0 0;
-                will-change: transform;
-            }
+                .story__canvas {
+                    position: relative;
+                    transform-origin: 0 0;
+                    will-change: transform;
 
-            &__bg-img {
-                z-index: 0;
-                width: auto;
-                height: 60vh;
-                position: absolute;
-                transform: translate(-50%, -50%);
-                will-change: opacity;
-                object-fit: contain;
-                pointer-events: none;
+                    .story__bg-img {
+                        z-index: 0;
+                        width: auto;
+                        height: 60vh;
+                        position: absolute;
+                        transform: translate(-50%, -50%);
+                        will-change: opacity;
+                        object-fit: contain;
+                        pointer-events: none;
 
-                &:nth-child(2) {
-                    width: auto;
-                    height: 40vh;
+                        &:nth-child(2) {
+                            width: auto;
+                            height: 40vh;
+                        }
+
+                        &:nth-child(3) {
+                            width: auto;
+                            height: 50vh;
+                        }
+                    }
+
+                    .story__fixed-copy {
+                        position: absolute;
+                        z-index: 0;
+                        width: 40vw;
+                        transform: translate(0, -100%);
+                        pointer-events: none;
+                        will-change: opacity;
+
+                        .title {
+                            font-size: 2rem;
+                        }
+
+                        .company {
+                            margin-top: 0.5rem;
+                            font-size: 1.5rem;
+                            font-weight: 500;
+                        }
+
+                        .skills {
+                            margin-top: 0.5rem;
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                        }
+
+                        .content {
+                            margin-top: 0.5rem;
+                            font-size: 1rem;
+                        }
+
+                        .year {
+                            margin-top: 0.5rem;
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                        }
+                    }
+
+                    .story__svg {
+                        position: relative;
+                        z-index: 1;
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        overflow: visible;
+                        mix-blend-mode: difference;
+
+                        .story__track {
+                            fill: none;
+                            stroke-linecap: round;
+                            stroke-linejoin: round;
+
+                            &--core {
+                                stroke: url(#story-trail-core);
+                                stroke-width: 1px;
+                                filter: url(#story-trail-core-soft);
+                            }
+
+                            &--glow {
+                                stroke: url(#story-trail-glow-gradient);
+                                stroke-width: 2px;
+                                filter: url(#story-trail-glow);
+                            }
+                        }
+
+                        // .story__breakpoint {
+                        //     fill: rgba($white, 0.25);
+                        //     stroke: rgba($white, 0.5);
+                        //     stroke-width: 1px;
+                        //     transition: fill 0.25s ease, stroke 0.25s ease;
+
+                        //     &.is-passed {
+                        //         fill: rgba($white, 0.85);
+                        //         stroke: $white;
+                        //     }
+                        // }
+
+                        .story__dot {
+                            fill: none;
+                        }
+                    }
                 }
-
-                &:nth-child(3) {
-                    width: auto;
-                    height: 50vh;
-                }
             }
 
-            &__fixed-copy {
-                position: absolute;
-                z-index: 0;
-                width: min(36vw, 320px);
-                transform: translate(-50%, -50%);
-                pointer-events: none;
-                will-change: opacity;
-            }
-
-            &__svg {
-                position: relative;
-                z-index: 1;
-                display: block;
-                width: 100%;
-                height: 100%;
-                overflow: visible;
-            }
-
-            &__track {
-                fill: none;
-                stroke: $white;
-                stroke-width: 1px;
-                stroke-linecap: round;
-                stroke-linejoin: round;
-            }
-
-            &__dot {
-                fill: $white;
-                filter: drop-shadow(0 0 6px rgba($white, 0.45));
-            }
-
-            // &__breakpoint {
-            //     fill: rgba($white, 0.25);
-            //     stroke: rgba($white, 0.5);
-            //     stroke-width: 1px;
-            //     transition: fill 0.25s ease, stroke 0.25s ease;
-
-            //     &.is-passed {
-            //         fill: rgba($white, 0.85);
-            //         stroke: $white;
-            //     }
-            // }
-
-            &__copies {
+            .story__copies {
                 position: absolute;
                 left: 50%;
-                bottom: 18vh;
+                bottom: 5vw;
                 z-index: 2;
                 width: 0;
                 height: 0;
                 pointer-events: none;
-            }
 
-            &__copy {
-                position: absolute;
-                left: 50%;
-                bottom: 0;
-                transform: translateX(-50%);
-                width: min(80vw, 420px);
-                text-align: center;
-                will-change: opacity;
-            }
+                .story__copy {
+                    position: absolute;
+                    left: 50%;
+                    bottom: 0;
+                    transform: translateX(-50%);
+                    width: 80vw;
+                    text-align: center;
+                    will-change: opacity;
 
-            &__year {
-                margin: 0.75rem 0 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 0.875rem;
-                letter-spacing: 0.12em;
-                color: $gray1;
-            }
+                    .subtitle {
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                    }
 
-            &__title {
-                margin: 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 1.4rem;
-                letter-spacing: 0.08em;
-                color: $white;
-            }
-
-            &__company {
-                margin: 0.5rem 0 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 1rem;
-                color: $white;
-            }
-
-            &__skills {
-                margin: 0.35rem 0 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 0.875rem;
-                color: $gray1;
-            }
-
-            &__subtitle {
-                margin: 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 1rem;
-                color: $gray1;
-            }
-
-            &__desc {
-                margin: 1rem 0 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 0.95rem;
-                line-height: 1.5;
-                color: $white;
-            }
-
-            &__content {
-                margin: 0.75rem 0 0;
-                font-family: $ft-basic, sans-serif;
-                font-size: 0.875rem;
-                line-height: 1.6;
-                color: $gray1;
+                    .desc {
+                        margin-top: 0.5rem;
+                        font-size: 1rem;
+                    }
+                }
             }
         }
     }
