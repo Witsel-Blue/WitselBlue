@@ -282,3 +282,21 @@
         }
     }
 </style>
+
+<style lang='scss'>
+    @use '@/assets/scss/base/variables' as *;
+
+    .lang-ko {
+        #about {
+            section {
+                .text-wrap {
+                    h2 {
+                        span {
+                            font-size: 2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+</style>

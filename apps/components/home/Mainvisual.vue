@@ -2297,6 +2297,8 @@
 </style>
 
 <style lang='scss'>
+    @use '@/assets/scss/base/variables' as *;
+
     .lang-ko {
         #mainvisual {
             .title {
@@ -2309,6 +2311,24 @@
                     p {
                         margin-top: 2rem;
                         font-size: 0.9rem;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: $mobile) {
+        .lang-ko {
+            #mainvisual {
+                .title {
+                    .title__content__text {
+                        h1 {
+                            font-size: 4rem;
+                        }
+
+                        p {
+                            margin-top: 1rem;
+                        }
                     }
                 }
             }

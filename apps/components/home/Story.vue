@@ -1016,7 +1016,7 @@
     #story {
         position: relative;
         height: 300vh;
-        margin-top: -100vh;
+        margin-top: -80vh;
 
         .story__sticky {
             position: sticky;
@@ -1025,7 +1025,7 @@
             overflow: visible;
 
             .story__viewport {
-        width: 100%;
+                width: 100%;
                 height: 100%;
                 overflow: visible;
                 will-change: transform;
@@ -1058,15 +1058,29 @@
 
                     .story__fixed-copy {
                         position: absolute;
-                        z-index: 0;
+                        z-index: 2;
                         width: 40vw;
                         transform: translate(0, -100%);
                         pointer-events: none;
                         will-change: opacity;
+                        // background-color: rgba($black, 0.4);
+                        // padding: 1rem;
+                        // border-radius: 16px;
+                        // backdrop-filter: blur(4px);
+
+                        &:nth-of-type(2) {
+                            transform: translate(0, 0);
+                        }
+
+                        &:nth-of-type(3) {
+                            transform: translate(0, -50%);
+                        }
 
                         .title {
                             font-size: 2.5rem;
+                            line-height: 1;
                             font-family: $ft-orangeavenue, $ft-sungkokserif;
+                            text-shadow: $text-shadow-black;
                         }
 
                         .company {
@@ -1074,6 +1088,7 @@
                             font-size: 1.5rem;
                             font-weight: 500;
                             color: $gray2;
+                            text-shadow: $text-shadow-black;
                         }
 
                         .skills {
@@ -1081,19 +1096,22 @@
                             font-size: 1.2rem;
                             font-weight: 500;
                             color: $gray2;
+                            text-shadow: $text-shadow-black;
                         }
 
                         .content {
                             margin-top: 0.5rem;
                             font-size: 1rem;
                             color: $gray2;
+                            text-shadow: $text-shadow-black;
                         }
 
                         .year {
-                            margin-top: 0.5rem;
+                            margin-top: 1rem;
                             font-size: 1.2rem;
                             font-weight: 500;
-                            color: $gray2;
+                            color: $gray1;
+                            text-shadow: $text-shadow-black;
                         }
                     }
 
@@ -1168,9 +1186,68 @@
                     }
 
                     .desc {
-                        margin-top: 0.5rem;
+                        margin-top: 0.25rem;
                         font-size: 1rem;
                         color: $gray2;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: $mobile) {
+        #story {
+            .story__sticky {
+                .story__viewport {
+                    .story__canvas {
+                        .story__bg-img {
+                            width: 90vw !important;
+                            height: auto !important;
+                            transform: translate(0, -50%) !important;
+
+                            &:nth-child(3) {
+                                transform: translate(0, -100%) !important;
+                            }
+                        }
+
+                        .story__fixed-copy {
+                            width: 90vw;
+
+                            &:nth-of-type(2) {
+                                transform: translate(0, -50%);
+                            }
+
+                            &:nth-of-type(3) {
+                                transform: translate(0, -50%);
+                            }
+
+                            .company {
+                                margin-top: 0;
+                                font-size: 1.2rem;
+                            }
+
+                            .skills {
+                                margin-top: 0;
+                                font-size: 1rem;
+                            }
+
+                            .year {
+                                margin-top: 0.5rem;
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+                }
+
+                .story__copies {
+                    bottom: 15vw;
+
+                    .story__copy {
+                        width: 90vw;
+
+                        .desc {
+                            margin-top: 0;
+                        }
                     }
                 }
             }

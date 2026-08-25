@@ -46,7 +46,7 @@ export default {
         storyTitle3: '3D 커스터마이징 툴',
         storyCompany3: '커즈미 스튜디오',
         storyYear3: '2026년 1월 - 2026년 4월',
-        storySkills3: 'React / Next /SCSS / three.js / GSAP / Lottie',
+        storySkills3: 'React / Next / SCSS / three.js / GSAP / Lottie',
         storyContent3:
             '신발 판매 스타트업 기업에서 기존 스케치 기반 계획 대신 3D 커스터마이징 툴 개발을 제안했습니다. 기획·디자인·개발 등 전체 과정을 담당했으며, 워크플로우와 보고 시스템 기반을 설정했습니다. 주니어 프론트엔드 개발자를 교육했습니다.',
     },

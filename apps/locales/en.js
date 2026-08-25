@@ -53,7 +53,7 @@ export default {
         storyTitle3: '3D Configurator',
         storyCompany3: 'Cusme Studio',
         storyYear3: 'January 2026 - April 2026',
-        storySkills3: 'React / Next /SCSS / three.js / GSAP / Lottie',
+        storySkills3: 'React / Next / SCSS / three.js / GSAP / Lottie',
         storyContent3:
             'Footwear sales startup. Proposed using a 3D configurator tool instead of traditional sketch-based planning; single-handedly managed the entire process—including planning, design, and development. Established workflows and reporting systems. Trained junior front-end staff.',
     },
