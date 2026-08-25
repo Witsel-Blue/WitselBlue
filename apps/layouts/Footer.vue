@@ -24,25 +24,25 @@
                     <li :style='lineStyle(3)'>
                         <ClickSound attach-to-parent />
                         <a href='https://www.instagram.com/witsel_blue' target='_blank'>
-                            <TextShifting text='Instagram' />
+                            <TextShifting :text="$t('footer.socialLink1')" />
                         </a>
                     </li>
                     <li :style='lineStyle(4)'>
                         <ClickSound attach-to-parent />
                         <a href='https://github.com/Witsel-Blue' target='_blank'>
-                            <TextShifting text='GitHub' />
+                            <TextShifting :text="$t('footer.socialLink2')" />
                         </a>
                     </li>
                     <li :style='lineStyle(5)'>
                         <ClickSound attach-to-parent />
                         <a href='https://www.linkedin.com/in/witselblue/' target='_blank'>
-                            <TextShifting text='LinkedIn' />
+                            <TextShifting :text="$t('footer.socialLink3')" />
                         </a>
                     </li>
                     <li :style='lineStyle(6)'>
                         <ClickSound attach-to-parent />
                         <a href='https://open.kakao.com/o/s1ei023h' target='_blank'>
-                            <TextShifting text='Kakao' />
+                            <TextShifting :text="$t('footer.socialLink4')" />
                         </a>
                     </li>
                 </ul>

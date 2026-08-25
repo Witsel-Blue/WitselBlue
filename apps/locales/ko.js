@@ -8,7 +8,41 @@ export default {
         mainSub: '프론트엔드 개발자',
         mainTitle: '비첼블루',
         mainText: '자개 기술로 창조하다',
-        profileParagraphs: [
+        aboutTitleLines: ['자개의 표면은 빛이 닿는 각도에 따라', '서로 다른 색을 드러냅니다.'],
+        aboutDescLines: [
+            '저의 개발 철학 역시 자개와 닮아 있습니다.',
+            '기술과 감각이 만나는 지점에서',
+            '사용자에게 매번 새로운 경험을 선사합니다.',
+        ],
+        storySubtitle1: '줄음질',
+        storyDesc1: '자개를 원하는 무늬대로 오려내어 기물의 표면에 붙이는 방법',
+        storySubtitle2: '끊음질',
+        storyDesc2: '자개를 가늘고 길게 잘라 일정한 크기로 끊어 이어 붙이며 무늬를 만드는 방법',
+        storySubtitle3: '모조법',
+        storyDesc3: '줄음질로 만든 무늬의 세부를 음각으로 섬세하게 묘사하는 방법',
+        storySubtitle4: '타발법',
+        storyDesc4: '둥근 자개의 표면을 평평하게 만들어 기물의 표면에 붙이는 방법',
+        storyTitle1: '웹 에이전시',
+        storyCompany1: '스컹크웍스 스튜디오',
+        storyYear1: '2021년 4월 - 2022년 4월',
+        storySkills1: 'Drupal / HTML / CSS / jQuery / GSAP',
+        storyContent1:
+            '스타트업 웹 에이전시에서 프론트엔드 개발자로 활동했습니다. 신입 개발자로 전체 프론트엔드 업무를 담당하여 8개의 새로운 웹사이트를 개발했습니다.',
+        storyTitle2: '대기업 금융앱 프로젝트',
+        storyCompany2: '리즌 디자인',
+        storyYear2: '2024년 6월 - 2024년 11월',
+        storySkills2: 'Vue / Nuxt / SCSS / javascript / Storybook / Lottie',
+        storyContent2:
+            '삼성카드 모니모 앱 리뉴얼 프로젝트에 팀원으로 참여했습니다. 인터넷 없는 보안 시스템 아래에서 5명의 팀원과 협업하여 1,400개 이상의 페이지를 리뉴얼했습니다. Lottie와 Swiper를 사용한 카드 메인 페이지를 담당했습니다.',
+        storyTitle3: '3D 커스터마이징 툴',
+        storyCompany3: '커즈미 스튜디오',
+        storyYear3: '2026년 1월 - 2026년 4월',
+        storySkills3: 'React / Next /SCSS / three.js / GSAP / Lottie',
+        storyContent3:
+            '신발 판매 스타트업 기업에서 기존 스케치 기반 계획 대신 3D 커스터마이징 툴 개발을 제안했습니다. 기획·디자인·개발 등 전체 과정을 담당했으며, 워크플로우와 보고 시스템 기반을 설정했습니다. 주니어 프론트엔드 개발자를 교육했습니다.',
+    },
+    aboutme: {
+        mainText: [
             '안녕하세요,<br class="mb"> 프론트엔드 개발자 <span class="mouse-hover1 ko"><b>비첼블루</b></span>입니다.',
             '<span class="mouse-hover1 ko">인터렉티브</span>한 디자인과 개발에 관심을 두고',
             '확장가능성 있는 <span class="mouse-hover1 ko">클린코딩</span>을 하려고 합니다.',
@@ -49,5 +83,11 @@ export default {
             '메일 서비스가 설정되지 않았습니다. WEB3FORMS_ACCESS_KEY를 .env에 추가해 주세요.',
         messageConnectionError:
             '메시지를 전송하지 못했습니다. 연결 상태를 확인하고 다시 시도해 주세요.',
+    },
+    footer: {
+        socialLink1: '인스타그램',
+        socialLink2: '깃허브',
+        socialLink3: '링크드인',
+        socialLink4: '카카오',
     },
 };

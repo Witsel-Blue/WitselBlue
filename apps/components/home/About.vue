@@ -61,20 +61,15 @@
         data() {
             return {
                 sectionProgress: [0, 0],
-                titleLines: [
-                    'Mother of pearl radiates different colors',
-                    'depending on the angles of light.',
-                ],
-                descLines: [
-                    'My development philosophy is also similar to mother-of-pearl,',
-                    'which provides new experiences to users every time',
-                    'depending on the point where technology and senses meet.',
-                ],
-                titleLines2: [],
-                descLines2: [],
             };
         },
         computed: {
+            titleLines() {
+                return this.$t('home.aboutTitleLines');
+            },
+            descLines() {
+                return this.$t('home.aboutDescLines');
+            },
             anchor1Gathered() {
                 return gatherAnchorState.anchor1Gathered;
             },
@@ -85,7 +80,7 @@
                 return this.titleLines.length + this.descLines.length;
             },
             section2ItemCount() {
-                return this.titleLines2.length + this.descLines2.length || this.descLines.length;
+                return this.descLines.length;
             },
             section2RevealCount() {
                 return this.section2ItemCount + 2;

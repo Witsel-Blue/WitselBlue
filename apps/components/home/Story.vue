@@ -148,59 +148,51 @@
     const HORIZONTAL_SCROLL_VH = 1 * (CANVAS_HEIGHT_VH / 150);
     const BREAKPOINT_DEFS = [
         {
-            progress: 0.03,
-            subtitle: '줄음질',
-            desc: '자개를 원하는 무늬대로 오려내어 나무기물의 표면에 붙이는 방법',
-        },
-        {
-            progress: 0.13,
-            title: 'Design and Development Education',
-            company: 'SBS Academy',
-            year: '2020',
-            skills: 'Photoshop / Illustrator / HTML / CSS',
-            content: 'Learned general planning, design, publishing of web development.',
+            progress: 0.1,
+            subtitleKey: 'home.storySubtitle1',
+            descKey: 'home.storyDesc1',
         },
         {
             progress: 0.23,
-            subtitle: '끊음질',
-            desc: '자개를 자르는 방법',
+            subtitleKey: 'home.storySubtitle2',
+            descKey: 'home.storyDesc2',
             image: require('@/assets/img/home/story_img1.png'),
         },
         {
             progress: 0.33,
-            title: 'Web Agency',
-            company: 'Skunkworks Studio',
-            year: 'April 2021 - April 2022',
-            skills: 'Drupal / HTML / CSS / jQuery / GSAP',
-            content: 'Frontend developer activities in a startup web agency company. I joined the company as a new hire and took sole responsibility for the entire frontend, building about eight new websites from scratch.',
+            titleKey: 'home.storyTitle1',
+            companyKey: 'home.storyCompany1',
+            yearKey: 'home.storyYear1',
+            skillsKey: 'home.storySkills1',
+            contentKey: 'home.storyContent1',
         },
         {
             progress: 0.43,
-            subtitle: '모조법',
-            desc: '줄음질로 만든 무늬를 음각으로 세부묘사',
+            subtitleKey: 'home.storySubtitle3',
+            descKey: 'home.storyDesc3',
             image: require('@/assets/img/home/story_img2.png'),
         },
         {
             progress: 0.53,
-            title: 'Major Company Project',
-            company: 'Lisn Design',
-            year: 'June 2024 - November 2024',
-            skills: 'Vue / Nuxt / SCSS / javascript / Storybook / Lottie',
-            content: 'Participated as a team member in the renewal of the Samsung Card Monimo app. Collaborated with a team of five developers to revamp over 1,400 pages within the project timeframe. Specifically responsible for redesigning the main card page using technologies such as Lottie and Swiper.',
+            titleKey: 'home.storyTitle2',
+            companyKey: 'home.storyCompany2',
+            yearKey: 'home.storyYear2',
+            skillsKey: 'home.storySkills2',
+            contentKey: 'home.storyContent2',
         },
         {
             progress: 0.64,
-            subtitle: '타발법',
-            desc: '둥근 자개면을 평평하게 만듦',
+            subtitleKey: 'home.storySubtitle4',
+            descKey: 'home.storyDesc4',
             image: require('@/assets/img/home/story_img3.png'),
         },
         {
             progress: 0.78,
-            title: '3D Configurator',
-            company: 'Cusme Studio',
-            year: 'January 2026 - April 2026',
-            skills: 'React / Next /SCSS / three.js / GSAP / Lottie',
-            content: 'Footwear sales startup. Proposed using a 3D configurator tool instead of traditional sketch-based planning; single-handedly managed the entire process—including planning, design, and development. Established workflows and reporting systems. Trained junior front-end staff.',
+            titleKey: 'home.storyTitle3',
+            companyKey: 'home.storyCompany3',
+            yearKey: 'home.storyYear3',
+            skillsKey: 'home.storySkills3',
+            contentKey: 'home.storyContent3',
         },
     ];
     const LABEL_FADE_RANGE = 0.03;
@@ -212,6 +204,8 @@
     const TRAIL_GROW_LERP = 0.11;
     const TRAIL_REVEAL_LERP = 0.08;
     const TRAIL_VELOCITY_IDLE_MS = 160;
+    const SUBTITLE_COMPLETE_FADE_START = 0.88;
+    const SUBTITLE_COMPLETE_FADE_END = 1;
 
     export default {
         name: 'HomeStory',
@@ -380,6 +374,22 @@
                     1,
                     this.trailFadeRatio * 0.95 * this.trailReveal * this.trailResumeOpacityFactor,
                 );
+            },
+            subtitleCompletionOpacity() {
+                const p = this.pathProgress;
+
+                if (p <= SUBTITLE_COMPLETE_FADE_START) return 1;
+                if (p >= SUBTITLE_COMPLETE_FADE_END) return 0;
+
+                const t = (p - SUBTITLE_COMPLETE_FADE_START)
+                    / (SUBTITLE_COMPLETE_FADE_END - SUBTITLE_COMPLETE_FADE_START);
+
+                return 1 - this.smoothstep(Math.max(0, Math.min(1, t)));
+            },
+        },
+        watch: {
+            '$i18n.locale'() {
+                this.buildBreakpoints();
             },
         },
         mounted() {
@@ -785,7 +795,7 @@
             },
             getNextSubtitleIndex(index) {
                 for (let i = index + 1; i < BREAKPOINT_DEFS.length; i += 1) {
-                    if (BREAKPOINT_DEFS[i].subtitle) return i;
+                    if (BREAKPOINT_DEFS[i].subtitleKey) return i;
                 }
 
                 return null;
@@ -821,7 +831,7 @@
                     }
                 }
 
-                return opacity;
+                return opacity * this.subtitleCompletionOpacity;
             },
             getBreakpointCopyOpacity(index) {
                 const bp = this.breakpoints[index];
@@ -898,14 +908,24 @@
                     return;
                 }
 
-                this.breakpoints = BREAKPOINT_DEFS.map((bp) => {
-                    const point = path.getPointAtLength(bp.progress * this.pathLength);
-
-                    return {
-                        ...bp,
+                this.breakpoints = BREAKPOINT_DEFS.map((def) => {
+                    const point = path.getPointAtLength(def.progress * this.pathLength);
+                    const bp = {
+                        progress: def.progress,
                         x: point.x,
                         y: point.y,
                     };
+
+                    if (def.image) bp.image = def.image;
+                    if (def.subtitleKey) bp.subtitle = this.$t(def.subtitleKey);
+                    if (def.descKey) bp.desc = this.$t(def.descKey);
+                    if (def.titleKey) bp.title = this.$t(def.titleKey);
+                    if (def.companyKey) bp.company = this.$t(def.companyKey);
+                    if (def.yearKey) bp.year = this.$t(def.yearKey);
+                    if (def.skillsKey) bp.skills = this.$t(def.skillsKey);
+                    if (def.contentKey) bp.content = this.$t(def.contentKey);
+
+                    return bp;
                 });
             },
             measurePath() {
