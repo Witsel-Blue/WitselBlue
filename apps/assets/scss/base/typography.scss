@@ -20,20 +20,19 @@
     font-family: 'basic_font_kr';
     font-style: normal;
     font-weight: 400;
-    src: url('@/assets/fonts/GowunDodum-Regular.ttf');
+    src: url('@/assets/fonts/Hahmlet-Regular.ttf');
     unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
 }
 
-// 공용 - GoogleVariable (variable: weight, width)
+// 공용
 @font-face {
     font-family: 'GoogleVariable';
     font-style: normal;
     font-weight: 100 900;
-    font-stretch: 25% 151%;
+    font-stretch: 25% 151%; //variable: weight width range
     src: url('@/assets/fonts/GoogleSansFlex-VariableFont.ttf') format('truetype');
 }
 
-// 공용
 @font-face {
     font-family: 'Bagel';
     font-style: normal;
@@ -59,75 +58,42 @@
 }
 
 @font-face {
-    font-family: 'Pacifico';
+    font-family: 'OrangeAvenue';
     font-style: normal;
     font-weight: 400;
-    src: url('@/assets/fonts/Pacifico-Regular.ttf');
+    src: url('@/assets/fonts/OrangeAvenue-Regular.otf');
     unicode-range: U+0020-007F;
 }
 
 @font-face {
-    font-family: 'Knewave';
+    font-family: 'Sederahana';
     font-style: normal;
     font-weight: 400;
-    src: url('@/assets/fonts/Knewave-Regular.ttf');
-    unicode-range: U+0020-007F;
-}
-
-@font-face {
-    font-family: 'Diphylleia';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/assets/fonts/Diphylleia-Regular.ttf');
-    unicode-range: U+0020-007F;
-}
-
-@font-face {
-    font-family: 'BigShoulders';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/assets/fonts/BigShoulders_18pt-Regular.ttf');
+    src: url('@/assets/fonts/sederahana.regular.ttf');
     unicode-range: U+0020-007F;
 }
 
 // 한글
 @font-face {
-    font-family: 'Mango';
+    font-family: 'MapoDacapo';
     font-style: normal;
     font-weight: 400;
-    src: url('@/assets/fonts/MangoByeolbyeol.ttf');
+    src: url('@/assets/fonts/MapoDacapo.ttf');
     unicode-range: U+AC00-D7A3;
 }
 
 @font-face {
-    font-family: 'Santokki';
+    font-family: 'SungkokSerif';
     font-style: normal;
     font-weight: 400;
-    src: url('@/assets/fonts/HSSantokki-Regular.ttf');
+    src: url('@/assets/fonts/KMU80TTFSungkokSerif.ttf');
     unicode-range: U+AC00-D7A3;
 }
-
 @font-face {
-    font-family: 'YUniverse';
+    font-family: 'SungkokSerif';
     font-style: normal;
-    font-weight: 400;
-    src: url('@/assets/fonts/YUniverse-B.ttf');
-    unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
-}
-
-@font-face {
-    font-family: 'Hahmlet';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/assets/fonts/Hahmlet-Regular.ttf');
-    unicode-range: U+AC00-D7A3, U+1100-11FF, U+3130-318F;
-}
-
-@font-face {
-    font-family: 'Namsan';
-    font-style: normal;
-    font-weight: 400;
-    src: url('@/assets/fonts/SeoulNamsanM.ttf');
+    font-weight: 700;
+    src: url('@/assets/fonts/KMU80TTFSungkokSemiSerif.ttf');
     unicode-range: U+AC00-D7A3;
 }
 
@@ -137,9 +103,6 @@
     font-family: 'GoogleVariable', sans-serif;
 }
 
-.ft-diphylleia {
-    font-family: 'Diphylleia';
-}
 .ft-bagel {
     font-family: 'Bagel', 'Bagel_kr';
 }
@@ -148,16 +111,18 @@
 .ft-tanpearl {
     font-family: 'TanPearl';
 }
-.ft-pacifico {
-    font-family: 'Pacifico';
-}
-.ft-knewave {
-    font-family: 'Knewave';
+
+.ft-orangeavenue {
+    font-family: 'OrangeAvenue';
 }
 
 // 한글
-.ft-icon {
-    font-family: 'YUniverse';
+.ft-mapodacapo {
+    font-family: 'MapoDacapo';
+}
+
+.ft-sungkokserif {
+    font-family: 'SungkokSerif';
 }
 
 /* ----- FONT SIZE ----- */

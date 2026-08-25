@@ -39,7 +39,7 @@ export default {
         storyDesc4:
             'A technique of flattening curved mother-of-pearl shells before attaching them to the surface of an object.',
         storyTitle1: 'Web Agency',
-        storyCompany1: 'Skunkworks Studi',
+        storyCompany1: 'Skunkworks Studio',
         storyYear1: 'April 2021 - April 2022',
         storySkills1: 'Drupal / HTML / CSS / jQuery / GSAP',
         storyContent1:

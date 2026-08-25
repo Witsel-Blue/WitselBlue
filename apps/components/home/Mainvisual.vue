@@ -315,6 +315,7 @@
             resetGatherAnchorState();
             if (this.animId) cancelAnimationFrame(this.animId);
             if (this._scrollToAboutId) cancelAnimationFrame(this._scrollToAboutId);
+            if (this._resizeRafId) cancelAnimationFrame(this._resizeRafId);
             if (this.controls) this.controls.dispose();
             if (this.renderer) this.renderer.dispose();
             window.removeEventListener('resize', this.onResize);
@@ -343,8 +344,8 @@
 
                 // Renderer
                 this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-                this.renderer.setSize(w, h);
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                this.renderer.setSize(w, h, false);
                 this.renderer.outputColorSpace = THREE.SRGBColorSpace;
                 this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
                 this.renderer.toneMappingExposure = 1.0;
@@ -2141,13 +2142,28 @@
             onResize() {
                 this.winH = window.innerHeight;
                 if (this.scrollProgress < 0.01) this.$nextTick(() => this.measureLogo());
+
+                if (this._resizeRafId) return;
+                this._resizeRafId = requestAnimationFrame(() => {
+                    this._resizeRafId = null;
+                    this.resizeRenderer();
+                });
+            },
+
+            resizeRenderer() {
                 const canvas = this.$refs.canvas;
-                if (!canvas) return;
+                if (!canvas || !this.renderer || !this.camera) return;
+
                 const w = canvas.clientWidth;
                 const h = canvas.clientHeight;
+                if (!w || !h) return;
+
                 this.camera.aspect = w / h;
                 this.camera.updateProjectionMatrix();
-                this.renderer.setSize(w, h);
+
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                this.renderer.setSize(w, h, false);
+
                 if (this.sceneRT) this.sceneRT.setSize(w, h);
                 if (this.blurMat) this.blurMat.uniforms.aspectRatio.value = w / h;
             },
@@ -2202,7 +2218,7 @@
                     margin-top: 1.5rem;
                     font-size: 1.5rem;
                     font-weight: 400;
-                    font-family: $ft-basic, $ft-hahmlet;
+                    font-family: $ft-basic, $ft-basic_kr;
                     letter-spacing: 0.1em;
                     user-select: none;
                 }
@@ -2210,7 +2226,7 @@
                 h1 {
                     margin-top: 0.5rem;
                     font-size: 4rem;
-                    font-family: $ft-tanpearl, $ft-bagel;
+                    font-family: $ft-tanpearl, $ft-sungkokserif;
                     letter-spacing: 0.1em;
                     user-select: none;
                     // text-shadow: $text-shadow;
@@ -2262,6 +2278,10 @@
             .title {
                 padding: 5vw;
 
+                .title__logo-spacer {
+                    height: calc(80vw * 80 / 195);
+                }
+
                 .title__content__text {
                     h2 {
                         font-size: 1.4rem;
@@ -2280,15 +2300,16 @@
     .lang-ko {
         #mainvisual {
             .title {
-                h1 {
-                    line-height: 1;
-                    font-size: 6rem;
-                    letter-spacing: 0;
-                }
+                .title__content__text {
+                    h1 {
+                        line-height: 1;
+                        font-size: 6.5rem;
+                    }
 
-                p {
-                    margin-top: 1rem;
-                    font-size: 0.9rem;
+                    p {
+                        margin-top: 2rem;
+                        font-size: 0.9rem;
+                    }
                 }
             }
         }

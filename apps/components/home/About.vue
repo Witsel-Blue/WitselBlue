@@ -216,7 +216,7 @@
                 z-index: 1;
 
                 span {
-                    font-family: 'tanpearl';
+                    font-family: 'tanpearl', 'mapodacapo';
                     font-size: 3rem;
                     line-height: 1.4;
                 }
@@ -229,7 +229,7 @@
                 span {
                     font-size: 1.2rem;
                     line-height: 1.5;
-                    font-family: 'basic_font';
+                    font-family: 'basic_font', 'basic_font_kr';
                 }
             }
 

@@ -216,13 +216,19 @@
                     span {
                         font-size: 4rem;
                         line-height: 1;
+
+                        &:not(.verb) {
+                            margin-top: 0.5rem;
+                            display: inline-block;
+                        }
                     }
 
                     .verb {
                         display: inline-block;
-                        font-family: $ft-diphylleia;
+                        font-family: $ft-sederahana;
                         font-style: italic;
-                        font-size: 4.5rem;
+                        font-size: 3.5rem;
+                        line-height: 1;
 
                         &-enter-active,
                         &-leave-active {
@@ -314,7 +320,7 @@
                         }
 
                         .verb {
-                            font-size: 4rem;
+                            font-size: 3rem;
                         }
                     }
 

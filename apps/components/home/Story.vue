@@ -1025,7 +1025,7 @@
             overflow: visible;
 
             .story__viewport {
-                width: 100%;
+        width: 100%;
                 height: 100%;
                 overflow: visible;
                 will-change: transform;
@@ -1065,30 +1065,35 @@
                         will-change: opacity;
 
                         .title {
-                            font-size: 2rem;
+                            font-size: 2.5rem;
+                            font-family: $ft-orangeavenue, $ft-sungkokserif;
                         }
 
                         .company {
                             margin-top: 0.5rem;
                             font-size: 1.5rem;
                             font-weight: 500;
+                            color: $gray2;
                         }
 
                         .skills {
                             margin-top: 0.5rem;
                             font-size: 1.2rem;
                             font-weight: 500;
+                            color: $gray2;
                         }
 
                         .content {
                             margin-top: 0.5rem;
                             font-size: 1rem;
+                            color: $gray2;
                         }
 
                         .year {
                             margin-top: 0.5rem;
                             font-size: 1.2rem;
                             font-weight: 500;
+                            color: $gray2;
                         }
                     }
 
@@ -1159,11 +1164,13 @@
                     .subtitle {
                         font-size: 1.2rem;
                         font-weight: 600;
+                        font-family: $ft-orangeavenue, $ft-sungkokserif;
                     }
 
                     .desc {
                         margin-top: 0.5rem;
                         font-size: 1rem;
+                        color: $gray2;
                     }
                 }
             }

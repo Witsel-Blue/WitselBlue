@@ -10,6 +10,13 @@
     import Logo from '@/components/svg/logo.vue';
     import { isHomeRoute } from '@/utils/introState';
 
+    const LOGO_RATIO_W = 195;
+    const LOGO_RATIO_H = 80;
+    const MOBILE_MAX_WIDTH = 425;
+    const LOGO_START_VH = 0.2;
+    const LOGO_START_MOBILE_VW = 0.8;
+    const LOGO_END_HEIGHT = 40;
+
     export default {
         name: 'SiteHeader',
         components: {
@@ -42,11 +49,14 @@
             logoStyle() {
                 const H = this.winH || 800;
                 const W = this.winW || 1024;
+                const isMobile = W <= MOBILE_MAX_WIDTH;
                 const p = this.isHome ? this.scrollProgress : 1;
                 const lp = Math.min(1, p / 0.55);
                 const t = lp * lp * (3 - 2 * lp);
-                const hStart = 0.2 * H;
-                const scaleEnd = 40 / hStart;
+                const hStart = isMobile
+                    ? (W * LOGO_START_MOBILE_VW * LOGO_RATIO_H) / LOGO_RATIO_W
+                    : H * LOGO_START_VH;
+                const scaleEnd = LOGO_END_HEIGHT / hStart;
                 const scale = 1 + (scaleEnd - 1) * t;
                 const topEnd = 0.025 * W;
                 const baseTop = this.isHome ? this.logoTop0 : topEnd;
