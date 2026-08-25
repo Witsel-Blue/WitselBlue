@@ -28,7 +28,7 @@
                         <h3 v-if='bp.title' class='title'>{{ bp.title }}</h3>
                         <p v-if='bp.company' class='company'>{{ bp.company }}</p>
                         <p v-if='bp.skills' class='skills'>{{ bp.skills }}</p>
-                        <p v-if='bp.content' class='content'>{{ bp.content }}</p>
+                        <p v-if='bp.content' class='content' v-html='bp.content' />
                         <p v-if='bp.year' class='year'>{{ bp.year }}</p>
                     </div>
                     <svg
@@ -131,7 +131,7 @@
                     :style='{ opacity: getSubtitleCopyOpacity(index) }'
                 >
                     <p v-if='bp.subtitle' class='subtitle'>{{ bp.subtitle }}</p>
-                    <p v-if='bp.desc' class='desc'>{{ bp.desc }}</p>
+                    <p v-if='bp.desc' class='desc' v-html='bp.desc' />
                 </div>
             </div>
         </div>

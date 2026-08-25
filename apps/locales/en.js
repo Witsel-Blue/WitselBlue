@@ -9,8 +9,8 @@ export default {
         socialLink4: 'Kakao',
     },
     intro: {
-        textShift1: 'Break the harsh reality (seashell),',
-        textShift2: 'and extract the inherent beauty (nacre/technology) within.',
+        textShift1: 'Break the harsh reality,',
+        textShift2: 'and extract the inherent beauty within.',
         hint: 'click the shell',
     },
     home: {
@@ -18,44 +18,44 @@ export default {
         mainTitle: 'WitselBlue',
         mainText: 'inspired by nacre artistry',
         aboutTitleLines: [
-            'Mother of pearl radiates different colors',
-            'depending on the angles of light.',
+            'Mother of pearl radiates <br class="mb" />different colors',
+            'depending on the <br class="mb" />angles of light.',
         ],
         aboutDescLines: [
-            'My development philosophy is also similar to mother-of-pearl,',
-            'which provides new experiences to users every time',
-            'depending on the point where technology and senses meet.',
+            'My development philosophy is also <br class="mb" />similar to mother-of-pearl,',
+            'which provides new experiences <br class="mb" />to users every time',
+            'depending on the point where <br class="mb" />technology and senses meet.',
         ],
         storySubtitle1: 'Jureumjil (Cutting)',
         storyDesc1:
-            'A technique of cutting mother-of-pearl into desired patterns and attaching them to the surface of an object.',
+            'A technique of cutting mother-of-pearl <br class="mb" />into desired patterns <br />and attaching them to the surface of an object.',
         storySubtitle2: 'Kkeuneumjil (Breaking)',
         storyDesc2:
-            'A technique of cutting mother-of-pearl into thin, long strips, then breaking and arranging them into patterns.',
+            'A technique of cutting mother-of-pearl <br class="mb" />into thin, long strips, <br />then breaking and arranging them<br class="mb" /> into patterns.',
         storySubtitle3: 'Mojo-beop (Engraving)',
         storyDesc3:
-            'A technique of adding intricate details to patterns made with Jureumjil through fine engraved lines.',
+            'A technique of adding intricate details to patterns made with Jureumjil <br />through fine engraved lines.',
         storySubtitle4: 'Tabal-beop (Flattening)',
         storyDesc4:
-            'A technique of flattening curved mother-of-pearl shells before attaching them to the surface of an object.',
+            'A technique of flattening <br class="mb" />curved mother-of-pearl shells <br />before attaching them to the <br class="mb" />surface of an object.',
         storyTitle1: 'Web Agency',
         storyCompany1: 'Skunkworks Studio',
         storyYear1: 'April 2021 - April 2022',
         storySkills1: 'Drupal / HTML / CSS / jQuery / GSAP',
         storyContent1:
-            'Frontend developer activities in a startup web agency company. I joined the company as a new hire and took sole responsibility for the entire frontend, building about eight new websites from scratch.',
+            'Frontend developer activities <br class="mb" />in a startup web agency company. <br />As a new hire and I took sole responsibility <br class="mb" />for the entire frontend, <br />building about eight new websites from scratch.',
         storyTitle2: 'Major Company Project',
         storyCompany2: 'Lisn Design',
         storyYear2: 'June 2024 - November 2024',
         storySkills2: 'Vue / Nuxt / SCSS / javascript / Storybook / Lottie',
         storyContent2:
-            'Participated as a team member in the renewal of the Samsung Card Monimo app. Collaborated with a team of five developers to revamp over 1,400 pages within the project timeframe under security system without internet. Specifically responsible for redesigning the main card page using technologies such as Lottie and Swiper.',
+            'Participated in the renewal of <br class="mb" />the Samsung Card Monimo app. <br />Collaborated with a team of five developers <br class="mb" />to revamp over 1,400 pages <br />under security system without internet.',
         storyTitle3: '3D Configurator',
         storyCompany3: 'Cusme Studio',
         storyYear3: 'January 2026 - April 2026',
         storySkills3: 'React / Next / SCSS / three.js / GSAP / Lottie',
         storyContent3:
-            'Footwear sales startup. Proposed using a 3D configurator tool instead of traditional sketch-based planning; single-handedly managed the entire process—including planning, design, and development. Established workflows and reporting systems. Trained junior front-end staff.',
+            'Proposed using a 3D configurator tool<br /> instead of traditional sketch-based planning; <br />single-handedly managed the entire process <br />including planning, design, and development. <br />Established workflows and reporting systems.<br /> Trained junior front-end staff.',
     },
     aboutme: {
         mainText: [

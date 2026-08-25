@@ -34,9 +34,8 @@
                             v-for='(line, i) in descLines'
                             :key='"d1-" + i'
                             :style='lineStyle(i, 1)'
-                        >
-                            {{ line }}
-                        </span>
+                            v-html='line'
+                        />
                     </p>
                     <div class='btn-wrap' :style='btnStyle'>
                         <ButtonRound :link='{ href: "/aboutme", text: "About Me" }' />
@@ -293,6 +292,7 @@
                     h2 {
                         span {
                             font-size: 2rem;
+                            line-height: 1.5;
                         }
                     }
                 }

@@ -114,8 +114,7 @@
                 left: 20vw;
                 text-align: center;
 
-                ::v-deep span:nth-child(10),
-                ::v-deep span:nth-child(24) {
+                ::v-deep span:nth-child(10) {
                     display: block !important;
                 }
             }
@@ -127,8 +126,7 @@
                 text-align: center;
 
                 ::v-deep span:nth-child(16),
-                ::v-deep span:nth-child(32),
-                ::v-deep span:nth-child(51) {
+                ::v-deep span:nth-child(32) {
                     display: block !important;
                 }
             }
@@ -187,25 +185,22 @@
         .intro {
             &__item {
                 &--1 {
-                    span:nth-child(10),
-                    span:nth-child(24) {
+                    span:nth-child(10) {
                         display: inline-block !important;
                     }
 
-                    span:nth-child(12) {
+                    span:nth-child(7) {
                         display: block !important;
                     }
                 }
 
                 &--2 {
                     span:nth-child(16),
-                    span:nth-child(32),
-                    span:nth-child(51) {
+                    span:nth-child(32) {
                         display: inline-block !important;
                     }
 
-                    span:nth-child(10),
-                    span:nth-child(23) {
+                    span:nth-child(10) {
                         display: block !important;
                     }
                 }
