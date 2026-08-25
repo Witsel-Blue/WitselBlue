@@ -14,10 +14,15 @@
 <script>
     import CursorZone from '@/components/common/CursorZone.vue';
     import ClickSound from '@/components/common/ClickSound.vue';
-    import en from '@/locales/en.js';
-    import ko from '@/locales/ko.js';
-
-    const LOCALE_MESSAGES = { en, ko };
+    import {
+        getSavedLocale,
+        setSavedLocale,
+        SUPPORTED_LOCALES,
+    } from '@/utils/localeState';
+    import {
+        LOCALE_MESSAGES,
+        ensureLocaleMessages,
+    } from '@/utils/localeMessages';
 
     export default {
         components: {
@@ -30,32 +35,36 @@
             },
         },
         mounted() {
+            const saved = getSavedLocale();
+            if (saved && saved !== this.currentLocale) {
+                this.applyLocale(saved);
+                return;
+            }
+
             if (!LOCALE_MESSAGES[this.currentLocale]) {
                 this.applyLocale('en');
             }
         },
         methods: {
             applyLocale(locale) {
+                if (!SUPPORTED_LOCALES.includes(locale)) return;
                 if (this.$i18n.locale === locale) return;
 
                 const scrollY = window.scrollY;
-                const messages = LOCALE_MESSAGES[locale];
-                if (messages) {
-                    this.$i18n.setLocaleMessage(locale, messages);
-                }
+                ensureLocaleMessages(this.$i18n, locale);
                 this.$i18n.locale = locale;
+                setSavedLocale(locale);
 
                 if (typeof this.$i18n.setLocaleCookie === 'function') {
                     this.$i18n.setLocaleCookie(locale);
                 }
 
                 const path = this.switchLocalePath(locale);
-                if (path && window.location.pathname !== path) {
-                    window.history.replaceState(
-                        window.history.state,
-                        '',
-                        path,
-                    );
+                if (path && this.$route.fullPath !== path) {
+                    this.$router.replace(path).finally(() => {
+                        window.scrollTo(0, scrollY);
+                    });
+                    return;
                 }
 
                 this.$nextTick(() => {

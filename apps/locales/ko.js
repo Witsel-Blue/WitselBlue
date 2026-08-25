@@ -1,4 +1,13 @@
 export default {
+    gnb: {
+        navIntro: '인트로 다시 보기',
+    },
+    footer: {
+        socialLink1: '인스타그램',
+        socialLink2: '깃허브',
+        socialLink3: '링크드인',
+        socialLink4: '카카오',
+    },
     intro: {
         textShift1: '거친 현실(껍데기)을 깨부수고,',
         textShift2: '그 안의 본질적인 아름다움(자개/기술)을 꺼내어 보세요.',
@@ -52,7 +61,7 @@ export default {
     },
     contact: {
         mainText:
-            '질문이나 프로젝트에 대한 논의가 있으시다면, <br/>아래 양식을 작성해 주세요. <br />최대한 빨리 답변드리겠습니다.',
+            '질문이나 프로젝트에 대한 문의가 있으시다면, <br/>아래 양식을 작성해 주세요. <br />최대한 빨리 답변드리겠습니다.',
         NameLabel: '이름',
         NamePlaceholder: '성명',
         EmailLabel: '이메일',
@@ -83,11 +92,5 @@ export default {
             '메일 서비스가 설정되지 않았습니다. WEB3FORMS_ACCESS_KEY를 .env에 추가해 주세요.',
         messageConnectionError:
             '메시지를 전송하지 못했습니다. 연결 상태를 확인하고 다시 시도해 주세요.',
-    },
-    footer: {
-        socialLink1: '인스타그램',
-        socialLink2: '깃허브',
-        socialLink3: '링크드인',
-        socialLink4: '카카오',
     },
 };

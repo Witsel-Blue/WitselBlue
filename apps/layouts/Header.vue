@@ -1,6 +1,6 @@
 <template>
     <header v-show='showLogo' id='header' :class='{ fixed: isLogoFixed }'>
-        <NuxtLink to='/'>
+        <NuxtLink :to="localePath('/')">
             <Logo class='header__logo' :style='logoStyle' />
         </NuxtLink>
     </header>

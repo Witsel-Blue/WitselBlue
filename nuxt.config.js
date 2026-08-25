@@ -1,14 +1,14 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { createRequire } from 'module'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const appRoot = path.resolve(__dirname, 'apps')
-const _require = createRequire(import.meta.url)
-const isDev = process.env.NODE_ENV !== 'production'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const appRoot = path.resolve(__dirname, 'apps');
+const _require = createRequire(import.meta.url);
+const isDev = process.env.NODE_ENV !== 'production';
 
-_require('dotenv').config({ path: path.resolve(__dirname, '.env') })
+_require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 export default {
     rootDir: appRoot,
@@ -35,9 +35,12 @@ export default {
 
     components: true,
 
-    plugins: isDev
-        ? [{ src: path.resolve(appRoot, 'plugins/dev-unregister-sw.client.js'), ssr: false }]
-        : [],
+    plugins: [
+        { src: path.resolve(appRoot, 'plugins/locale-persist.client.js'), ssr: false },
+        ...(isDev
+            ? [{ src: path.resolve(appRoot, 'plugins/dev-unregister-sw.client.js'), ssr: false }]
+            : []),
+    ],
 
     modules: ['nuxt-i18n'],
 
@@ -92,7 +95,7 @@ export default {
                         },
                     },
                 ],
-            })
+            });
         },
     },
-}
+};

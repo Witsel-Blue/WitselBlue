@@ -72,19 +72,23 @@
                 hoveredIndex: null,
                 staggeredIndexes: [],
                 staggerTimers: [],
-                menuItems: [
-                    { key: 'home', type: 'link', to: '/', label: 'H<span>o</span>me' },
-                    { key: 'archive', type: 'link', to: '/archive', label: 'Arc<span>h</span>ive' },
-                    { key: 'aboutme', type: 'link', to: '/aboutme', label: 'Ab<span>o</span>ut <span>M</span>e' },
-                    { key: 'contact', type: 'link', to: '/contact', label: 'Co<span>n</span>tact' },
+            };
+        },
+        computed: {
+            menuItems() {
+                return [
+                    { key: 'home', type: 'link', to: this.localePath('/'), label: 'H<span>o</span>me' },
+                    { key: 'archive', type: 'link', to: this.localePath('/archive'), label: 'Arc<span>h</span>ive' },
+                    { key: 'aboutme', type: 'link', to: this.localePath('/aboutme'), label: 'Ab<span>o</span>ut <span>M</span>e' },
+                    { key: 'contact', type: 'link', to: this.localePath('/contact'), label: 'Co<span>n</span>tact' },
                     {
                         key: 'intro-again',
                         type: 'action',
                         action: 'introAgain',
-                        label: 'view intro again?',
+                        label: this.$t('gnb.navIntro'),
                     },
-                ],
-            };
+                ];
+            },
         },
         watch: {
             isOpen(open) {
@@ -114,8 +118,7 @@
             onMenuClick(item) {
                 this.isOpen = false;
 
-                if (this.$route.path === item.to) {
-                    if (item.to === '/');
+                if (this.$route.fullPath === item.to) {
                     return;
                 }
 

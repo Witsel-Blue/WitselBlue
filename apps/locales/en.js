@@ -1,4 +1,13 @@
 export default {
+    gnb: {
+        navIntro: 'view intro again?',
+    },
+    footer: {
+        socialLink1: 'Instagram',
+        socialLink2: 'GitHub',
+        socialLink3: 'LinkedIn',
+        socialLink4: 'Kakao',
+    },
     intro: {
         textShift1: 'Break the harsh reality (seashell),',
         textShift2: 'and extract the inherent beauty (nacre/technology) within.',
@@ -90,11 +99,5 @@ export default {
         messageConfigError: 'Email service is not configured. Set WEB3FORMS_ACCESS_KEY in .env',
         messageConnectionError:
             'Failed to send message. Please check your connection and try again.',
-    },
-    footer: {
-        socialLink1: 'Instagram',
-        socialLink2: 'GitHub',
-        socialLink3: 'LinkedIn',
-        socialLink4: 'Kakao',
     },
 };
