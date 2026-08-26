@@ -97,6 +97,7 @@
 
         p {
             display: block;
+            filter: grayscale(100%);
             background: url('@/assets/img/flag_uk.svg') no-repeat center center / cover;
             width: 20px;
             height: 20px;

@@ -3,7 +3,7 @@
         <div class='inner-l'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
-                <div class='text-wrap'>
+                <div class='text-wrap' :style='textWrapStyle(0)'>
                     <div
                         v-if='anchor1Gathered'
                         class='cursor-zone'
@@ -22,7 +22,7 @@
             </section>
             <section>
                 <div class='shape-anchor2' aria-hidden='true' />
-                <div class='text-wrap'>                    
+                <div class='text-wrap' :style='textWrapStyle(1)'>                    
                     <div
                         v-if='anchor2Gathered'
                         class='cursor-zone'
@@ -51,6 +51,9 @@
     import CursorZone from '@/components/common/CursorZone.vue';
     import { gatherAnchorState } from '@/utils/gatherAnchorState';
 
+    const EXIT_JOURNEY_START = 0.4;
+    const EXIT_JOURNEY_END = 0.6;
+
     export default {
         name: 'About',
         components: {
@@ -59,7 +62,10 @@
         },
         data() {
             return {
-                sectionProgress: [0, 0],
+                sectionProgress: [
+                    { enter: 0, exit: 0 },
+                    { enter: 0, exit: 0 },
+                ],
             };
         },
         computed: {
@@ -85,28 +91,43 @@
                 return this.section2ItemCount + 2;
             },
             btnStyle() {
-                const progress = this.sectionProgress[1] || 0;
-                const e = this.itemReveal(
+                const { enter = 0, exit = 0 } = this.sectionProgress[1] || {};
+                const enterReveal = this.itemReveal(
                     this.section2ItemCount + 1,
-                    progress,
+                    enter,
                     this.section2RevealCount,
                 );
-                return {
-                    opacity: e,
-                    transform: `translateY(${(1 - e) * 30}px)`,
-                    pointerEvents: e > 0.9 ? 'auto' : 'none',
-                };
+                const activeExit = enter >= 0.98 ? exit : 0;
+                const reveal = activeExit > 0 ? 1 : enterReveal;
+                const hide = this.itemHide(
+                    this.section2ItemCount,
+                    activeExit,
+                    this.section2ItemCount + 1,
+                );
+                return this.revealStyle(reveal, hide, {
+                    translate: 30,
+                    unit: 'px',
+                    pointerEvents: true,
+                    exiting: activeExit > 0,
+                });
             },
         },
         mounted() {
             this.onScroll = () => {
                 const sections = this.$el.querySelectorAll('section');
+                const vh = window.innerHeight;
+
                 this.sectionProgress = Array.from(sections).map((section) => {
                     const rect = section.getBoundingClientRect();
-                    const vh = window.innerHeight;
                     const center = rect.top + rect.height / 2;
-                    const p = (vh - center) / (vh * 0.5);
-                    return Math.max(0, Math.min(1, p));
+                    const enter = Math.max(0, Math.min(1, (vh - center) / (vh * 0.5)));
+
+                    const scrollRange =
+                        rect.height > vh ? rect.height - vh : rect.height;
+                    const journey = Math.max(0, -rect.top / scrollRange);
+                    const exit = this.getExitFromJourney(journey);
+
+                    return { enter, exit };
                 });
             };
             window.addEventListener('scroll', this.onScroll, { passive: true });
@@ -123,6 +144,13 @@
                     ? 4 * t * t * t
                     : 1 - Math.pow(-2 * t + 2, 3) / 2;
             },
+            getExitFromJourney(journey) {
+                if (journey < EXIT_JOURNEY_START) return 0;
+                const raw =
+                    (journey - EXIT_JOURNEY_START)
+                    / (EXIT_JOURNEY_END - EXIT_JOURNEY_START);
+                return Math.max(0, Math.min(1, raw));
+            },
             itemReveal(index, progress, itemCount) {
                 const win = 0.65;
                 const step =
@@ -132,18 +160,67 @@
                 local = Math.max(0, Math.min(1, local));
                 return this.easeInOut(local);
             },
+            itemHide(index, exit, itemCount) {
+                if (exit <= 0 || itemCount <= 0) return 0;
+
+                const slot = 1 / itemCount;
+                const start = index * slot;
+                let local = (exit - start) / slot;
+                local = Math.max(0, Math.min(1, local));
+                return this.easeInOut(local);
+            },
+            textWrapStyle(sectionIndex) {
+                const { exit = 0 } = this.sectionProgress[sectionIndex] || {};
+                return {
+                    transform: `translateY(${-exit * 30}vh)`,
+                };
+            },
+            revealStyle(reveal, hide = 0, options = {}) {
+                const {
+                    translate = 0.7,
+                    unit = 'em',
+                    pointerEvents = false,
+                    exiting = false,
+                } = options;
+                const visible = reveal * (1 - hide);
+
+                const style = exiting
+                    ? {
+                        opacity: visible,
+                        transform: 'translateY(0)',
+                        filter: `blur(${hide * 14}px)`,
+                    }
+                    : {
+                        opacity: visible,
+                        transform: `translateY(${(1 - reveal) * translate}${unit})`,
+                        filter: `blur(${(1 - reveal) * 14}px)`,
+                    };
+
+                if (pointerEvents) {
+                    style.pointerEvents = visible > 0.9 ? 'auto' : 'none';
+                }
+
+                return style;
+            },
             lineStyle(index, sectionIndex = 0) {
-                const progress = this.sectionProgress[sectionIndex] || 0;
-                const itemCount =
+                const { enter = 0, exit = 0 } = this.sectionProgress[sectionIndex] || {};
+                const enterItemCount =
                     sectionIndex === 0
                         ? this.section1ItemCount
                         : this.section2ItemCount;
-                const e = this.itemReveal(index, progress, itemCount);
-                return {
-                    opacity: 0.18 + 0.82 * e,
-                    transform: `translateY(${(1 - e) * 0.7}em)`,
-                    filter: `blur(${(1 - e) * 14}px)`,
-                };
+                const hideItemCount =
+                    sectionIndex === 0
+                        ? this.titleLines.length
+                        : this.descLines.length;
+
+                const enterReveal = this.itemReveal(index, enter, enterItemCount);
+                const activeExit = enter >= 0.98 ? exit : 0;
+                const reveal = activeExit > 0 ? 1 : enterReveal;
+                const hide = this.itemHide(index, activeExit, hideItemCount);
+
+                return this.revealStyle(reveal, hide, {
+                    exiting: activeExit > 0,
+                });
             },
         },
     };
@@ -155,10 +232,11 @@
     #about {
         width: 100%;
         display: flex;
+        flex-direction: column;
 
         section {
             position: relative;
-            height: 150vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -228,7 +306,6 @@
                 span {
                     font-size: 1.2rem;
                     line-height: 1.5;
-                    font-family: 'basic_font', 'basic_font_kr';
                 }
             }
 
@@ -248,25 +325,23 @@
         #about {
             section {
                 &:nth-of-type(1) {
-                    height: 100vh;
-
                     .shape-anchor {
-                        top: 35%;
+                        top: 15%;
                         transform: translate(-50%, 0);
                     }
                 }
 
                 &:nth-of-type(2) {
-                    height: 200vh;
-
                     .shape-anchor2 {
-                        top: 50%;
+                        top: 40%;
                         width: 50vh;
                         height: 50vh;
                     }
                 }
 
                 .text-wrap {
+                    padding-top: 20vh;
+
                     h2 {
                         span {
                             font-size: 1.5rem;

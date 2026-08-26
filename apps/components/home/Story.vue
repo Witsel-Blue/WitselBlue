@@ -134,6 +134,23 @@
                     <p v-if='bp.desc' class='desc' v-html='bp.desc' />
                 </div>
             </div>
+            <div
+                v-if='pathProgress > 0'
+                class='story__mobile-titles'
+            >
+                <div
+                    v-for='({ bp, index }) in titleBreakpoints'
+                    :key='"mobile-title-" + index'
+                    class='story__mobile-title'
+                    :style='{ opacity: getMobileTitleCopyOpacity(index) }'
+                >
+                    <h3 v-if='bp.title' class='title'>{{ bp.title }}</h3>
+                    <p v-if='bp.company' class='company'>{{ bp.company }}</p>
+                    <p v-if='bp.skills' class='skills'>{{ bp.skills }}</p>
+                    <p v-if='bp.content' class='content' v-html='bp.content' />
+                    <p v-if='bp.year' class='year'>{{ bp.year }}</p>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -859,6 +876,10 @@
 
                 return opacity;
             },
+            getMobileTitleCopyOpacity(index) {
+                return this.getBreakpointCopyOpacity(index)
+                    * this.subtitleCompletionOpacity;
+            },
             async loadStoryTrack() {
                 try {
                     const response = await fetch(storySvgUrl);
@@ -1016,7 +1037,7 @@
     #story {
         position: relative;
         height: 300vh;
-        margin-top: -80vh;
+        margin-top: -100vh;
 
         .story__sticky {
             position: sticky;
@@ -1192,6 +1213,10 @@
                     }
                 }
             }
+
+            .story__mobile-titles {
+                display: none;
+            }
         }
     }
 
@@ -1211,6 +1236,7 @@
                         }
 
                         .story__fixed-copy {
+                            display: none;
                             width: 90vw;
 
                             &:nth-of-type(2) {
@@ -1235,6 +1261,58 @@
                                 margin-top: 0.5rem;
                                 font-size: 1rem;
                             }
+                        }
+                    }
+                }
+
+                .story__mobile-titles {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    z-index: 2;
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    pointer-events: none;
+
+                    .story__mobile-title {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 90vw;
+                        text-align: center;
+                        transform: translate(-50%, -50%);
+                        will-change: opacity;
+
+                        .title {
+                            font-size: 2rem;
+                            line-height: 1;
+                            font-family: $ft-orangeavenue, $ft-sungkokserif;
+                            text-shadow: $text-shadow-black;
+                        }
+
+                        .company {
+                            margin-top: 0.25rem;
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                            color: $gray2;
+                            text-shadow: $text-shadow-black;
+                        }
+
+                        .skills,
+                        .content {
+                            margin-top: 0.25rem;
+                            font-size: 1rem;
+                            color: $gray2;
+                            text-shadow: $text-shadow-black;
+                        }
+
+                        .year {
+                            margin-top: 0.5rem;
+                            font-size: 1rem;
+                            font-weight: 500;
+                            color: $gray1;
+                            text-shadow: $text-shadow-black;
                         }
                     }
                 }

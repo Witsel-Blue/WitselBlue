@@ -1482,7 +1482,7 @@
                 }
 
                 const startY = window.scrollY || window.pageYOffset || 0;
-                const targetY = startY + window.innerHeight * 1.2;
+                const targetY = startY + window.innerHeight * 1;
                 const distance = targetY - startY;
                 if (Math.abs(distance) < 1) return;
 
@@ -1892,10 +1892,8 @@
                 } catch {
                     return;
                 }
-                // 비동기 로딩 중 다른 호출이 이미 완성했을 수 있음
                 if (this.textTargetsBuilt) return;
 
-                // 샘플링용 캔버스
                 const SAMPLE = 512;
                 const imgAspect = image.width / image.height;
                 const cv = document.createElement('canvas');
@@ -1906,7 +1904,6 @@
 
                 const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
 
-                // 불투명 픽셀(=그림 실루엣) 수집
                 const filled = [];
                 for (let y = 0; y < cv.height; y++) {
                     for (let x = 0; x < cv.width; x++) {
@@ -1915,7 +1912,6 @@
                 }
                 if (filled.length === 0) return;
 
-                // 균일 격자 샘플링
                 const targetCount = this.shards.length;
                 const cell = Math.max(2, Math.sqrt(filled.length / targetCount));
                 const cellMap = new Map();
@@ -1936,7 +1932,7 @@
                 const visibleH = 2 * focusDist * Math.tan(fovRad / 2);
                 const worldPerPx = visibleH / window.innerHeight;
 
-                // #about .shape-anchor 박스 크기에 맞춰 월드 높이 산정
+                // #about .shape-anchor 박스 크기에 맞춰 캔버스 높이 산정
                 const shapeAnchor = document.querySelector('#about .shape-anchor');
                 let worldHeight;
                 if (shapeAnchor && shapeAnchor.getBoundingClientRect().height > 4) {
@@ -1946,13 +1942,13 @@
                 }
                 const pxToWorld = worldHeight / cv.height;
 
-                // 조각 크기 (작을수록 디테일↑, 마스크가 가장자리 정리)
+                // 조각 크기
                 this.gatherFlakeRadius = pxToWorld * cell * 1.2;
                 this.gatherFocusDist = focusDist;
                 this.gatherVisibleH = visibleH;
                 this.textQuat = this.camera.quaternion.clone();
 
-                // 그림 실루엣 알파 마스크 (조각이 모이는 영역과 동일한 cv 좌표계)
+                // 그림 실루엣 알파 마스크
                 const maskTex = new THREE.CanvasTexture(cv);
                 maskTex.colorSpace = THREE.SRGBColorSpace;
                 maskTex.minFilter = THREE.LinearFilter;
