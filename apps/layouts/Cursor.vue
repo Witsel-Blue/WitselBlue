@@ -184,6 +184,7 @@
             left: 0;
             z-index: 9999;
             will-change: transform;
+            mix-blend-mode: difference;
 
             .site-cursor__hint {
                 margin: 0;

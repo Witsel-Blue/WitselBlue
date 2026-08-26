@@ -166,6 +166,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            mix-blend-mode: difference;
 
             .line-wrap {
                 width: 24px;
@@ -179,7 +180,7 @@
                     display: block;
                     width: 100%;
                     height: 1px;
-                    background-color: $white;
+                    background-color: $white-inverted;
                     transition: transform 0.4s ease;
                 }
             }
