@@ -375,4 +375,20 @@
             }
         }
     }
+
+    @media (max-width: $mobile) {
+        .lang-ko {
+            #about {
+                section {
+                    .text-wrap {
+                        h2 {
+                            span {
+                                line-height: 1.2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 </style>

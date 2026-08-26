@@ -72,6 +72,8 @@
                 });
             },
             toggleLocale() {
+                this.$emit('click');
+
                 const next = this.currentLocale === 'ko' ? 'en' : 'ko';
                 this.applyLocale(next);
             },
@@ -85,6 +87,10 @@
 @use '@/assets/scss/base/variables.scss' as *;
     
 #language-menu {
+    position: fixed;
+    top: 2.5vw;
+    right: 2.5vw;
+    z-index: 10;
 
     button {
         width: 48px;

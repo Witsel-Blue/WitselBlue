@@ -1,10 +1,13 @@
 <template>
     <div
         id='app'
-        :class="{
-            'lang-ko': $i18n.locale === 'ko',
-            'intro-only': introOnlyActive,
-        }"
+        :class="[
+            pageClass,
+            {
+                'lang-ko': $i18n.locale === 'ko',
+                'intro-only': introOnlyActive,
+            },
+        ]"
     >
         <SiteHeader />
         <SiteCursor />
@@ -45,6 +48,14 @@
             },
             introOnlyActive() {
                 return this.isHome && !this.introDone;
+            },
+            pageClass() {
+                const routeName = String(this.$route?.name || '');
+                const baseName = routeName.split('___')[0];
+
+                if (!baseName || baseName === 'index') return 'page-home';
+
+                return `page-${baseName}`;
             },
         },
         watch: {
@@ -94,20 +105,34 @@
             height: 100vh;
             overflow: hidden;
         }
-    }
 
-    .header-blur {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: calc(40px + 5vw);
-        z-index: 8;
-        pointer-events: none;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+        &.page-home {
+            #footer::v-deep {
+                background-color: $white;
+                color: $black;
+                mix-blend-mode: normal;
+
+                .text-shifting {
+                    span {
+                        color: $black;
+                    }
+                }
+            }
+        }
+
+        .header-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(40px + 5vw);
+            z-index: 8;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+        }
     }
 </style>
 
@@ -118,12 +143,5 @@
         -webkit-filter: url(#mouse-ripple-filter);
         will-change: filter;
         isolation: isolate;
-    }
-
-    #language-menu {
-        position: fixed;
-        top: 2.5vw;
-        right: 2.5vw;
-        z-index: 10;
     }
 </style>

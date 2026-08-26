@@ -772,7 +772,6 @@
         position: relative;
         width: 100%;
         height: 600vh;
-        margin-top: -45vh;
 
         .wiping-surface {
             position: absolute;

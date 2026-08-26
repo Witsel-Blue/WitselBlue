@@ -11,7 +11,7 @@
 
         <div class='menu-cont'>
             <Logo />
-            <LanguageMenu />
+            <LanguageMenu @click='closeMenu' />
             <SoundMuteMenu />
             <ul class='menu-list'>
                 <li
@@ -114,6 +114,9 @@
         methods: {
             toggleOpen() {
                 this.isOpen = !this.isOpen;
+            },
+            closeMenu() {
+                this.isOpen = false;
             },
             onMenuClick(item) {
                 this.isOpen = false;

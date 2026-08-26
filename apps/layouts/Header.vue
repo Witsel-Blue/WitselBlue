@@ -1,6 +1,6 @@
 <template>
     <header v-show='showLogo' id='header' :class='{ fixed: isLogoFixed }'>
-        <NuxtLink :to="localePath('/')">
+        <NuxtLink :to="localePath('/')" @click.native='onLogoClick'>
             <Logo class='header__logo' :style='logoStyle' />
         </NuxtLink>
     </header>
@@ -112,6 +112,14 @@
             onResize() {
                 this.winH = window.innerHeight;
                 this.winW = window.innerWidth;
+            },
+            onLogoClick(event) {
+                if (!this.isHome) return;
+
+                event.preventDefault();
+                if (!process.client) return;
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             },
         },
     };
