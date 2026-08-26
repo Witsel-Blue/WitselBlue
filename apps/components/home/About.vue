@@ -341,6 +341,7 @@
 
                 .text-wrap {
                     padding-top: 20vh;
+                    bottom: 20vw !important;
 
                     h2 {
                         span {

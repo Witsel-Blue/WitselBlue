@@ -7,9 +7,16 @@
     font-family: 'basic_font', 'basic_font_kr', sans-serif;
 }
 
-html {
-    width: 100vw;
-    overflow-x: hidden;
+html,
+body,
+#__nuxt,
+#__layout {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    min-height: 100vh;
+    background-color: $black;
+    color: $white;
 }
 
 a {

@@ -53,6 +53,8 @@
 </script>
 
 <style lang='scss' scoped>
+    @use '@/assets/scss/base/variables.scss' as *;
+
     .home.intro-only {
         height: 100vh;
         overflow: hidden;

@@ -1036,8 +1036,11 @@
 
     #story {
         position: relative;
+        width: 100%;
+        max-width: 100vw;
         height: 300vh;
         margin-top: -100vh;
+        overflow-x: clip;
 
         .story__sticky {
             position: sticky;
@@ -1143,7 +1146,6 @@
                         width: 100%;
                         height: 100%;
                         overflow: visible;
-                        mix-blend-mode: difference;
 
                         .story__track {
                             fill: none;
@@ -1237,37 +1239,13 @@
 
                         .story__fixed-copy {
                             display: none;
-                            width: 90vw;
-
-                            &:nth-of-type(2) {
-                                transform: translate(0, -50%);
-                            }
-
-                            &:nth-of-type(3) {
-                                transform: translate(0, -50%);
-                            }
-
-                            .company {
-                                margin-top: 0;
-                                font-size: 1.2rem;
-                            }
-
-                            .skills {
-                                margin-top: 0;
-                                font-size: 1rem;
-                            }
-
-                            .year {
-                                margin-top: 0.5rem;
-                                font-size: 1rem;
-                            }
                         }
                     }
                 }
 
                 .story__mobile-titles {
                     position: absolute;
-                    top: 50%;
+                    top: 0;
                     left: 50%;
                     z-index: 2;
                     display: block;
@@ -1277,11 +1255,10 @@
 
                     .story__mobile-title {
                         position: absolute;
-                        top: 0;
+                        top: calc(40px + 2.5vw + 20vw);
                         left: 0;
                         width: 90vw;
-                        text-align: center;
-                        transform: translate(-50%, -50%);
+                        transform: translate(-50%, 0);
                         will-change: opacity;
 
                         .title {
@@ -1299,9 +1276,15 @@
                             text-shadow: $text-shadow-black;
                         }
 
-                        .skills,
+                        .skills {
+                            margin-top: 0.5rem;
+                            font-size: 1rem;
+                            color: $gray2;
+                            text-shadow: $text-shadow-black;
+                        }
+
                         .content {
-                            margin-top: 0.25rem;
+                            margin-top: 0.5rem;
                             font-size: 1rem;
                             color: $gray2;
                             text-shadow: $text-shadow-black;
@@ -1318,7 +1301,7 @@
                 }
 
                 .story__copies {
-                    bottom: 15vw;
+                    bottom: 20vw;
 
                     .story__copy {
                         width: 90vw;

@@ -8,7 +8,7 @@
                 "is-complete": isComplete,
             }'
         >
-            <p v-if='!isComplete' class='hint'>{{ $t('home.featuredworkHint') }}</p>
+            <div v-if='!isComplete' class='hint' v-html='$t("home.featuredworkHint")' />
             <canvas
                 ref='canvas'
                 aria-label='Move the pointer to cover the canvas'
@@ -42,7 +42,7 @@
 
     const GRID_COLUMNS = 56;
     const GRID_ROWS = 36;
-    const COMPLETE_RATIO = 0.9;
+    const COMPLETE_RATIO = 0.85;
     const BRUSH_VMIN_RATIO = 0.15;
     const WIPE_SURFACE_COLOR = '#232221';
     const MODEL_TOP_COVER_SCALE = 0.68;
@@ -785,14 +785,14 @@
 
             .hint {
                 z-index: 3;
-                bottom: 5vw;
-                font-size: 0.8rem;
+                bottom: 50%;
                 left: 50%;
+                transform: translate(-50%, 50%);
+                font-size: 0.8rem;
                 letter-spacing: 0.2em;
                 position: absolute;
                 text-align: center;
                 text-transform: uppercase;
-                transform: translateX(-50%);
                 animation: hint-blink 2s ease-in-out infinite;
             }
 

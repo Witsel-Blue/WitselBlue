@@ -89,8 +89,6 @@
     #app {
         min-height: 100vh;
         box-sizing: border-box;
-        background-color: $black;
-        color: $white;
 
         &.intro-only {
             height: 100vh;

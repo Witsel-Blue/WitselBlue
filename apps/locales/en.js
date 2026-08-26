@@ -28,7 +28,7 @@ export default {
         ],
         storySubtitle1: 'Jureumjil (Cutting)',
         storyDesc1:
-            'A technique of cutting mother-of-pearl <br class="mb" />into desired patterns <br />and attaching them to the surface of an object.',
+            'A technique of cutting mother-of-pearl <br class="mb" />into desired patterns and <br />attaching them to the surface of an object.',
         storySubtitle2: 'Kkeuneumjil (Breaking)',
         storyDesc2:
             'A technique of cutting mother-of-pearl <br class="mb" />into thin, long strips, <br />then breaking and arranging them<br class="mb" /> into patterns.',
@@ -43,7 +43,7 @@ export default {
         storyYear1: 'April 2021 - April 2022',
         storySkills1: 'Drupal / HTML / CSS / jQuery / GSAP',
         storyContent1:
-            'Frontend developer activities <br class="mb" />in a startup web agency company. <br />As a new hire and I took sole responsibility <br class="mb" />for the entire frontend, <br />building about eight new websites from scratch.',
+            'Frontend developer activities <br class="mb" />in a startup web agency company. <br />As a new hire and I took sole responsibility <br class="mb" />for the entire frontend, <br class="pc" />building about <br class="mb" />eight new websites from scratch.',
         storyTitle2: 'Major Company Project',
         storyCompany2: 'Lisn Design',
         storyYear2: 'June 2024 - November 2024',
@@ -55,8 +55,8 @@ export default {
         storyYear3: 'January 2026 - April 2026',
         storySkills3: 'React / Next / SCSS / three.js / GSAP / Lottie',
         storyContent3:
-            'Proposed using a 3D configurator tool<br /> instead of traditional sketch-based planning; <br />single-handedly managed the entire process <br />including planning, design, and development. <br />Established workflows and reporting systems.<br /> Trained junior front-end staff.',
-        featuredworkHint: 'Move cursor to wipe the surface',
+            'Proposed using a 3D configurator tool<br /> instead of traditional sketch-based planning; <br />single-handedly managed the entire process <br class="pc" />including planning, design, and development. <br />Established workflows and reporting systems.<br /> Trained junior front-end staff.',
+        featuredworkHint: 'Move cursor to <br />wipe the surface',
     },
     aboutme: {
         mainText: [
