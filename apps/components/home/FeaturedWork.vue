@@ -8,7 +8,7 @@
                 "is-complete": isComplete,
             }'
         >
-            <p v-if='!isComplete' class='hint'>Move cursor to wipe the surface</p>
+            <p v-if='!isComplete' class='hint'>{{ $t('home.featuredworkHint') }}</p>
             <canvas
                 ref='canvas'
                 aria-label='Move the pointer to cover the canvas'
@@ -17,7 +17,20 @@
                 @pointerleave='onPointerLeave'
             />
         </section>
-        <section ref='modelSection' class='nacre-box'>
+        <section
+            ref='modelSection'
+            class='nacre-box'
+            :class='{
+                "is-pinned": modelPinState === "pinned",
+                "is-after": modelPinState === "after",
+            }'
+            @mouseenter='onModelPointerEnter'
+            @mouseleave='onModelPointerLeave'
+        >
+            <div
+                class='nacre-box__backdrop'
+                :style='{ opacity: 1 - throughReveal }'
+            />
             <canvas ref='modelCanvas' aria-label='Nacre box 3D model' />
         </section>
     </div>
@@ -25,6 +38,7 @@
 
 <script>
     import nacreBoxUrl from '@/assets/model/nacrebox.glb';
+    import { enterCursorZone, leaveCursorZone } from '@/utils/cursorHint';
 
     const GRID_COLUMNS = 56;
     const GRID_ROWS = 36;
@@ -38,9 +52,13 @@
     const MODEL_ORBIT_END = 0.45;
     const MODEL_FRONT_TRANSITION_RATIO = 0.8;
     const MODEL_LOWER_START = 0.48;
-    const MODEL_LOWER_END = 0.68;
+    const MODEL_LOWER_END = 0.58;
     const MODEL_LOWER_VIEWPORT_RATIO = 0.15;
-    const MODEL_LID_START = 0.72;
+    const MODEL_LID_START = 0.62;
+    const MODEL_LID_END = 0.72;
+    const MODEL_RETURN_START = 0.86;
+    const MODEL_RETURN_ZOOM_SCALE = -0.1;
+    const MODEL_THROUGH_REVEAL_START = 0.7;
     const MODEL_LID_OPEN_ANGLE = -Math.PI / 2;
     const MODEL_TOP_NODE_NAMES = [
         'box_top-guide',
@@ -60,6 +78,8 @@
                 isScrollLocked: false,
                 isWipeActive: false,
                 modelScrollProgress: 0,
+                modelPinState: 'before',
+                throughReveal: 0,
             };
         },
         mounted() {
@@ -69,6 +89,8 @@
             this.sectionTop = 0;
             this.touchStartY = 0;
             this.canvasInitialized = false;
+            this.modelCursorZoneId = `featured-work-scroll-${this._uid}`;
+            this.modelCursorHintActive = false;
             this.resizeCanvas();
             this.updateSectionTop();
             this.initNacreBox();
@@ -94,6 +116,8 @@
             if (this.modelAnimationId) cancelAnimationFrame(this.modelAnimationId);
             if (this.modelObserver) this.modelObserver.disconnect();
 
+            this.hideModelCursorHint();
+            this.setThroughReveal(0);
             this.disposeNacreBox();
         },
         methods: {
@@ -178,6 +202,7 @@
                     alpha: true,
                 });
                 this.modelRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                this.modelRenderer.setClearColor(0x000000, 0);
                 this.modelRenderer.outputColorSpace = THREE.SRGBColorSpace;
                 this.modelRenderer.toneMapping = THREE.ACESFilmicToneMapping;
                 this.modelRenderer.toneMappingExposure = 1;
@@ -208,11 +233,37 @@
                     if (!this.modelScene) return;
 
                     this.nacreBoxModel = gltf.scene;
+                    this.tintBoxBottomInner();
                     this.centerAndFitModel();
                     this.modelScene.add(this.nacreBoxModel);
                 });
 
                 this.animateNacreBox();
+            },
+            tintBoxBottomInner() {
+                const THREE = this.modelThree;
+                const node = this.nacreBoxModel?.getObjectByName('box_bottom_inner');
+                if (!THREE || !node) return;
+
+                const apply = (material) => {
+                    const next = material.clone();
+                    next.color = new THREE.Color('#000');
+                    next.map = null;
+                    if (next.emissive) next.emissive.set('#000');
+                    if ('emissiveIntensity' in next) next.emissiveIntensity = 0.12;
+                    next.needsUpdate = true;
+                    return next;
+                };
+
+                const retint = (object) => {
+                    if (!object.material) return;
+                    object.material = Array.isArray(object.material)
+                        ? object.material.map(apply)
+                        : apply(object.material);
+                };
+
+                retint(node);
+                node.traverse(retint);
             },
             centerAndFitModel() {
                 const THREE = this.modelThree;
@@ -273,7 +324,7 @@
 
                 const rawProgress = this.clamp(
                     (this.modelScrollProgress - MODEL_LID_START)
-                        / (1 - MODEL_LID_START),
+                        / (MODEL_LID_END - MODEL_LID_START),
                     0,
                     1,
                 );
@@ -305,6 +356,16 @@
                     );
                 const modelTop = metrics.height * 0.5;
                 const rawProgress = this.clamp(this.modelScrollProgress, 0, 1);
+                const rawReturnProgress = this.clamp(
+                    (rawProgress - MODEL_RETURN_START)
+                        / (1 - MODEL_RETURN_START),
+                    0,
+                    1,
+                );
+                const returnProgress =
+                    rawReturnProgress
+                    * rawReturnProgress
+                    * (3 - 2 * rawReturnProgress);
                 const rawZoomProgress = this.clamp(
                     rawProgress / MODEL_ZOOM_END,
                     0,
@@ -313,7 +374,8 @@
                 const zoomProgress =
                     rawZoomProgress
                     * rawZoomProgress
-                    * (3 - 2 * rawZoomProgress);
+                    * (3 - 2 * rawZoomProgress)
+                    * (1 - returnProgress);
                 const rawOrbitProgress = this.clamp(
                     (rawProgress - MODEL_ORBIT_START)
                         / (MODEL_ORBIT_END - MODEL_ORBIT_START),
@@ -325,9 +387,16 @@
                     * rawOrbitProgress
                     * (3 - 2 * rawOrbitProgress);
                 const viewProgress =
-                    orbitProgress * MODEL_FRONT_TRANSITION_RATIO;
+                    orbitProgress
+                    * MODEL_FRONT_TRANSITION_RATIO
+                    * (1 - returnProgress);
+                const returnDistance =
+                    Math.min(topDistanceForWidth, topDistanceForHeight)
+                    * MODEL_RETURN_ZOOM_SCALE;
                 const cameraDistance =
-                    topDistance + (frontDistance - topDistance) * zoomProgress;
+                    topDistance
+                    + (frontDistance - topDistance) * zoomProgress
+                    + (returnDistance - topDistance) * returnProgress;
                 const orbitAngle = viewProgress * Math.PI * 0.5;
                 const targetY = modelTop * (1 - viewProgress);
                 const target = new THREE.Vector3(0, targetY, 0);
@@ -343,7 +412,8 @@
                 const lowerProgress =
                     rawLowerProgress
                     * rawLowerProgress
-                    * (3 - 2 * rawLowerProgress);
+                    * (3 - 2 * rawLowerProgress)
+                    * (1 - returnProgress);
                 const visibleHeight =
                     2 * cameraDistance * Math.tan(halfFov);
                 const cameraShift =
@@ -360,12 +430,13 @@
                 camera.position.addScaledVector(up, cameraShift);
                 target.addScaledVector(up, cameraShift);
                 camera.near = Math.max(
-                    Math.min(topDistance, frontDistance) / 100,
+                    Math.min(topDistance, frontDistance, returnDistance) / 100,
                     0.01,
                 );
                 camera.far = Math.max(
                     topDistance,
                     frontDistance,
+                    returnDistance,
                     metrics.maxDimension,
                 ) * 100;
                 camera.lookAt(target);
@@ -375,6 +446,7 @@
                 if (!this.isComplete) {
                     this.modelScrollProgress = 0;
                     this.updateModelCamera();
+                    this.setThroughReveal(0);
                     return;
                 }
 
@@ -389,6 +461,43 @@
                 );
                 this.updateModelCamera();
                 this.updateLidRotation();
+
+                const returnProgress = this.clamp(
+                    (this.modelScrollProgress - MODEL_RETURN_START)
+                        / (1 - MODEL_RETURN_START),
+                    0,
+                    1,
+                );
+                this.setThroughReveal(
+                    this.clamp(
+                        (returnProgress - MODEL_THROUGH_REVEAL_START)
+                            / (1 - MODEL_THROUGH_REVEAL_START),
+                        0,
+                        1,
+                    ),
+                );
+            },
+            setThroughReveal(value) {
+                const next = this.clamp(value, 0, 1);
+                if (this.throughReveal === next) return;
+
+                this.throughReveal = next;
+                this.$root.$emit('nacre-through-progress', next);
+            },
+            updateModelPinState() {
+                const scrollRange = Math.max(
+                    this.$el.offsetHeight - window.innerHeight,
+                    1,
+                );
+                const y = window.scrollY;
+
+                if (y < this.sectionTop) {
+                    this.modelPinState = 'before';
+                } else if (y < this.sectionTop + scrollRange) {
+                    this.modelPinState = 'pinned';
+                } else {
+                    this.modelPinState = 'after';
+                }
             },
             resizeModelRenderer() {
                 const canvas = this.$refs.modelCanvas;
@@ -449,6 +558,7 @@
                 const shouldLock = this.shouldLockScroll();
                 this.isScrollLocked = shouldLock;
                 this.isWipeActive = shouldLock && !this.isComplete;
+                this.updateModelPinState();
                 this.updateModelScrollProgress();
 
                 if (!this.isWipeActive) this.lastPointer = null;
@@ -532,6 +642,24 @@
             },
             onPointerLeave() {
                 this.lastPointer = null;
+            },
+            showModelCursorHint() {
+                if (!this.isComplete || this.modelCursorHintActive) return;
+
+                this.modelCursorHintActive = true;
+                enterCursorZone(this.modelCursorZoneId, 'scroll');
+            },
+            hideModelCursorHint() {
+                if (!this.modelCursorHintActive) return;
+
+                this.modelCursorHintActive = false;
+                leaveCursorZone(this.modelCursorZoneId);
+            },
+            onModelPointerEnter() {
+                this.showModelCursorHint();
+            },
+            onModelPointerLeave() {
+                this.hideModelCursorHint();
             },
             drawBrushSegment(from, to) {
                 const canvas = this.$refs.canvas;
@@ -625,6 +753,7 @@
                 this.isScrollLocked = false;
                 this.isWipeActive = false;
                 this.updateModelScrollProgress();
+                this.showModelCursorHint();
                 const canvas = this.$refs.canvas;
                 const context = canvas?.getContext('2d');
                 if (!canvas || !context) return;
@@ -642,7 +771,7 @@
     #featured-work {
         position: relative;
         width: 100%;
-        height: 400vh;
+        height: 600vh;
         margin-top: -45vh;
 
         .wiping-surface {
@@ -687,15 +816,35 @@
         }
 
         .nacre-box {
-            position: sticky;
+            position: absolute;
             top: 0;
+            left: 0;
             z-index: 1;
             width: 100%;
             height: 100vh;
             overflow: hidden;
-            background: $white;
+            background: transparent;
+
+            &.is-pinned {
+                position: fixed;
+                inset: 0;
+            }
+
+            &.is-after {
+                top: auto;
+                bottom: 0;
+            }
+
+            .nacre-box__backdrop {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+            }
 
             canvas {
+                position: relative;
+                z-index: 1;
                 display: block;
                 width: 100%;
                 height: 100%;

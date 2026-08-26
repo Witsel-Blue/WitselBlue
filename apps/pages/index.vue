@@ -5,6 +5,7 @@
         <About v-if='exploded' />
         <Story v-if='exploded' />
         <FeaturedWork v-if='exploded' />
+        <RabbitHole v-if='exploded' />
         <!-- <FoldingScreen v-if='exploded' /> -->
     </main>
 </template>
@@ -15,6 +16,7 @@
     import About from '@/components/home/About.vue';
     import Story from '@/components/home/Story.vue';
     import FeaturedWork from '@/components/home/FeaturedWork.vue';
+    import RabbitHole from '@/components/home/RabbitHole.vue';
     // import FoldingScreen from '@/components/home/FoldingScreen.vue';
     export default {
         components: {
@@ -23,6 +25,7 @@
             About,
             Story,
             FeaturedWork,
+            RabbitHole,
             // FoldingScreen,
         },
         data() {

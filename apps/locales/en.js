@@ -56,6 +56,7 @@ export default {
         storySkills3: 'React / Next / SCSS / three.js / GSAP / Lottie',
         storyContent3:
             'Proposed using a 3D configurator tool<br /> instead of traditional sketch-based planning; <br />single-handedly managed the entire process <br />including planning, design, and development. <br />Established workflows and reporting systems.<br /> Trained junior front-end staff.',
+        featuredworkHint: 'Move cursor to wipe the surface',
     },
     aboutme: {
         mainText: [
