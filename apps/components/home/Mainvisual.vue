@@ -1868,40 +1868,87 @@
                 }
             },
 
-            loadShapeImage() {
-                if (this._shapeImg) return Promise.resolve(this._shapeImg);
-                return new Promise((resolve, reject) => {
-                    const image = new Image();
-                    image.crossOrigin = 'anonymous';
-                    image.onload = () => {
-                        this._shapeImg = image;
-                        resolve(image);
-                    };
-                    image.onerror = reject;
-                    image.src = require('@/assets/img/home/bird.svg');
+            getShapeRasterMaxSide(anchorSelector) {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const el = document.querySelector(anchorSelector);
+                const rect = el?.getBoundingClientRect();
+                const cssSize = Math.max(
+                    rect?.width || 0,
+                    rect?.height || 0,
+                    window.innerHeight * 0.5,
+                );
+                const displayNeed = Math.round(cssSize * dpr);
+                return Math.min(2048, Math.max(1254, displayNeed));
+            },
+
+            async rasterizeShapeSvg(url, maxSide) {
+                const response = await fetch(url);
+                let text = await response.text();
+
+                const viewBox = text.match(/viewBox=["']([^"']+)["']/i);
+                let aspect = 1;
+                if (viewBox) {
+                    const parts = viewBox[1].trim().split(/[\s,]+/).map(Number);
+                    if (parts.length === 4 && parts[3] > 0) {
+                        aspect = parts[2] / parts[3];
+                    }
+                }
+
+                const width = aspect >= 1
+                    ? maxSide
+                    : Math.max(1, Math.round(maxSide * aspect));
+                const height = aspect >= 1
+                    ? Math.max(1, Math.round(maxSide / aspect))
+                    : maxSide;
+
+                text = text.replace(/<svg\b([^>]*)>/i, (_, attrs) => {
+                    const cleaned = attrs
+                        .replace(/\swidth=(["']).*?\1/gi, '')
+                        .replace(/\sheight=(["']).*?\1/gi, '');
+                    return `<svg${cleaned} width="${width}" height="${height}">`;
                 });
+
+                const blob = new Blob([text], {
+                    type: 'image/svg+xml;charset=utf-8',
+                });
+                const objectUrl = URL.createObjectURL(blob);
+
+                try {
+                    const image = await new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                        img.src = objectUrl;
+                    });
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(image, 0, 0, width, height);
+                    return canvas;
+                } finally {
+                    URL.revokeObjectURL(objectUrl);
+                }
             },
 
             async buildTextTargets() {
                 const THREE = this.three;
                 if (!THREE || !this.camera || this.shards.length === 0) return;
+                if (this.textTargetsBuilt) return;
 
-                let image;
+                let cv;
                 try {
-                    image = await this.loadShapeImage();
+                    cv = await this.rasterizeShapeSvg(
+                        require('@/assets/img/home/about_img1.svg'),
+                        this.getShapeRasterMaxSide('#about .shape-anchor'),
+                    );
                 } catch {
                     return;
                 }
                 if (this.textTargetsBuilt) return;
 
-                const SAMPLE = 512;
-                const imgAspect = image.width / image.height;
-                const cv = document.createElement('canvas');
-                cv.width = imgAspect >= 1 ? SAMPLE : Math.round(SAMPLE * imgAspect);
-                cv.height = imgAspect >= 1 ? Math.round(SAMPLE / imgAspect) : SAMPLE;
                 const ctx = cv.getContext('2d');
-                ctx.drawImage(image, 0, 0, cv.width, cv.height);
-
                 const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
 
                 const filled = [];
@@ -2024,40 +2071,23 @@
                 }
             },
 
-            loadShapeImage2() {
-                if (this._shapeImg2) return Promise.resolve(this._shapeImg2);
-                return new Promise((resolve, reject) => {
-                    const image = new Image();
-                    image.crossOrigin = 'anonymous';
-                    image.onload = () => {
-                        this._shapeImg2 = image;
-                        resolve(image);
-                    };
-                    image.onerror = reject;
-                    image.src = require('@/assets/img/home/flower2.svg');
-                });
-            },
-
             async buildTextTargets2() {
                 const THREE = this.three;
                 if (!THREE || !this.camera || this.shards.length === 0) return;
+                if (this.textTargets2Built) return;
 
-                let image;
+                let cv;
                 try {
-                    image = await this.loadShapeImage2();
+                    cv = await this.rasterizeShapeSvg(
+                        require('@/assets/img/home/about_img2.svg'),
+                        this.getShapeRasterMaxSide('#about .shape-anchor2'),
+                    );
                 } catch {
                     return;
                 }
                 if (this.textTargets2Built) return;
 
-                const SAMPLE = 512;
-                const imgAspect = image.width / image.height;
-                const cv = document.createElement('canvas');
-                cv.width = imgAspect >= 1 ? SAMPLE : Math.round(SAMPLE * imgAspect);
-                cv.height = imgAspect >= 1 ? Math.round(SAMPLE / imgAspect) : SAMPLE;
                 const ctx = cv.getContext('2d');
-                ctx.drawImage(image, 0, 0, cv.width, cv.height);
-
                 const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
                 const filled = [];
                 for (let y = 0; y < cv.height; y++) {

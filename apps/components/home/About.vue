@@ -1,5 +1,6 @@
 <template>
     <div id='about'>
+        <AboutSideBg />
         <div class='inner-l'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
@@ -22,7 +23,7 @@
             </section>
             <section>
                 <div class='shape-anchor2' aria-hidden='true' />
-                <div class='text-wrap' :style='textWrapStyle(1)'>                    
+                <div class='text-wrap' :style='textWrapStyle(1)'>
                     <div
                         v-if='anchor2Gathered'
                         class='cursor-zone'
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+    import AboutSideBg from '@/components/home/AboutSideBg.vue';
     import ButtonRound from '@/components/common/ButtonRound.vue';
     import CursorZone from '@/components/common/CursorZone.vue';
     import { gatherAnchorState } from '@/utils/gatherAnchorState';
@@ -57,6 +59,7 @@
     export default {
         name: 'About',
         components: {
+            AboutSideBg,
             ButtonRound,
             CursorZone,
         },
@@ -233,6 +236,12 @@
         width: 100%;
         display: flex;
         flex-direction: column;
+        position: relative;
+
+        .inner-l {
+            position: relative;
+            z-index: 1;
+        }
 
         section {
             position: relative;
@@ -261,8 +270,8 @@
                     top: 40%;
                     right: 50%;
                     transform: translate(50%, -50%);
-                    width: 70vh;
-                    height: 70vh;
+                    width: 50vh;
+                    height: 50vh;
                     opacity: 0;
                     pointer-events: none;
                 }
@@ -300,7 +309,6 @@
             }
 
             p {
-                margin-top: 2rem;
                 text-align: center;
                         
                 span {
