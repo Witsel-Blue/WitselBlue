@@ -60,8 +60,8 @@
     const MODEL_RETURN_ZOOM_SCALE = -0.1;
     const MODEL_THROUGH_REVEAL_START = 0.7;
     const MODEL_LID_OPEN_ANGLE = -Math.PI / 2;
+    const MODEL_LID_INNER_OFFSET_Y = 0.06;
     const MODEL_TOP_NODE_NAMES = [
-        'box_top-guide',
         'top-butterfly',
         'top-leaf',
         'top-flower',
@@ -233,12 +233,47 @@
                     if (!this.modelScene) return;
 
                     this.nacreBoxModel = gltf.scene;
+                    this.hideGuideMeshes();
                     this.tintBoxBottomInner();
                     this.centerAndFitModel();
+                    this.hideGuideMeshes();
                     this.modelScene.add(this.nacreBoxModel);
                 });
 
                 this.animateNacreBox();
+            },
+            hideGuideMeshes() {
+                const model = this.nacreBoxModel;
+                if (!model) return;
+
+                const toRemove = [];
+                model.traverse((node) => {
+                    const name = String(node.name || '').toLowerCase();
+                    const normalized = name.replace(/-/g, '_');
+                    if (
+                        name.includes('guide')
+                        || normalized === 'box_top_guide'
+                    ) {
+                        toRemove.push(node);
+                    }
+                });
+
+                toRemove.forEach((node) => {
+                    node.visible = false;
+                    node.layers.disableAll();
+                    if (node.material) {
+                        const materials = Array.isArray(node.material)
+                            ? node.material
+                            : [node.material];
+                        materials.forEach((material) => {
+                            material.transparent = true;
+                            material.opacity = 0;
+                            material.depthWrite = false;
+                            material.visible = false;
+                        });
+                    }
+                    node.parent?.remove(node);
+                });
             },
             tintBoxBottomInner() {
                 const THREE = this.modelThree;
@@ -316,8 +351,38 @@
                 model.updateMatrixWorld(true);
 
                 topNodes.forEach((node) => pivot.attach(node));
+                this.separateLidSurfaces();
                 this.lidPivot = pivot;
                 this.updateLidRotation();
+            },
+            separateLidSurfaces() {
+                const THREE = this.modelThree;
+                const outer = this.nacreBoxModel?.getObjectByName('box-top');
+                const inner = this.nacreBoxModel?.getObjectByName('box-top-inner');
+                if (!THREE || !inner) return;
+
+                inner.position.y -= MODEL_LID_INNER_OFFSET_Y;
+                inner.updateMatrixWorld(true);
+
+                const applyDepthBias = (node, factor, units, order) => {
+                    if (!node) return;
+                    node.traverse((object) => {
+                        if (!object.material) return;
+                        const materials = Array.isArray(object.material)
+                            ? object.material
+                            : [object.material];
+                        materials.forEach((material) => {
+                            material.polygonOffset = true;
+                            material.polygonOffsetFactor = factor;
+                            material.polygonOffsetUnits = units;
+                            material.needsUpdate = true;
+                        });
+                        object.renderOrder = order;
+                    });
+                };
+
+                applyDepthBias(outer, -2, -2, 2);
+                applyDepthBias(inner, 2, 2, 1);
             },
             updateLidRotation() {
                 if (!this.lidPivot) return;
