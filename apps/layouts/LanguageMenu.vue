@@ -1,6 +1,6 @@
 <template>
     <div id='language-menu'>
-        <CursorZone label='change language' attach-to-parent />
+        <CursorZone :label='cursorLabel' attach-to-parent />
         <ClickSound attach-to-parent />
         <button
             :class='[{ ko_active: currentLocale === "ko" }]'
@@ -32,6 +32,9 @@
         computed: {
             currentLocale() {
                 return this.$i18n.locale;
+            },
+            cursorLabel() {
+                return this.currentLocale === 'ko' ? 'to english' : 'to korean';
             },
         },
         mounted() {

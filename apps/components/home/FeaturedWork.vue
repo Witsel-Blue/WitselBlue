@@ -848,12 +848,14 @@
             overflow: hidden;
 
             .hint {
+                width: 100%;
                 z-index: 3;
                 bottom: 50%;
                 left: 50%;
                 transform: translate(-50%, 50%);
-                font-size: 0.8rem;
+                font-size: 1.2rem;
                 letter-spacing: 0.2em;
+                line-height: 1.2;
                 position: absolute;
                 text-align: center;
                 text-transform: uppercase;

@@ -6,9 +6,8 @@
                 v-for='(line, i) in copyLines'
                 :key='"fold-line-" + i'
                 :style='copyLineStyle(i)'
-            >
-                {{ line }}
-            </p>
+                v-html='line'
+            />
         </div>
     </div>
 </template>
