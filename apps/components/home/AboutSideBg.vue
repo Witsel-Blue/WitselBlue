@@ -2,23 +2,23 @@
     <div
         id='about-side-bg'
         aria-hidden='true'
-        :style='pinStyle'
+        :style='rootStyle'
     >
         <img
             class='left'
             :src='sideImg'
-            alt=''
         />
         <img
             class='right'
             :src='sideImg'
-            alt=''
         />
     </div>
 </template>
 
 <script>
     import sideImg from '@/assets/img/home/about_side.svg';
+
+    const REVEAL_RADIUS = '90vmin';
 
     export default {
         name: 'AboutSideBg',
@@ -30,7 +30,21 @@
                     top: '0',
                     bottom: 'auto',
                 },
+                mx: '50%',
+                my: '50%',
+                reveal: 0,
             };
+        },
+        computed: {
+            rootStyle() {
+                return {
+                    ...this.pinStyle,
+                    '--mx': this.mx,
+                    '--my': this.my,
+                    '--reveal-radius': this.reveal > 0.01 ? REVEAL_RADIUS : '0px',
+                    opacity: this.reveal,
+                };
+            },
         },
         mounted() {
             if (!process.client) return;
@@ -42,7 +56,6 @@
                 const rect = about.getBoundingClientRect();
                 const vh = window.innerHeight;
 
-                // 진입 전·진입 중: about 상단에 붙어서 함께 올라옴
                 if (rect.top >= 0) {
                     this.pinStyle = {
                         position: 'absolute',
@@ -52,7 +65,6 @@
                     return;
                 }
 
-                // 이탈: about 하단에 붙여 두 번째 섹션과 함께 올라감
                 if (rect.bottom <= vh) {
                     this.pinStyle = {
                         position: 'absolute',
@@ -62,7 +74,6 @@
                     return;
                 }
 
-                // 두 섹션을 지나는 동안 화면 고정
                 this.pinStyle = {
                     position: 'fixed',
                     top: '0',
@@ -70,14 +81,52 @@
                 };
             };
 
+            this.onPointerMove = (event) => {
+                const el = this.$el;
+                const about = el?.parentElement;
+                if (!el || !about) return;
+
+                const aboutRect = about.getBoundingClientRect();
+                const inside =
+                    event.clientX >= aboutRect.left
+                    && event.clientX <= aboutRect.right
+                    && event.clientY >= aboutRect.top
+                    && event.clientY <= aboutRect.bottom;
+
+                if (!inside) {
+                    this.reveal = 0;
+                    return;
+                }
+
+                const rect = el.getBoundingClientRect();
+                this.mx = `${event.clientX - rect.left}px`;
+                this.my = `${event.clientY - rect.top}px`;
+                this.reveal = 1;
+            };
+
+            this.onPointerLeaveWindow = () => {
+                this.reveal = 0;
+            };
+
             window.addEventListener('scroll', this.onScroll, { passive: true });
             window.addEventListener('resize', this.onScroll, { passive: true });
+            window.addEventListener('pointermove', this.onPointerMove, {
+                passive: true,
+            });
+            window.addEventListener('blur', this.onPointerLeaveWindow);
             this.onScroll();
         },
         beforeDestroy() {
-            if (!this.onScroll) return;
-            window.removeEventListener('scroll', this.onScroll);
-            window.removeEventListener('resize', this.onScroll);
+            if (this.onScroll) {
+                window.removeEventListener('scroll', this.onScroll);
+                window.removeEventListener('resize', this.onScroll);
+            }
+            if (this.onPointerMove) {
+                window.removeEventListener('pointermove', this.onPointerMove);
+            }
+            if (this.onPointerLeaveWindow) {
+                window.removeEventListener('blur', this.onPointerLeaveWindow);
+            }
         },
     };
 </script>
@@ -86,32 +135,51 @@
     @use '@/assets/scss/base/variables' as *;
 
     #about-side-bg {
+        left: 0;
         z-index: 0;
         width: 100%;
         height: 100vh;
         pointer-events: none;
         overflow: hidden;
-        position: relative;
+        transition: opacity 0.4s ease;
+        -webkit-mask-image: radial-gradient(
+            circle var(--reveal-radius, 0px) at var(--mx, 50%) var(--my, 50%),
+            #000 0%,
+            #000 20%,
+            rgba(0, 0, 0, 0.7) 40%,
+            rgba(0, 0, 0, 0.35) 60%,
+            transparent 90%
+        );
+        mask-image: radial-gradient(
+            circle var(--reveal-radius, 0px) at var(--mx, 50%) var(--my, 50%),
+            #000 0%,
+            #000 20%,
+            rgba(0, 0, 0, 0.7) 40%,
+            rgba(0, 0, 0, 0.35) 60%,
+            transparent 90%
+        );
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
 
         .left {
-            width: 40vw;
-            height: auto;
-            display: block;
-            user-select: none;
             position: absolute;
             top: 40%;
             left: 0;
+            display: block;
+            width: 40vw;
+            height: auto;
+            user-select: none;
             transform: translateY(-50%) scaleX(-1);
         }
 
         .right {
-            width: 40vw;
-            height: auto;
-            display: block;
-            user-select: none;
             position: absolute;
             top: 40%;
             right: 0;
+            display: block;
+            width: 40vw;
+            height: auto;
+            user-select: none;
             transform: translateY(-50%);
         }
     }
