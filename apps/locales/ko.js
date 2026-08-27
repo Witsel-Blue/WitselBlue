@@ -54,6 +54,7 @@ export default {
         storyContent3:
             '기존 방식 대신 3D 기반의 커스터마이징을 제안.<br /> 기획부터 디자인, 개발까지 하나의 흐름으로 만들고<br /> 내부 워크플로우와 보고 시스템까지 이어갔습니다.',
         featuredworkHint: '표면을 닦아 <br />숨은 빛을 드러내세요.',
+        foldingCopyLines: ['아직...', '만드는 일은 끝나지 않습니다'],
     },
     aboutme: {
         mainText: [

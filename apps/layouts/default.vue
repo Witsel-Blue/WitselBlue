@@ -108,9 +108,10 @@
 
         &.page-home {
             #footer::v-deep {
-                background-color: $white;
+                margin-top: -100vh;
                 color: $black;
                 mix-blend-mode: normal;
+                backdrop-filter: none;
 
                 .text-shifting {
                     span {
@@ -120,19 +121,19 @@
             }
         }
 
-        .header-blur {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: calc(40px + 5vw);
-            z-index: 8;
-            pointer-events: none;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
-        }
+        // .header-blur {
+        //     position: fixed;
+        //     top: 0;
+        //     left: 0;
+        //     width: 100%;
+        //     height: calc(40px + 5vw);
+        //     z-index: 8;
+        //     pointer-events: none;
+        //     backdrop-filter: blur(8px);
+        //     -webkit-backdrop-filter: blur(8px);
+        //     mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+        //     -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+        // }
     }
 </style>
 

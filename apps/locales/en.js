@@ -57,6 +57,7 @@ export default {
         storyContent3:
             'Proposed using a 3D configurator tool<br /> instead of traditional sketch-based planning; <br />single-handedly managed the entire process <br class="pc" />including planning, design, and development. <br />Established workflows and reporting systems.<br /> Trained junior front-end staff.',
         featuredworkHint: 'Move cursor to <br />wipe the surface',
+        foldingCopyLines: ['yet...', "crafting doesn't end"],
     },
     aboutme: {
         mainText: [

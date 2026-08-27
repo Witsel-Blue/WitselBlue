@@ -2,18 +2,44 @@
     <div
         id='rabbit-hole'
         :class='{ "is-revealed": throughReveal > 0.99 }'
-        :style='{ opacity: throughReveal }'
+        :style='rootStyle'
     >
         <div
             class='rabbit-hole__sticky'
             :style='stickyStyle'
-        />
+        >
+            <FoldingScreen
+                :scroll-progress='colorProgress'
+                :layer-reveal='foldingLayerReveal'
+                :active='throughReveal > 0.15'
+            />
+            <RabbitHoleLists
+                :scroll-progress='listProgress'
+                :fog-color='stickyStyle.backgroundColor'
+                :active='throughReveal > 0.15'
+            />
+        </div>
     </div>
 </template>
 
 <script>
+    import RabbitHoleLists from '@/components/home/RabbitHoleLists.vue';
+    import FoldingScreen from '@/components/home/FoldingScreen.vue';
+
     const COLOR_FROM = '#454545';
     const COLOR_TO = '#ece8da';
+    const LIST_VISIBLE_AT = 0.85;
+    const LIST_COUNT = 6;
+    const LIST_SCROLL_VH = 40 + LIST_COUNT * 120;
+    const ZOOM_HOLD_VH = 220;
+    const RABBIT_HOLE_VH = 100 + LIST_SCROLL_VH + ZOOM_HOLD_VH;
+    const LIST_END_AT = LIST_SCROLL_VH / (LIST_SCROLL_VH + ZOOM_HOLD_VH);
+    const LIST_CAMERA_Z = 50;
+    const LIST_START_DIST = 270;
+    const LIST_PASS_DIST = 80;
+    const LIST_DEPTH_STEP = 100;
+    const LIST_FOG_FAR = 300;
+    const FOLDING_FROM_BACK = 0;
 
     function parseHex(hex) {
         const value = hex.replace('#', '');
@@ -36,6 +62,10 @@
 
     export default {
         name: 'RabbitHole',
+        components: {
+            RabbitHoleLists,
+            FoldingScreen,
+        },
         data() {
             return {
                 throughReveal: 0,
@@ -43,12 +73,38 @@
             };
         },
         computed: {
+            rootStyle() {
+                return {
+                    opacity: this.throughReveal,
+                    height: `${RABBIT_HOLE_VH}vh`,
+                };
+            },
             stickyStyle() {
                 const t = this.colorProgress;
                 return {
                     backgroundColor: lerpHex(COLOR_FROM, COLOR_TO, t),
                     color: lerpHex(COLOR_TO, COLOR_FROM, t),
                 };
+            },
+            // 섹션이 충분히 보인 뒤에만 리스트 Z 이동.
+            // 리스트는 줌 홀드 구간 전에 끝난다.
+            listProgress() {
+                if (this.throughReveal < LIST_VISIBLE_AT) return 0;
+                return this.clamp(this.colorProgress / LIST_END_AT, 0, 1);
+            },
+            foldingLayerReveal() {
+                const p = this.listProgress;
+                const index = Math.max(0, LIST_COUNT - FOLDING_FROM_BACK);
+                const startZ = LIST_CAMERA_Z - LIST_START_DIST;
+                const localZ = startZ - index * LIST_DEPTH_STEP;
+                const totalDepth = LIST_START_DIST
+                    + LIST_PASS_DIST
+                    + (LIST_COUNT - 1) * LIST_DEPTH_STEP;
+                const moveZ = this.clamp(p, 0, 1) * totalDepth;
+                const dist = LIST_CAMERA_Z - (localZ + moveZ);
+                const t = (LIST_FOG_FAR - dist) / LIST_DEPTH_STEP;
+
+                return this.clamp(t, 0, 1);
             },
         },
         mounted() {
@@ -89,12 +145,12 @@
         position: relative;
         z-index: 0;
         width: 100%;
-        height: 250vh;
         margin-top: -100vh;
         pointer-events: none;
 
         &.is-revealed {
             z-index: 2;
+            pointer-events: auto;
         }
 
         .rabbit-hole__sticky {
@@ -105,8 +161,11 @@
             justify-content: center;
             width: 100%;
             height: 100vh;
-            font-size: clamp(2rem, 8vw, 6rem);
-            text-align: center;
+            overflow: hidden;
+
+            #rabbit-hole-lists {
+                z-index: 1;
+            }
         }
     }
 </style>
