@@ -26,7 +26,7 @@
     import RabbitHoleLists from '@/components/home/RabbitHoleLists.vue';
     import FoldingScreen from '@/components/home/FoldingScreen.vue';
 
-    const COLOR_FROM = '#454545';
+    const COLOR_FROM = '#1D1D1D';
     const COLOR_TO = '#ece8da';
     const LIST_VISIBLE_AT = 0.85;
     const LIST_COUNT = 6;

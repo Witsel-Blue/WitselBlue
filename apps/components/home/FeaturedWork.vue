@@ -38,6 +38,10 @@
 
 <script>
     import nacreBoxUrl from '@/assets/model/nacrebox.glb';
+    import nacreRedUrl from '@/assets/model/texture/nacre_red.png';
+    import nacrePurpleUrl from '@/assets/model/texture/nacre_purple.png';
+    import nacreWhiteUrl from '@/assets/model/texture/nacre_white.png';
+    import nacreBeigeUrl from '@/assets/model/texture/nacre_beige.png';
     import { enterCursorZone, leaveCursorZone } from '@/utils/cursorHint';
 
     const GRID_COLUMNS = 56;
@@ -61,6 +65,25 @@
     const MODEL_THROUGH_REVEAL_START = 0.7;
     const MODEL_LID_OPEN_ANGLE = -Math.PI / 2;
     const MODEL_LID_INNER_OFFSET_Y = 0.06;
+    const MODEL_NACRE_STRENGTH = 0.6;
+    const MODEL_NACRE_GROUPS = [
+        {
+            names: ['top-flower', 'side-flower'],
+            url: nacreRedUrl,
+        },
+        {
+            names: ['top-butterfly', 'side-butterfly'],
+            url: nacrePurpleUrl,
+        },
+        {
+            names: ['top-leaf'],
+            url: nacreWhiteUrl,
+        },
+        {
+            names: ['top-corner', 'side-corner'],
+            url: nacreBeigeUrl,
+        },
+    ];
     const MODEL_TOP_NODE_NAMES = [
         'top-butterfly',
         'top-leaf',
@@ -205,7 +228,11 @@
                 this.modelRenderer.setClearColor(0x000000, 0);
                 this.modelRenderer.outputColorSpace = THREE.SRGBColorSpace;
                 this.modelRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-                this.modelRenderer.toneMappingExposure = 1;
+                this.modelRenderer.toneMappingExposure = 0.85;
+                if ('environmentIntensity' in this.modelScene) {
+                    this.modelScene.environmentIntensity = 0.35;
+                }
+                this.nacreNoiseTex = this.makeNacreNoiseTexture();
 
                 this.modelPmrem = new THREE.PMREMGenerator(this.modelRenderer);
                 const room = new RoomEnvironment();
@@ -235,6 +262,7 @@
                     this.nacreBoxModel = gltf.scene;
                     this.hideGuideMeshes();
                     this.tintBoxBottomInner();
+                    this.applyNacreMaterial(this.nacreBoxModel);
                     this.centerAndFitModel();
                     this.hideGuideMeshes();
                     this.modelScene.add(this.nacreBoxModel);
@@ -273,6 +301,73 @@
                         });
                     }
                     node.parent?.remove(node);
+                });
+            },
+            makeNacreNoiseTexture() {
+                const THREE = this.modelThree;
+                const size = 64;
+                const data = new Uint8Array(size * size * 4);
+                for (let i = 0; i < size * size; i += 1) {
+                    const value = Math.floor(Math.random() * 256);
+                    data[i * 4] = value;
+                    data[i * 4 + 1] = value;
+                    data[i * 4 + 2] = value;
+                    data[i * 4 + 3] = 255;
+                }
+
+                const texture = new THREE.DataTexture(data, size, size);
+                texture.colorSpace = THREE.NoColorSpace;
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.magFilter = THREE.LinearFilter;
+                texture.minFilter = THREE.LinearFilter;
+                texture.repeat.set(3, 3);
+                texture.needsUpdate = true;
+                return texture;
+            },
+            createNacreTexture(url) {
+                const THREE = this.modelThree;
+                const texture = new THREE.TextureLoader().load(url);
+                texture.colorSpace = THREE.SRGBColorSpace;
+                texture.flipY = false;
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                return texture;
+            },
+            makeIridescentMaterial(texture) {
+                const THREE = this.modelThree;
+                return new THREE.MeshPhysicalMaterial({
+                    map: texture,
+                    color: new THREE.Color(0xffffff),
+                    roughness: 0.16,
+                    metalness: 0,
+                    iridescence: MODEL_NACRE_STRENGTH,
+                    iridescenceIOR: 1.35,
+                    iridescenceThicknessRange: [100, 800],
+                    iridescenceThicknessMap: this.nacreNoiseTex,
+                    clearcoat: 1,
+                    clearcoatRoughness: 0.1,
+                    envMapIntensity: 0.9,
+                });
+            },
+            applyMaterialToNodes(root, names, material) {
+                names.forEach((name) => {
+                    const node = root.getObjectByName(name);
+                    if (!node) return;
+
+                    node.traverse((object) => {
+                        if (object.isMesh) object.material = material;
+                    });
+                });
+            },
+            applyNacreMaterial(root) {
+                if (!this.modelThree || !root) return;
+
+                this.nacreInlayTextures = MODEL_NACRE_GROUPS.map((group) => {
+                    const texture = this.createNacreTexture(group.url);
+                    const material = this.makeIridescentMaterial(texture);
+                    this.applyMaterialToNodes(root, group.names, material);
+                    return texture;
                 });
             },
             tintBoxBottomInner() {
@@ -606,6 +701,19 @@
                     });
                 }
 
+                if (this.nacreInlayTextures) {
+                    this.nacreInlayTextures.forEach((texture) => texture.dispose());
+                    this.nacreInlayTextures = null;
+                }
+                if (this.nacreNoiseTex) {
+                    this.nacreNoiseTex.dispose();
+                    this.nacreNoiseTex = null;
+                }
+                if (this.nacreInlayTexture) {
+                    this.nacreInlayTexture.dispose();
+                    this.nacreInlayTexture = null;
+                }
+
                 if (this.modelEnvironment) this.modelEnvironment.dispose();
                 if (this.modelPmrem) this.modelPmrem.dispose();
                 if (this.modelRenderer) this.modelRenderer.dispose();
@@ -866,8 +974,8 @@
                 position: absolute;
                 inset: 0;
                 display: block;
-                width: 100%;
-                height: 100%;
+            width: 100%;
+            height: 100%;
                 cursor: default;
                 touch-action: none;
             }
@@ -883,11 +991,11 @@
 
         .nacre-box {
             position: absolute;
-            top: 0;
-            left: 0;
+                top: 0;
+                left: 0;
             z-index: 1;
-            width: 100%;
-            height: 100vh;
+                width: 100%;
+                height: 100vh;
             overflow: hidden;
             background: transparent;
 
@@ -905,16 +1013,16 @@
                 position: absolute;
                 inset: 0;
                 z-index: 0;
-                pointer-events: none;
-            }
+            pointer-events: none;
+        }
 
-            canvas {
+        canvas {
                 position: relative;
                 z-index: 1;
-                display: block;
-                width: 100%;
-                height: 100%;
-            }
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
         }
     }
 
