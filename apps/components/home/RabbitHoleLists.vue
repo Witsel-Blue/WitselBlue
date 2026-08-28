@@ -38,7 +38,10 @@
                             <div class='line' />
                         </div>
                     </button>
-                    <h2 class='title'>{{ archive.title }}</h2>
+                    <a v-if='archive.link && detailPlacement === "bottom"' :href='archive.link' target='_blank' class='title_bottom'>
+                        {{ archive.title }}
+                    </a>
+                    <h2 v-else class='title'>{{ archive.title }}</h2>
                     <h3 v-if='archive.summary' class='summary'>{{ archive.summary }}</h3>
                     <p v-if='archive.stack && detailPlacement !== "bottom"' class='stack'>
                         {{ archive.stack }}
@@ -861,8 +864,11 @@
                 text-align: center;
                 align-items: center;
 
-                .title {
-                    margin-top: 0;
+                .title_bottom {
+                    font-size: 2rem;
+                    line-height: 1;
+                    font-family: $ft-orangeavenue, $ft-sungkokserif;
+                    color: $white;
                 }
             }
 
