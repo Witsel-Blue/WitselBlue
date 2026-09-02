@@ -28,16 +28,15 @@ export default {
         ],
         storySubtitle1: 'Jureumjil (Cutting)',
         storyDesc1:
-            'A technique of cutting mother-of-pearl <br class="mb" />into desired patterns and <br />attaching them to the surface of an object.',
+            'Cutting mother-of-pearl into desired patterns <br />and attaching them to the surface of an object.',
         storySubtitle2: 'Kkeuneumjil (Breaking)',
         storyDesc2:
-            'A technique of cutting mother-of-pearl <br class="mb" />into thin, long strips, <br />then breaking and arranging them<br class="mb" /> into patterns.',
+            'Cutting mother-of-pearl into thin, long strips, <br />then breaking and arranging them into patterns.',
         storySubtitle3: 'Mojo-beop (Engraving)',
-        storyDesc3:
-            'A technique of adding intricate details to patterns made with Jureumjil <br />through fine engraved lines.',
+        storyDesc3: 'Adding intricate details to patterns <br />through fine engraved lines.',
         storySubtitle4: 'Tabal-beop (Flattening)',
         storyDesc4:
-            'A technique of flattening <br class="mb" />curved mother-of-pearl shells <br />before attaching them to the <br class="mb" />surface of an object.',
+            'Flattening curved shells before <br />attaching them to the surface of an object.',
         storyTitle1: 'Web Agency',
         storyCompany1: 'Skunkworks Studio',
         storyYear1: 'April 2021 - April 2022',

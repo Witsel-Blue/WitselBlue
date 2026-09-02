@@ -14,22 +14,19 @@
                     <img
                         v-for='({ bp, index }) in imageBreakpoints'
                         :key='"bp-img-" + index'
-                        class='story__bg-img'
+                        class='story__sub-bg'
                         :src='bp.image'
                         alt=''
                         :style='getBreakpointImageStyle(index)'
                     />
                     <div
-                        v-for='({ bp, index }) in titleBreakpoints'
-                        :key='"fixed-copy-" + index'
-                        class='story__fixed-copy'
-                        :style='getFixedCopyStyle(index)'
+                        v-for='({ bp, index }) in subtitleBreakpoints'
+                        :key='"sub-text-" + index'
+                        class='story__sub-text'
+                        :style='getSubtextsStyle(index)'
                     >
-                        <h3 v-if='bp.title' class='title'>{{ bp.title }}</h3>
-                        <p v-if='bp.company' class='company'>{{ bp.company }}</p>
-                        <p v-if='bp.skills' class='skills'>{{ bp.skills }}</p>
-                        <p v-if='bp.content' class='content' v-html='bp.content' />
-                        <p v-if='bp.year' class='year'>{{ bp.year }}</p>
+                        <p v-if='bp.subtitle' class='subtitle'>{{ bp.subtitle }}</p>
+                        <p v-if='bp.desc' class='desc' v-html='bp.desc' />
                     </div>
                     <svg
                         ref='svg'
@@ -122,27 +119,13 @@
             </div>
             <div
                 v-if='pathProgress > 0'
-                class='story__copies'
-            >
-                <div
-                    v-for='({ bp, index }) in subtitleBreakpoints'
-                    :key='"copy-" + index'
-                    class='story__copy'
-                    :style='{ opacity: getSubtitleCopyOpacity(index) }'
-                >
-                    <p v-if='bp.subtitle' class='subtitle'>{{ bp.subtitle }}</p>
-                    <p v-if='bp.desc' class='desc' v-html='bp.desc' />
-                </div>
-            </div>
-            <div
-                v-if='pathProgress > 0'
-                class='story__mobile-titles'
+                class='story__fixed'
             >
                 <div
                     v-for='({ bp, index }) in titleBreakpoints'
-                    :key='"mobile-title-" + index'
-                    class='story__mobile-title'
-                    :style='{ opacity: getMobileTitleCopyOpacity(index) }'
+                    :key='"main-text-" + index'
+                    class='story__main-text'
+                    :style='getMaintextsStyle(index)'
                 >
                     <h3 v-if='bp.title' class='title'>{{ bp.title }}</h3>
                     <p v-if='bp.company' class='company'>{{ bp.company }}</p>
@@ -171,12 +154,6 @@
         },
         {
             progress: 0.23,
-            subtitleKey: 'home.storySubtitle2',
-            descKey: 'home.storyDesc2',
-            image: require('@/assets/img/home/story_img1.png'),
-        },
-        {
-            progress: 0.33,
             titleKey: 'home.storyTitle1',
             companyKey: 'home.storyCompany1',
             yearKey: 'home.storyYear1',
@@ -184,13 +161,13 @@
             contentKey: 'home.storyContent1',
         },
         {
-            progress: 0.43,
-            subtitleKey: 'home.storySubtitle3',
-            descKey: 'home.storyDesc3',
-            image: require('@/assets/img/home/story_img2.png'),
+            progress: 0.33,
+            subtitleKey: 'home.storySubtitle2',
+            descKey: 'home.storyDesc2',
+            image: require('@/assets/img/home/story_img1.png'),
         },
         {
-            progress: 0.53,
+            progress: 0.43,
             titleKey: 'home.storyTitle2',
             companyKey: 'home.storyCompany2',
             yearKey: 'home.storyYear2',
@@ -198,18 +175,24 @@
             contentKey: 'home.storyContent2',
         },
         {
-            progress: 0.64,
-            subtitleKey: 'home.storySubtitle4',
-            descKey: 'home.storyDesc4',
-            image: require('@/assets/img/home/story_img3.png'),
+            progress: 0.53,
+            subtitleKey: 'home.storySubtitle3',
+            descKey: 'home.storyDesc3',
+            image: require('@/assets/img/home/story_img2.png'),
         },
         {
-            progress: 0.78,
+            progress: 0.64,
             titleKey: 'home.storyTitle3',
             companyKey: 'home.storyCompany3',
             yearKey: 'home.storyYear3',
             skillsKey: 'home.storySkills3',
             contentKey: 'home.storyContent3',
+        },
+        {
+            progress: 0.76,
+            subtitleKey: 'home.storySubtitle4',
+            descKey: 'home.storyDesc4',
+            image: require('@/assets/img/home/story_img3.png'),
         },
     ];
     const LABEL_FADE_RANGE = 0.03;
@@ -785,18 +768,24 @@
             getBreakpointImageStyle(index) {
                 const bp = this.breakpoints[index];
                 const px = bp ? this.svgToCanvasPx(bp.x, bp.y) : null;
+                const opacity = px ? this.getBreakpointCopyOpacity(index) : 0;
+                const blur = (1 - opacity) * 18;
 
                 if (!px) {
-                    return { opacity: 0 };
+                    return {
+                        opacity: 0,
+                        filter: 'brightness(0.6) blur(18px)',
+                    };
                 }
 
                 return {
                     left: `${px.x}px`,
                     top: `${px.y}px`,
-                    opacity: this.getBreakpointCopyOpacity(index),
+                    opacity,
+                    filter: `brightness(0.6) blur(${blur}px)`,
                 };
             },
-            getFixedCopyStyle(index) {
+            getSubtextsStyle(index) {
                 const bp = this.breakpoints[index];
                 const px = bp ? this.svgToCanvasPx(bp.x, bp.y) : null;
 
@@ -807,7 +796,12 @@
                 return {
                     left: `${px.x}px`,
                     top: `${px.y}px`,
-                    opacity: this.getBreakpointCopyOpacity(index),
+                    opacity: this.getSubtitleCopyOpacity(index),
+                };
+            },
+            getMaintextsStyle(index) {
+                return {
+                    opacity: this.getMainTextCopyOpacity(index),
                 };
             },
             getNextSubtitleIndex(index) {
@@ -817,17 +811,24 @@
 
                 return null;
             },
-            getSubtitleCopyOpacity(index) {
+            getNextTitleIndex(index) {
+                for (let i = index + 1; i < BREAKPOINT_DEFS.length; i += 1) {
+                    if (BREAKPOINT_DEFS[i].titleKey) return i;
+                }
+
+                return null;
+            },
+            getCopyOpacityByNext(index, hasField, getNextIndex) {
                 const bp = this.breakpoints[index];
-                if (!bp?.subtitle || this.pathProgress <= 0) return 0;
+                if (!bp || !hasField(bp) || this.pathProgress <= 0) return 0;
 
                 const fade = LABEL_FADE_RANGE;
                 const p = this.pathProgress;
-                const nextSubtitleIndex = this.getNextSubtitleIndex(index);
+                const nextIndex = getNextIndex(index);
                 let fadeOutAt = null;
 
-                if (nextSubtitleIndex !== null) {
-                    const nextBp = this.breakpoints[nextSubtitleIndex];
+                if (nextIndex !== null) {
+                    const nextBp = this.breakpoints[nextIndex];
                     if (!nextBp) return 0;
                     fadeOutAt = nextBp.progress;
                 }
@@ -849,6 +850,20 @@
                 }
 
                 return opacity * this.subtitleCompletionOpacity;
+            },
+            getSubtitleCopyOpacity(index) {
+                return this.getCopyOpacityByNext(
+                    index,
+                    (bp) => bp.subtitle,
+                    (i) => this.getNextSubtitleIndex(i),
+                );
+            },
+            getMainTextCopyOpacity(index) {
+                return this.getCopyOpacityByNext(
+                    index,
+                    (bp) => bp.title,
+                    (i) => this.getNextTitleIndex(i),
+                );
             },
             getBreakpointCopyOpacity(index) {
                 const bp = this.breakpoints[index];
@@ -877,8 +892,7 @@
                 return opacity;
             },
             getMobileTitleCopyOpacity(index) {
-                return this.getBreakpointCopyOpacity(index)
-                    * this.subtitleCompletionOpacity;
+                return this.getMainTextCopyOpacity(index);
             },
             async loadStoryTrack() {
                 try {
@@ -1059,15 +1073,19 @@
                     transform-origin: 0 0;
                     will-change: transform;
 
-                    .story__bg-img {
+                    .story__sub-bg {
                         z-index: 0;
                         width: auto;
                         height: 60vh;
                         position: absolute;
-                        transform: translate(-50%, -50%);
-                        will-change: opacity;
+                        transform: translate(-50%, -80%);
+                        will-change: opacity, filter;
                         object-fit: contain;
                         pointer-events: none;
+
+                        &:nth-child(1) {
+                            transform: translate(-60%, -80%);
+                        }
 
                         &:nth-child(2) {
                             width: auto;
@@ -1080,62 +1098,40 @@
                         }
                     }
 
-                    .story__fixed-copy {
+                    .story__sub-text {
                         position: absolute;
                         z-index: 2;
                         width: 40vw;
                         transform: translate(0, -100%);
                         pointer-events: none;
                         will-change: opacity;
-                        // background-color: rgba($black, 0.4);
-                        // padding: 1rem;
-                        // border-radius: 16px;
-                        // backdrop-filter: blur(4px);
+
+                        &:nth-of-type(1) {
+                            transform: translate(20%, -100%);
+                        }
 
                         &:nth-of-type(2) {
-                            transform: translate(0, 0);
+                            transform: translate(30%, -250%);
                         }
 
                         &:nth-of-type(3) {
-                            transform: translate(0, -50%);
+                            transform: translate(25%, -150%);
                         }
 
-                        .title {
-                            font-size: 2.5rem;
-                            line-height: 1;
-                            font-family: $ft-orangeavenue, $ft-sungkokserif;
-                            text-shadow: $text-shadow-black;
+                        &:nth-of-type(4) {
+                            transform: translate(25%, -100%);
                         }
 
-                        .company {
-                            margin-top: 0.5rem;
-                            font-size: 1.5rem;
-                            font-weight: 500;
-                            color: $gray2;
-                            text-shadow: $text-shadow-black;
-                        }
-
-                        .skills {
-                            margin-top: 0.5rem;
+                        .subtitle {
                             font-size: 1.2rem;
-                            font-weight: 500;
-                            color: $gray2;
-                            text-shadow: $text-shadow-black;
+                            font-weight: 600;
+                            font-family: $ft-orangeavenue, $ft-sungkokserif;
                         }
 
-                        .content {
-                            margin-top: 0.5rem;
+                        .desc {
+                            margin-top: 0.25rem;
                             font-size: 1rem;
                             color: $gray2;
-                            text-shadow: $text-shadow-black;
-                        }
-
-                        .year {
-                            margin-top: 1rem;
-                            font-size: 1.2rem;
-                            font-weight: 500;
-                            color: $gray1;
-                            text-shadow: $text-shadow-black;
                         }
                     }
 
@@ -1165,18 +1161,6 @@
                             }
                         }
 
-                        // .story__breakpoint {
-                        //     fill: rgba($white, 0.25);
-                        //     stroke: rgba($white, 0.5);
-                        //     stroke-width: 1px;
-                        //     transition: fill 0.25s ease, stroke 0.25s ease;
-
-                        //     &.is-passed {
-                        //         fill: rgba($white, 0.85);
-                        //         stroke: $white;
-                        //     }
-                        // }
-
                         .story__dot {
                             fill: none;
                         }
@@ -1184,7 +1168,7 @@
                 }
             }
 
-            .story__copies {
+            .story__fixed {
                 position: absolute;
                 left: 50%;
                 bottom: 5vw;
@@ -1193,31 +1177,53 @@
                 height: 0;
                 pointer-events: none;
 
-                .story__copy {
+                .story__main-text {
                     position: absolute;
                     left: 50%;
                     bottom: 0;
-                    transform: translateX(-50%);
                     width: 80vw;
-                    text-align: center;
+                    transform: translateX(-50%);
+                    text-align: right;
                     will-change: opacity;
 
-                    .subtitle {
-                        font-size: 1.2rem;
-                        font-weight: 600;
+                    .title {
+                        font-size: 2rem;
+                        line-height: 1;
                         font-family: $ft-orangeavenue, $ft-sungkokserif;
+                        text-shadow: $text-shadow-black;
                     }
 
-                    .desc {
+                    .company {
+                        margin-top: 0;
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        color: $gray2;
+                        text-shadow: $text-shadow-black;
+                    }
+
+                    .skills {
                         margin-top: 0.25rem;
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        color: $gray2;
+                        text-shadow: $text-shadow-black;
+                    }
+
+                    .content {
+                        margin-top: 0.5rem;
                         font-size: 1rem;
                         color: $gray2;
+                        text-shadow: $text-shadow-black;
+                    }
+
+                    .year {
+                        margin-top: 1rem;
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        color: $gray1;
+                        text-shadow: $text-shadow-black;
                     }
                 }
-            }
-
-            .story__mobile-titles {
-                display: none;
             }
         }
     }
@@ -1227,88 +1233,31 @@
             .story__sticky {
                 .story__viewport {
                     .story__canvas {
-                        .story__bg-img {
-                            width: 90vw !important;
-                            height: auto !important;
-                            transform: translate(0, -50%) !important;
-
-                            &:nth-child(3) {
-                                transform: translate(0, -100%) !important;
-                            }
+                        .story__sub-bg {
+                            transform: translate(-50%, -50%) !important;
                         }
-
-                        .story__fixed-copy {
+                        .story__sub-text {
                             display: none;
                         }
                     }
                 }
 
-                .story__mobile-titles {
-                    position: absolute;
-                    top: 0;
-                    left: 50%;
-                    z-index: 2;
-                    display: block;
-                    width: 0;
-                    height: 0;
-                    pointer-events: none;
+                .story__fixed {
+                    width: 100%;
+                    height: calc(100vh - 40px - 2.5vw);
+                    top: calc(40px + 2.5vw);
+                    left: 0;
 
-                    .story__mobile-title {
-                        position: absolute;
-                        top: calc(40px + 2.5vw + 20vw);
-                        left: 0;
-                        width: 90vw;
-                        transform: translate(-50%, 0);
-                        will-change: opacity;
-
-                        .title {
-                            font-size: 2rem;
-                            line-height: 1;
-                            font-family: $ft-orangeavenue, $ft-sungkokserif;
-                            text-shadow: $text-shadow-black;
-                        }
-
-                        .company {
-                            margin-top: 0.25rem;
-                            font-size: 1.2rem;
-                            font-weight: 500;
-                            color: $gray2;
-                            text-shadow: $text-shadow-black;
-                        }
-
-                        .skills {
-                            margin-top: 0.5rem;
-                            font-size: 1rem;
-                            color: $gray2;
-                            text-shadow: $text-shadow-black;
-                        }
-
-                        .content {
-                            margin-top: 0.5rem;
-                            font-size: 1rem;
-                            color: $gray2;
-                            text-shadow: $text-shadow-black;
-                        }
-
-                        .year {
-                            margin-top: 0.5rem;
-                            font-size: 1rem;
-                            font-weight: 500;
-                            color: $gray1;
-                            text-shadow: $text-shadow-black;
-                        }
-                    }
-                }
-
-                .story__copies {
-                    bottom: 20vw;
-
-                    .story__copy {
-                        width: 90vw;
-
-                        .desc {
-                            margin-top: 0;
-                        }
+                    .story__main-text {
+                        top: 0;
+                        bottom: auto;
+                        width: 90%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
                     }
                 }
             }
