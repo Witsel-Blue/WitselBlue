@@ -11,12 +11,12 @@
             <FoldingScreen
                 :scroll-progress='colorProgress'
                 :layer-reveal='foldingLayerReveal'
-                :active='throughReveal > 0.15'
+                :active='throughReveal > 0.55'
             />
             <RabbitHoleLists
                 :scroll-progress='listProgress'
                 :fog-color='stickyStyle.backgroundColor'
-                :active='throughReveal > 0.15'
+                :active='throughReveal > 0.55'
             />
         </div>
     </div>

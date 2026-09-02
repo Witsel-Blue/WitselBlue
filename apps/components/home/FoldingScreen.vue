@@ -85,9 +85,11 @@
 
             window.addEventListener('resize', this.onZoomResize, { passive: true });
             if (this.active) this.initZoomScene();
+            this.bindCanvasVisibility();
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.onZoomResize);
+            this.unbindCanvasVisibility();
             this.disposeZoomScene();
         },
         methods: {
@@ -185,9 +187,10 @@
                         canvas,
                         antialias: true,
                         alpha: true,
+                        powerPreference: 'low-power',
                     });
                     renderer.setSize(w, h, false);
-                    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
                     renderer.setClearColor(0x000000, 0);
 
                     const light = new THREE.HemisphereLight(0xffffff, 0x080820, 0.8);
@@ -247,33 +250,76 @@
                     this.zoomMoveZ = 0;
                     this.zoomMaxTargetZ = maxTargetZ;
                     this.zoomReady = true;
-
-                    const frame = () => {
-                        const progress = this.clamp(this.scrollProgress, 0, 1);
-                        const lerp = progress > 0.88 ? LAYER_LERP_FINISH : LAYER_LERP;
-                        this.zoomMoveZ += (this.zoomTargetZ - this.zoomMoveZ) * lerp;
-                        if (progress >= 0.995) this.zoomMoveZ = this.zoomTargetZ;
-                        boxGroup.position.z = this.zoomMoveZ;
-
-                        const t =
-                            this.zoomMaxTargetZ > 0
-                                ? this.zoomMoveZ / this.zoomMaxTargetZ
-                                : 0;
-                        this.zoomVisual = this.clamp(t, 0, 1);
-                        this.updateCopyHold(performance.now());
-                        applyZoomScale(t);
-                        this.syncLayerOpacity();
-
-                        camera.lookAt(scene.position);
-                        renderer.render(scene, camera);
-                        this.zoomRaf = requestAnimationFrame(frame);
-                    };
-                    this.zoomRaf = requestAnimationFrame(frame);
+                    this.isCanvasVisible = true;
+                    this.startZoomLoop();
                     this.syncZoomFromProgress();
                     this.onZoomResize();
                 })();
 
                 return this._initPromise;
+            },
+            startZoomLoop() {
+                if (this.zoomRaf || !this.zoomReady) return;
+                const frame = () => {
+                    if (!this.isCanvasVisible || document.hidden) {
+                        this.zoomRaf = null;
+                        return;
+                    }
+
+                    const progress = this.clamp(this.scrollProgress, 0, 1);
+                    const lerp = progress > 0.88 ? LAYER_LERP_FINISH : LAYER_LERP;
+                    this.zoomMoveZ += (this.zoomTargetZ - this.zoomMoveZ) * lerp;
+                    if (progress >= 0.995) this.zoomMoveZ = this.zoomTargetZ;
+                    this.zoomGroup.position.z = this.zoomMoveZ;
+
+                    const t =
+                        this.zoomMaxTargetZ > 0
+                            ? this.zoomMoveZ / this.zoomMaxTargetZ
+                            : 0;
+                    this.zoomVisual = this.clamp(t, 0, 1);
+                    this.updateCopyHold(performance.now());
+                    const mul =
+                        ZOOM_SCALE_START
+                        + (ZOOM_SCALE_END - ZOOM_SCALE_START) * t;
+                    this.zoomSprites.forEach((sprite) => {
+                        const [bx, by] = sprite.userData.baseScale;
+                        sprite.scale.set(bx * mul, by * mul, 1);
+                    });
+                    this.syncLayerOpacity();
+
+                    this.zoomCamera.lookAt(this.zoomScene.position);
+                    this.zoomRenderer.render(this.zoomScene, this.zoomCamera);
+                    this.zoomRaf = requestAnimationFrame(frame);
+                };
+                this.zoomRaf = requestAnimationFrame(frame);
+            },
+            bindCanvasVisibility() {
+                if (!process.client || this._visibilityBound) return;
+                this._visibilityBound = true;
+                this.isCanvasVisible = true;
+
+                this.onPageVisibility = () => {
+                    if (!document.hidden && this.isCanvasVisible) {
+                        this.startZoomLoop();
+                    }
+                };
+                document.addEventListener('visibilitychange', this.onPageVisibility);
+
+                const root = this.$el;
+                if (!root) return;
+                this.visibilityObserver = new IntersectionObserver(
+                    ([entry]) => {
+                        this.isCanvasVisible = Boolean(entry?.isIntersecting);
+                        if (this.isCanvasVisible) this.startZoomLoop();
+                    },
+                    { threshold: 0 },
+                );
+                this.visibilityObserver.observe(root);
+            },
+            unbindCanvasVisibility() {
+                document.removeEventListener('visibilitychange', this.onPageVisibility);
+                this.visibilityObserver?.disconnect();
+                this.visibilityObserver = null;
             },
             onZoomResize() {
                 const canvas = this.$refs.zoomCanvas;

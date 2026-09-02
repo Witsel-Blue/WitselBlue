@@ -268,6 +268,7 @@
             this.camera = null;
             this.controls = null;
             this.animId = null;
+            this.isCanvasVisible = true;
             this.model = null;
             this.modelSize = null;
             this.shellBaseRot = { x: 0, y: 0 };
@@ -304,6 +305,7 @@
             }
             this.bindScrollLock();
             this.initThree();
+            this.bindCanvasVisibility();
             this.$nextTick(() => {
                 if (!this.exploded) {
                     this.syncIntroState();
@@ -322,11 +324,40 @@
             window.removeEventListener('scroll', this.onScroll);
             window.removeEventListener('mousemove', this.onMouseMove);
             document.removeEventListener('mouseleave', this.onMouseLeave);
+            this.unbindCanvasVisibility();
             this.unbindScrollLock();
             this._nacreReadyPromise = null;
         },
 
         methods: {
+            bindCanvasVisibility() {
+                if (!process.client || this._visibilityBound) return;
+                this._visibilityBound = true;
+                this.isCanvasVisible = true;
+
+                this.onPageVisibility = () => {
+                    if (!document.hidden && this.shouldKeepAnimating()) {
+                        this.ensureAnimate();
+                    }
+                };
+                document.addEventListener('visibilitychange', this.onPageVisibility);
+            },
+            unbindCanvasVisibility() {
+                document.removeEventListener('visibilitychange', this.onPageVisibility);
+            },
+            shouldKeepAnimating() {
+                if (document.hidden) return false;
+                if (!this.exploded) return true;
+
+                const about = document.getElementById('about');
+                if (!about) return true;
+
+                return about.getBoundingClientRect().bottom > 0;
+            },
+            ensureAnimate() {
+                if (this.animId || !this.renderer) return;
+                this.animate();
+            },
             async initThree() {
                 const THREE = await import('three');
                 const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader.js');
@@ -343,7 +374,12 @@
                 const { clientWidth: w, clientHeight: h } = canvas;
 
                 // Renderer
-                this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+                this.renderer = new THREE.WebGLRenderer({
+                    canvas,
+                    antialias: true,
+                    alpha: true,
+                    powerPreference: 'high-performance',
+                });
                 this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 this.renderer.setSize(w, h, false);
                 this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -949,6 +985,11 @@
             },
 
             animate() {
+                if (!this.shouldKeepAnimating()) {
+                    this.animId = null;
+                    return;
+                }
+
                 this.animId = requestAnimationFrame(this.animate);
 
                 // 카메라 트위닝 (클릭 1·2회 회전)
@@ -1853,6 +1894,7 @@
             },
 
             onScroll() {
+                if (this.exploded) this.ensureAnimate();
                 if (!this.exploded || !this.scatterReady) return;
 
                 this.syncScrollProgress();

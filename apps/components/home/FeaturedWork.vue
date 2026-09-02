@@ -116,7 +116,7 @@
             this.modelCursorHintActive = false;
             this.resizeCanvas();
             this.updateSectionTop();
-            this.initNacreBox();
+            this.bindNacreInit();
 
             window.addEventListener('resize', this.onResize, { passive: true });
             window.addEventListener('scroll', this.onScroll, { passive: true });
@@ -138,6 +138,8 @@
             if (this.lockRafId) cancelAnimationFrame(this.lockRafId);
             if (this.modelAnimationId) cancelAnimationFrame(this.modelAnimationId);
             if (this.modelObserver) this.modelObserver.disconnect();
+            if (this.nacreInitObserver) this.nacreInitObserver.disconnect();
+            document.removeEventListener('visibilitychange', this.onPageVisibility);
 
             this.hideModelCursorHint();
             this.setThroughReveal(0);
@@ -146,6 +148,33 @@
         methods: {
             clamp(value, min, max) {
                 return Math.max(min, Math.min(max, value));
+            },
+            bindNacreInit() {
+                const root = this.$el;
+                if (!root || this._nacreInitBound) return;
+                this._nacreInitBound = true;
+
+                this.onPageVisibility = () => {
+                    if (!document.hidden && this.isModelVisible) {
+                        this.ensureNacreAnimate();
+                    }
+                };
+                document.addEventListener('visibilitychange', this.onPageVisibility);
+
+                this.nacreInitObserver = new IntersectionObserver(
+                    ([entry]) => {
+                        if (!entry?.isIntersecting) return;
+                        this.nacreInitObserver.disconnect();
+                        this.nacreInitObserver = null;
+                        this.initNacreBox();
+                    },
+                    { rootMargin: '80% 0px', threshold: 0 },
+                );
+                this.nacreInitObserver.observe(root);
+            },
+            ensureNacreAnimate() {
+                if (this.modelAnimationId || !this.modelRenderer) return;
+                this.animateNacreBox();
             },
             updateSectionTop() {
                 const section = this.$refs.wipingSection;
@@ -216,6 +245,7 @@
 
                 if (!this.$refs.modelCanvas) return;
 
+                this.isModelVisible = true;
                 this.modelThree = THREE;
                 this.modelScene = new THREE.Scene();
                 this.modelCamera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
@@ -223,8 +253,9 @@
                     canvas,
                     antialias: true,
                     alpha: true,
+                    powerPreference: 'high-performance',
                 });
-                this.modelRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                this.modelRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
                 this.modelRenderer.setClearColor(0x000000, 0);
                 this.modelRenderer.outputColorSpace = THREE.SRGBColorSpace;
                 this.modelRenderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -250,6 +281,7 @@
                 this.modelObserver = new IntersectionObserver(
                     ([entry]) => {
                         this.isModelVisible = entry.isIntersecting;
+                        if (this.isModelVisible) this.ensureNacreAnimate();
                     },
                     { threshold: 0.01 },
                 );
@@ -669,7 +701,7 @@
                 const height = canvas.clientHeight;
                 if (!width || !height) return;
 
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
                 renderer.setSize(width, height, false);
                 camera.aspect = width / height;
                 camera.updateProjectionMatrix();
@@ -677,9 +709,14 @@
                 if (this.nacreBoxModel) this.updateModelCamera();
             },
             animateNacreBox() {
+                if (!this.isModelVisible || document.hidden) {
+                    this.modelAnimationId = null;
+                    return;
+                }
+
                 this.modelAnimationId = requestAnimationFrame(this.animateNacreBox);
 
-                if (!this.isModelVisible || !this.modelRenderer || !this.modelScene) return;
+                if (!this.modelRenderer || !this.modelScene) return;
 
                 this.modelRenderer.render(this.modelScene, this.modelCamera);
             },

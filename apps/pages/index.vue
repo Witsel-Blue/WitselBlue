@@ -12,15 +12,14 @@
     import Mainvisual from '@/components/home/Mainvisual.vue';
     import About from '@/components/home/About.vue';
     import Story from '@/components/home/Story.vue';
-    import FeaturedWork from '@/components/home/FeaturedWork.vue';
-    import RabbitHole from '@/components/home/RabbitHole.vue';
+
     export default {
         components: {
             Mainvisual,
             About,
             Story,
-            FeaturedWork,
-            RabbitHole,
+            FeaturedWork: () => import('@/components/home/FeaturedWork.vue'),
+            RabbitHole: () => import('@/components/home/RabbitHole.vue'),
         },
         data() {
             return {

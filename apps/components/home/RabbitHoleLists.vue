@@ -170,6 +170,7 @@
         watch: {
             scrollProgress(value) {
                 this.syncTargetZ(value);
+                this.syncLoop();
             },
             fogColor(value) {
                 if (this.fog) this.fog.color.set(value);
@@ -206,6 +207,7 @@
             this.focusTween = null;
             this.scrollLocked = false;
             this.lockedScrollY = 0;
+            this.isCanvasVisible = true;
 
             if (this.active) this.initScene();
 
@@ -213,6 +215,7 @@
             window.addEventListener('pointermove', this.onPointerMove, {
                 passive: true,
             });
+            this.bindCanvasVisibility();
         },
         beforeDestroy() {
             window.removeEventListener('resize', this.onResize);
@@ -223,6 +226,7 @@
                 canvas.removeEventListener('click', this.onCanvasClick);
             }
             this.unlockPageScroll();
+            this.unbindCanvasVisibility();
             this.stopLoop();
             this.focusTween?.kill();
             this.focusTween = null;
@@ -271,8 +275,9 @@
                         canvas,
                         antialias: true,
                         alpha: true,
+                        powerPreference: 'low-power',
                     });
-                    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
                     this.renderer.setSize(this.width, this.height, false);
                     this.renderer.setClearColor(0x000000, 0);
                     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -350,7 +355,7 @@
                     this.syncTargetZ(this.scrollProgress);
                     this.moveZ = this.targetZ;
                     this.ready = true;
-                    this.startLoop();
+                    this.syncLoop();
                 })();
 
                 return this._initPromise;
@@ -367,6 +372,37 @@
                 if (!this.rafId) return;
                 cancelAnimationFrame(this.rafId);
                 this.rafId = null;
+            },
+            syncLoop() {
+                const shouldRun = this.ready
+                    && this.isCanvasVisible
+                    && !document.hidden
+                    && (this.isFocused || this.scrollProgress > 0);
+                if (shouldRun) this.startLoop();
+                else this.stopLoop();
+            },
+            bindCanvasVisibility() {
+                if (!process.client || this._visibilityBound) return;
+                this._visibilityBound = true;
+
+                this.onPageVisibility = () => this.syncLoop();
+                document.addEventListener('visibilitychange', this.onPageVisibility);
+
+                const root = this.$refs.root || this.$el;
+                if (!root) return;
+                this.visibilityObserver = new IntersectionObserver(
+                    ([entry]) => {
+                        this.isCanvasVisible = Boolean(entry?.isIntersecting);
+                        this.syncLoop();
+                    },
+                    { threshold: 0 },
+                );
+                this.visibilityObserver.observe(root);
+            },
+            unbindCanvasVisibility() {
+                document.removeEventListener('visibilitychange', this.onPageVisibility);
+                this.visibilityObserver?.disconnect();
+                this.visibilityObserver = null;
             },
             renderFrame() {
                 if (!this.ready || !this.renderer || !this.boxGroup) return;
@@ -686,6 +722,7 @@
                 if (!mirror || this.isFocused) return;
 
                 this.isFocused = true;
+                this.syncLoop();
                 this.lockPageScroll();
                 this.hovering = false;
                 this.selectedMirror = mirror;
