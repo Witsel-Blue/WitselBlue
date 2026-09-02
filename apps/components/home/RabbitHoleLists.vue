@@ -204,6 +204,8 @@
             this.thumbAspect = 1;
             this.selectedMirror = null;
             this.focusTween = null;
+            this.scrollLocked = false;
+            this.lockedScrollY = 0;
 
             if (this.active) this.initScene();
 
@@ -220,6 +222,7 @@
                 canvas.removeEventListener('pointermove', this.onCanvasPointerMove);
                 canvas.removeEventListener('click', this.onCanvasClick);
             }
+            this.unlockPageScroll();
             this.stopLoop();
             this.focusTween?.kill();
             this.focusTween = null;
@@ -636,10 +639,54 @@
                     y: this.clamp(y, pad, this.height - pad),
                 };
             },
+            lockPageScroll() {
+                if (this.scrollLocked || !process.client) return;
+                this.scrollLocked = true;
+                this.lockedScrollY = window.scrollY;
+                window.addEventListener('wheel', this.preventPageScroll, {
+                    passive: false,
+                });
+                window.addEventListener('touchmove', this.preventPageScroll, {
+                    passive: false,
+                });
+                window.addEventListener('keydown', this.preventPageScrollKeys);
+                window.addEventListener('scroll', this.holdPageScroll, {
+                    passive: true,
+                });
+            },
+            unlockPageScroll() {
+                if (!this.scrollLocked || !process.client) return;
+                this.scrollLocked = false;
+                window.removeEventListener('wheel', this.preventPageScroll);
+                window.removeEventListener('touchmove', this.preventPageScroll);
+                window.removeEventListener('keydown', this.preventPageScrollKeys);
+                window.removeEventListener('scroll', this.holdPageScroll);
+            },
+            holdPageScroll() {
+                if (window.scrollY === this.lockedScrollY) return;
+                window.scrollTo(0, this.lockedScrollY);
+            },
+            preventPageScroll(event) {
+                event.preventDefault();
+            },
+            preventPageScrollKeys(event) {
+                const keys = [
+                    'ArrowUp',
+                    'ArrowDown',
+                    'PageUp',
+                    'PageDown',
+                    'Home',
+                    'End',
+                    ' ',
+                    'Spacebar',
+                ];
+                if (keys.includes(event.key)) event.preventDefault();
+            },
             openItem(mirror) {
                 if (!mirror || this.isFocused) return;
 
                 this.isFocused = true;
+                this.lockPageScroll();
                 this.hovering = false;
                 this.selectedMirror = mirror;
                 this.selectedSlug = mirror.userData.slug;
@@ -694,6 +741,7 @@
             closeItem() {
                 if (!this.isFocused || !this.selectedMirror) return;
 
+                this.unlockPageScroll();
                 const mirror = this.selectedMirror;
                 const restPos = mirror.userData.restPosition;
                 const restRot = mirror.userData.restRotation;
