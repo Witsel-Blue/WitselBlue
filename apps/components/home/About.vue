@@ -1,7 +1,7 @@
 <template>
     <div id='about'>
         <AboutSideBg />
-        <div class='inner-l'>
+        <div class='inner'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
                 <div class='text-wrap' :style='textWrapStyle(0)'>
@@ -238,7 +238,7 @@
         flex-direction: column;
         position: relative;
 
-        .inner-l {
+        .inner {
             position: relative;
             z-index: 1;
         }
@@ -250,7 +250,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            
+
             &:nth-of-type(1) {
                 .shape-anchor {
                     position: absolute;
@@ -264,7 +264,7 @@
                 }
             }
 
-            &:nth-of-type(2) {    
+            &:nth-of-type(2) {
                 .shape-anchor2 {
                     position: absolute;
                     top: 40%;
@@ -310,7 +310,7 @@
 
             p {
                 text-align: center;
-                        
+
                 span {
                     font-size: 1.2rem;
                     line-height: 1.5;
@@ -326,6 +326,20 @@
         p span {
             display: block;
             will-change: opacity, transform, filter;
+        }
+    }
+
+    @media (max-width: $tablet) {
+        #about {
+            section {
+                .text-wrap {
+                    h2 {
+                        span {
+                            font-size: 2.5rem;
+                        }
+                    }
+                }
+            }
         }
     }
 

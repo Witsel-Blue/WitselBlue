@@ -1,13 +1,13 @@
 <template>
     <div id='contact'>
         <section class='page-title'>
-            <div class='inner-l'>
+            <div class='inner'>
                 <TextStaggerByMiddle text='Contact' />
                 <p v-html="$t('contact.mainText')" />
             </div>
         </section>
         <section>
-            <div class='inner'>
+            <div class='inner-s'>
                 <form @submit.prevent='onSubmit'>
                     <div class='form-group required'>
                         <label for='name'>{{ $t('contact.NameLabel') }}</label>
@@ -382,7 +382,6 @@
     @use '@/assets/scss/base/variables' as *;
 
     #contact {
-        min-height: 100vh;
         position: relative;
 
         .bg {

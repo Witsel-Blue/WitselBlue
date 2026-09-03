@@ -13,7 +13,7 @@
             <Logo />
             <LanguageMenu @click='closeMenu' />
             <SoundMuteMenu />
-            <ul class='menu-list'>
+            <ul class='menu-list inner'>
                 <li
                     v-for='(item, index) in menuItems'
                     :key='item.key'
@@ -233,7 +233,7 @@
 
             svg::v-deep {
                 position: absolute;
-                top: 10vw;
+                top: calc(2.5vw + 24px + 2.5vw);
                 left: 50%;
                 transform: translateX(-50%);
 
@@ -247,8 +247,7 @@
             }
 
             .menu-list {
-                margin-top: 56vh;
-                transform: translateY(-50%);
+                margin-top: calc(2.5vw + 24px + 2.5vw + 80px + 2.5vw);
                 display: flex;
                 align-items: center;
                 flex-direction: column;
@@ -262,7 +261,7 @@
                         transform: translateY(150%) rotate(8deg);
                     }
 
-                    &:nth-child(2n+1) .menu-item__trigger {
+                    &:nth-child(2n + 1) .menu-item__trigger {
                         transform: translateY(150%) rotate(-8deg);
                     }
 
@@ -285,7 +284,7 @@
                         display: inline-block;
                         width: fit-content;
                         color: $white-inverted;
-                        font-size: 5rem;
+                        font-size: 4rem;
                         font-weight: 700;
                         letter-spacing: 0.2em;
                         text-transform: uppercase;
@@ -365,7 +364,42 @@
                     }
                 }
             }
+        }
+    }
 
+    @media (max-width: $tablet) {
+    }
+
+    @media (max-width: $mobile) {
+        #gnb {
+            .menu-btn {
+                top: 5vw;
+                left: 5vw;
+                gap: 2.5vw;
+            }
+
+            .menu-cont {
+                svg {
+                    top: calc(5vw + 24px + 5vw);
+                    height: 64px;
+                }
+
+                .menu-list {
+                    margin-top: calc(5vw + 24px + 5vw + 64px + 5vw);
+
+                    .menu-item {
+                        .menu-item__trigger {
+                            font-size: 3rem;
+                            font-weight: 600;
+                            letter-spacing: 0.15em;
+                        }
+                    }
+                }
+
+                .copyright {
+                    bottom: 5vw;
+                }
+            }
         }
     }
 
@@ -396,35 +430,6 @@
         }
         50% {
             transform: rotate(-45deg) scale(0);
-        }
-    }
-
-    @media (max-width: $mobile) {
-        #gnb {
-            .menu-btn {
-                top: 5vw;
-                left: 5vw;
-                gap: 2.5vw;
-            }
-
-            .menu-cont {
-                svg {
-                    top: 36vw;
-                    height: 15vw;
-                }
-
-                .menu-list {
-                    .menu-item {
-                        .menu-item__trigger {
-                            font-size: 3rem;
-                        }
-                    }
-                }
-
-                .copyright {
-                    bottom: 5vw;
-                }
-            }
         }
     }
 </style>

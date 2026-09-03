@@ -1,14 +1,13 @@
 @use '@/assets/scss/base/variables.scss' as *;
 
-.inner-l {
+.inner {
     width: 95%;
     margin: auto;
 }
 
-.inner {
+.inner-s {
     width: 95%;
-    max-width: $pc;
-    margin: auto;
+    max-width: $tablet;
 }
 
 .page-title {
@@ -20,7 +19,7 @@
     text-align: center;
 
     .text-stagger-by-middle {
-        font-size: 10rem;
+        font-size: 8rem;
         line-height: 1;
         letter-spacing: 0.2em;
         text-transform: uppercase;
@@ -33,9 +32,17 @@
     }
 }
 
+@media (max-width: $tablet) {
+    .page-title {
+        .text-stagger-by-middle {
+            font-size: 6rem;
+        }
+    }
+}
+
 @media (max-width: $mobile) {
-    .inner-l,
-    .inner {
+    .inner,
+    .inner-s {
         width: 90%;
     }
 
@@ -44,11 +51,11 @@
 
         .text-stagger-by-middle {
             font-size: 3rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
         }
 
         p {
-            margin-top: 2.5vw;
+            margin-top: 5vw;
             font-size: 1rem;
         }
     }

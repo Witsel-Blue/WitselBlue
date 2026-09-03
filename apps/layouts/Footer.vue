@@ -189,7 +189,6 @@
     #footer {
         width: 100%;
         height: 100vh;
-        // margin-top: -100vh;
         backdrop-filter: blur(10px);
         position: relative;
         z-index: 2;
@@ -198,7 +197,7 @@
         flex-direction: column;
         justify-content: space-between;
 
-        .top {          
+        .top {
             padding: 2.5vw;
             height: 100%;
             display: flex;
@@ -214,7 +213,7 @@
 
                 h3 {
                     span {
-                        font-size: 4rem;
+                        font-size: 3.5rem;
                         line-height: 1;
 
                         &:not(.verb) {
@@ -227,12 +226,14 @@
                         display: inline-block;
                         font-family: $ft-sederahana;
                         font-style: italic;
-                        font-size: 3.5rem;
+                        font-size: 3rem;
                         line-height: 1;
 
                         &-enter-active,
                         &-leave-active {
-                            transition: filter 0.8s ease, opacity 0.4s ease;
+                            transition:
+                                filter 0.8s ease,
+                                opacity 0.4s ease;
                         }
 
                         &-enter,
@@ -274,13 +275,13 @@
 
             .text-stagger-by-middle::v-deep {
                 .char__inner {
-                    font-size: 10rem;
+                    font-size: 8rem;
                     font-weight: 700;
                     font-family: $ft-tanpearl;
                     user-select: none;
                 }
             }
-            
+
             .info {
                 display: flex;
                 align-items: flex-end;
@@ -306,8 +307,6 @@
 
     @media (max-width: $mobile) {
         #footer {
-            // height: auto;
-
             .top {
                 padding: 5vw;
 

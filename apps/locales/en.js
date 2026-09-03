@@ -18,7 +18,7 @@ export default {
         mainTitle: 'WitselBlue',
         mainText: 'inspired by nacre artistry',
         aboutTitleLines: [
-            'Mother of pearl radiates <br class="mb" />different colors',
+            'Mother of pearl radiates <br class="mb tb" />different colors',
             'depending on the <br class="mb" />angles of light.',
         ],
         aboutDescLines: [

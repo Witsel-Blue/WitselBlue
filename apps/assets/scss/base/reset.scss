@@ -89,10 +89,18 @@ img {
 .pc {
     display: block !important;
 }
+.tb {
+    display: none !important;
+}
 .mb {
     display: none !important;
 }
 
+@media all and (max-width: $tablet) {
+    .tb {
+        display: block !important;
+    }
+}
 @media all and (max-width: $mobile) {
     .pc {
         display: none !important;

@@ -1,7 +1,7 @@
 <template>
     <div id='aboutme'>
         <section class='page-title'>
-            <div class='inner-l'>
+            <div class='inner'>
                 <TextStaggerByMiddle text='About Me' />
             </div>
         </section>
@@ -28,9 +28,3 @@
         },
     };
 </script>
-
-<style lang='scss' scoped>
-    #aboutme {
-        min-height: 100vh;
-    }
-</style>

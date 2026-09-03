@@ -1181,7 +1181,7 @@
                     position: absolute;
                     left: 50%;
                     bottom: 0;
-                    width: 80vw;
+                    width: 90vw;
                     transform: translateX(-50%);
                     text-align: right;
                     will-change: opacity;

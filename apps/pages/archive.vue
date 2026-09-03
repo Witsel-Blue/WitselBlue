@@ -1,7 +1,7 @@
 <template>
     <div id='archive'>
         <section class='page-title'>
-            <div class='inner-l'>
+            <div class='inner'>
                 <TextStaggerByMiddle text='Archive' />
             </div>
         </section>
@@ -20,7 +20,5 @@
 </script>
 
 <style lang='scss' scoped>
-    #archive {
-        min-height: 100vh;
-    }
+
 </style>
