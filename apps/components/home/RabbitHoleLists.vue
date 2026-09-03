@@ -76,6 +76,8 @@
     const FOCUS_SCREEN_HEIGHT = 0.6;
     const FOCUS_DISTANCE = 36;
     const FOCUS_DURATION = 0.9;
+    const FOCUS_SIDE_OFFSET = 0.22;
+    const MOBILE_BREAKPOINT = 768;
     const LIST_INDEXES = [0, 2, 3, 4, 5, 9];
 
     const LIST_ITEMS = LIST_INDEXES
@@ -619,6 +621,14 @@
                 mirror.rotation.copy(prevRot);
                 mirror.scale.copy(prevScl);
 
+                if (this.width > MOBILE_BREAKPOINT) {
+                    const visibleHeight = 2
+                        * Math.tan((this.camera.fov * Math.PI) / 360)
+                        * FOCUS_DISTANCE;
+                    const visibleWidth = visibleHeight * this.camera.aspect;
+                    position.x -= visibleWidth * FOCUS_SIDE_OFFSET;
+                }
+
                 return { position, scale };
             },
             updateDetailAnchor() {
@@ -627,7 +637,7 @@
                 const THREE = this.three;
                 this.selectedMirror.updateWorldMatrix(true, true);
                 const box = new THREE.Box3().setFromObject(this.selectedMirror);
-                const useBottom = this.width <= 768;
+                const useBottom = this.width <= MOBILE_BREAKPOINT;
                 this.detailPlacement = useBottom ? 'bottom' : 'side';
                 const pad = 20;
 
@@ -670,8 +680,9 @@
 
                 const x = (point.x * 0.5 + 0.5) * this.width;
                 const y = (-point.y * 0.5 + 0.5) * this.height;
+                const gap = window.innerWidth * 0.05;
                 this.detailAnchor = {
-                    x: this.clamp(x + 24, pad, this.width - pad),
+                    x: this.clamp(x + gap, pad, this.width - pad),
                     y: this.clamp(y, pad, this.height - pad),
                 };
             },
@@ -722,6 +733,7 @@
                 if (!mirror || this.isFocused) return;
 
                 this.isFocused = true;
+                this.$emit('focus-change', true);
                 this.syncLoop();
                 this.lockPageScroll();
                 this.hovering = false;
@@ -779,6 +791,7 @@
                 if (!this.isFocused || !this.selectedMirror) return;
 
                 this.unlockPageScroll();
+                this.$emit('focus-change', false);
                 const mirror = this.selectedMirror;
                 const restPos = mirror.userData.restPosition;
                 const restRot = mirror.userData.restRotation;
@@ -959,7 +972,7 @@
 
             .title {
                 margin-top: 2rem;
-                font-size: 2rem;
+                font-size: 2.5rem;
                 line-height: 1;
                 font-family: $ft-orangeavenue, $ft-sungkokserif;
                 color: $white;
@@ -969,7 +982,7 @@
             .stack,
             .duration {
                 margin-top: 0.5rem;
-                font-size: 1rem;
+                font-size: 1.2rem;
                 line-height: 1;
             }
 
@@ -1033,7 +1046,7 @@
 
                 &:hover {
                     .line {
-                        &:first-child {     
+                        &:first-child {
                             animation: close-line-a 0.4s ease-in;
                         }
 

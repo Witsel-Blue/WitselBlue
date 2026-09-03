@@ -6,6 +6,7 @@
     >
         <div
             class='rabbit-hole__sticky'
+            :class='{ "is-list-focused": listFocused }'
             :style='stickyStyle'
         >
             <FoldingScreen
@@ -17,6 +18,7 @@
                 :scroll-progress='listProgress'
                 :fog-color='stickyStyle.backgroundColor'
                 :active='throughReveal > 0.55'
+                @focus-change='listFocused = $event'
             />
         </div>
     </div>
@@ -70,6 +72,7 @@
             return {
                 throughReveal: 0,
                 colorProgress: 0,
+                listFocused: false,
             };
         },
         computed: {
@@ -163,8 +166,23 @@
             height: 100vh;
             overflow: hidden;
 
-            #rabbit-hole-lists {
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
                 z-index: 1;
+                background: $black;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s ease;
+            }
+
+            &.is-list-focused::after {
+                opacity: 1;
+            }
+
+            #rabbit-hole-lists {
+                z-index: 2;
             }
         }
     }
