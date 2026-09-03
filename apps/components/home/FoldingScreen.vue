@@ -18,6 +18,7 @@
     import mountain2Url from '@/assets/img/home/mountain2.svg';
     import mountain3Url from '@/assets/img/home/mountain3.svg';
     import moonUrl from '@/assets/img/home/moon.svg';
+    import { getWebGLPixelRatio } from '@/utils/webglPerf';
 
     const DEPTH_NUM = 10;
     const ZOOM_Z_MULT = 2;
@@ -190,7 +191,7 @@
                         powerPreference: 'low-power',
                     });
                     renderer.setSize(w, h, false);
-                    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+                    renderer.setPixelRatio(getWebGLPixelRatio(2));
                     renderer.setClearColor(0x000000, 0);
 
                     const light = new THREE.HemisphereLight(0xffffff, 0x080820, 0.8);
@@ -202,14 +203,21 @@
                     scene.add(point);
 
                     const boxGroup = new THREE.Object3D();
-                    const loader = new THREE.TextureLoader();
                     const totalNum = LAYERS.length - 1;
                     const maxTargetZ = ((totalNum * DEPTH_NUM) / 10) * ZOOM_Z_MULT;
                     const zoomSprites = [];
+                    const textures = await Promise.all(
+                        LAYERS.map((layer) => this.loadLayerTexture(THREE, renderer, layer.url)),
+                    );
+
+                    if (!this.$refs.zoomCanvas) {
+                        textures.forEach((texture) => texture.dispose());
+                        renderer.dispose();
+                        return;
+                    }
 
                     LAYERS.forEach((layer, i) => {
-                        const tex = loader.load(layer.url);
-                        tex.colorSpace = THREE.SRGBColorSpace;
+                        const tex = textures[i];
                         const material = new THREE.SpriteMaterial({
                             map: tex,
                             transparent: true,
@@ -321,6 +329,92 @@
                 this.visibilityObserver?.disconnect();
                 this.visibilityObserver = null;
             },
+            getSvgRasterMaxSide() {
+                const canvas = this.$refs.zoomCanvas;
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const cssSize = Math.max(
+                    canvas?.clientWidth || window.innerWidth || 0,
+                    canvas?.clientHeight || window.innerHeight || 0,
+                );
+                return Math.min(2560, Math.max(1408, Math.round(cssSize * dpr)));
+            },
+            async rasterizeSvgToCanvas(url) {
+                const response = await fetch(url);
+                let text = await response.text();
+
+                const viewBox = text.match(/viewBox=["']([^"']+)["']/i);
+                let aspect = 1;
+                if (viewBox) {
+                    const parts = viewBox[1].trim().split(/[\s,]+/).map(Number);
+                    if (parts.length === 4 && parts[3] > 0) {
+                        aspect = parts[2] / parts[3];
+                    }
+                }
+
+                const maxSide = this.getSvgRasterMaxSide();
+                const width = aspect >= 1
+                    ? maxSide
+                    : Math.max(1, Math.round(maxSide * aspect));
+                const height = aspect >= 1
+                    ? Math.max(1, Math.round(maxSide / aspect))
+                    : maxSide;
+
+                text = text.replace(/<svg\b([^>]*)>/i, (_, attrs) => {
+                    const cleaned = attrs
+                        .replace(/\swidth=(["']).*?\1/gi, '')
+                        .replace(/\sheight=(["']).*?\1/gi, '');
+                    return `<svg${cleaned} width="${width}" height="${height}">`;
+                });
+
+                const blob = new Blob([text], {
+                    type: 'image/svg+xml;charset=utf-8',
+                });
+                const objectUrl = URL.createObjectURL(blob);
+
+                try {
+                    const image = await new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                        img.src = objectUrl;
+                    });
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(image, 0, 0, width, height);
+                    return canvas;
+                } finally {
+                    URL.revokeObjectURL(objectUrl);
+                }
+            },
+            async loadLayerTexture(THREE, renderer, url) {
+                try {
+                    const canvas = await this.rasterizeSvgToCanvas(url);
+                    const texture = new THREE.CanvasTexture(canvas);
+                    texture.colorSpace = THREE.SRGBColorSpace;
+                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    texture.generateMipmaps = true;
+                    texture.minFilter = THREE.LinearMipmapLinearFilter;
+                    texture.magFilter = THREE.LinearFilter;
+                    texture.needsUpdate = true;
+                    return texture;
+                } catch {
+                    return new Promise((resolve, reject) => {
+                        new THREE.TextureLoader().load(
+                            url,
+                            (texture) => {
+                                texture.colorSpace = THREE.SRGBColorSpace;
+                                texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                                resolve(texture);
+                            },
+                            undefined,
+                            reject,
+                        );
+                    });
+                }
+            },
             onZoomResize() {
                 const canvas = this.$refs.zoomCanvas;
                 if (!canvas || !this.zoomRenderer || !this.zoomCamera) return;
@@ -329,10 +423,15 @@
                 const h = canvas.clientHeight || window.innerHeight;
                 this.zoomCamera.aspect = w / Math.max(h, 1);
                 this.zoomCamera.updateProjectionMatrix();
+                this.zoomRenderer.setPixelRatio(getWebGLPixelRatio(2));
                 this.zoomRenderer.setSize(w, h, false);
             },
             disposeZoomScene() {
                 if (this.zoomRaf) cancelAnimationFrame(this.zoomRaf);
+                this.zoomSprites?.forEach((sprite) => {
+                    sprite.material?.map?.dispose?.();
+                    sprite.material?.dispose?.();
+                });
                 this.zoomRenderer?.dispose?.();
                 this.zoomReady = false;
                 this._initPromise = null;

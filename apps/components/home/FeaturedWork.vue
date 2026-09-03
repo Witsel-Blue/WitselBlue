@@ -23,6 +23,7 @@
             :class='{
                 "is-pinned": modelPinState === "pinned",
                 "is-after": modelPinState === "after",
+                "is-complete": isComplete,
             }'
             @mouseenter='onModelPointerEnter'
             @mouseleave='onModelPointerLeave'
@@ -1011,8 +1012,8 @@
                 position: absolute;
                 inset: 0;
                 display: block;
-            width: 100%;
-            height: 100%;
+                width: 100%;
+                height: 100%;
                 cursor: default;
                 touch-action: none;
             }
@@ -1028,11 +1029,11 @@
 
         .nacre-box {
             position: absolute;
-                top: 0;
-                left: 0;
+            top: 0;
+            left: 0;
             z-index: 1;
-                width: 100%;
-                height: 100vh;
+            width: 100%;
+            height: 100vh;
             overflow: hidden;
             background: transparent;
 
@@ -1050,16 +1051,22 @@
                 position: absolute;
                 inset: 0;
                 z-index: 0;
-            pointer-events: none;
-        }
+                pointer-events: none;
+            }
 
-        canvas {
+            canvas {
                 position: relative;
                 z-index: 1;
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
+                display: block;
+                width: 100%;
+                height: 100%;
+                filter: grayscale(1);
+                transition: filter 0.6s ease;
+            }
+
+            &.is-complete canvas {
+                filter: grayscale(0);
+            }
         }
     }
 
