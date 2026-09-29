@@ -225,10 +225,10 @@
             height: 100%;
             z-index: 10;
             transform: translateY(-100%);
-            mix-blend-mode: difference;
+            // mix-blend-mode: difference;
             backdrop-filter: blur(32px);
             overflow: hidden;
-            will-change: transform;
+            // will-change: transform;
             transition: transform 0.4s ease;
 
             svg::v-deep {
