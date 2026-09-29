@@ -5,6 +5,9 @@
                 <TextStaggerByMiddle text='About Me' />
             </div>
         </section>
+        <section class='page-content'>
+            <Story/>
+        </section>
         <!-- <section>
             <TextMarquee :image='knot' />
         </section> -->
@@ -13,12 +16,14 @@
 
 <script>
     import TextStaggerByMiddle from '@/components/common/TextStaggerByMiddle.vue';
+    import Story from '@/components/home/Story.vue';
     // import TextMarquee from '@/components/common/TextMarquee.vue';
 
     export default {
         name: 'AboutMe',
         components: {
             TextStaggerByMiddle,
+            Story,
             // TextMarquee,
         },
         data() {

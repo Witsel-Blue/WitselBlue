@@ -2,7 +2,7 @@
     <main class='home' :class='{ "intro-only": !exploded }'>
         <Mainvisual :key='mainvisualKey' />
         <About v-if='exploded' />
-        <Story v-if='exploded' />
+        <!-- <Story v-if='exploded' /> -->
         <FeaturedWork v-if='exploded' />
         <RabbitHole v-if='exploded' />
     </main>
@@ -11,13 +11,13 @@
 <script>
     import Mainvisual from '@/components/home/Mainvisual.vue';
     import About from '@/components/home/About.vue';
-    import Story from '@/components/home/Story.vue';
+    // import Story from '@/components/home/Story.vue';
 
     export default {
         components: {
             Mainvisual,
             About,
-            Story,
+            // Story,
             FeaturedWork: () => import('@/components/home/FeaturedWork.vue'),
             RabbitHole: () => import('@/components/home/RabbitHole.vue'),
         },
