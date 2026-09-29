@@ -450,13 +450,30 @@
                 this.centerCanvasOnDot();
             };
 
-            window.addEventListener('scroll', this.onScroll, { passive: true });
-            window.addEventListener('resize', this.onScroll, { passive: true });
+            this.onScrollFrame = () => {
+                if (this._scrollRaf) return;
+                this._scrollRaf = requestAnimationFrame(() => {
+                    this._scrollRaf = null;
+                    this.onScroll();
+                });
+            };
+
+            window.addEventListener('scroll', this.onScrollFrame, { passive: true });
+            window.addEventListener('resize', this.onScrollFrame, { passive: true });
+            window.addEventListener('touchmove', this.onScrollFrame, { passive: true });
+            window.addEventListener('orientationchange', this.onScrollFrame, { passive: true });
+            window.visualViewport?.addEventListener('scroll', this.onScrollFrame, { passive: true });
+            window.visualViewport?.addEventListener('resize', this.onScrollFrame, { passive: true });
         },
         beforeDestroy() {
-            if (!this.onScroll) return;
-            window.removeEventListener('scroll', this.onScroll);
-            window.removeEventListener('resize', this.onScroll);
+            if (!this.onScrollFrame) return;
+            window.removeEventListener('scroll', this.onScrollFrame);
+            window.removeEventListener('resize', this.onScrollFrame);
+            window.removeEventListener('touchmove', this.onScrollFrame);
+            window.removeEventListener('orientationchange', this.onScrollFrame);
+            window.visualViewport?.removeEventListener('scroll', this.onScrollFrame);
+            window.visualViewport?.removeEventListener('resize', this.onScrollFrame);
+            if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf);
             this.stopTrailLoop();
             if (this.velocityResetTimer) clearTimeout(this.velocityResetTimer);
         },
