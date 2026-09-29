@@ -89,8 +89,6 @@
                     color: lerpHex(COLOR_TO, COLOR_FROM, t),
                 };
             },
-            // 섹션이 충분히 보인 뒤에만 리스트 Z 이동.
-            // 리스트는 줌 홀드 구간 전에 끝난다.
             listProgress() {
                 if (this.throughReveal < LIST_VISIBLE_AT) return 0;
                 return this.clamp(this.colorProgress / LIST_END_AT, 0, 1);

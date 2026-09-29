@@ -19,6 +19,7 @@
     import mountain3Url from '@/assets/img/home/mountain3.svg';
     import moonUrl from '@/assets/img/home/moon.svg';
     import { getWebGLPixelRatio } from '@/utils/webglPerf';
+    import { readAssetText } from '@/utils/preloadHomeAssets';
 
     const DEPTH_NUM = 10;
     const ZOOM_Z_MULT = 2;
@@ -339,8 +340,7 @@
                 return Math.min(2560, Math.max(1408, Math.round(cssSize * dpr)));
             },
             async rasterizeSvgToCanvas(url) {
-                const response = await fetch(url);
-                let text = await response.text();
+                let text = await readAssetText(url);
 
                 const viewBox = text.match(/viewBox=["']([^"']+)["']/i);
                 let aspect = 1;

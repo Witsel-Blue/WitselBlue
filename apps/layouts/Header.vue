@@ -126,36 +126,36 @@
 </script>
 
 <style lang='scss' scoped>
-@use '@/assets/scss/base/variables.scss' as *;
+    @use '@/assets/scss/base/variables.scss' as *;
 
-#header {
-    position: fixed;
-    inset: 0;
-    z-index: 5;
-    width: 100%;
-    height: calc(40px + 2.5vw);
-
-    a {
-        pointer-events: none;
-    }
-
-    .header__logo {
+    #header {
         position: fixed;
-        left: 50%;
-        width: auto;
-        color: $white;
-        mix-blend-mode: difference;
-        transform-origin: top center;
-        will-change: transform, top;
-    }
-
-    &.fixed {
-        z-index: 9;
-        mix-blend-mode: difference;
+        inset: 0;
+        z-index: 5;
+        width: 100%;
+        height: calc(40px + 2.5vw);
 
         a {
-            pointer-events: initial;
+            pointer-events: none;
+        }
+
+        .header__logo {
+            position: fixed;
+            left: 50%;
+            width: auto;
+            color: $white;
+            mix-blend-mode: difference;
+            transform-origin: top center;
+            will-change: transform, top;
+        }
+
+        &.fixed {
+            z-index: 9;
+            mix-blend-mode: difference;
+
+            a {
+                pointer-events: initial;
+            }
         }
     }
-}
 </style>

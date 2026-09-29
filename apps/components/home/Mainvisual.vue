@@ -48,6 +48,7 @@
         isSoundMuted,
         syncSoundMutedFromStorage,
     } from '@/utils/soundMuteState';
+    import { readAssetText } from '@/utils/preloadHomeAssets';
 
     const G2_SCATTER = {
         VIEW_XY: 2.8,
@@ -1924,8 +1925,7 @@
             },
 
             async rasterizeShapeSvg(url, maxSide) {
-                const response = await fetch(url);
-                let text = await response.text();
+                let text = await readAssetText(url);
 
                 const viewBox = text.match(/viewBox=["']([^"']+)["']/i);
                 let aspect = 1;
