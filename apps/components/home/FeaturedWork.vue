@@ -47,7 +47,7 @@
 
     const GRID_COLUMNS = 56;
     const GRID_ROWS = 36;
-    const COMPLETE_RATIO = 0.85;
+    const COMPLETE_RATIO = 0.75;
     const BRUSH_VMIN_RATIO = 0.15;
     const WIPE_SURFACE_COLOR = '#232221';
     const MODEL_TOP_COVER_SCALE = 0.68;
@@ -137,6 +137,7 @@
 
             if (this.resizeRafId) cancelAnimationFrame(this.resizeRafId);
             if (this.lockRafId) cancelAnimationFrame(this.lockRafId);
+            if (this.wipeRafId) cancelAnimationFrame(this.wipeRafId);
             if (this.modelAnimationId) cancelAnimationFrame(this.modelAnimationId);
             if (this.modelObserver) this.modelObserver.disconnect();
             if (this.nacreInitObserver) this.nacreInitObserver.disconnect();
@@ -201,7 +202,8 @@
                 canvas.width = Math.max(1, Math.round(rect.width * dpr));
                 canvas.height = Math.max(1, Math.round(rect.height * dpr));
 
-                const context = canvas.getContext('2d');
+                const context = canvas.getContext('2d', { desynchronized: true });
+                this.wipeContext = context;
                 context.setTransform(dpr, 0, 0, dpr, 0, 0);
                 context.globalCompositeOperation = 'source-over';
 
@@ -832,27 +834,41 @@
             onPointerEnter(event) {
                 if (!this.isWipeActive || this.isComplete) return;
 
-                const point = this.getPointerPosition(event);
-                if (!point) return;
-
-                this.lastPointer = point;
-                this.drawBrushSegment(point, point);
+                this.queuePointer(event);
             },
             onPointerMove(event) {
                 if (!this.isWipeActive || this.isComplete) {
                     this.lastPointer = null;
+                    this.pendingPointer = null;
                     return;
                 }
 
-                const point = this.getPointerPosition(event);
-                if (!point) return;
-
-                const from = this.lastPointer || point;
-                this.drawBrushSegment(from, point);
-                this.lastPointer = point;
+                this.queuePointer(event);
             },
             onPointerLeave() {
                 this.lastPointer = null;
+                this.pendingPointer = null;
+            },
+            queuePointer(event) {
+                const point = this.getPointerPosition(event);
+                if (!point) return;
+
+                this.pendingPointer = point;
+                if (this.wipeRafId) return;
+
+                this.wipeRafId = requestAnimationFrame(() => {
+                    this.wipeRafId = null;
+                    this.flushPointer();
+                });
+            },
+            flushPointer() {
+                const point = this.pendingPointer;
+                if (!point || !this.isWipeActive || this.isComplete) return;
+
+                const from = this.lastPointer || point;
+                this.lastPointer = point;
+                this.pendingPointer = null;
+                this.drawBrushSegment(from, point);
             },
             showModelCursorHint() {
                 if (!this.isComplete || this.modelCursorHintActive) return;
@@ -874,7 +890,7 @@
             },
             drawBrushSegment(from, to) {
                 const canvas = this.$refs.canvas;
-                const context = canvas?.getContext('2d');
+                const context = this.wipeContext || canvas?.getContext('2d');
                 if (!canvas || !context) return;
 
                 const radius = this.getBrushRadius();

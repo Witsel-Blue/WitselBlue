@@ -359,6 +359,11 @@
                 if (this.animId || !this.renderer) return;
                 this.animate();
             },
+            markReady() {
+                if (this.ready) return;
+                this.ready = true;
+                this.$emit('ready');
+            },
             async initThree() {
                 const THREE = await import('three');
                 const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader.js');
@@ -556,13 +561,15 @@
                         y: this.model.rotation.y,
                     };
                     this.scene.add(this.model);
-                    this.ready = true;
+                    this.markReady();
                     if (this.exploded) {
                         this.explode().then(() => {
                             this.$nextTick(() => this.measureLogo());
                         });
                     }
                     this.animate();
+                }, undefined, () => {
+                    this.markReady();
                 });
 
                 window.addEventListener('resize', this.onResize);

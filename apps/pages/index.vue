@@ -1,12 +1,11 @@
 <template>
     <div class='home-root'>
-        <Loading v-if='!assetsReady' :percent='loadPercent' />
+        <Loading v-if='!siteReady' :percent='loadPercent' />
         <main
-            v-else
             class='home'
             :class='{ "intro-only": !exploded }'
         >
-            <Mainvisual :key='mainvisualKey' />
+            <Mainvisual :key='mainvisualKey' @ready='onSceneReady' />
             <About v-if='exploded' />
             <FeaturedWork v-if='exploded' />
             <RabbitHole v-if='exploded' />
@@ -31,10 +30,20 @@
         data() {
             return {
                 assetsReady: false,
-                loadPercent: 0,
+                assetsFraction: 0,
+                sceneReady: false,
                 exploded: false,
                 mainvisualKey: 0,
             };
+        },
+        computed: {
+            siteReady() {
+                return this.assetsReady && this.sceneReady;
+            },
+            loadPercent() {
+                if (this.siteReady) return 100;
+                return Math.min(90, Math.round(this.assetsFraction * 90));
+            },
         },
         mounted() {
             this._alive = true;
@@ -50,11 +59,11 @@
             this.$root.$on('intro-replay-request', this.onIntroReplay);
 
             preloadHomeAssets((percent) => {
-                if (this._alive) this.loadPercent = percent;
+                if (this._alive) this.assetsFraction = percent / 100;
             }).finally(() => {
                 if (!this._alive) return;
                 this.assetsReady = true;
-                this.unlockPageScroll();
+                this.finishLoading();
             });
         },
         beforeDestroy() {
@@ -74,6 +83,14 @@
                 if (!process.client || !this._scrollLocked) return;
                 this._scrollLocked = false;
                 document.documentElement.style.overflow = this._prevOverflow || '';
+            },
+            onSceneReady() {
+                this.sceneReady = true;
+                this.finishLoading();
+            },
+            finishLoading() {
+                if (!this.siteReady) return;
+                this.unlockPageScroll();
             },
         },
     };
