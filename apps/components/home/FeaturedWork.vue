@@ -49,7 +49,7 @@
     const GRID_ROWS = 36;
     const COMPLETE_RATIO = 0.75;
     const BRUSH_VMIN_RATIO = 0.15;
-    const WIPE_SURFACE_COLOR = '#232221';
+    const WIPE_SURFACE_COLOR = '#DFDBCE';
     const MODEL_TOP_COVER_SCALE = 0.68;
     const MODEL_FRONT_WIDTH_RATIO = 0.4;
     const MODEL_ZOOM_END = 0.2;

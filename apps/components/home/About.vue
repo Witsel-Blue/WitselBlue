@@ -1,10 +1,9 @@
 <template>
     <div id='about'>
-        <AboutSideBg />
         <div class='inner'>
             <section>
                 <div class='shape-anchor' aria-hidden='true' />
-                <div class='text-wrap' :style='textWrapStyle(0)'>
+                <div class='text-wrap'>
                     <div
                         v-if='anchor1Gathered'
                         class='cursor-zone'
@@ -15,26 +14,15 @@
                         <span
                             v-for='(line, i) in titleLines'
                             :key='"t1-" + i'
-                            :style='lineStyle(i, 0)'
+                            :style='lineStyle(i)'
                             v-html='line'
                         />
                     </h2>
-                </div>
-            </section>
-            <section>
-                <div class='shape-anchor2' aria-hidden='true' />
-                <div class='text-wrap' :style='textWrapStyle(1)'>
-                    <div
-                        v-if='anchor2Gathered'
-                        class='cursor-zone'
-                    >
-                        <CursorZone label='move cursor' attach-to-parent />
-                    </div>
                     <p>
                         <span
                             v-for='(line, i) in descLines'
                             :key='"d1-" + i'
-                            :style='lineStyle(i, 1)'
+                            :style='lineStyle(titleLines.length + i)'
                             v-html='line'
                         />
                     </p>
@@ -48,27 +36,23 @@
 </template>
 
 <script>
-    import AboutSideBg from '@/components/home/AboutSideBg.vue';
     import ButtonRound from '@/components/common/ButtonRound.vue';
     import CursorZone from '@/components/common/CursorZone.vue';
     import { gatherAnchorState } from '@/utils/gatherAnchorState';
 
-    const EXIT_JOURNEY_START = 0.4;
-    const EXIT_JOURNEY_END = 0.6;
+    const ENTER_BOTTOM_VH = 0.1;
+    const EXIT_TOP_VH = 0.1;
 
     export default {
         name: 'About',
         components: {
-            AboutSideBg,
             ButtonRound,
             CursorZone,
         },
         data() {
             return {
-                sectionProgress: [
-                    { enter: 0, exit: 0 },
-                    { enter: 0, exit: 0 },
-                ],
+                itemEnters: [],
+                itemExits: [],
             };
         },
         computed: {
@@ -81,57 +65,45 @@
             anchor1Gathered() {
                 return gatherAnchorState.anchor1Gathered;
             },
-            anchor2Gathered() {
-                return gatherAnchorState.anchor2Gathered;
-            },
-            section1ItemCount() {
-                return this.titleLines.length + this.descLines.length;
-            },
-            section2ItemCount() {
-                return this.descLines.length;
-            },
-            section2RevealCount() {
-                return this.section2ItemCount + 2;
+            itemCount() {
+                return this.titleLines.length + this.descLines.length + 1;
             },
             btnStyle() {
-                const { enter = 0, exit = 0 } = this.sectionProgress[1] || {};
-                const enterReveal = this.itemReveal(
-                    this.section2ItemCount + 1,
-                    enter,
-                    this.section2RevealCount,
-                );
-                const activeExit = enter >= 0.98 ? exit : 0;
-                const reveal = activeExit > 0 ? 1 : enterReveal;
-                const hide = this.itemHide(
-                    this.section2ItemCount,
-                    activeExit,
-                    this.section2ItemCount + 1,
-                );
-                return this.revealStyle(reveal, hide, {
+                return this.itemStyle(this.itemCount - 1, {
                     translate: 30,
                     unit: 'px',
                     pointerEvents: true,
-                    exiting: activeExit > 0,
                 });
             },
         },
         mounted() {
             this.onScroll = () => {
-                const sections = this.$el.querySelectorAll('section');
+                const lineEls = this.$el.querySelectorAll(
+                    'h2 span, p span, .btn-wrap',
+                );
+                if (!lineEls.length) return;
+
                 const vh = window.innerHeight;
+                const enterStart = vh;
+                const enterEnd = vh * (1 - ENTER_BOTTOM_VH);
+                const exitStart = vh * EXIT_TOP_VH;
 
-                this.sectionProgress = Array.from(sections).map((section) => {
-                    const rect = section.getBoundingClientRect();
-                    const center = rect.top + rect.height / 2;
-                    const enter = Math.max(0, Math.min(1, (vh - center) / (vh * 0.5)));
-
-                    const scrollRange =
-                        rect.height > vh ? rect.height - vh : rect.height;
-                    const journey = Math.max(0, -rect.top / scrollRange);
-                    const exit = this.getExitFromJourney(journey);
-
-                    return { enter, exit };
+                const enters = [];
+                const exits = [];
+                lineEls.forEach((el) => {
+                    const { top, bottom } = this.layoutBox(el);
+                    enters.push(
+                        Math.max(
+                            0,
+                            Math.min(1, (enterStart - bottom) / (enterStart - enterEnd)),
+                        ),
+                    );
+                    exits.push(
+                        Math.max(0, Math.min(1, (exitStart - top) / exitStart)),
+                    );
                 });
+                this.itemEnters = enters;
+                this.itemExits = exits;
             };
             window.addEventListener('scroll', this.onScroll, { passive: true });
             window.addEventListener('resize', this.onScroll, { passive: true });
@@ -147,35 +119,22 @@
                     ? 4 * t * t * t
                     : 1 - Math.pow(-2 * t + 2, 3) / 2;
             },
-            getExitFromJourney(journey) {
-                if (journey < EXIT_JOURNEY_START) return 0;
-                const raw =
-                    (journey - EXIT_JOURNEY_START)
-                    / (EXIT_JOURNEY_END - EXIT_JOURNEY_START);
-                return Math.max(0, Math.min(1, raw));
-            },
-            itemReveal(index, progress, itemCount) {
-                const win = 0.65;
-                const step =
-                    itemCount > 1 ? (1 - win) / (itemCount - 1) : 0;
-                const start = index * step;
-                let local = (progress - start) / win;
-                local = Math.max(0, Math.min(1, local));
-                return this.easeInOut(local);
-            },
-            itemHide(index, exit, itemCount) {
-                if (exit <= 0 || itemCount <= 0) return 0;
-
-                const slot = 1 / itemCount;
-                const start = index * slot;
-                let local = (exit - start) / slot;
-                local = Math.max(0, Math.min(1, local));
-                return this.easeInOut(local);
-            },
-            textWrapStyle(sectionIndex) {
-                const { exit = 0 } = this.sectionProgress[sectionIndex] || {};
+            layoutBox(el) {
+                const rect = el.getBoundingClientRect();
+                const transform = window.getComputedStyle(el).transform;
+                let ty = 0;
+                if (transform && transform !== 'none') {
+                    const matrix3d = transform.match(/matrix3d\((.+)\)/);
+                    const matrix = transform.match(/matrix\((.+)\)/);
+                    if (matrix3d) {
+                        ty = Number(matrix3d[1].split(',')[13]) || 0;
+                    } else if (matrix) {
+                        ty = Number(matrix[1].split(',')[5]) || 0;
+                    }
+                }
                 return {
-                    transform: `translateY(${-exit * 30}vh)`,
+                    top: rect.top - ty,
+                    bottom: rect.bottom - ty,
                 };
             },
             revealStyle(reveal, hide = 0, options = {}) {
@@ -205,25 +164,18 @@
 
                 return style;
             },
-            lineStyle(index, sectionIndex = 0) {
-                const { enter = 0, exit = 0 } = this.sectionProgress[sectionIndex] || {};
-                const enterItemCount =
-                    sectionIndex === 0
-                        ? this.section1ItemCount
-                        : this.section2ItemCount;
-                const hideItemCount =
-                    sectionIndex === 0
-                        ? this.titleLines.length
-                        : this.descLines.length;
-
-                const enterReveal = this.itemReveal(index, enter, enterItemCount);
-                const activeExit = enter >= 0.98 ? exit : 0;
-                const reveal = activeExit > 0 ? 1 : enterReveal;
-                const hide = this.itemHide(index, activeExit, hideItemCount);
+            itemStyle(index, options = {}) {
+                const hide = this.easeInOut(this.itemExits[index] || 0);
+                const enterReveal = this.easeInOut(this.itemEnters[index] || 0);
+                const reveal = hide > 0 ? 1 : enterReveal;
 
                 return this.revealStyle(reveal, hide, {
-                    exiting: activeExit > 0,
+                    ...options,
+                    exiting: hide > 0,
                 });
+            },
+            lineStyle(index) {
+                return this.itemStyle(index);
             },
         },
     };
@@ -245,47 +197,26 @@
 
         section {
             position: relative;
-            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
 
-            &:nth-of-type(1) {
-                .shape-anchor {
-                    position: absolute;
-                    top: 40%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 50vh;
-                    height: 50vh;
-                    opacity: 0;
-                    pointer-events: none;
-                }
-            }
-
-            &:nth-of-type(2) {
-                .shape-anchor2 {
-                    position: absolute;
-                    top: 40%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 55vh;
-                    height: 55vh;
-                    opacity: 0;
-                    pointer-events: none;
-                }
-
-                .text-wrap {
-                    bottom: 15vh;
-                }
+            .shape-anchor {
+                position: absolute;
+                top: 10vh;
+                left: 50%;
+                transform: translate(-50%, 0);
+                width: 50vh;
+                height: 50vh;
+                opacity: 0;
+                pointer-events: none;
             }
         }
 
         .text-wrap {
-            padding-top: 50vh;
-            position: sticky;
-            bottom: 20vh;
+            padding-top: calc(50vh + 10vh);
+            padding-bottom: 10vh;
             text-align: center;
             z-index: 1;
 
@@ -309,6 +240,7 @@
             }
 
             p {
+                margin-top: 2rem;
                 text-align: center;
 
                 span {
@@ -346,18 +278,8 @@
     @media (max-width: $mobile) {
         #about {
             section {
-                &:nth-of-type(1) {
-                    .shape-anchor {
-                        top: 40%;
-                    }
-                }
-
-                &:nth-of-type(2) {
-                    .shape-anchor2 {
-                        top: 30%;
-                        width: 45vh;
-                        height: 45vh;
-                    }
+                .shape-anchor {
+                    top: 40%;
                 }
 
                 .text-wrap {

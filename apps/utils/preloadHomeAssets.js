@@ -14,7 +14,6 @@ import mountain2Url from '@/assets/img/home/mountain2.svg';
 import mountain3Url from '@/assets/img/home/mountain3.svg';
 import moonUrl from '@/assets/img/home/moon.svg';
 import aboutImg1Url from '@/assets/img/home/about_img1.svg';
-import aboutImg2Url from '@/assets/img/home/about_img2.svg';
 import aboutSideUrl from '@/assets/img/home/about_side.svg';
 
 const LIST_INDEXES = [0, 2, 3, 4, 5, 9];
@@ -39,7 +38,6 @@ const TEXT_URLS = [
     mountain3Url,
     moonUrl,
     aboutImg1Url,
-    aboutImg2Url,
 ];
 
 const textCache = new Map();
